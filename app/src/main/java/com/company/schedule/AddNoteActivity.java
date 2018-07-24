@@ -6,9 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     EditText etNameNote;
     Button btnSubmitNote;
@@ -22,6 +26,9 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         etNameNote = (EditText) findViewById(R.id.etNameNote);
         btnSubmitNote = (Button) findViewById(R.id.btnSubmitNoteName);
         btnSubmitNote.setOnClickListener(this);
+
+        Switch swtRemindMe = (Switch) findViewById(R.id.swtRemindMe);
+        swtRemindMe.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -43,5 +50,12 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 finish();
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        Toast.makeText(this, (b ? "on" : "off"),
+                Toast.LENGTH_SHORT).show();
+
     }
 }

@@ -3,20 +3,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/etNameNote"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="Enter name of note"
-        android:inputType="textLongMessage"
-        android:maxLines="1" />
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnSubmitNoteName"
-        android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/etNameNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Enter name of note"
+            android:inputType="textLongMessage"
+            android:maxLines="1" ><requestFocus/></EditText>
+
+        <Button
+            android:id="@+id/btnSubmitNoteName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="OK" />
+
+    </LinearLayout>
+
+
+    <Switch
+        android:id="@+id/swtRemindMe"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OK" />
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="30dp"
+        android:text="Remind me"
+        android:textSize="18sp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="date"
+            android:hint="create me when true == switch"/>
+
+        <EditText
+            android:id="@+id/etTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:hint="destroy me when false == switch"/>
+
+    </LinearLayout>
 </LinearLayout>
