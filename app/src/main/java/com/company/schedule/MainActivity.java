@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //TODO to DB element with name noteName
                 break;
             default:
-                Log.d(TAG, "default");
+                Log.d(TAG, "onActivityResult in default");
             }
         } else if (requestCode == RESULT_CANCELED) {
             // TODO output error

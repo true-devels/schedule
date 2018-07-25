@@ -1,74 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etNameNote"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Enter name of note"
-            android:inputType="textLongMessage"
-            android:maxLines="1" ><requestFocus/></EditText>
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnSubmitNote"
-            android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/etNameNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter name of note"
+                android:inputType="textLongMessage"
+                android:maxLines="1">
+
+                <requestFocus />
+            </EditText>
+
+            <Button
+                android:id="@+id/btnSubmitNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="OK" />
+
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/swtRemindMe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="30dp"
+            android:checked="false"
+            android:text="Remind me"
+
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/llDateTime"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="OK" />
 
-    </LinearLayout>
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:visibility="visible">
+            <!--if swtRemindMe.checked == false: llDateTime.visibility = gone;-->
+            <!--else : llDateTime.visibility = visible-->
+            <TextView
+                android:id="@+id/editDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="25 July, 2018"
+                android:textAllCaps="false"
+                android:textColor="@color/colorText"
+                android:textSize="18sp"
+                tools:text="25 July, 2018" />
 
+            <TextView
+                android:id="@+id/editTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="3:00 PM"
+                android:textColor="@color/colorText"
+                android:textSize="18sp"
+                tools:text="3:00 PM" />
 
-    <Switch
-        android:id="@+id/swtRemindMe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="30dp"
-        android:checked="false"
-        android:text="Remind me"
+        </LinearLayout>
 
-        android:textSize="18sp" />
-
-    <LinearLayout
-        android:id="@+id/llDateTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:visibility="visible">
-        <!--if swtRemindMe.checked == false: llDateTime.visibility = gone;-->
-        <!--else : llDateTime.visibility = visible-->
-        <EditText
-            android:id="@+id/etDate"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="enter date"
-            android:inputType="date" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/etTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="enter time"
-            android:inputType="time" />
+            <TextView
+                android:id="@+id/tvPreviousShowDateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Reminder set for" />
 
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

@@ -22,6 +22,9 @@
 
         <activity android:name=".AddNoteActivity" ></activity>
 
+        <activity android:name=".EnterDateActivity"></activity>
+        <activity android:name=".EnterTimeActivity"></activity>
+
     </application>
 
 </manifest>
