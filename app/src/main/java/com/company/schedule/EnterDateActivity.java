@@ -52,11 +52,11 @@ public class EnterDateActivity extends AppCompatActivity implements View.OnClick
             intentReturnDate.putExtra("year", datePicker.getYear());
             Toast.makeText(getApplicationContext(), String.valueOf(datePicker.getDayOfMonth()), Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK, intentReturnDate);
-            finish();
-            break;  // so calmer
+            break;
         case R.id.btnDatePickerCancel:
-            // TODO handle button cancel
+            setResult(RESULT_CANCELED);
             break;
         }
+        finish();
     }
 }

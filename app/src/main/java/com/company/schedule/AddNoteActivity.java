@@ -53,10 +53,10 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
         case R.id.btnSubmitNote:  // if button send note to DB already pressed
-            Intent intentReturnNoteData = new Intent();  // return ready note to MainActivity to DB
             String noteName = etNameNote.getText().toString();
 
             if (!noteName.isEmpty()){
+                Intent intentReturnNoteData = new Intent();  // return ready note to MainActivity to DB
                 intentReturnNoteData.putExtra("note_name", noteName);
                 setResult(RESULT_OK, intentReturnNoteData);
                 Log.d(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");           }
@@ -99,7 +99,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 Log.d(TAG, "onActivityResult in default");
             }
         } else {
-            Log.d(TAG, "RESULT_CANCELED");  // TODO normal log
+            Log.d(TAG, "RESULT_CANCELED,  requestCode: \""+requestCode+ "\"; resultCode: \""+resultCode+"\";");
         }
     }
 
