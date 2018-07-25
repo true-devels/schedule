@@ -21,7 +21,7 @@
             android:maxLines="1" ><requestFocus/></EditText>
 
         <Button
-            android:id="@+id/btnSubmitNoteName"
+            android:id="@+id/btnSubmitNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -34,35 +34,41 @@
         android:id="@+id/swtRemindMe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="30dp"
+        android:checked="false"
         android:text="Remind me"
-        android:textSize="18sp"
-        />
+
+        android:textSize="18sp" />
 
     <LinearLayout
+        android:id="@+id/llDateTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:layout_marginLeft="10dp"
 
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+        <!--if swtRemindMe.checked == false: llDateTime.visibility = gone;-->
+        <!--else : llDateTime.visibility = visible-->
         <EditText
             android:id="@+id/etDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="date"
-            android:hint="create me when true == switch"/>
+            android:hint="enter date"
+            android:inputType="date" />
 
         <EditText
             android:id="@+id/etTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="time"
-            android:hint="destroy me when false == switch"/>
+            android:hint="enter time"
+            android:inputType="time" />
 
     </LinearLayout>
 </LinearLayout>

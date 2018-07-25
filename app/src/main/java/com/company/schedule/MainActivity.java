@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case REQUEST_CODE_ADD_NOTE:  // if from AddNoteActivity
                 String noteName = data.getStringExtra("note_name");
                 Log.d(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + noteName + "\";");
-                //TODO delete cod below
-                testOutputNoteName.setText(noteName);
+
+                testOutputNoteName.setText(noteName);//TODO delete this line
                 //TODO to DB element with name noteName
                 break;
             default:
