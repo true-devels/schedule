@@ -21,9 +21,9 @@ import android.widget.Toast;
 import com.company.schedule.fragments.pickers.DatePickerFragment;
 import com.company.schedule.fragments.pickers.TimePickerFragment;
 
-import java.util.Calendar;
 
 //                                   for activity      for button method onClick(View v), for switch onCheckedChanged(CB cB, bool b),              for Date and Time picker
+
 public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener,   CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     final private String TAG = "myLog AddNoteActivity";  // tag for log
@@ -33,10 +33,13 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     TextView editDate, editTime;
     Date dateNotification;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_note);
+
 
         etNameNote = (EditText) findViewById(R.id.etNameNote);  // to enter a note name
 
@@ -62,9 +65,10 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
         case R.id.btnSubmitNote:  // if button send note to DB already pressed
-            String noteName = etNameNote.getText().toString();
+            final String noteName = etNameNote.getText().toString();
 
             if (!noteName.isEmpty()){
+
                 Intent intentReturnNoteData = new Intent();  // return ready note to MainActivity to DB
                 intentReturnNoteData.putExtra("note_name", noteName);
                 intentReturnNoteData.putExtra("year", dateNotification.getYear());
@@ -118,12 +122,14 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
         dateNotification.setDate(year, month, dayOfMonth);  // setting date
         editDate.setText(dayOfMonth + "." + month + "." + year);  // when user chose a date we switch it in TV
+
     }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         dateNotification.setTime(hourOfDay, minute);  // setting time
         editTime.setText(hourOfDay + ":" + minute);  // this function called when user chose a time
+
     }
 
 }
