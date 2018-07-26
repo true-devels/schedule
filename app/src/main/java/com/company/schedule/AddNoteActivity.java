@@ -16,18 +16,22 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.company.schedule.fragments.pickers.DatePickerFragment;
 import com.company.schedule.fragments.pickers.TimePickerFragment;
 
-//                                   for activity      for button(method onClick(View v), for switch onCheckedChanged(CB cB, bool b),              for Date and Time picker
+import java.util.Calendar;
+
+//                                   for activity      for button method onClick(View v), for switch onCheckedChanged(CB cB, bool b),              for Date and Time picker
 public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener,   CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     final private String TAG = "myLog AddNoteActivity";  // tag for log
 
     EditText etNameNote;  // EditText for enter name of note
-    LinearLayout llDateTime;  // LinearLayout which contain two object(id.etDate, id.etTime)
+    LinearLayout llDateTime;  // LinearLayout which contain two object(id.editDate, id.editTime)
     TextView editDate, editTime;
+    Date dateNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
         llDateTime = (LinearLayout) findViewById(R.id.llDateTime);  // by default visibility == gone
         llDateTime.setVisibility(View.GONE);  // TODO make it line in add_note.xml, and delete it
+
+        dateNotification = new Date();  // get settings for current time
     }
 
     @Override
@@ -61,9 +67,15 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
             if (!noteName.isEmpty()){
                 Intent intentReturnNoteData = new Intent();  // return ready note to MainActivity to DB
                 intentReturnNoteData.putExtra("note_name", noteName);
+                intentReturnNoteData.putExtra("year", dateNotification.getYear());
+                intentReturnNoteData.putExtra("month", dateNotification.getMonth());
+                intentReturnNoteData.putExtra("day", dateNotification.getDay());
+                intentReturnNoteData.putExtra("hour", dateNotification.getHour());
+                intentReturnNoteData.putExtra("minute", dateNotification.getMinute());
+
                 setResult(RESULT_OK, intentReturnNoteData);
-                Log.d(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");           }
-            else { // if noteName is  empty
+                Log.d(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
+            } else { // if noteName is  empty
                 setResult(RESULT_CANCELED);
                 Log.d(TAG, "RESULT_CANCELED, noteName: \"" + noteName + "\";");
             }
@@ -88,8 +100,13 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         // INVISIBLE(4) - ViewGroup exist but invisible. It TAKE place on the screej
         // GONE(8); - ViewGroup don't exist and invisible. It does NOT TAKE place on the screen
         if(isChecked) { // if swtRemindMe.isChecked: show EditText for Date and for Time
+            dateNotification.update();  // update to current date/time
+            dateNotification.setMinute(dateNotification.getMinute()+1);  // increment on 1 minute
+            //TODO test what be if minute == 60 and we +1
+            editDate.setText(dateNotification.getDate());
+            editTime.setText(dateNotification.getTime());
             llDateTime.setVisibility(View.VISIBLE);  // and all View in ViewGroup become visible and exist
-            //TODO switch current date and time
+            Log.d(TAG, "onCheckedChanged Calendar: " +dateNotification.getDate()+" "+dateNotification.getTime());
         } else {  // else gone  EditText for Date and for Time
             llDateTime.setVisibility(View.GONE);  // all View in ViewGroup become invisible and doesn't exist
         }
@@ -99,12 +116,14 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        editDate.setText(dayOfMonth + "." + month + "." + year);
+        dateNotification.setDate(year, month, dayOfMonth);  // setting date
+        editDate.setText(dayOfMonth + "." + month + "." + year);  // when user chose a date we switch it in TV
     }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-        editTime.setText(hourOfDay + ":" + minute);
+        dateNotification.setTime(hourOfDay, minute);  // setting time
+        editTime.setText(hourOfDay + ":" + minute);  // this function called when user chose a time
     }
 
 }

@@ -18,7 +18,7 @@ public class DatePickerFragment extends DialogFragment {
         //                          context,             context for listener
         return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getActivity(),
                 c.get(Calendar.YEAR),
-                c.get(Calendar.MONTH),
+                c.get(Calendar.MONTH)+1,  // because computer start count month from 0. It's not good for user.
                 c.get(Calendar.DAY_OF_MONTH)
                 );
     }

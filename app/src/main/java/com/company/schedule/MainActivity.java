@@ -25,23 +25,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  // mey be toolbar will be useful
         setSupportActionBar(toolbar);
 
         testOutputNoteName = (TextView) findViewById(R.id.testOutputNoteName);  // test TV for test result
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);  // button for jump to AddNoteActivity
+        fab.setOnClickListener(this);  // setting handle
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
         case R.id.fab:
-            // we indicate an explicit transition to AddNoteActivity to enter the data of a note
-            Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
-            // and getting this information back. (using REQUEST_CODE_ADD_NOTE (1) we can find out that the result came exactly with AddNoteActivity)
-            startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
+            Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);  // we indicate an explicit transition to AddNoteActivity to enter the data of a note
+            startActivityForResult(intent, REQUEST_CODE_ADD_NOTE); // and getting this information back. (using REQUEST_CODE_ADD_NOTE (1) we can find out that the result came exactly with AddNoteActivity)
             break;
         }
     }
@@ -58,6 +56,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (requestCode) {  // check from which daughter object data come
             case REQUEST_CODE_ADD_NOTE:  // if from AddNoteActivity
                 String noteName = data.getStringExtra("note_name");
+                //TODO make normal default value
+                int year = data.getIntExtra("year", 1900);
+                int month = data.getIntExtra("month", 0);
+                int day = data.getIntExtra("day", 0);
+                int hour = data.getIntExtra("hour", 0);
+                int minute = data.getIntExtra("minute", 0);
+
                 Log.d(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + noteName + "\";");
 
                 testOutputNoteName.setText(noteName);//TODO delete this line
@@ -66,14 +71,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 Log.d(TAG, "onActivityResult in default");
             }
-        } else if (requestCode == RESULT_CANCELED) {
-            // TODO output error
-            Log.d(TAG, "RESULT_CANCELED");
-        }
-        else {
+        } else {
             //TODO output error
-            Log.d(TAG, "data == null or any different error, requestCode: \"" + requestCode + "\";");
+            Log.d(TAG, "data == null or any different error, requestCode: \"" + requestCode + "\"; resultCode: \"" + resultCode + "\";"); //RESULT_OK: -1; RESULT_CANCELED: 0; RESULT_FIRST_USER(other user result): 1, 2, 3...
         }
+
     }
 
     @Override
