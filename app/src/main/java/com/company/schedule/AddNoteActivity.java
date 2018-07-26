@@ -1,7 +1,9 @@
 package com.company.schedule;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,10 +13,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 //                                   for activity      for button(method onClick(View v), for switch onCheckedChanged(CompoundButton cB, boolean b)
-public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TimePickerDialog.OnTimeSetListener{
 
     final private String TAG = "myLog AddNoteActivity";  // tag for log
     final int REQUEST_CODE_ENTER_DATE = 2;  // indexing EnterDateActivity for startActivityForResult
@@ -72,8 +75,10 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
             //TODO enter date with dialog window
             break;
         case R.id.editTime:
-            Intent intentEnterTime = new Intent(AddNoteActivity.this, EnterTimeActivity.class);  // intent going to EnterTimeActivity
-            startActivityForResult(intentEnterTime, REQUEST_CODE_ENTER_TIME);  // for enter time and get back it
+            DialogFragment timePicker = new TimePickerFragment();
+            timePicker.show(getSupportFragmentManager(), "time picker");
+//            Intent intentEnterTime = new Intent(AddNoteActivity.this, EnterTimeActivity.class);  // intent going to EnterTimeActivity
+//            startActivityForResult(intentEnterTime, REQUEST_CODE_ENTER_TIME);  // for enter time and get back it
             //TODO enter time
             break;
         }
@@ -116,5 +121,9 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
             llDateTime.setVisibility(View.GONE);  // all View in ViewGroup become invisible and doesn't exist
         }
 
+    }
+    @Override
+    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+        tvPreviousShowDateTime.setText("Hour: " + hourOfDay + " Minute: " + minute);
     }
 }
