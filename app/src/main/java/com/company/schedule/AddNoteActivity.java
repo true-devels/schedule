@@ -20,6 +20,7 @@ import android.widget.TimePicker;
 import com.company.schedule.fragments.pickers.DatePickerFragment;
 import com.company.schedule.fragments.pickers.TimePickerFragment;
 
+
 //                                   for activity      for button(method onClick(View v), for switch onCheckedChanged(CB cB, bool b),              for Date and Time picker
 public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener,   CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
@@ -29,10 +30,13 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout llDateTime;  // LinearLayout which contain two object(id.etDate, id.etTime)
     TextView editDate, editTime;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_note);
+
 
         etNameNote = (EditText) findViewById(R.id.etNameNote);  // to enter a note name
 
@@ -50,15 +54,18 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
         llDateTime = (LinearLayout) findViewById(R.id.llDateTime);  // by default visibility == gone
         llDateTime.setVisibility(View.GONE);  // TODO make it line in add_note.xml, and delete it
+
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
         case R.id.btnSubmitNote:  // if button send note to DB already pressed
-            String noteName = etNameNote.getText().toString();
+            final String noteName = etNameNote.getText().toString();
 
             if (!noteName.isEmpty()){
+
                 Intent intentReturnNoteData = new Intent();  // return ready note to MainActivity to DB
                 intentReturnNoteData.putExtra("note_name", noteName);
                 setResult(RESULT_OK, intentReturnNoteData);
@@ -100,11 +107,13 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
         editDate.setText(dayOfMonth + "." + month + "." + year);
+
     }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         editTime.setText(hourOfDay + ":" + minute);
+
     }
 
 }
