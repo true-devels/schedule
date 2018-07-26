@@ -3,6 +3,9 @@ package com.company.schedule;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+
+import com.company.schedule.Local.DateConverter;
 
 import java.util.Date;
 
@@ -23,8 +26,9 @@ public class CustomNotify {
     private String name;
 
     //date when it must appear
+    @TypeConverters({DateConverter.class}) // converter, because of using our own custom class
     @ColumnInfo(name = "date")
-    private long date;
+    private com.company.schedule.Date date;
 
 
     //frequency (if 0 - once, 1 - daily, 2 - weekly, 3 - monthly, 4 - yearly)
@@ -32,7 +36,7 @@ public class CustomNotify {
     private byte frequency;
 
     //Constructor
-    public CustomNotify(String name, long date, byte frequency) {
+    public CustomNotify(String name, com.company.schedule.Date date, byte frequency) {
         this.name = name;
         this.date = date;
         this.frequency = frequency;
@@ -55,11 +59,11 @@ public class CustomNotify {
         this.name = name;
     }
 
-    public long getDate() {
+    public com.company.schedule.Date getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(com.company.schedule.Date date) {
         this.date = date;
     }
 

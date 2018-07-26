@@ -13,6 +13,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.company.schedule.Database.NotifyRepository;
+import com.company.schedule.Local.NotifyDataSourceClass;
+import com.company.schedule.Local.NotifyDatabase;
+
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -20,11 +33,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //  when we move to a new activity to get the result we need to be indexed by its number
     final int REQUEST_CODE_ADD_NOTE = 1;
     final String TAG = "myLog MainActivity";
-
+    private CompositeDisposable compositeDisposable;
+    private NotifyRepository notifyRepository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        compositeDisposable = new CompositeDisposable();
+        NotifyDatabase linkDatabase = NotifyDatabase.getInstance(this);
+        notifyRepository = NotifyRepository.getmInstance(NotifyDataSourceClass.getInstance(linkDatabase.notifyDAO()));
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  // mey be toolbar will be useful
         setSupportActionBar(toolbar);
 
@@ -57,11 +76,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case REQUEST_CODE_ADD_NOTE:  // if from AddNoteActivity
                 String noteName = data.getStringExtra("note_name");
                 //TODO make normal default value
+                String name = data.getStringExtra("note_name");
                 int year = data.getIntExtra("year", 1900);
                 int month = data.getIntExtra("month", 0);
                 int day = data.getIntExtra("day", 0);
                 int hour = data.getIntExtra("hour", 0);
                 int minute = data.getIntExtra("minute", 0);
+
+                Date not_date = new Date(year,month,day,hour,minute);
+
+                //TODO remove prototype with real value
+                byte prototype = 0;
+                final CustomNotify loc = new CustomNotify(name,not_date,prototype);
+
+                Disposable disposable = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
+
+
+                        notifyRepository.insertNotify(loc);
+                        emitter.onComplete();
+                    }
+                })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Consumer<Object>() {
+                            @Override
+                            public void accept(Object o) throws Exception {
+                                Toast.makeText(MainActivity.this, "Link added!", Toast.LENGTH_SHORT).show();
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Toast.makeText(MainActivity.this, "" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                compositeDisposable.add(disposable);
 
                 Log.d(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + noteName + "\";");
 

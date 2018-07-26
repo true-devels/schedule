@@ -8,7 +8,13 @@ public class Date {
     public Date() {
         update();  //make update date/time when create new object
     }
-
+    public Date(int year, int month, int day, int hour, int minute){
+        this.year = year;
+        this.month = month+1;
+        this.day = day;
+        this.hour = hour;
+        this.minute = minute;
+    }
     public String getDate() {
         return day + "." + month + "." + year;
     }
