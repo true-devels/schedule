@@ -110,7 +110,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
             editDate.setText(dateNotification.getDate());
             editTime.setText(dateNotification.getTime());
             llDateTime.setVisibility(View.VISIBLE);  // and all View in ViewGroup become visible and exist
-            Log.d(TAG, "onCheckedChanged Calendar: " +dateNotification.getDate()+" "+dateNotification.getTime());
+            Log.d(TAG, "onCheckedChanged dateNotification.get(): " +dateNotification.getDate()+" "+dateNotification.getTime());
         } else {  // else gone  EditText for Date and for Time
             llDateTime.setVisibility(View.GONE);  // all View in ViewGroup become invisible and doesn't exist
         }
