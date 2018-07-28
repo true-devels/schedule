@@ -138,7 +138,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         dateNotification.set(GregorianCalendar.YEAR,year);
         dateNotification.set(GregorianCalendar.MONTH,month);
         dateNotification.set(GregorianCalendar.DAY_OF_MONTH,dayOfMonth);
-        editDate.setText(dayOfMonth + "." + month + "." + year);  // when user chose a date we switch it in TV
+        editDate.setText(dayOfMonth + "." + month+1 + "." + year);  // when user chose a date we switch it in TV
 
     }
 
