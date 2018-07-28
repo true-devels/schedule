@@ -7,7 +7,8 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.company.schedule.Local.DateConverter;
 
-import java.util.Date;
+
+import java.util.GregorianCalendar;
 
 import io.reactivex.annotations.NonNull;
 
@@ -28,7 +29,7 @@ public class CustomNotify {
     //date when it must appear
     @TypeConverters({DateConverter.class}) // converter, because of using our own custom class
     @ColumnInfo(name = "date")
-    private com.company.schedule.Date date;
+    private GregorianCalendar date;
 
 
     //frequency (if 0 - once, 1 - daily, 2 - weekly, 3 - monthly, 4 - yearly)
@@ -36,7 +37,7 @@ public class CustomNotify {
     private byte frequency;
 
     //Constructor
-    public CustomNotify(String name, com.company.schedule.Date date, byte frequency) {
+    public CustomNotify(String name, GregorianCalendar date, byte frequency) {
         this.name = name;
         this.date = date;
         this.frequency = frequency;
@@ -59,11 +60,11 @@ public class CustomNotify {
         this.name = name;
     }
 
-    public com.company.schedule.Date getDate() {
+    public GregorianCalendar getDate() {
         return date;
     }
 
-    public void setDate(com.company.schedule.Date date) {
+    public void setDate(GregorianCalendar date) {
         this.date = date;
     }
 

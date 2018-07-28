@@ -19,6 +19,9 @@ import com.company.schedule.Database.NotifyRepository;
 import com.company.schedule.Local.NotifyDataSourceClass;
 import com.company.schedule.Local.NotifyDatabase;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);  // button for jump to AddNoteActivity
         fab.setOnClickListener(this);  // setting handle
+
+
     }
 
     @Override
@@ -83,7 +88,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int hour = data.getIntExtra("hour", 0);
                 int minute = data.getIntExtra("minute", 0);
 
-                Date not_date = new Date(year,month,day,hour,minute);
+                GregorianCalendar not_date =  new GregorianCalendar();
+                not_date.set(GregorianCalendar.YEAR,year);
+                not_date.set(GregorianCalendar.MONTH,month);
+                not_date.set(GregorianCalendar.DAY_OF_MONTH,day);
+                not_date.set(GregorianCalendar.HOUR,hour);
+                not_date.set(GregorianCalendar.MINUTE,minute);
 
                 //TODO remove prototype with real value
                 byte prototype = 0;
@@ -115,7 +125,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Log.d(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + noteName + "\";");
 
-                testOutputNoteName.setText(noteName);//TODO delete this line
+                testOutputNoteName.setText(noteName);
+                testOutputNoteName.setText(Long.toString(loc.getDate().getTimeInMillis())+" and now " + Long.toString(System.currentTimeMillis()));
+                //TODO delete this line
                 //TODO to DB element with name noteName
                 break;
             default:

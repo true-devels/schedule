@@ -20,8 +20,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AddNoteActivity" ></activity>
-
+        <activity android:name=".AddNoteActivity" />
+        <receiver android:name=".NotificationPublisher" />
     </application>
 
 </manifest>
