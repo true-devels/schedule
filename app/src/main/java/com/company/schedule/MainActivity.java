@@ -1,26 +1,27 @@
 package com.company.schedule;
 
-import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.company.schedule.Database.NotifyRepository;
 import com.company.schedule.Local.NotifyDataSourceClass;
 import com.company.schedule.Local.NotifyDatabase;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final String TAG = "myLog MainActivity";
     private CompositeDisposable compositeDisposable;
     private NotifyRepository notifyRepository;
+    NotesAdapter adapter;
+    ArrayList<CustomNotify> notifies = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,14 +50,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NotifyDatabase linkDatabase = NotifyDatabase.getInstance(this);
         notifyRepository = NotifyRepository.getmInstance(NotifyDataSourceClass.getInstance(linkDatabase.notifyDAO()));
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);  // mey be toolbar will be useful
+        Toolbar toolbar =  findViewById(R.id.toolbar);  // maybe toolbar will be useful
         setSupportActionBar(toolbar);
 
-        testOutputNoteName = (TextView) findViewById(R.id.testOutputNoteName);  // test TV for test result
+        testOutputNoteName =  findViewById(R.id.testOutputNoteName);  // test TV for test result
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);  // button for jump to AddNoteActivity
+        FloatingActionButton fab =  findViewById(R.id.fab);  // button for jump to AddNoteActivity
         fab.setOnClickListener(this);  // setting handle
 
+        RecyclerView recyclerView = findViewById(R.id.notesList );
+        byte test = 1;
+
+        notifies.add(new CustomNotify("Hello, works",new GregorianCalendar(),test));
+
+        recyclerView.setLayoutManager(new CustomLayoutManager(this));
+        adapter = new NotesAdapter(this, notifies);
+       /// adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+        notifies.remove(0);
+        adapter.notifyItemRemoved(0);
+        loadData();
 
     }
 
@@ -114,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void accept(Object o) throws Exception {
                                 Toast.makeText(MainActivity.this, "Link added!", Toast.LENGTH_SHORT).show();
+                                //notifies.add(loc);
+                                //adapter.notifyItemInserted(adapter.getItemCount()-1);
                             }
                         }, new Consumer<Throwable>() {
                             @Override
@@ -122,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         });
                 compositeDisposable.add(disposable);
-
                 Log.d(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + noteName + "\";");
+              //  loadData();
 
                 testOutputNoteName.setText(noteName);
                 testOutputNoteName.setText(Long.toString(loc.getDate().getTimeInMillis())+" and now " + Long.toString(System.currentTimeMillis()));
@@ -161,4 +178,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void loadData() {
+
+        Disposable disposable = notifyRepository.getAllNotifies()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<List<CustomNotify>>() {
+                    @Override
+                    public void accept(List<CustomNotify> myLinks) throws Exception {
+                        onGetAllLinkSuccess(myLinks);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Toast.makeText(MainActivity.this,""+throwable.getMessage(),Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+        compositeDisposable.add(disposable);
+    }
+
+    private void onGetAllLinkSuccess(List<CustomNotify> myLinks) {
+
+        notifies.clear();
+        adapter.notifyItemRangeRemoved(0,adapter.getItemCount());
+        notifies.addAll(myLinks);
+        adapter.notifyItemRangeInserted(0,myLinks.size());
+
+    }
+
 }
+class CustomLayoutManager extends LinearLayoutManager {
+    CustomLayoutManager(Context context){
+        super(context);
+    }
+    @Override
+    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+        try {
+            super.onLayoutChildren(recycler, state);
+        } catch (IndexOutOfBoundsException e) {
+            Log.e("myLog MainActivity", "Bugs of RecyclerView");
+        }
+    }
+}
+

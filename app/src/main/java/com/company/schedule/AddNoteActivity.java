@@ -24,12 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.company.schedule.fragments.pickers.DatePickerFragment;
 import com.company.schedule.fragments.pickers.TimePickerFragment;
 
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 
@@ -52,21 +50,21 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.add_note);
 
 
-        etNameNote = (EditText) findViewById(R.id.etNameNote);  // to enter a note name
+        etNameNote =  findViewById(R.id.etNameNote);  // to enter a note name
 
-        editDate = (TextView) findViewById(R.id.editDate);  // to enter a date
+        editDate =  findViewById(R.id.editDate);  // to enter a date
         editDate.setOnClickListener(this);  // when we click, the calendar pops up to enter a date
 
-        editTime = (TextView) findViewById(R.id.editTime);  // to enter a time
+        editTime =  findViewById(R.id.editTime);  // to enter a time
         editTime.setOnClickListener(this);  // when we click, the watch pops up to enter a time
 
-        Button btnSubmitNote = (Button) findViewById(R.id.btnSubmitNote);  // when button click, sends result to MainActivity
+        Button btnSubmitNote =  findViewById(R.id.btnSubmitNote);  // when button click, sends result to MainActivity
         btnSubmitNote.setOnClickListener(this);  // set listener (View.OnClickListener, name @Override method is onClick)
 
-        Switch swtRemindMe = (Switch) findViewById(R.id.swtRemindMe);  // access user, add date and time to note if isChecked == true
+        Switch swtRemindMe =  findViewById(R.id.swtRemindMe);  // access user, add date and time to note if isChecked == true
         swtRemindMe.setOnCheckedChangeListener(this);  // set listener (CompoundButton.OnCheckedChangeListener, name @Override method is onCheckedChanged)
 
-        llDateTime = (LinearLayout) findViewById(R.id.llDateTime);  // by default visibility == gone
+        llDateTime = findViewById(R.id.llDateTime);  // by default visibility == gone
         llDateTime.setVisibility(View.GONE);  // TODO make it line in add_note.xml, and delete it
 
         dateNotification = new GregorianCalendar();// get settings for current time
@@ -147,7 +145,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         dateNotification.set(GregorianCalendar.HOUR,hourOfDay);
         dateNotification.set(GregorianCalendar.MINUTE,minute);
 
-        editTime.setText(hourOfDay + ":" + minute);  // this function called when user chose a time
+        editTime.setText(hourOfDay + ":" + minute);  // this function is called when user chose a time
 
     }
 
