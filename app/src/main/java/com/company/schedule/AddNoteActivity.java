@@ -3,7 +3,6 @@ package com.company.schedule;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -16,14 +15,18 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.company.schedule.fragments.pickers.DatePickerFragment;
 import com.company.schedule.fragments.pickers.TimePickerFragment;
@@ -33,24 +36,29 @@ import java.util.GregorianCalendar;
 
 //                                   for activity      for button method onClick(View v), for switch onCheckedChanged(CB cB, bool b),              for Date and Time picker
 
-public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener,   CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener,   CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     final private String TAG = "myLog AddNoteActivity";  // tag for log
 
-    EditText etNameNote;  // EditText for enter name of note
+    EditText etNameNote, etContentNote;  // EditTexts for enter name and content of note
     LinearLayout llDateTime;  // LinearLayout which contain two object(id.editDate, id.editTime)
     TextView editDate, editTime;
     GregorianCalendar dateNotification;
-
-
-
+    Spinner spinner_freq;
+    Switch swtRemindMe, swtRepeat;
+    boolean isEdited = false, isReminded = false, isRepeated=false;
+    int id=-1;
+    GregorianCalendar edit_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_note);
 
 
+
         etNameNote =  findViewById(R.id.etNameNote);  // to enter a note name
+        etContentNote =  findViewById(R.id.etNameContent);  // to enter a note content
+
 
         editDate =  findViewById(R.id.editDate);  // to enter a date
         editDate.setOnClickListener(this);  // when we click, the calendar pops up to enter a date
@@ -61,14 +69,62 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         Button btnSubmitNote =  findViewById(R.id.btnSubmitNote);  // when button click, sends result to MainActivity
         btnSubmitNote.setOnClickListener(this);  // set listener (View.OnClickListener, name @Override method is onClick)
 
-        Switch swtRemindMe =  findViewById(R.id.swtRemindMe);  // access user, add date and time to note if isChecked == true
+        swtRemindMe =  findViewById(R.id.swtRemindMe);  // access user, add date and time to note if isChecked == true
         swtRemindMe.setOnCheckedChangeListener(this);  // set listener (CompoundButton.OnCheckedChangeListener, name @Override method is onCheckedChanged)
+
+        swtRepeat =  findViewById(R.id.swtRepeat);  // access user, add date and time to note if isChecked == true
+        swtRepeat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b) {
+                    spinner_freq.setVisibility(View.VISIBLE);
+                    isRepeated=true;
+                } else {
+                    spinner_freq.setVisibility(View.GONE);
+                    isRepeated=false;
+                }
+
+            }
+        });
 
         llDateTime = findViewById(R.id.llDateTime);  // by default visibility == gone
         llDateTime.setVisibility(View.GONE);  // TODO make it line in add_note.xml, and delete it
 
         dateNotification = new GregorianCalendar();// get settings for current time
         dateNotification.setTimeInMillis(System.currentTimeMillis());
+
+        spinner_freq = findViewById(R.id.types_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_frequency, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_freq.setAdapter(adapter);
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+
+        if(extras!=null){
+            id = extras.getInt("id",-1);
+            etNameNote.setText(extras.getString("name"));
+            etContentNote.setText(extras.getString("content"));
+            edit_date = (GregorianCalendar) extras.get("date");
+
+            if(edit_date==null){
+                swtRemindMe.setChecked(false);
+            }else{
+                isEdited=true;
+                swtRemindMe.setChecked(true);
+
+                editDate.setText(edit_date.get(GregorianCalendar.DAY_OF_MONTH)+"."+edit_date.get(GregorianCalendar.MONTH)+"."+edit_date.get(GregorianCalendar.YEAR));
+                editTime.setText(edit_date.get(GregorianCalendar.HOUR)+":"+edit_date.get(GregorianCalendar.MINUTE));
+
+                if(extras.getByte("frequency")!=-1){
+                    swtRepeat.setChecked(true);
+                }else{
+                    swtRepeat.setChecked(false);
+                }
+
+            }
+
+        }
     }
 
     @Override
@@ -76,20 +132,47 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         switch (view.getId()) {
         case R.id.btnSubmitNote:  // if button send note to DB already pressed
             final String noteName = etNameNote.getText().toString();
+            final String noteContent = etContentNote.getText().toString();
+
 
             if (!noteName.isEmpty()){
 
-                Notification local = getNotification(noteName);
-                scheduleNotification(local,dateNotification.getTimeInMillis());
+
+
+
 
                 Intent intentReturnNoteData = new Intent();  // return ready note to MainActivity to DB
+                intentReturnNoteData.putExtra("id",id);
                 intentReturnNoteData.putExtra("note_name", noteName);
-                intentReturnNoteData.putExtra("year", dateNotification.get(GregorianCalendar.YEAR));
-                intentReturnNoteData.putExtra("month", dateNotification.get(GregorianCalendar.MONTH));
-                intentReturnNoteData.putExtra("day", dateNotification.get(GregorianCalendar.DAY_OF_MONTH));
-                intentReturnNoteData.putExtra("hour", dateNotification.get(GregorianCalendar.HOUR));
-                intentReturnNoteData.putExtra("minute", dateNotification.get(GregorianCalendar.MINUTE));
+                intentReturnNoteData.putExtra("note_content", noteContent);
+                if(isReminded){
+                    Notification local = getNotification(noteName,noteContent);
+                    scheduleNotification(local,dateNotification.getTimeInMillis());
+                    intentReturnNoteData.putExtra("year", dateNotification.get(GregorianCalendar.YEAR));
+                    intentReturnNoteData.putExtra("month", dateNotification.get(GregorianCalendar.MONTH));
+                    intentReturnNoteData.putExtra("day", dateNotification.get(GregorianCalendar.DAY_OF_MONTH));
+                    intentReturnNoteData.putExtra("hour", dateNotification.get(GregorianCalendar.HOUR));
+                    intentReturnNoteData.putExtra("minute", dateNotification.get(GregorianCalendar.MINUTE));
+                }else{
+                    intentReturnNoteData.putExtra("year", -1);
+                    intentReturnNoteData.putExtra("month", -1);
+                    intentReturnNoteData.putExtra("day", -1);
+                    intentReturnNoteData.putExtra("hour", -1);
+                    intentReturnNoteData.putExtra("minute", -1);
+                }
+                if(isRepeated){
+                    int frequency = spinner_freq.getSelectedItemPosition();
+                    intentReturnNoteData.putExtra("freq",frequency);
+                }else{
+                    intentReturnNoteData.putExtra("freq",-1);
+                }
+
                 //Toast.makeText(this,dateNotification.getMonth()+" "+dateNotification.getDay()+" "+dateNotification.getHour()+" "+dateNotification.getMinute(),Toast.LENGTH_LONG).show();
+                if(isEdited){
+
+                }else{
+
+                }
                 setResult(RESULT_OK, intentReturnNoteData);
                 Log.d(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
             } else { // if noteName is  empty
@@ -99,12 +182,19 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
             finish();
             break;
 
-        case R.id.editDate:  // show dialog for pick date
-            DialogFragment datePicker = new DatePickerFragment();
-            datePicker.show(getSupportFragmentManager(), "date picker");
-            break;
+        case R.id.editDate:
+
+                    DatePickerFragment datePicker = new DatePickerFragment();
+                    if(isEdited){
+                        datePicker.setGc(edit_date);
+                    }
+                    datePicker.show(getSupportFragmentManager(), "date picker");
+                 break;
         case R.id.editTime:  // dialog for time picker
-            DialogFragment timePicker = new TimePickerFragment();
+            TimePickerFragment timePicker = new TimePickerFragment();
+            if(isEdited){
+                timePicker.setGc(edit_date);
+            }
             timePicker.show(getSupportFragmentManager(), "time picker");
             break;
         }
@@ -123,12 +213,17 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
             editDate.setText(dateNotification.get(GregorianCalendar.DAY_OF_MONTH)+"."+dateNotification.get(GregorianCalendar.MONTH)+"."+dateNotification.get(GregorianCalendar.YEAR));
             editTime.setText(dateNotification.get(GregorianCalendar.HOUR)+":"+dateNotification.get(GregorianCalendar.MINUTE));
             llDateTime.setVisibility(View.VISIBLE);  // and all View in ViewGroup become visible and exist
+            isReminded = true;
             Log.d(TAG, "onCheckedChanged dateNotification.get(): " +editDate.getText().toString()+" "+editTime.getText().toString());
-        } else {  // else gone  EditText for Date and for Time
+        } else {
+            // else gone  EditText for Date and for Time
+            spinner_freq.setVisibility(View.GONE);
             llDateTime.setVisibility(View.GONE);  // all View in ViewGroup become invisible and doesn't exist
+            isReminded=false;
         }
 
     }
+
 
 
     @Override
@@ -160,11 +255,12 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
        // Toast.makeText(this,"Here" + Long.toString(time-System.currentTimeMillis()),Toast.LENGTH_LONG).show();
     }
-    private Notification getNotification(String content) {
+
+    private Notification getNotification(String title, String content) {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("Alarm!")
+                        .setContentTitle(title)
                         .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                         .setLights(Color.RED, 3000, 3000)
                         .setSound(Uri.parse("uri://sadfasdfasdf.mp3"))
@@ -172,4 +268,9 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         return builder.build();
     }
 
+
+
+
 }
+
+

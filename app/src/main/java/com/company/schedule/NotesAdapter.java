@@ -44,7 +44,7 @@ public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder>
 
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
         TextView myTextView;
 
         ViewHolder(View itemView) {

@@ -11,8 +11,8 @@ import static com.company.schedule.Local.NotifyDatabase.DATABASE_VERSION;
 
 @Database(entities = CustomNotify.class, version = DATABASE_VERSION)
 public abstract class NotifyDatabase extends RoomDatabase {
-    public static final int DATABASE_VERSION = 2;
-    public static final String DATABASE_NAME = "TrueDevels-DB";
+    public static final int DATABASE_VERSION = 9;
+    public static final String DATABASE_NAME = "Notifies-DB";
 
     public abstract NotifyDAO notifyDAO();
     private static NotifyDatabase mInstance;

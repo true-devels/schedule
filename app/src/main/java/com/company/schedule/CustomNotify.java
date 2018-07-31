@@ -26,6 +26,10 @@ public class CustomNotify {
     @ColumnInfo(name = "name")
     private String name;
 
+
+    @ColumnInfo(name = "content")
+    private String content;
+
     //date when it must appear
     @TypeConverters({DateConverter.class}) // converter, because of using our own custom class
     @ColumnInfo(name = "date")
@@ -37,10 +41,11 @@ public class CustomNotify {
     private byte frequency;
 
     //Constructor
-    public CustomNotify(String name, GregorianCalendar date, byte frequency) {
+    public CustomNotify(String name, String content, GregorianCalendar date, byte frequency) {
         this.name = name;
         this.date = date;
         this.frequency = frequency;
+        this.content = content;
     }
 
     //getters and setters
@@ -75,6 +80,15 @@ public class CustomNotify {
     public void setFrequency(byte frequency) {
         this.frequency = frequency;
     }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
 
 
 }
