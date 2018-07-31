@@ -116,8 +116,10 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 editDate.setText(edit_date.get(GregorianCalendar.DAY_OF_MONTH)+"."+edit_date.get(GregorianCalendar.MONTH)+"."+edit_date.get(GregorianCalendar.YEAR));
                 editTime.setText(edit_date.get(GregorianCalendar.HOUR)+":"+edit_date.get(GregorianCalendar.MINUTE));
 
+
                 if(extras.getByte("frequency")!=-1){
                     swtRepeat.setChecked(true);
+                    spinner_freq.setSelection((int)extras.getByte("frequency"));
                 }else{
                     swtRepeat.setChecked(false);
                 }
@@ -136,18 +138,13 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
 
             if (!noteName.isEmpty()){
-
-
-
-
-
                 Intent intentReturnNoteData = new Intent();  // return ready note to MainActivity to DB
                 intentReturnNoteData.putExtra("id",id);
                 intentReturnNoteData.putExtra("note_name", noteName);
                 intentReturnNoteData.putExtra("note_content", noteContent);
                 if(isReminded){
                     Notification local = getNotification(noteName,noteContent);
-                    scheduleNotification(local,dateNotification.getTimeInMillis());
+                    scheduleNotification(local,dateNotification.getTimeInMillis(), spinner_freq.getSelectedItemPosition());
                     intentReturnNoteData.putExtra("year", dateNotification.get(GregorianCalendar.YEAR));
                     intentReturnNoteData.putExtra("month", dateNotification.get(GregorianCalendar.MONTH));
                     intentReturnNoteData.putExtra("day", dateNotification.get(GregorianCalendar.DAY_OF_MONTH));
@@ -244,15 +241,32 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void scheduleNotification(Notification notification, long time) {
+    private void scheduleNotification(Notification notification, long time, int freq) {
 
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        long frequency;
+        switch(freq){
+            case 0: frequency=-1; break;
+            case 1: frequency=1000*60*60*24; break;
+            case 2: frequency=1000*60*60*24*7; break;
+            case 3: frequency=1000*60*60*24*30; break;
+            case 4: frequency=1000*60*60*24*365; break;
+            default: frequency=-1;
+        }
+        PendingIntent pendingIntent;
+        pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+        if(frequency==-1){
+            alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+        }else{
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, frequency, pendingIntent);
+        }
+
+
+
        // Toast.makeText(this,"Here" + Long.toString(time-System.currentTimeMillis()),Toast.LENGTH_LONG).show();
     }
 
