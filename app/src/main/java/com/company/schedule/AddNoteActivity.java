@@ -131,7 +131,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                     intentReturnNoteData.putExtra("note_content", noteContent);
                     if (isReminded) {
                         Notification local = getNotification(noteName, noteContent);
-                        scheduleNotification(local, dateNotification.getTimeInMillis(), spinnerFreq.getSelectedItemPosition());
+                        scheduleNotification(local, dateNotification.getTimeInMillis(), spinner_freq.getSelectedItemPosition());
                         intentReturnNoteData.putExtra("year", dateNotification.get(GregorianCalendar.YEAR));
                         intentReturnNoteData.putExtra("month", dateNotification.get(GregorianCalendar.MONTH));
                         intentReturnNoteData.putExtra("day", dateNotification.get(GregorianCalendar.DAY_OF_MONTH));
@@ -144,7 +144,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                         intentReturnNoteData.putExtra("hour", -1);
                         intentReturnNoteData.putExtra("minute", -1);
                     }
-                    intentReturnNoteData.putExtra("freq", spinnerFreq.getSelectedItemPosition());
+                    intentReturnNoteData.putExtra("freq", spinner_freq.getSelectedItemPosition());
 
                     setResult(RESULT_OK, intentReturnNoteData);
                     Log.v(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
