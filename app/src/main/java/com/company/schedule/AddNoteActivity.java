@@ -33,7 +33,6 @@ import java.util.GregorianCalendar;
 
 
 //                                   for activity      for button method onClick(View v), for switch onCheckedChanged(CB cB, bool b),              for Date and Time picker
-
 public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     final private String TAG = "myLog AddNoteActivity";  // tag for log
@@ -42,9 +41,9 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout llDateTime;  // LinearLayout which contain two object(id.editDate, id.editTime)
     TextView editDate, editTime;
     GregorianCalendar dateNotification;
-    Spinner spinner_freq;
-    Switch swtRemindMe, swtRepeat;
-    boolean isEdited = false, isReminded = false, isRepeated = false;
+    Spinner spinnerFreq;  // spinner(Once, Daily, Weekly, ...)
+    Switch swtRemindMe;
+    boolean isEdited = false, isReminded = false;
     int id = -1;
     GregorianCalendar edit_date;
 
@@ -53,10 +52,8 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_note);
 
-
         etNameNote = findViewById(R.id.etNameNote);  // to enter a note name
         etContentNote = findViewById(R.id.etNameContent);  // to enter a note content
-
 
         editDate = findViewById(R.id.editDate);  // to enter a date
         editDate.setOnClickListener(this);  // when we click, the calendar pops up to enter a date
@@ -70,32 +67,17 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         swtRemindMe = findViewById(R.id.swtRemindMe);  // access user, add date and time to note if isChecked == true
         swtRemindMe.setOnCheckedChangeListener(this);  // set listener (CompoundButton.OnCheckedChangeListener, name @Override method is onCheckedChanged)
 
-        swtRepeat = findViewById(R.id.swtRepeat);  // access user, add date and time to note if isChecked == true
-        swtRepeat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-                if (b) {
-                    spinner_freq.setVisibility(View.VISIBLE);
-                    isRepeated = true;
-                } else {
-                    spinner_freq.setVisibility(View.GONE);
-                    isRepeated = false;
-                }
-
-            }
-        });
 
         llDateTime = findViewById(R.id.llDateTime);  // by default visibility == gone
-        llDateTime.setVisibility(View.GONE);  // TODO make it line in add_note.xml, and delete it
 
         dateNotification = new GregorianCalendar();// get settings for current time
         dateNotification.setTimeInMillis(System.currentTimeMillis());
 
-        spinner_freq = findViewById(R.id.types_spinner);
+        spinnerFreq = findViewById(R.id.spinnerFreq);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_frequency, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_freq.setAdapter(adapter);
+        spinnerFreq.setAdapter(adapter);
+
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
@@ -116,12 +98,8 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
 
                 if (extras.getByte("frequency") != -1) {
-                    swtRepeat.setChecked(true);
-                    spinner_freq.setSelection((int) extras.getByte("frequency"));
-                } else {
-                    swtRepeat.setChecked(false);
+                    spinnerFreq.setSelection((int) extras.getByte("frequency"));
                 }
-
             }
 
         }
@@ -142,7 +120,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                     intentReturnNoteData.putExtra("note_content", noteContent);
                     if (isReminded) {
                         Notification local = getNotification(noteName, noteContent);
-                        scheduleNotification(local, dateNotification.getTimeInMillis(), spinner_freq.getSelectedItemPosition());
+                        scheduleNotification(local, dateNotification.getTimeInMillis(), spinnerFreq.getSelectedItemPosition());
                         intentReturnNoteData.putExtra("year", dateNotification.get(GregorianCalendar.YEAR));
                         intentReturnNoteData.putExtra("month", dateNotification.get(GregorianCalendar.MONTH));
                         intentReturnNoteData.putExtra("day", dateNotification.get(GregorianCalendar.DAY_OF_MONTH));
@@ -155,19 +133,8 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                         intentReturnNoteData.putExtra("hour", -1);
                         intentReturnNoteData.putExtra("minute", -1);
                     }
-                    if (isRepeated) {
-                        int frequency = spinner_freq.getSelectedItemPosition();
-                        intentReturnNoteData.putExtra("freq", frequency);
-                    } else {
-                        intentReturnNoteData.putExtra("freq", -1);
-                    }
+                    intentReturnNoteData.putExtra("freq", spinnerFreq.getSelectedItemPosition());
 
-                    //Toast.makeText(this,dateNotification.getMonth()+" "+dateNotification.getDay()+" "+dateNotification.getHour()+" "+dateNotification.getMinute(),Toast.LENGTH_LONG).show();
-                    if (isEdited) {
-
-                    } else {
-
-                    }
                     setResult(RESULT_OK, intentReturnNoteData);
                     Log.v(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
                 } else { // if noteName is  empty
@@ -201,20 +168,28 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         // VISIBLE(0) - ViewGroup exist and it is visible
         // INVISIBLE(4) - ViewGroup exist but invisible. It TAKE place on the screej
         // GONE(8); - ViewGroup don't exist and invisible. It does NOT TAKE place on the screen
-        if (isChecked) { // if swtRemindMe.isChecked: show EditText for Date and for Time
-            dateNotification.setTimeInMillis(System.currentTimeMillis());  // update to current date/time
-            dateNotification.set(GregorianCalendar.MINUTE, dateNotification.get(GregorianCalendar.MINUTE) + 1);  // increment on 1 minute (this line was tested on bug, everything OK)
-            editDate.setText(dateNotification.get(GregorianCalendar.DAY_OF_MONTH) + "." + dateNotification.get(GregorianCalendar.MONTH) + "." + dateNotification.get(GregorianCalendar.YEAR));
-            editTime.setText(dateNotification.get(GregorianCalendar.HOUR) + ":" + dateNotification.get(GregorianCalendar.MINUTE));
-            llDateTime.setVisibility(View.VISIBLE);  // and all View in ViewGroup become visible and exist
-            isReminded = true;
-            Log.v(TAG, "onCheckedChanged dateNotification.get(): " + editDate.getText().toString() + " " + editTime.getText().toString());
-        } else {
-            // else gone  EditText for Date and for Time
-            spinner_freq.setVisibility(View.GONE);
-            llDateTime.setVisibility(View.GONE);  // all View in ViewGroup become invisible and doesn't exist
-            isReminded = false;
+        switch (compoundButton.getId()){
+        case R.id.swtRemindMe:
+            if (isChecked) { // if swtRemindMe.isChecked: show EditText for Date and for Time
+                dateNotification.setTimeInMillis(System.currentTimeMillis());  // update to current date/time
+                dateNotification.set(GregorianCalendar.MINUTE, dateNotification.get(GregorianCalendar.MINUTE) + 1);  // increment on 1 minute (this line was tested on bug, everything OK)
+                editDate.setText(dateNotification.get(GregorianCalendar.DAY_OF_MONTH) + "." + dateNotification.get(GregorianCalendar.MONTH) + "." + dateNotification.get(GregorianCalendar.YEAR));
+                editTime.setText(dateNotification.get(GregorianCalendar.HOUR) + ":" + dateNotification.get(GregorianCalendar.MINUTE));
+                llDateTime.setVisibility(View.VISIBLE);  // and all View in ViewGroup become visible and exist
+                isReminded = true;
+//            swtRepeat.setVisibility(View.VISIBLE);
+                Log.v(TAG, "onCheckedChanged dateNotification.get(): " + editDate.getText().toString() + " " + editTime.getText().toString());
+            } else {
+//            swtRepeat.setVisibility(View.GONE);
+                // else gone  EditText for Date and for Time
+                llDateTime.setVisibility(View.GONE);  // all View in ViewGroup become invisible and doesn't exist
+                isReminded = false;
+            }
+            break;
+        default:
+            Log.e(TAG, "onCheckedChanged default, compoundButton.getId: " + compoundButton.getId() + "; isChecked: " + isChecked);
         }
+
 
     }
 

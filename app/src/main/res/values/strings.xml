@@ -2,7 +2,7 @@
     <string name="app_name">Schedule</string>
     <string name="action_settings">Settings</string>
     <string-array name="types_of_frequency">
-        <item>Once</item>
+        <item>Never</item>
         <item>Daily</item>
         <item>Weekly</item>
         <item>Monthly</item>
