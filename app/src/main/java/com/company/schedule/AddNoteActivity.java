@@ -87,6 +87,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         });
+        swtRepeat.setVisibility(View.GONE);
 
         llDateTime = findViewById(R.id.llDateTime);  // by default visibility == gone
         llDateTime.setVisibility(View.GONE);  // TODO make it line in add_note.xml, and delete it
@@ -211,8 +212,10 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
             editTime.setText(dateNotification.get(GregorianCalendar.HOUR)+":"+dateNotification.get(GregorianCalendar.MINUTE));
             llDateTime.setVisibility(View.VISIBLE);  // and all View in ViewGroup become visible and exist
             isReminded = true;
+            swtRepeat.setVisibility(View.VISIBLE);
             Log.d(TAG, "onCheckedChanged dateNotification.get(): " +editDate.getText().toString()+" "+editTime.getText().toString());
         } else {
+            swtRepeat.setVisibility(View.GONE);
             // else gone  EditText for Date and for Time
             spinner_freq.setVisibility(View.GONE);
             llDateTime.setVisibility(View.GONE);  // all View in ViewGroup become invisible and doesn't exist
