@@ -10,12 +10,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -26,7 +24,6 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.company.schedule.fragments.pickers.DatePickerFragment;
 import com.company.schedule.fragments.pickers.TimePickerFragment;
@@ -171,10 +168,10 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
                 }
                 setResult(RESULT_OK, intentReturnNoteData);
-                Log.d(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
+                Log.v(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
             } else { // if noteName is  empty
                 setResult(RESULT_CANCELED);
-                Log.d(TAG, "RESULT_CANCELED, noteName: \"" + noteName + "\";");
+                Log.v(TAG, "RESULT_CANCELED, noteName: \"" + noteName + "\";");
             }
             finish();
             break;
@@ -211,7 +208,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
             editTime.setText(dateNotification.get(GregorianCalendar.HOUR)+":"+dateNotification.get(GregorianCalendar.MINUTE));
             llDateTime.setVisibility(View.VISIBLE);  // and all View in ViewGroup become visible and exist
             isReminded = true;
-            Log.d(TAG, "onCheckedChanged dateNotification.get(): " +editDate.getText().toString()+" "+editTime.getText().toString());
+            Log.v(TAG, "onCheckedChanged dateNotification.get(): " +editDate.getText().toString()+" "+editTime.getText().toString());
         } else {
             // else gone  EditText for Date and for Time
             spinner_freq.setVisibility(View.GONE);
