@@ -32,7 +32,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    TextView testOutputNoteName;// TODO delete the testOutputNoteName
 //  when we move to a new activity to get the result we need to be indexed by its number
     final int REQUEST_CODE_ADD_NOTE = 1;
     final int REQUEST_CODE_EDIT_NOTE = 2;
@@ -53,27 +52,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final Toolbar toolbar =  findViewById(R.id.toolbar);  // maybe toolbar will be useful
         setSupportActionBar(toolbar);
 
-        testOutputNoteName =  findViewById(R.id.testOutputNoteName);  // test TV for test result
 
         FloatingActionButton fab =  findViewById(R.id.fab);  // button for jump to AddNoteActivity
         fab.setOnClickListener(this);  // setting handle
 
-        RecyclerView recyclerView = findViewById(R.id.notesList );
+        RecyclerView notesList = findViewById(R.id.notesList);
         byte test = 1;
 
-        notifies.add(new CustomNotify("Hello, works","Simple content" ,new GregorianCalendar(),test));
+        notifies.add(new CustomNotify("Hello, works","Simple content" ,new GregorianCalendar(),test));  // TODO delete this
 
-        recyclerView.setLayoutManager(new CustomLayoutManager(this));
+        notesList.setLayoutManager(new CustomLayoutManager(this));
         adapter = new NotesAdapter(this, notifies);
-        recyclerView.setAdapter(adapter);
+        notesList.setAdapter(adapter);
 
         adapter.setClickListener(new NotesAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 
                 CustomNotify toSend = notifies.get(position);
-                Log.v(TAG,"pos" + Integer.toString(position));
-                testOutputNoteName.setText("pos" + Integer.toString(position) + Integer.toString(notifies.get(position).getId()));
+                Log.v(TAG,"pos" + Integer.toString(position) + Integer.toString(notifies.get(position).getId()));
 
                 Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
                 intent.putExtra("id",toSend.getId());
@@ -108,13 +105,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        data - Intent, in which the data is returned
 
         // if data was correct entered
-
         if (resultCode == RESULT_OK && data != null) {
             Log.i(TAG, "RESULT_OK");
         switch (requestCode) {  // check from which object data come
         case REQUEST_CODE_ADD_NOTE:  // if adding
             String noteName = data.getStringExtra("note_name");
-            //TODO make normal default value
+            //TODO make good default value
             String name = data.getStringExtra("note_name");
             final String content = data.getStringExtra("note_content");
             int year = data.getIntExtra("year", 1900);
@@ -141,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.v(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + noteName + "\";");
           //  loadData();
 
-            testOutputNoteName.setText(noteName);
          //   if(loc.getDate()!=null){
            // testOutputNoteName.setText(Long.toString(loc.getDate().getTimeInMillis())+" and now " + Long.toString(System.currentTimeMillis())+ " freq " + " byte " + Byte.toString(prototype));
             //}
