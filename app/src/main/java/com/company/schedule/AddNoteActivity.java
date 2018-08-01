@@ -81,10 +81,12 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         dateNotification.setTimeInMillis(System.currentTimeMillis());
 
         //setting frequency spinner
-        spinner_freq = findViewById(R.id.types_spinner);
+        spinner_freq = findViewById(R.id.spinnerFreq);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_frequency, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_freq.setAdapter(adapter);//getting intent from MainActivity
+        spinner_freq.setAdapter(adapter);
+
+        //getting intent from MainActivity
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
@@ -129,7 +131,9 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                     intentReturnNoteData.putExtra("id", id);
                     intentReturnNoteData.putExtra("note_name", noteName);
                     intentReturnNoteData.putExtra("note_content", noteContent);
+
                     if (isReminded) {
+                        //if switch button 'remind' is on
                         Notification local = getNotification(noteName, noteContent);
                         scheduleNotification(local, dateNotification.getTimeInMillis(), spinner_freq.getSelectedItemPosition());
                         intentReturnNoteData.putExtra("year", dateNotification.get(GregorianCalendar.YEAR));
@@ -138,6 +142,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                         intentReturnNoteData.putExtra("hour", dateNotification.get(GregorianCalendar.HOUR));
                         intentReturnNoteData.putExtra("minute", dateNotification.get(GregorianCalendar.MINUTE));
                     } else {
+                        //if switch button 'remind' is off
                         intentReturnNoteData.putExtra("year", -1);
                         intentReturnNoteData.putExtra("month", -1);
                         intentReturnNoteData.putExtra("day", -1);
@@ -155,17 +160,19 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
                 break;
 
-            case R.id.editDate:
+            case R.id.editDate:  //if clicking on TextView with date
 
-                DatePickerFragment datePicker = new DatePickerFragment();
+                DatePickerFragment datePicker = new DatePickerFragment(); // calls fragment with date picker dialog
                 if (isEdited) {
+                    //if note is editing, then sending existing date to date picker
                     datePicker.setGc(edit_date);
                 }
                 datePicker.show(getSupportFragmentManager(), "date picker");
                 break;
-            case R.id.editTime:  // dialog for time picker
-                TimePickerFragment timePicker = new TimePickerFragment();
+            case R.id.editTime:   //if clicking on TextView with time
+                TimePickerFragment timePicker = new TimePickerFragment();// calls fragment with time picker dialog
                 if (isEdited) {
+                    //if note is editing, then sending existing in note time to time picker
                     timePicker.setGc(edit_date);
                 }
                 timePicker.show(getSupportFragmentManager(), "time picker");
