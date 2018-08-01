@@ -24,6 +24,8 @@ public class DatePickerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        //if method is called from editnote activity,
+        //then variable gc will be equal to existing field 'date' of editing CustomNotify object
         if(gc==null){
         gc =new GregorianCalendar();
         }
