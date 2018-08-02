@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+//custom adapter class for recyclerview
 public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
     private List<CustomNotify> mData;
@@ -72,11 +73,6 @@ public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder>
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
-    }
-
-    // convenience method for getting data at click position
-    String getItem(int id) {
-        return mData.get(id).getName();
     }
 
     // allows clicks events to be caught

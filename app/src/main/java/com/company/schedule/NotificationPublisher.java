@@ -25,7 +25,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-
+//class that show notifications
 public class NotificationPublisher extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification-id";

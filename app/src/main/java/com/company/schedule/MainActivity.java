@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //DB variables
         compositeDisposable = new CompositeDisposable();
         NotifyDatabase linkDatabase = NotifyDatabase.getInstance(this);
         notifyRepository = NotifyRepository.getmInstance(NotifyDataSourceClass.getInstance(linkDatabase.notifyDAO()));
@@ -56,10 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FloatingActionButton fab =  findViewById(R.id.fab);  // button for jump to AddNoteActivity
         fab.setOnClickListener(this);  // setting handle
 
+        //recyclerview that is displaying all notes
         RecyclerView notesList = findViewById(R.id.notesList);
-        byte test = 1;
-
-        notifies.add(new CustomNotify("Hello, works","Simple content" ,new GregorianCalendar(),test));  // TODO delete this
 
         notesList.setLayoutManager(new CustomLayoutManager(this));
         adapter = new NotesAdapter(this, notifies);
@@ -69,9 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemClick(View view, int position) {
 
+                //if user clicks on item of recyclerview, app goes to editnote activity
                 CustomNotify toSend = notifies.get(position);
                 Log.v(TAG,"pos" + Integer.toString(position) + Integer.toString(notifies.get(position).getId()));
 
+                //sending all data, that is needed for editing note
                 Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
                 intent.putExtra("id",toSend.getId());
                 intent.putExtra("name",toSend.getName());
@@ -81,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE);
             }
         });
-        notifies.remove(0);
-        adapter.notifyItemRemoved(0);
+
+        //load data from DB
         loadData();
 
     }
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
         case R.id.fab:
+            //going to addnote activity
             Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);  // we indicate an explicit transition to AddNoteActivity to enter the data of a note
             startActivityForResult(intent, REQUEST_CODE_ADD_NOTE); // and getting this information back. (using REQUEST_CODE_ADD_NOTE (1) we can find out that the result came exactly with AddNoteActivity)
             break;
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         case REQUEST_CODE_ADD_NOTE:  // if adding
             String noteName = data.getStringExtra("note_name");
             //TODO make good default value
+            //getting all data
             String name = data.getStringExtra("note_name");
             final String content = data.getStringExtra("note_content");
             int year = data.getIntExtra("year", 1900);
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int minute = data.getIntExtra("minute", 0);
             byte prototype = (byte) data.getIntExtra("freq",0);
 
+            //creating calendar with data, that is got from addnote activity
             GregorianCalendar not_date =  new GregorianCalendar();
             if(year==-1){
                 not_date=null;
@@ -131,17 +135,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 not_date.set(GregorianCalendar.MINUTE,minute);
             }
 
+            //creating and inserting to DB new note
             final CustomNotify loc = new CustomNotify(name,content,not_date,prototype);
             insertToDb(loc);
 
             Log.v(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + noteName + "\";");
-          //  loadData();
 
-         //   if(loc.getDate()!=null){
-           // testOutputNoteName.setText(Long.toString(loc.getDate().getTimeInMillis())+" and now " + Long.toString(System.currentTimeMillis())+ " freq " + " byte " + Byte.toString(prototype));
-            //}
             break;
         case REQUEST_CODE_EDIT_NOTE:
+
+            //getting all data
             final int id=  data.getIntExtra("id",-1);
             final String name_ = data.getStringExtra("note_name");
             final String content_ = data.getStringExtra("note_content");
@@ -151,6 +154,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final int hour_ = data.getIntExtra("hour", 0);
             final int minute_ = data.getIntExtra("minute", 0);
             final byte prototype_ = (byte) data.getIntExtra("freq",0);
+
+            //creating calendar with data, that is got from editnote activity
             GregorianCalendar not__date = new GregorianCalendar();
             if(year_==-1){
                 not__date=null;
@@ -161,11 +166,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 not__date.set(GregorianCalendar.HOUR,hour_);
                 not__date.set(GregorianCalendar.MINUTE,minute_);
             }
+
+            //creating and inserting updated note to DB
             final CustomNotify local = new CustomNotify(name_,content_,not__date,prototype_);
             insertToDb(local);
             Log.v(TAG,"YEP" + Integer.toString(id));
 
-            Disposable disposablex = notifyRepository.getOneNotify(id)
+            //getting and deleting old version of note from DB
+            Disposable disposable_get = notifyRepository.getOneNotify(id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new Consumer<CustomNotify>() {
@@ -173,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void accept(CustomNotify customNotify) throws Exception {
 
                             toDel = customNotify;
-                            Disposable disposablex2 = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
+                            Disposable disposable_delete = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
                                 @Override
                                 public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
                                     notifyRepository.deleteNotify(toDel);
@@ -194,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             Log.e(TAG,"Error: " + throwable.getMessage());
                                         }
                                     });
-                            compositeDisposable.add(disposablex2);
+                            compositeDisposable.add(disposable_delete);
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -202,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.e(TAG, "Error: " + throwable.getMessage());
                         }
                     });
-            compositeDisposable.add(disposablex);
+            compositeDisposable.add(disposable_get);
 
             if(toDel!=null){
                 Log.v(TAG, " here " + toDel.getName());
@@ -241,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+    //method thed gets all data from DB
     private void loadData() {
 
         Disposable disposable = notifyRepository.getAllNotifies()
@@ -260,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
         compositeDisposable.add(disposable);
     }
-
+    //method that writes all data to recyclerview
     private void onGetAllLinkSuccess(List<CustomNotify> myLinks) {
 
         notifies.clear();
@@ -269,6 +278,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.notifyItemRangeInserted(0,myLinks.size());
 
     }
+
+    //method that inserts new note into DB
+    //TODO make such methods for delete and update
     private void insertToDb(final CustomNotify customNotify){
 
         Disposable disposable222 = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
@@ -296,6 +308,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 }
+
+//class that catches bugs of recyclerview
+//these bugs really can`t be fixed in another way
 class CustomLayoutManager extends LinearLayoutManager {
     CustomLayoutManager(Context context){
         super(context);
