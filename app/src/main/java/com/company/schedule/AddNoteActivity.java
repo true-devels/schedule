@@ -108,57 +108,56 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnSubmitNote:  // if button send note to DB already pressed
-                final String noteName = etNameNote.getText().toString();
-                final String noteContent = etContentNote.getText().toString();
+        case R.id.btnSubmitNote:  // if button send note to DB already pressed
+            final String noteName = etNameNote.getText().toString();
+            final String noteContent = etContentNote.getText().toString();
 
 
-                if (!noteName.isEmpty()) {
-                    Intent intentReturnNoteData = new Intent();  // return ready note to MainActivity to DB
-                    intentReturnNoteData.putExtra("id", id);
-                    intentReturnNoteData.putExtra("note_name", noteName);
-                    intentReturnNoteData.putExtra("note_content", noteContent);
-                    if (isReminded) {
-                        Notification local = getNotification(noteName, noteContent);
-                        scheduleNotification(local, dateNotification.getTimeInMillis(), spinnerFreq.getSelectedItemPosition());
-                        intentReturnNoteData.putExtra("year", dateNotification.get(GregorianCalendar.YEAR));
-                        intentReturnNoteData.putExtra("month", dateNotification.get(GregorianCalendar.MONTH));
-                        intentReturnNoteData.putExtra("day", dateNotification.get(GregorianCalendar.DAY_OF_MONTH));
-                        intentReturnNoteData.putExtra("hour", dateNotification.get(GregorianCalendar.HOUR));
-                        intentReturnNoteData.putExtra("minute", dateNotification.get(GregorianCalendar.MINUTE));
-                    } else {
-                        intentReturnNoteData.putExtra("year", -1);
-                        intentReturnNoteData.putExtra("month", -1);
-                        intentReturnNoteData.putExtra("day", -1);
-                        intentReturnNoteData.putExtra("hour", -1);
-                        intentReturnNoteData.putExtra("minute", -1);
-                    }
-                    intentReturnNoteData.putExtra("freq", spinnerFreq.getSelectedItemPosition());
-
-                    setResult(RESULT_OK, intentReturnNoteData);
-                    Log.v(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
-                } else { // if noteName is  empty
-                    setResult(RESULT_CANCELED);
-                    Log.v(TAG, "RESULT_CANCELED, noteName: \"" + noteName + "\";");
+            if (!noteName.isEmpty()) {
+                Intent intentReturnNoteData = new Intent();  // return ready note to MainActivity to DB
+                intentReturnNoteData.putExtra("id", id);
+                intentReturnNoteData.putExtra("note_name", noteName);
+                intentReturnNoteData.putExtra("note_content", noteContent);
+                if (isReminded) {
+                    Notification local = getNotification(noteName, noteContent);
+                    scheduleNotification(local, dateNotification.getTimeInMillis(), spinnerFreq.getSelectedItemPosition());
+                    intentReturnNoteData.putExtra("year", dateNotification.get(GregorianCalendar.YEAR));
+                    intentReturnNoteData.putExtra("month", dateNotification.get(GregorianCalendar.MONTH));
+                    intentReturnNoteData.putExtra("day", dateNotification.get(GregorianCalendar.DAY_OF_MONTH));
+                    intentReturnNoteData.putExtra("hour", dateNotification.get(GregorianCalendar.HOUR));
+                    intentReturnNoteData.putExtra("minute", dateNotification.get(GregorianCalendar.MINUTE));
+                } else {
+                    intentReturnNoteData.putExtra("year", -1);
+                    intentReturnNoteData.putExtra("month", -1);
+                    intentReturnNoteData.putExtra("day", -1);
+                    intentReturnNoteData.putExtra("hour", -1);
+                    intentReturnNoteData.putExtra("minute", -1);
                 }
-                finish();
-                break;
+                intentReturnNoteData.putExtra("freq", spinnerFreq.getSelectedItemPosition());
 
-            case R.id.editDate:
+                setResult(RESULT_OK, intentReturnNoteData);
+                Log.v(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
+            } else { // if noteName is  empty
+                setResult(RESULT_CANCELED);
+                Log.v(TAG, "RESULT_CANCELED, noteName: \"" + noteName + "\";");
+            }
+            finish();
+            break;
 
-                DatePickerFragment datePicker = new DatePickerFragment();
-                if (isEdited) {
-                    datePicker.setGc(edit_date);
-                }
-                datePicker.show(getSupportFragmentManager(), "date picker");
-                break;
-            case R.id.editTime:  // dialog for time picker
-                TimePickerFragment timePicker = new TimePickerFragment();
-                if (isEdited) {
-                    timePicker.setGc(edit_date);
-                }
-                timePicker.show(getSupportFragmentManager(), "time picker");
-                break;
+        case R.id.editDate:
+            DatePickerFragment datePicker = new DatePickerFragment();
+            if (isEdited) {
+                datePicker.setGc(edit_date);
+            }
+            datePicker.show(getSupportFragmentManager(), "date picker");
+            break;
+        case R.id.editTime:  // dialog for time picker
+            TimePickerFragment timePicker = new TimePickerFragment();
+            if (isEdited) {
+                timePicker.setGc(edit_date);
+            }
+            timePicker.show(getSupportFragmentManager(), "time picker");
+            break;
         }
     }
 
@@ -172,7 +171,8 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         case R.id.swtRemindMe:
             if (isChecked) { // if swtRemindMe.isChecked: show EditText for Date and for Time
                 dateNotification.setTimeInMillis(System.currentTimeMillis());  // update to current date/time
-                dateNotification.set(GregorianCalendar.MINUTE, dateNotification.get(GregorianCalendar.MINUTE) + 1);  // increment on 1 minute (this line was tested on bug, everything OK)
+                dateNotification.set(GregorianCalendar.MINUTE, dateNotification.get(GregorianCalendar.MINUTE));  // increment on 1 minute (this line was tested on bug, everything OK)
+                // TODO show date/time depending on the user SimpleDateFormat
                 editDate.setText(dateNotification.get(GregorianCalendar.DAY_OF_MONTH) + "." + dateNotification.get(GregorianCalendar.MONTH) + "." + dateNotification.get(GregorianCalendar.YEAR));
                 editTime.setText(dateNotification.get(GregorianCalendar.HOUR) + ":" + dateNotification.get(GregorianCalendar.MINUTE));
                 llDateTime.setVisibility(View.VISIBLE);  // and all View in ViewGroup become visible and exist

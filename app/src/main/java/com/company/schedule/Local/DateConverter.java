@@ -30,7 +30,7 @@ public class DateConverter {
     // TODO make it throught TypeConverter
     public static String toString(GregorianCalendar calendar){
         if(calendar != null) {
-            SimpleDateFormat fmt = new SimpleDateFormat("HH:MM EEEE, MMMM dd, yyyy");
+            SimpleDateFormat fmt = new SimpleDateFormat("HH:mm EEEE, MMMM dd, yyyy");
             fmt.setCalendar(calendar);
             String dateFormatted = fmt.format(calendar.getTime());
             return dateFormatted;

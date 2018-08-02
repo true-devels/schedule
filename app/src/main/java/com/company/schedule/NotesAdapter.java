@@ -38,11 +38,12 @@ public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder>
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mData.get(position).getDate();
         holder.tvItemNoteName.setText(mData.get(position).getName());
         String dateToShow = DateConverter.toString(mData.get(position).getDate());
         if (dateToShow != null) {
             holder.tvItemDate.setText(dateToShow);
+        } else {
+            holder.tvItemDate.setText("");  // don't erase it
         }
 
     }
