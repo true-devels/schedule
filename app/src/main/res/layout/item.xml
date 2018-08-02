@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/tvItemNote"
+        android:id="@+id/tvItemNoteName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorText"
         android:textSize="24sp"
-        tools:text="Note name" />
+
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"
+        />
 
     <TextView
         android:id="@+id/tvItemDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvItemNote"
         android:layout_marginLeft="16dp"
-        android:textColor="@color/colorTextItemDate"
-        tools:text="1:00 PM" />
-</RelativeLayout>
+        android:textColor="@color/colorTextItemDate" />
+</LinearLayout>

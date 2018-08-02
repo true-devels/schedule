@@ -2,6 +2,7 @@ package com.company.schedule.Local;
 
 import android.arch.persistence.room.TypeConverter;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 
@@ -24,5 +25,18 @@ public class DateConverter {
         return ret;
         }
         return null;
+    }
+
+    // TODO make it throught TypeConverter
+    public static String toString(GregorianCalendar calendar){
+        if(calendar != null) {
+            SimpleDateFormat fmt = new SimpleDateFormat("HH:MM EEEE, MMMM dd, yyyy");
+            fmt.setCalendar(calendar);
+            String dateFormatted = fmt.format(calendar.getTime());
+            return dateFormatted;
+        }
+        else {
+            return null;
+        }
     }
 }

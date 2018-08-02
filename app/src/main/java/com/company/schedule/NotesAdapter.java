@@ -2,12 +2,16 @@ package com.company.schedule;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.company.schedule.Local.DateConverter;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
@@ -15,6 +19,8 @@ public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder>
     private List<CustomNotify> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+
+    final String TAG = "myLog MainActivity";
 
     // data is passed into the constructor
     NotesAdapter(Context context, List<CustomNotify> data) {
@@ -25,15 +31,20 @@ public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder>
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.onerow, parent, false);
+        View view = mInflater.inflate(R.layout.item, parent, false);
         return new ViewHolder(view);
     }
 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData.get(position).getName();
-        holder.myTextView.setText(animal);
+        mData.get(position).getDate();
+        holder.tvItemNoteName.setText(mData.get(position).getName());
+        String dateToShow = DateConverter.toString(mData.get(position).getDate());
+        if (dateToShow != null) {
+            holder.tvItemDate.setText(dateToShow);
+        }
+
     }
 
     // total number of rows
@@ -45,11 +56,14 @@ public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder>
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
-        TextView myTextView;
+        TextView tvItemNoteName, tvItemDate;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.tvAnimalName);
+            // initialize TextViews
+            itemView.findViewById(R.id.tvItemNoteName).setSelected(true);  // it is necessary for forever scroll text(when it is very long)
+            tvItemNoteName = itemView.findViewById(R.id.tvItemNoteName);
+            tvItemDate = itemView.findViewById(R.id.tvItemDate);
             itemView.setOnClickListener(this);
         }
 

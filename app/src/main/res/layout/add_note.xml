@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
             <!--if swtRemindMe.checked == false: llDateTime.visibility = gone;-->
             <!--else : llDateTime.visibility = visible-->
             <TextView
