@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -79,6 +80,9 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
         dateNotification = new GregorianCalendar();// get settings for current time
         dateNotification.setTimeInMillis(System.currentTimeMillis());
+
+        FloatingActionButton fab =  findViewById(R.id.fab_delete);  // button for jump to AddNoteActivity
+        fab.setOnClickListener(this);  // setting handle
 
         //setting frequency spinner
         spinnerFreq = findViewById(R.id.spinnerFreq);
@@ -174,6 +178,17 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 timePicker.setGc(edit_date);
             }
             timePicker.show(getSupportFragmentManager(), "time picker");
+            break;
+        case R.id.fab_delete:
+            if(isEdited){
+                Intent intent = new Intent();
+                intent.putExtra("isDel",true);
+                intent.putExtra("id", id);
+                setResult(RESULT_OK, intent);
+                finish();
+            }else{
+                finish();
+            }
             break;
         }
     }

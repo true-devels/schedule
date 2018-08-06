@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //if user clicks on item of recyclerview, app goes to editnote activity
                 CustomNotify toSend = notifies.get(position);
                 Log.v(TAG,"pos" + Integer.toString(position) + Integer.toString(notifies.get(position).getId()));
-
                 //sending all data, that is needed for editing note
                 Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
                 intent.putExtra("id",toSend.getId());
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    CustomNotify toDel;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        on requestCode we determine from which subsidiary activity the result came
@@ -142,80 +140,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             break;
         case REQUEST_CODE_EDIT_NOTE:
+            //checking, if button 'delete' was pressed
+            boolean isDel = data.getBooleanExtra("isDel",false);
+            if(!isDel) {
+                //getting all data
+                final int id = data.getIntExtra("id", -1);
+                final String name_ = data.getStringExtra("note_name");
+                final String content_ = data.getStringExtra("note_content");
+                final int year_ = data.getIntExtra("year", 1900);
+                final int month_ = data.getIntExtra("month", 0);
+                final int day_ = data.getIntExtra("day", 0);
+                final int hour_ = data.getIntExtra("hour", 0);
+                final int minute_ = data.getIntExtra("minute", 0);
+                final byte prototype_ = (byte) data.getIntExtra("freq", 0);
 
-            //getting all data
-            final int id=  data.getIntExtra("id",-1);
-            final String name_ = data.getStringExtra("note_name");
-            final String content_ = data.getStringExtra("note_content");
-            final int year_ = data.getIntExtra("year", 1900);
-            final int month_ = data.getIntExtra("month", 0);
-            final int day_ = data.getIntExtra("day", 0);
-            final int hour_ = data.getIntExtra("hour", 0);
-            final int minute_ = data.getIntExtra("minute", 0);
-            final byte prototype_ = (byte) data.getIntExtra("freq",0);
+                //creating calendar with data, that is got from editnote activity
+                GregorianCalendar not__date = new GregorianCalendar();
+                if (year_ == -1) {
+                    not__date = null;
+                } else {
+                    not__date.set(GregorianCalendar.YEAR, year_);
+                    not__date.set(GregorianCalendar.MONTH, month_);
+                    not__date.set(GregorianCalendar.DAY_OF_MONTH, day_);
+                    not__date.set(GregorianCalendar.HOUR, hour_);
+                    not__date.set(GregorianCalendar.MINUTE, minute_);
+                }
 
-            //creating calendar with data, that is got from editnote activity
-            GregorianCalendar not__date = new GregorianCalendar();
-            if(year_==-1){
-                not__date=null;
+                //creating and inserting updated note to DB
+                final CustomNotify local = new CustomNotify(name_, content_, not__date, prototype_);
+                insertToDb(local);
+                Log.v(TAG, "YEP" + Integer.toString(id));
+
+                //getting and deleting old version of note from DB
+                deleteFromDb(id);
+
             }else{
-                not__date.set(GregorianCalendar.YEAR,year_);
-                not__date.set(GregorianCalendar.MONTH,month_);
-                not__date.set(GregorianCalendar.DAY_OF_MONTH,day_);
-                not__date.set(GregorianCalendar.HOUR,hour_);
-                not__date.set(GregorianCalendar.MINUTE,minute_);
+                final int id = data.getIntExtra("id", -1);
+                Log.v(TAG, id + " here ");
+                deleteFromDb(id);
+
             }
 
-            //creating and inserting updated note to DB
-            final CustomNotify local = new CustomNotify(name_,content_,not__date,prototype_);
-            insertToDb(local);
-            Log.v(TAG,"YEP" + Integer.toString(id));
-
-            //getting and deleting old version of note from DB
-            Disposable disposable_get = notifyRepository.getOneNotify(id)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(new Consumer<CustomNotify>() {
-                        @Override
-                        public void accept(CustomNotify customNotify) throws Exception {
-
-                            toDel = customNotify;
-                            Disposable disposable_delete = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
-                                @Override
-                                public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
-                                    notifyRepository.deleteNotify(toDel);
-                                    emitter.onComplete();
-                                }
-                            })
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribeOn(Schedulers.io())
-                                    .subscribe(new Consumer<Object>() {
-                                        @Override
-                                        public void accept(Object o) throws Exception {
-                                            Log.i(TAG, "Link deleted!");
-
-                                        }
-                                    }, new Consumer<Throwable>() {
-                                        @Override
-                                        public void accept(Throwable throwable) throws Exception {
-                                            Log.e(TAG,"Error: " + throwable.getMessage());
-                                        }
-                                    });
-                            compositeDisposable.add(disposable_delete);
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            Log.e(TAG, "Error: " + throwable.getMessage());
-                        }
-                    });
-            compositeDisposable.add(disposable_get);
-
+            //TODO delete next 4 lines
             if(toDel!=null){
                 Log.v(TAG, " here " + toDel.getName());
             }else{
                 Log.v(TAG, " here  is nothing");
             }
+
             break;
         default:
             Log.v(TAG, "onActivityResult in default");
@@ -279,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //method that inserts new note into DB
-    //TODO make such methods for delete and update
+    //TODO make such methods for update
     private void insertToDb(final CustomNotify customNotify){
 
         Disposable disposable222 = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
@@ -304,6 +276,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
         compositeDisposable.add(disposable222);
+    }
+
+    CustomNotify toDel;
+    //method that deletes note from DB
+    private void deleteFromDb(int id){
+        Disposable disposable_get = notifyRepository.getOneNotify(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<CustomNotify>() {
+                    @Override
+                    public void accept(CustomNotify customNotify) throws Exception {
+
+                        toDel = customNotify;
+                        Disposable disposable_delete = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
+                            @Override
+                            public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
+                                notifyRepository.deleteNotify(toDel);
+                                emitter.onComplete();
+                            }
+                        })
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(new Consumer<Object>() {
+                                    @Override
+                                    public void accept(Object o) throws Exception {
+                                        Log.i(TAG, "Link deleted!");
+                                        loadData();
+
+                                    }
+                                }, new Consumer<Throwable>() {
+                                    @Override
+                                    public void accept(Throwable throwable) throws Exception {
+                                        Log.e(TAG, "Error: " + throwable.getMessage());
+                                    }
+                                });
+                        compositeDisposable.add(disposable_delete);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, "Error: " + throwable.getMessage());
+                    }
+                });
+        compositeDisposable.add(disposable_get);
+
     }
 
 }
