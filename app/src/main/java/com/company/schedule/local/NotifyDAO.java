@@ -1,4 +1,4 @@
-package com.company.schedule.Local;
+package com.company.schedule.local;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

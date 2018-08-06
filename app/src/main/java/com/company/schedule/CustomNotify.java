@@ -5,7 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import com.company.schedule.Local.DateConverter;
+import com.company.schedule.local.DateConverter;
 
 
 import java.util.GregorianCalendar;

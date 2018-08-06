@@ -1,4 +1,4 @@
-package com.company.schedule.Local;
+package com.company.schedule.local;
 
 import android.arch.persistence.room.TypeConverter;
 
@@ -29,7 +29,7 @@ public class DateConverter {
         }
     }
 
-    // TODO make it throught TypeConverter
+    // TODO make it through TypeConverter
     public static String toString(GregorianCalendar calendar){
         if(calendar != null) {
             SimpleDateFormat fmt = new SimpleDateFormat("HH:mm EEEE, MMMM dd, yyyy");

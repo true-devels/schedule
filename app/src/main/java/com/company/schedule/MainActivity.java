@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.company.schedule.Database.NotifyRepository;
-import com.company.schedule.Local.AppDatabase;
-import com.company.schedule.Local.NotifyDataSourceClass;
+import com.company.schedule.database.NotifyRepository;
+import com.company.schedule.local.AppDatabase;
+import com.company.schedule.local.NotifyDataSourceClass;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -107,29 +107,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (resultCode == RESULT_OK && data != null) {
             Log.i(TAG, "RESULT_OK");
         switch (requestCode) {  // check from which object data come
-        case REQUEST_CODE_ADD_NOTE:  // if adding
+        case REQUEST_CODE_ADD_NOTE:  // if data come from .AddNoteActivity
             String noteName = data.getStringExtra("note_name");
             //TODO make good default value
             //getting all data
             String name = data.getStringExtra("note_name");
             final String content = data.getStringExtra("note_content");
-            int year = data.getIntExtra("year", 1900);
-            int month = data.getIntExtra("month", 0);
-            int day = data.getIntExtra("day", 0);
-            int hour = data.getIntExtra("hour", 0);
-            int minute = data.getIntExtra("minute", 0);
-            byte prototype = (byte) data.getIntExtra("freq",0);
+            byte prototype = (byte) data.getIntExtra("freq",0);  // TODO comment it (why prototype)
 
             //creating calendar with data, that is got from addnote activity
-            GregorianCalendar not_date =  new GregorianCalendar();
-            if(year==-1){
+            GregorianCalendar not_date =  new GregorianCalendar();  // TODO not_date means notification date?
+            final long timeInMillis = data.getLongExtra("time_in_millis", -1);  // TODO make it better
+            if(timeInMillis==-1){
                 not_date=null;
             }else{
-                not_date.set(GregorianCalendar.YEAR,year);
-                not_date.set(GregorianCalendar.MONTH,month);
-                not_date.set(GregorianCalendar.DAY_OF_MONTH,day);
-                not_date.set(GregorianCalendar.HOUR,hour);
-                not_date.set(GregorianCalendar.MINUTE,minute);
+                not_date.setTimeInMillis(timeInMillis);
             }
 
             //creating and inserting to DB new note
@@ -144,26 +136,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             boolean isDel = data.getBooleanExtra("isDel",false);
             if(!isDel) {
                 //getting all data
-                final int id = data.getIntExtra("id", -1);
+                final int id = data.getIntExtra("id", -1);  // TODO move repeated cod from REQUEST_CODE_EDIT_NOTE and REQUEST_CODE_ADD_NOTE to line below onActivityResult
                 final String name_ = data.getStringExtra("note_name");
                 final String content_ = data.getStringExtra("note_content");
-                final int year_ = data.getIntExtra("year", 1900);
-                final int month_ = data.getIntExtra("month", 0);
-                final int day_ = data.getIntExtra("day", 0);
-                final int hour_ = data.getIntExtra("hour", 0);
-                final int minute_ = data.getIntExtra("minute", 0);
-                final byte prototype_ = (byte) data.getIntExtra("freq", 0);
+                byte prototype_ = (byte) data.getIntExtra("freq",0);  // TODO comment it (why prototype)
 
                 //creating calendar with data, that is got from editnote activity
                 GregorianCalendar not__date = new GregorianCalendar();
-                if (year_ == -1) {
+                final long timeInMillis_ = data.getLongExtra("time_in_millis", -1);
+                if (timeInMillis_ == -1) {
                     not__date = null;
                 } else {
-                    not__date.set(GregorianCalendar.YEAR, year_);
-                    not__date.set(GregorianCalendar.MONTH, month_);
-                    not__date.set(GregorianCalendar.DAY_OF_MONTH, day_);
-                    not__date.set(GregorianCalendar.HOUR, hour_);
-                    not__date.set(GregorianCalendar.MINUTE, minute_);
+                    not__date.setTimeInMillis(timeInMillis_);
                 }
 
                 //creating and inserting updated note to DB

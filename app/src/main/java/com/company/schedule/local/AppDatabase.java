@@ -1,4 +1,4 @@
-package com.company.schedule.Local;
+package com.company.schedule.local;
 
 
 import android.arch.persistence.room.Database;
@@ -7,7 +7,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.company.schedule.CustomNotify;
-import static com.company.schedule.Local.AppDatabase.DATABASE_VERSION;
+import static com.company.schedule.local.AppDatabase.DATABASE_VERSION;
 
 @Database(entities = CustomNotify.class, version = DATABASE_VERSION)
 public abstract class AppDatabase extends RoomDatabase {

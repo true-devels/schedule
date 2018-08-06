@@ -1,7 +1,7 @@
-package com.company.schedule.Local;
+package com.company.schedule.local;
 
 import com.company.schedule.CustomNotify;
-import com.company.schedule.Database.NotifyDataSource;
+import com.company.schedule.database.NotifyDataSource;
 
 import java.util.List;
 

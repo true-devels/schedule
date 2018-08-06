@@ -2,15 +2,13 @@ package com.company.schedule;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.company.schedule.Local.DateConverter;
+import com.company.schedule.local.DateFormat;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder>
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item, parent, false);
+        View view = mInflater.inflate(R.layout.item, parent, false);  // find example item element
         return new ViewHolder(view);
     }
 
@@ -40,12 +38,16 @@ public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvItemNoteName.setText(mData.get(position).getName());
-        String dateToShow = DateConverter.toString(mData.get(position).getDate());
-        if (dateToShow != null) {
-            holder.tvItemDate.setText(dateToShow);
+
+        GregorianCalendar localDateOutput = mData.get(position).getDate();
+        if (localDateOutput != null){
+            holder.tvItemDate.setText(DateFormat.getDateTime(localDateOutput));  // output date time depending on local settings.
+            // We need write .getTime() to convert GregorianCalendar to Date
         } else {
-            holder.tvItemDate.setText("");  // don't erase it
+            holder.tvItemDate.setText("");  // don't delete it
         }
+
+
 
     }
 

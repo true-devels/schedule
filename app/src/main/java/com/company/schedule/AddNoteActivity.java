@@ -11,12 +11,10 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -27,11 +25,12 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.company.schedule.fragments.pickers.DatePickerFragment;
 import com.company.schedule.fragments.pickers.TimePickerFragment;
+import com.company.schedule.local.DateFormat;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
@@ -48,7 +47,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     Spinner spinnerFreq;
     Switch swtRemindMe, swtRepeat;
     boolean isEdited = false, isReminded = false, isRepeated=false;
-    int id=-1;
+    int id = -1;
     GregorianCalendar edit_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
 
         llDateTime = findViewById(R.id.llDateTime);  // by default visibility == gone
-        llDateTime.setVisibility(View.GONE);  // TODO make it line in add_note.xml, and delete it
+        //llDateTime.setVisibility(View.GONE);
 
         dateNotification = new GregorianCalendar();// get settings for current time
         dateNotification.setTimeInMillis(System.currentTimeMillis());
@@ -86,8 +85,8 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
         //setting frequency spinner
         spinnerFreq = findViewById(R.id.spinnerFreq);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_frequency, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_frequency, android.R.layout.simple_spinner_item);  // TODO comment it
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);  // TODO comment it
         spinnerFreq.setAdapter(adapter);
 
         //getting intent from MainActivity
@@ -106,12 +105,11 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 //if field 'date' of CustomNotify object is null, so notify shouldn't be reminded
                 swtRemindMe.setChecked(false);
             }else{
-
                 swtRemindMe.setChecked(true);
 
-                editDate.setText(edit_date.get(GregorianCalendar.DAY_OF_MONTH)+"."+edit_date.get(GregorianCalendar.MONTH)+"."+edit_date.get(GregorianCalendar.YEAR));
-                editTime.setText(edit_date.get(GregorianCalendar.HOUR)+":"+edit_date.get(GregorianCalendar.MINUTE));
-
+                // output date in good format
+                editDate.setText(DateFormat.getDate(edit_date));
+                editTime.setText(DateFormat.getTime(edit_date));
 
                 if (extras.getByte("frequency") != -1) {
                     spinnerFreq.setSelection((int) extras.getByte("frequency"));
@@ -138,20 +136,15 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (isReminded) {
                     //if switch button 'remind' is on
+                    GregorianCalendar gregorianCalendar = new GregorianCalendar();
+                    gregorianCalendar.setTimeInMillis(System.currentTimeMillis());
                     Notification local = getNotification(noteName, noteContent);
+                    Log.d(TAG, "onClick, btnSubmitNote, isReminder: "+noteName+noteContent+DateFormat.getTime(dateNotification)+"; current time: "+DateFormat.getTime(gregorianCalendar));
                     scheduleNotification(local, dateNotification.getTimeInMillis(), spinnerFreq.getSelectedItemPosition());
-                    intentReturnNoteData.putExtra("year", dateNotification.get(GregorianCalendar.YEAR));
-                    intentReturnNoteData.putExtra("month", dateNotification.get(GregorianCalendar.MONTH));
-                    intentReturnNoteData.putExtra("day", dateNotification.get(GregorianCalendar.DAY_OF_MONTH));
-                    intentReturnNoteData.putExtra("hour", dateNotification.get(GregorianCalendar.HOUR));
-                    intentReturnNoteData.putExtra("minute", dateNotification.get(GregorianCalendar.MINUTE));
-                } else {
+                    intentReturnNoteData.putExtra("time_in_millis", dateNotification.getTimeInMillis());
+                } else {  // TODO make good default value
                     //if switch button 'remind' is off
-                    intentReturnNoteData.putExtra("year", -1);
-                    intentReturnNoteData.putExtra("month", -1);
-                    intentReturnNoteData.putExtra("day", -1);
-                    intentReturnNoteData.putExtra("hour", -1);
-                    intentReturnNoteData.putExtra("minute", -1);
+                    intentReturnNoteData.putExtra("time_in_millis", -1);
                 }
                 intentReturnNoteData.putExtra("freq", spinnerFreq.getSelectedItemPosition());
 
@@ -203,11 +196,14 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         switch (compoundButton.getId()){
         case R.id.swtRemindMe:
             if (isChecked) { // if swtRemindMe.isChecked: show EditText for Date and for Time
-                dateNotification.setTimeInMillis(System.currentTimeMillis());  // update to current date/time
-                dateNotification.set(GregorianCalendar.MINUTE, dateNotification.get(GregorianCalendar.MINUTE));  // increment on 1 minute (this line was tested on bug, everything OK)
-                // TODO show date/time depending on the user SimpleDateFormat
-                editDate.setText(dateNotification.get(GregorianCalendar.DAY_OF_MONTH) + "." + dateNotification.get(GregorianCalendar.MONTH) + "." + dateNotification.get(GregorianCalendar.YEAR));
-                editTime.setText(dateNotification.get(GregorianCalendar.HOUR) + ":" + dateNotification.get(GregorianCalendar.MINUTE));
+                dateNotification = (GregorianCalendar) Calendar.getInstance(); //.setTimeInMillis(System.currentTimeMillis());  // update to current date/time
+                dateNotification.set(Calendar.SECOND, 0);
+                // dateNotification.set(GregorianCalendar.MINUTE, dateNotification.get(GregorianCalendar.MINUTE));  // increment on 1 minute (this line was tested on bug, everything OK)
+
+                // output date depending on local settings
+                editDate.setText(DateFormat.getDate(dateNotification));
+                editTime.setText(DateFormat.getTime(dateNotification));
+
                 llDateTime.setVisibility(View.VISIBLE);  // and all View in ViewGroup become visible and exist (date and time)
                 isReminded = true;
 //            swtRepeat.setVisibility(View.VISIBLE); // switch button 'repeat' appears
@@ -230,27 +226,32 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        dateNotification.set(GregorianCalendar.YEAR,year);
-        dateNotification.set(GregorianCalendar.MONTH,month);
-        dateNotification.set(GregorianCalendar.DAY_OF_MONTH,dayOfMonth);
-        editDate.setText(dayOfMonth + "." + month+1 + "." + year);  // when user chose a date we switch it in TV
+        //month++; // because computer start count month from 0 to 11
+        dateNotification.set(GregorianCalendar.YEAR, year);
+        dateNotification.set(GregorianCalendar.MONTH, month);
+        dateNotification.set(GregorianCalendar.DAY_OF_MONTH, dayOfMonth);
 
+        editDate.setText(DateFormat.getDate(dateNotification));  // when user chose a date we switch it in TV in good date format
     }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-        dateNotification.set(GregorianCalendar.HOUR,hourOfDay);
+        dateNotification.set(GregorianCalendar.HOUR_OF_DAY, hourOfDay);
         dateNotification.set(GregorianCalendar.MINUTE,minute);
+        dateNotification.set(GregorianCalendar.SECOND, 0);
 
-        editTime.setText(hourOfDay + ":" + minute);  // this function is called when user chose a time
-
+        editTime.setText(DateFormat.getTime(dateNotification));  // when user chose a date we switch it in TV in good time format
     }
 
     private void scheduleNotification(Notification notification, long time, int freq) {
-
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);  // TODO comment it (why value == 1)
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+
+        PendingIntent pendingIntent;  // TODO comment it
+        pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
         //setting frequency
         long frequency, day = 1000L * 60L * 60L * 24L; // 86 400 000 milliseconds in a day
         switch (freq) {
@@ -269,18 +270,15 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
             default:  // Once(case 0)
                 frequency = -1;
         }
-        PendingIntent pendingIntent;
-        pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         if (frequency == -1) {
             //if user switched button 'repeat' off
-            alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+          alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
         } else {
             //if user switched button 'repeat' on, then we send also time of frequency
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, frequency, pendingIntent);
         }
-        }
+    }
 
     private Notification getNotification(String title, String content) {
         NotificationCompat.Builder builder =

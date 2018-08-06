@@ -1,4 +1,4 @@
-package com.company.schedule.Database;
+package com.company.schedule.database;
 
 import com.company.schedule.CustomNotify;
 

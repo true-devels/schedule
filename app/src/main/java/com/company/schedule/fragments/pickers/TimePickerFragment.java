@@ -11,6 +11,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class TimePickerFragment extends DialogFragment {
+
+    GregorianCalendar gc;
+
     public GregorianCalendar getGc() {
         return gc;
     }
@@ -19,19 +22,19 @@ public class TimePickerFragment extends DialogFragment {
         this.gc = gc;
     }
 
-    GregorianCalendar gc;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //if method is called from editnote activity,
         //then variable gc will be equal to existing field 'date' of editing CustomNotify object
         if(gc==null){
-            gc =new GregorianCalendar();
+            gc = (GregorianCalendar) Calendar.getInstance();
         }
 
         return new TimePickerDialog(getActivity(), (TimePickerDialog.OnTimeSetListener) getActivity(), // we should set context
                 gc.get(Calendar.HOUR_OF_DAY),
                 gc.get(Calendar.MINUTE),
-                DateFormat.is24HourFormat(getActivity())); // 12 or 24 hour format, depending on user settings
+                DateFormat.is24HourFormat(getActivity())); // switched 12 or 24 hour format, depending on user settings
     }
 }
