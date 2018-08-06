@@ -28,4 +28,8 @@ public interface NotifyDAO {
 
     @Query("DELETE FROM notifies")
     void deleteAllNotifies();
+
+    // for output notifies sorted by date
+    @Query("SELECT * FROM notifies ORDER BY date")
+    Flowable<List<CustomNotify>> getNotifiesSortedByDate();
 }

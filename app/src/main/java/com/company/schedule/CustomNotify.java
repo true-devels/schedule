@@ -36,7 +36,7 @@ public class CustomNotify {
     private GregorianCalendar date;
 
 
-    //frequency (if 0 - once, 1 - daily, 2 - weekly, 3 - monthly, 4 - yearly)
+    //frequency (if 0 - never(once), 1 - daily, 2 - weekly, 3 - monthly, 4 - yearly)
     @ColumnInfo(name = "frequency")
     private byte frequency;
 

@@ -12,11 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.company.schedule.Database.NotifyRepository;
+import com.company.schedule.Local.AppDatabase;
 import com.company.schedule.Local.NotifyDataSourceClass;
-import com.company.schedule.Local.NotifyDatabase;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //DB variables
         compositeDisposable = new CompositeDisposable();
-        NotifyDatabase linkDatabase = NotifyDatabase.getInstance(this);
+        AppDatabase linkDatabase = AppDatabase.getInstance(this);
         notifyRepository = NotifyRepository.getmInstance(NotifyDataSourceClass.getInstance(linkDatabase.notifyDAO()));
 
         final Toolbar toolbar =  findViewById(R.id.toolbar);  // maybe toolbar will be useful
@@ -320,7 +319,7 @@ class CustomLayoutManager extends LinearLayoutManager {
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            Log.e("myLog MainActivity", "Bugs of RecyclerView");
+            Log.e("myLog MainActivity", "Bugs of RecyclerView: "+e.getMessage());
         }
     }
 }

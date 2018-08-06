@@ -7,19 +7,19 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.company.schedule.CustomNotify;
-import static com.company.schedule.Local.NotifyDatabase.DATABASE_VERSION;
+import static com.company.schedule.Local.AppDatabase.DATABASE_VERSION;
 
 @Database(entities = CustomNotify.class, version = DATABASE_VERSION)
-public abstract class NotifyDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase {
     public static final int DATABASE_VERSION = 9;
     public static final String DATABASE_NAME = "Notifies-DB";
 
     public abstract NotifyDAO notifyDAO();
-    private static NotifyDatabase mInstance;
-    public static NotifyDatabase getInstance(Context context){
+    private static AppDatabase mInstance;
+    public static AppDatabase getInstance(Context context){
         if(mInstance==null){
-            mInstance = Room.databaseBuilder(context,NotifyDatabase.class,DATABASE_NAME)
-                    .fallbackToDestructiveMigration()
+            mInstance = Room.databaseBuilder(context,AppDatabase.class,DATABASE_NAME)
+                    .fallbackToDestructiveMigration()  //  TODO explain it
                     .build();
         }
         return  mInstance;
