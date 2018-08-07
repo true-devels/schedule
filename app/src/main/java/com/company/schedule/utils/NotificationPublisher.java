@@ -1,4 +1,4 @@
-package com.company.schedule;
+package com.company.schedule.utils;
 
 import android.app.Notification;
 import android.app.NotificationManager;

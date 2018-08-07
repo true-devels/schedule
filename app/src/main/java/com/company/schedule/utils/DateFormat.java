@@ -1,4 +1,4 @@
-package com.company.schedule.local;
+package com.company.schedule.utils;
 
 import java.util.GregorianCalendar;
 

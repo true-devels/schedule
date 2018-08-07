@@ -1,4 +1,4 @@
-package com.company.schedule;
+package com.company.schedule.ui.activities;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,9 +25,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.company.schedule.fragments.pickers.DatePickerFragment;
-import com.company.schedule.fragments.pickers.TimePickerFragment;
-import com.company.schedule.local.DateFormat;
+import com.company.schedule.utils.NotificationPublisher;
+import com.company.schedule.R;
+import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
+import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
+import com.company.schedule.utils.DateFormat;
+import com.company.schedule.utils.Constants;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -45,7 +47,7 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     TextView editDate, editTime;
     GregorianCalendar dateNotification;
     Spinner spinnerFreq;
-    Switch swtRemindMe, swtRepeat;
+    Switch swtRemindMe;
     boolean isEdited = false, isReminded = false, isRepeated=false;
     int id = -1;
     GregorianCalendar edit_date;
@@ -289,8 +291,8 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                         .setContentText(content)
                         //TODO check these three lines work
                         .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-                        .setLights(Color.RED, 3000, 3000)
-                        .setSound(Uri.parse("uri://sadfasdfasdf.mp3"))
+                        .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 5000)
+                        .setSound(Uri.parse(Constants.SOUND_URI))
                         .setContentText(content);
         return builder.build();
     }

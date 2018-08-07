@@ -1,8 +1,7 @@
-package com.company.schedule.local;
+package com.company.schedule.utils;
 
 import android.arch.persistence.room.TypeConverter;
 
-import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 //converter class, SQLite DB doesn't allow fields of GregorianCalendar class
@@ -29,16 +28,16 @@ public class DateConverter {
         }
     }
 
-    // TODO make it through TypeConverter
-    public static String toString(GregorianCalendar calendar){
-        if(calendar != null) {
-            SimpleDateFormat fmt = new SimpleDateFormat("HH:mm EEEE, MMMM dd, yyyy");
-            fmt.setCalendar(calendar);
-            String dateFormatted = fmt.format(calendar.getTime());
-            return dateFormatted;
-        }
-        else {
-            return null;
-        }
-    }
+    // TODO delete comments
+//    public static String toString(GregorianCalendar calendar){
+//        if(calendar != null) {
+//            SimpleDateFormat fmt = new SimpleDateFormat("HH:mm EEEE, MMMM dd, yyyy");
+//            fmt.setCalendar(calendar);
+//            String dateFormatted = fmt.format(calendar.getTime());
+//            return dateFormatted;
+//        }
+//        else {
+//            return null;
+//        }
+//    }
 }

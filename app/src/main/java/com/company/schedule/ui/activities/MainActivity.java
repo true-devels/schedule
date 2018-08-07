@@ -1,11 +1,9 @@
-package com.company.schedule;
+package com.company.schedule.ui.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,9 +11,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.company.schedule.database.NotifyRepository;
-import com.company.schedule.local.AppDatabase;
-import com.company.schedule.local.NotifyDataSourceClass;
+import com.company.schedule.R;
+import com.company.schedule.database.data_source.NoteRepository;
+import com.company.schedule.database.Note;
+import com.company.schedule.database.AppDatabase;
+import com.company.schedule.database.data_source.NoteDataSourceClass;
+import com.company.schedule.ui.CustomLayoutManager;
+import com.company.schedule.ui.NotesAdapter;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -36,9 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final int REQUEST_CODE_EDIT_NOTE = 2;
     final String TAG = "myLog MainActivity";
     private CompositeDisposable compositeDisposable;
-    private NotifyRepository notifyRepository;
+    private NoteRepository notifyRepository;
     NotesAdapter adapter;
-    ArrayList<CustomNotify> notifies = new ArrayList<>();
+    ArrayList<Note> notes = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //DB variables
         compositeDisposable = new CompositeDisposable();
         AppDatabase linkDatabase = AppDatabase.getInstance(this);
-        notifyRepository = NotifyRepository.getmInstance(NotifyDataSourceClass.getInstance(linkDatabase.notifyDAO()));
+        notifyRepository = NoteRepository.getmInstance(NoteDataSourceClass.getInstance(linkDatabase.notifyDAO()));
 
         final Toolbar toolbar =  findViewById(R.id.toolbar);  // maybe toolbar will be useful
         setSupportActionBar(toolbar);
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RecyclerView notesList = findViewById(R.id.notesList);
 
         notesList.setLayoutManager(new CustomLayoutManager(this));
-        adapter = new NotesAdapter(this, notifies);
+        adapter = new NotesAdapter(this, notes);
         notesList.setAdapter(adapter);
 
         adapter.setClickListener(new NotesAdapter.ItemClickListener() {
@@ -68,8 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemClick(View view, int position) {
 
                 //if user clicks on item of recyclerview, app goes to editnote activity
-                CustomNotify toSend = notifies.get(position);
-                Log.v(TAG,"pos" + Integer.toString(position) + Integer.toString(notifies.get(position).getId()));
+                Note toSend = notes.get(position);
+                Log.v(TAG,"pos" + Integer.toString(position) + Integer.toString(notes.get(position).getId()));
                 //sending all data, that is needed for editing note
                 Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
                 intent.putExtra("id",toSend.getId());
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             //creating and inserting to DB new note
-            final CustomNotify loc = new CustomNotify(name,content,not_date,prototype);
+            final Note loc = new Note(name,content,not_date,prototype);
             insertToDb(loc);
 
             Log.v(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + noteName + "\";");
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 //creating and inserting updated note to DB
-                final CustomNotify local = new CustomNotify(name_, content_, not__date, prototype_);
+                final Note local = new Note(name_, content_, not__date, prototype_);
                 insertToDb(local);
                 Log.v(TAG, "YEP" + Integer.toString(id));
 
@@ -210,9 +212,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Disposable disposable = notifyRepository.getAllNotifies()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<List<CustomNotify>>() {
+                .subscribe(new Consumer<List<Note>>() {
                     @Override
-                    public void accept(List<CustomNotify> myLinks) throws Exception {
+                    public void accept(List<Note> myLinks) throws Exception {
                         onGetAllLinkSuccess(myLinks);
                         Log.v(TAG, " here loaddata is ");
                     }
@@ -225,23 +227,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         compositeDisposable.add(disposable);
     }
     //method that writes all data to recyclerview
-    private void onGetAllLinkSuccess(List<CustomNotify> myLinks) {
+    private void onGetAllLinkSuccess(List<Note> myLinks) {
 
-        notifies.clear();
+        notes.clear();
         adapter.notifyItemRangeRemoved(0,adapter.getItemCount());
-        notifies.addAll(myLinks);
+        notes.addAll(myLinks);
         adapter.notifyItemRangeInserted(0,myLinks.size());
 
     }
 
     //method that inserts new note into DB
     //TODO make such methods for update
-    private void insertToDb(final CustomNotify customNotify){
+    private void insertToDb(final Note note){
 
         Disposable disposable222 = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
             @Override
             public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
-                notifyRepository.insertNotify(customNotify);
+                notifyRepository.insertNotify(note);
                 emitter.onComplete();
             }
         })
@@ -262,17 +264,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         compositeDisposable.add(disposable222);
     }
 
-    CustomNotify toDel;
+    Note toDel;
     //method that deletes note from DB
     private void deleteFromDb(int id){
         Disposable disposable_get = notifyRepository.getOneNotify(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<CustomNotify>() {
+                .subscribe(new Consumer<Note>() {
                     @Override
-                    public void accept(CustomNotify customNotify) throws Exception {
+                    public void accept(Note note) throws Exception {
 
-                        toDel = customNotify;
+                        toDel = note;
                         Disposable disposable_delete = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
                             @Override
                             public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
@@ -307,21 +309,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-}
-
-//class that catches bugs of recyclerview
-//these bugs really can`t be fixed in another way
-class CustomLayoutManager extends LinearLayoutManager {
-    CustomLayoutManager(Context context){
-        super(context);
-    }
-    @Override
-    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        try {
-            super.onLayoutChildren(recycler, state);
-        } catch (IndexOutOfBoundsException e) {
-            Log.e("myLog MainActivity", "Bugs of RecyclerView: "+e.getMessage());
-        }
-    }
 }
 

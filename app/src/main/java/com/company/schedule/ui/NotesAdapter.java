@@ -1,4 +1,4 @@
-package com.company.schedule;
+package com.company.schedule.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.company.schedule.local.DateFormat;
+import com.company.schedule.R;
+import com.company.schedule.database.Note;
+import com.company.schedule.utils.DateFormat;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -15,14 +17,14 @@ import java.util.List;
 //custom adapter class for recyclerview
 public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
-    private List<CustomNotify> mData;
+    private List<Note> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     final String TAG = "myLog MainActivity";
 
     // data is passed into the constructor
-    NotesAdapter(Context context, List<CustomNotify> data) {
+    public NotesAdapter(Context context, List<Note> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -78,7 +80,7 @@ public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder>
     }
 
     // allows clicks events to be caught
-    void setClickListener(ItemClickListener itemClickListener) {
+    public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 

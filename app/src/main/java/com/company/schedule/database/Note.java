@@ -1,12 +1,12 @@
-package com.company.schedule;
+package com.company.schedule.database;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import com.company.schedule.local.DateConverter;
-
+import com.company.schedule.utils.DateConverter;
+import com.company.schedule.utils.Constants;
 
 import java.util.GregorianCalendar;
 
@@ -14,9 +14,8 @@ import io.reactivex.annotations.NonNull;
 
 
 //class of notifications
-@Entity(tableName = "notifies")
-public class CustomNotify {
-
+@Entity(tableName = Constants.TABLE_NAME)
+public class Note {
     @NonNull
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -41,7 +40,7 @@ public class CustomNotify {
     private byte frequency;
 
     //Constructor
-    public CustomNotify(String name, String content, GregorianCalendar date, byte frequency) {
+    public Note(String name, String content, GregorianCalendar date, byte frequency) {
         this.name = name;
         this.date = date;
         this.frequency = frequency;

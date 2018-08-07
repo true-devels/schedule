@@ -1,4 +1,4 @@
-package com.company.schedule.fragments;
+package com.company.schedule.ui.fragments;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
