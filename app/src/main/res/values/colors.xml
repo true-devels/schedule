@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#b5723f</color>
-    <color name="colorPrimaryDark">#9e5f2f</color>
-    <color name="colorAccent">#ff9340</color>
+    <color name="colorPrimary">#413fb5</color>
+    <color name="colorPrimaryDark">#312f9e</color>
+    <color name="colorAccent">#6ca7ff</color>
 
     <color name="colorText">#000000</color>
-    <color name="colorTextItemDate">#1d6ba7</color>
+    <color name="colorTextItemDate">#339ea0</color>
 
-    <color name="colorButtonText">#ef7416</color>
-    <color name="colorButtonBackground">#64fee9da</color>
+    <color name="colorButtonText">@color/colorAccent</color>
+    <color name="colorButtonBackground">#d6ffffff</color>
+
+    <color name="colorFabDeleteBackground">#ff4f5a</color>
+
+    <color name="colorBackground">#c3caf2fe</color>
+    <color name="colorBackground2">#c39beeff</color>
+
+
+
+
+
+
+
+
+
+
+
+
+    <color name="brownPrimary">#b5723f</color>
+    <color name="brownPrimaryDark">#9e5f2f</color>
+    <color name="brownAccent">#ff9340</color>
+
+    <color name="brownText">#000000</color>
+    <color name="brownTextItemDate">#1d6ba7</color>
+
+    <color name="brownButtonText">#ef7416</color>
+    <color name="brownButtonBackground">#64fee9da</color>
 </resources>

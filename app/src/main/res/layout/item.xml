@@ -10,21 +10,22 @@
         android:id="@+id/tvItemNoteName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:focusable="true"
+
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
         android:textColor="@color/colorText"
         android:textSize="24sp"
-
-        android:singleLine="true"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit ="marquee_forever"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:scrollHorizontally="true"
-        />
+        tools:text="Note name" />
 
     <TextView
         android:id="@+id/tvItemDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:textColor="@color/colorTextItemDate" />
+        android:textColor="@color/colorTextItemDate"
+        tools:text="7 August 2018, 1:00 PM - simple date" />
 </LinearLayout>
