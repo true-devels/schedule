@@ -7,49 +7,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.company.schedule.R;
-import com.company.schedule.database.data_source.NoteRepository;
+import com.company.schedule.contract.MainContract;
 import com.company.schedule.database.Note;
-import com.company.schedule.database.AppDatabase;
-import com.company.schedule.database.data_source.NoteDataSourceClass;
-import com.company.schedule.ui.CustomLayoutManager;
-import com.company.schedule.ui.NotesAdapter;
+import com.company.schedule.presenter.MainPresenter;
+import com.company.schedule.ui.adapters.CustomLayoutManager;
+import com.company.schedule.ui.adapters.NotesAdapter;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-//  when we move to a new activity to get the result we need to be indexed by its number
-    final int REQUEST_CODE_ADD_NOTE = 1;
-    final int REQUEST_CODE_EDIT_NOTE = 2;
+public class MainActivity extends AppCompatActivity implements MainContract.View, View.OnClickListener{
+
+    private MainContract.Presenter presenter = new MainPresenter();
     final String TAG = "myLog MainActivity";
-    private CompositeDisposable compositeDisposable;
-    private NoteRepository notifyRepository;
-    NotesAdapter adapter;
-    ArrayList<Note> notes = new ArrayList<>();
+
+
+//    TODO decoment it
+//    NotesAdapter adapter;
+//    ArrayList<Note> notes = new ArrayList<>();
+    RecyclerView notesList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //DB variables
-        compositeDisposable = new CompositeDisposable();
-        AppDatabase linkDatabase = AppDatabase.getInstance(this);
-        notifyRepository = NoteRepository.getmInstance(NoteDataSourceClass.getInstance(linkDatabase.notifyDAO()));
+        presenter.onCreate(this);
 
         final Toolbar toolbar =  findViewById(R.id.toolbar);  // maybe toolbar will be useful
         setSupportActionBar(toolbar);
@@ -59,44 +50,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(this);  // setting handle
 
         //recyclerview that is displaying all notes
-        RecyclerView notesList = findViewById(R.id.notesList);
+        notesList = findViewById(R.id.notesList);
 
         notesList.setLayoutManager(new CustomLayoutManager(this));
-        adapter = new NotesAdapter(this, notes);
-        notesList.setAdapter(adapter);
-
-        adapter.setClickListener(new NotesAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-                //if user clicks on item of recyclerview, app goes to editnote activity
-                Note toSend = notes.get(position);
-                Log.v(TAG,"pos" + Integer.toString(position) + Integer.toString(notes.get(position).getId()));
-                //sending all data, that is needed for editing note
-                Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
-                intent.putExtra("id",toSend.getId());
-                intent.putExtra("name",toSend.getName());
-                intent.putExtra("content",toSend.getContent());
-                intent.putExtra("frequency",toSend.getFrequency());
-                intent.putExtra("date",toSend.getDate());
-                startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE);
-            }
-        });
+        notesList.setAdapter(
+                presenter.getAdapter(MainActivity.this)
+        );
 
         //load data from DB
-        loadData();
-
+        presenter.loadData();
+        presenter.attachView(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
         case R.id.fab:
-            //going to addnote activity
-            Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);  // we indicate an explicit transition to AddNoteActivity to enter the data of a note
-            startActivityForResult(intent, REQUEST_CODE_ADD_NOTE); // and getting this information back. (using REQUEST_CODE_ADD_NOTE (1) we can find out that the result came exactly with AddNoteActivity)
+            presenter.onFabAddClicked(MainActivity.this);
             break;
         }
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {  // getting variables from presenter
+        super.startActivityForResult(intent, requestCode); // and getting this information back. (using REQUEST_CODE_ADD_NOTE (1) we can find out that the result came exactly with AddNoteActivity)
     }
 
     @Override
@@ -104,83 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        on requestCode we determine from which subsidiary activity the result came
 //        resultCode - return code. Determines whether the call has passed successfully or not.
 //        data - Intent, in which the data is returned
-
-        // if data was correct entered
-        if (resultCode == RESULT_OK && data != null) {
-            Log.i(TAG, "RESULT_OK");
-        switch (requestCode) {  // check from which object data come
-        case REQUEST_CODE_ADD_NOTE:  // if data come from .AddNoteActivity
-            String noteName = data.getStringExtra("note_name");
-            //TODO make good default value
-            //getting all data
-            String name = data.getStringExtra("note_name");
-            final String content = data.getStringExtra("note_content");
-            byte prototype = (byte) data.getIntExtra("freq",0);  // TODO comment it (why prototype)
-
-            //creating calendar with data, that is got from addnote activity
-            GregorianCalendar not_date =  new GregorianCalendar();  // TODO not_date means notification date?
-            final long timeInMillis = data.getLongExtra("time_in_millis", -1);  // TODO make it better
-            if(timeInMillis==-1){
-                not_date=null;
-            }else{
-                not_date.setTimeInMillis(timeInMillis);
-            }
-
-            //creating and inserting to DB new note
-            final Note loc = new Note(name,content,not_date,prototype);
-            insertToDb(loc);
-
-            Log.v(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + noteName + "\";");
-
-            break;
-        case REQUEST_CODE_EDIT_NOTE:
-            //checking, if button 'delete' was pressed
-            boolean isDel = data.getBooleanExtra("isDel",false);
-            if(!isDel) {
-                //getting all data
-                final int id = data.getIntExtra("id", -1);  // TODO move repeated cod from REQUEST_CODE_EDIT_NOTE and REQUEST_CODE_ADD_NOTE to line below onActivityResult
-                final String name_ = data.getStringExtra("note_name");
-                final String content_ = data.getStringExtra("note_content");
-                byte prototype_ = (byte) data.getIntExtra("freq",0);  // TODO comment it (why prototype)
-
-                //creating calendar with data, that is got from editnote activity
-                GregorianCalendar not__date = new GregorianCalendar();
-                final long timeInMillis_ = data.getLongExtra("time_in_millis", -1);
-                if (timeInMillis_ == -1) {
-                    not__date = null;
-                } else {
-                    not__date.setTimeInMillis(timeInMillis_);
-                }
-
-                //creating and inserting updated note to DB
-                final Note local = new Note(name_, content_, not__date, prototype_);
-                insertToDb(local);
-                Log.v(TAG, "YEP" + Integer.toString(id));
-
-                //getting and deleting old version of note from DB
-                deleteFromDb(id);
-
-            }else{
-                final int id = data.getIntExtra("id", -1);
-                Log.v(TAG, id + " here ");
-                deleteFromDb(id);
-
-            }
-
-            //TODO delete next 4 lines
-            if(toDel!=null){
-                Log.v(TAG, " here " + toDel.getName());
-            }else{
-                Log.v(TAG, " here  is nothing");
-            }
-
-            break;
-        default:
-            Log.v(TAG, "onActivityResult in default");
-        }
-        } else {
-            Log.e(TAG, "data == null or any different error, requestCode: \"" + requestCode + "\"; resultCode: \"" + resultCode + "\";"); //RESULT_OK: -1; RESULT_CANCELED: 0; RESULT_FIRST_USER(other user result): 1, 2, 3...
-        }
+        presenter.onActivityResult(requestCode, resultCode, data);
 
     }
 
@@ -206,108 +107,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    //method thed gets all data from DB
-    private void loadData() {
 
-        Disposable disposable = notifyRepository.getAllNotifies()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<List<Note>>() {
-                    @Override
-                    public void accept(List<Note> myLinks) throws Exception {
-                        onGetAllLinkSuccess(myLinks);
-                        Log.v(TAG, " here loaddata is ");
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "Error: "+throwable.getMessage());
-                    }
-                });
-        compositeDisposable.add(disposable);
-    }
-    //method that writes all data to recyclerview
-    private void onGetAllLinkSuccess(List<Note> myLinks) {
 
-        notes.clear();
-        adapter.notifyItemRangeRemoved(0,adapter.getItemCount());
-        notes.addAll(myLinks);
-        adapter.notifyItemRangeInserted(0,myLinks.size());
-
-    }
-
-    //method that inserts new note into DB
-    //TODO make such methods for update
-    private void insertToDb(final Note note){
-
-        Disposable disposable222 = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
+    // for notesList.setAdapter we must init adapter
+    @Override
+    public NotesAdapter.ItemClickListener getItemClickListener(final ArrayList<Note> notes) {
+        return new NotesAdapter.ItemClickListener() {  // empty constructor
             @Override
-            public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
-                notifyRepository.insertNotify(note);
-                emitter.onComplete();
+            public void onItemClick(View view, int position) {
+                //if user clicks on item of recyclerview, app goes to editnote activity
+                Note toSend = notes.get(position);
+                Log.v(TAG,"pos" + Integer.toString(position) + Integer.toString(notes.get(position).getId()));
+                //sending all data, that is needed for editing note
+                Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
+                intent.putExtra("id",toSend.getId());
+                intent.putExtra("name",toSend.getName());
+                intent.putExtra("content",toSend.getContent());
+                intent.putExtra("frequency",toSend.getFrequency());
+                intent.putExtra("date",toSend.getDate());
+                startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE);
             }
-        })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        loadData();
-                        Log.i(TAG, "Link added!");
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "Error: " + throwable.getMessage());
-                    }
-                });
-        compositeDisposable.add(disposable222);
+        };
     }
 
-    Note toDel;
-    //method that deletes note from DB
-    private void deleteFromDb(int id){
-        Disposable disposable_get = notifyRepository.getOneNotify(id)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<Note>() {
-                    @Override
-                    public void accept(Note note) throws Exception {
 
-                        toDel = note;
-                        Disposable disposable_delete = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
-                            @Override
-                            public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
-                                notifyRepository.deleteNotify(toDel);
-                                emitter.onComplete();
-                            }
-                        })
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe(new Consumer<Object>() {
-                                    @Override
-                                    public void accept(Object o) throws Exception {
-                                        Log.i(TAG, "Link deleted!");
-                                        loadData();
-
-                                    }
-                                }, new Consumer<Throwable>() {
-                                    @Override
-                                    public void accept(Throwable throwable) throws Exception {
-                                        Log.e(TAG, "Error: " + throwable.getMessage());
-                                    }
-                                });
-                        compositeDisposable.add(disposable_delete);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "Error: " + throwable.getMessage());
-                    }
-                });
-        compositeDisposable.add(disposable_get);
-
+    // for output logs
+    @Override
+    public void log(String log_text) {
+        Log.v(TAG, log_text);
     }
 
+    @Override
+    public void logV(String log_text) {
+        Log.v(TAG, log_text);
+    }
+
+    @Override
+    public void logD(String log_text) {
+        Log.d(TAG, log_text);
+    }
+
+    @Override
+    public void logI(String log_text) {
+        Log.i(TAG, log_text);
+    }
+
+    @Override
+    public void logW(String log_text) {
+        Log.w(TAG, log_text);
+    }
+
+    @Override
+    public void logE(String log_text) {
+        Log.e(TAG, log_text);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        presenter.detachView();
+        super.onDestroy();
+    }
 }
 

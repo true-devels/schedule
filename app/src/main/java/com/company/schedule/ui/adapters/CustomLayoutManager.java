@@ -1,4 +1,4 @@
-package com.company.schedule.ui;
+package com.company.schedule.ui.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

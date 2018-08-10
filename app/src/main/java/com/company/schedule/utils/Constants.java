@@ -18,4 +18,8 @@ public final class Constants {
     // for notification
     public static final int COLOR_ARGB_BACKLIGHTING = Color.BLUE;
     public static final String SOUND_URI = "uri://sadfasdfasdf.mp3";
+
+    //  when we move to a new activity to get the result we need to be indexed by its number
+    public static final int REQUEST_CODE_ADD_NOTE = 1;
+    public static final int REQUEST_CODE_EDIT_NOTE = 2;
 }
