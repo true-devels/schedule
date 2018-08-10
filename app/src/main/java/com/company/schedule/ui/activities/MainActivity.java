@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,12 +21,10 @@ import com.company.schedule.ui.adapters.NotesAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
 
+public class MainActivity extends AppCompatActivity implements MainContract.MainView, View.OnClickListener {
 
-public class MainActivity extends AppCompatActivity implements MainContract.View, View.OnClickListener {
-
-    private MainContract.Presenter presenter = new MainPresenter();
+    private MainContract.MainPresenter presenter = new MainPresenter();
     final String TAG = "myLog MainActivity";
 
     NotesAdapter adapter;
@@ -64,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         // for init view in presenter
         presenter.attachView(MainActivity.this);
-        // we say the Presenter that the View are almost created
+        // we say the MainPresenter that the MainView are almost created
         presenter.viewHasCreated(this);
     }
 

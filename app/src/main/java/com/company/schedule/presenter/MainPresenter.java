@@ -8,7 +8,6 @@ import com.company.schedule.contract.MainContract;
 import com.company.schedule.database.Note;
 import com.company.schedule.model.MainModel;
 import com.company.schedule.ui.activities.AddNoteActivity;
-import com.company.schedule.ui.adapters.NotesAdapter;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -17,17 +16,17 @@ import static android.app.Activity.RESULT_OK;
 import static com.company.schedule.utils.Constants.REQUEST_CODE_ADD_NOTE;
 import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
 
-public class MainPresenter implements MainContract.Presenter {
+public class MainPresenter implements MainContract.MainPresenter {
 
-    private MainContract.View view;
+    private MainContract.MainView view;
     private MainContract.Model model;
-    // callback for Model, that call setAllNotes in View
+    // callback for Model, that call setAllNotes in MainView
     private MainContract.Model.LoadNoteCallback callbackLoadDataFinish;
 
-    final String TAG = "myLog MainPresenter";
+    final String TAG = "myLog MainMainPresenter";
 
     @Override
-    public void attachView(MainContract.View view) {
+    public void attachView(MainContract.MainView view) {
         this.view = view;
     }
 
@@ -42,7 +41,7 @@ public class MainPresenter implements MainContract.Presenter {
         };
 
         model.initDB(context);
-        // we load data from DB in Model, and then set all notes in View
+        // we load data from DB in Model, and then set all notes in MainView
         model.loadData(new MainContract.Model.LoadNoteCallback() {
             @Override
             public void onLoadData(List<Note> myNewNotes) {
@@ -98,7 +97,20 @@ public class MainPresenter implements MainContract.Presenter {
         }
 
     }
+    void resultFromDeleteNote(final int id) {
+        model.deleteFromDb(id, callbackLoadDataFinish);
+    }
 
+    public void loadDataFinish(List<Note> myNewNotes) {
+        view.setAllNotes(myNewNotes);
+    }
+
+    @Override
+    public void detachView() {
+        this.view = null;
+    }
+
+    // Misha mey be below functions must be in Model?
     void resultFromAddNote(Intent data) {
         //TODO make good default value
         //getting all data
@@ -138,18 +150,5 @@ public class MainPresenter implements MainContract.Presenter {
 
         //getting and deleting old version of note from DB
         model.deleteFromDb(id, callbackLoadDataFinish);
-    }
-
-    void resultFromDeleteNote(final int id) {
-        model.deleteFromDb(id, callbackLoadDataFinish);
-    }
-
-    public void loadDataFinish(List<Note> myNewNotes) {
-        view.setAllNotes(myNewNotes);
-    }
-
-    @Override
-    public void detachView() {
-        this.view = null;
     }
 }
