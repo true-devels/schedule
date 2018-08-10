@@ -27,16 +27,6 @@ public class MainModel implements MainContract.Model {
     private CompositeDisposable compositeDisposable;
     private NoteRepository noteRepository;
 
-//      TODO delete it
-//    NotesAdapter adapter;
-//    ArrayList<Note> notes = new ArrayList<>();
-
-
-//    @Override
-//    public ArrayList<Note> getNotes() {
-//        return notes;
-//    }
-
     @Override
     public void initDB(Context context) {
         //DB variables
@@ -53,7 +43,7 @@ public class MainModel implements MainContract.Model {
         Disposable disposable222 = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
             @Override
             public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
-                noteRepository.insertNotify(note);
+                noteRepository.insertNote(note);
                 emitter.onComplete();
             }
         })
@@ -78,7 +68,7 @@ public class MainModel implements MainContract.Model {
     //method that deletes note from DB
     @Override
     public void deleteFromDb(int id, final MainContract.Model.LoadNoteCallback callback) {
-        Disposable disposable_get = noteRepository.getOneNotify(id)  // TODO why not a noteRepository.deleteNotify(id)
+        Disposable disposable_get = noteRepository.getOneNote(id)  // TODO why we use it instead just a noteRepository.deleteNote(note)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<Note>() {
@@ -89,7 +79,7 @@ public class MainModel implements MainContract.Model {
                         Disposable disposable_delete = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
                             @Override
                             public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
-                                noteRepository.deleteNotify(toDel);
+                                noteRepository.deleteNote(toDel);
                                 emitter.onComplete();
                             }
                         })
@@ -122,7 +112,7 @@ public class MainModel implements MainContract.Model {
 
     //method that gets all data from DB
     public void loadData(final MainContract.Model.LoadNoteCallback callback) {
-        Disposable disposable = noteRepository.getAllNotifies()
+        Disposable disposable = noteRepository.getAllNotes()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<List<Note>>() {

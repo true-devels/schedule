@@ -8,6 +8,7 @@ import io.reactivex.Flowable;
 
 public class NoteRepository implements NoteDataSource {
 
+    // TODO write comment why (m)Loc... or (m)Ins...
     private NoteDataSource mLocalDataSource;
     private static NoteRepository mInstance;
 
@@ -22,32 +23,32 @@ public class NoteRepository implements NoteDataSource {
     }
 
     @Override
-    public Flowable<Note> getOneNotify(int id) {
-        return mLocalDataSource.getOneNotify(id);
+    public Flowable<Note> getOneNote(int id) {
+        return mLocalDataSource.getOneNote(id);
     }
 
     @Override
-    public Flowable<List<Note>> getAllNotifies() {
-        return mLocalDataSource.getAllNotifies();
+    public Flowable<List<Note>> getAllNotes() {
+        return mLocalDataSource.getAllNotes();
     }
 
     @Override
-    public void insertNotify(Note... notifies) {
-        mLocalDataSource.insertNotify(notifies);
+    public void insertNote(Note... notes) {
+        mLocalDataSource.insertNote(notes);
     }
 
     @Override
-    public void updateNotify(Note... notifies) {
-        mLocalDataSource.updateNotify(notifies);
+    public void updateNote(Note... notes) {
+        mLocalDataSource.updateNote(notes);
     }
 
     @Override
-    public void deleteNotify(Note notify) {
-        mLocalDataSource.deleteNotify(notify);
+    public void deleteNote(Note note) {
+        mLocalDataSource.deleteNote(note);
     }
 
     @Override
-    public void deleteAllNotifies() {
-        mLocalDataSource.deleteAllNotifies();
+    public void deleteAllNotes() {
+        mLocalDataSource.deleteAllNotes();
     }
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.company.schedule.R;
 import com.company.schedule.contract.MainContract;
@@ -24,7 +25,7 @@ import java.util.List;
 import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
 
 
-public class MainActivity extends AppCompatActivity implements MainContract.View, View.OnClickListener, NotesAdapter.ItemClickListener{
+public class MainActivity extends AppCompatActivity implements MainContract.View, View.OnClickListener {
 
     private MainContract.Presenter presenter = new MainPresenter();
     final String TAG = "myLog MainActivity";
@@ -41,7 +42,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         // init adapter for notesList
         adapter = new NotesAdapter(this, notes);
-        adapter.setClickListener(this);
+        adapter.setClickListener(new NotesAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                presenter.onItemClicked(MainActivity.this, notes.get(position));
+            }
+        });
 
         //recyclerview that is displaying all notes
         notesList = findViewById(R.id.notesList);
@@ -69,22 +75,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             presenter.onFabAddClicked(MainActivity.this);
             break;
         }
-    }
-
-    // for adapter (NotesAdapter)
-    @Override
-    public void onItemClick(View view, int position) {
-        //if user clicks on item of recyclerview, app goes to AddNoteActivity but with requestCode (...)_EDIT_NOTE
-        Note toSend = notes.get(position);
-        Log.v(TAG,"pos" + Integer.toString(position) + Integer.toString(notes.get(position).getId()));
-        //sending all data, that is needed for editing note
-        Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
-        intent.putExtra("id",toSend.getId());
-        intent.putExtra("name",toSend.getName());
-        intent.putExtra("content",toSend.getContent());
-        intent.putExtra("frequency",toSend.getFrequency());
-        intent.putExtra("date",toSend.getDate());
-        startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE);
     }
 
     //method that writes all data to recyclerview
@@ -133,61 +123,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         return super.onOptionsItemSelected(item);
     }
 
-
-    // for notesList.setAdapter we must init adapter
-
     @Override
-    public NotesAdapter.ItemClickListener getItemClickListener(final ArrayList<Note> notes) {
-        return new NotesAdapter.ItemClickListener() {  // empty constructor
-            @Override
-            public void onItemClick(View view, int position) {
-                //if user clicks on item of recyclerview, app goes to editnote activity
-                Note toSend = notes.get(position);
-                Log.v(TAG,"pos" + Integer.toString(position) + Integer.toString(notes.get(position).getId()));
-                //sending all data, that is needed for editing note
-                Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
-                intent.putExtra("id",toSend.getId());
-                intent.putExtra("name",toSend.getName());
-                intent.putExtra("content",toSend.getContent());
-                intent.putExtra("frequency",toSend.getFrequency());
-                intent.putExtra("date",toSend.getDate());
-                startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE);
-            }
-        };
-    }
-
-    // for output logs
-
-    @Override
-    public void log(String log_text) {
-        Log.v(TAG, log_text);
+    public void toast(String toast_message) {
+        Toast.makeText(this, toast_message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void logV(String log_text) {
-        Log.v(TAG, log_text);
+    public void toastLong(String toast_message) {
+        Toast.makeText(this, toast_message, Toast.LENGTH_LONG).show();
     }
-
-    @Override
-    public void logD(String log_text) {
-        Log.d(TAG, log_text);
-    }
-
-    @Override
-    public void logI(String log_text) {
-        Log.i(TAG, log_text);
-    }
-
-    @Override
-    public void logW(String log_text) {
-        Log.w(TAG, log_text);
-    }
-
-    @Override
-    public void logE(String log_text) {
-        Log.e(TAG, log_text);
-    }
-
 
     @Override
     protected void onDestroy() {

@@ -23,32 +23,32 @@ public class NoteDataSourceClass implements NoteDataSource {
     }
 
     @Override
-    public Flowable<Note> getOneNotify(int id) {
-        return noteDAO.getOneNotify(id);
+    public Flowable<Note> getOneNote(int id) {
+        return noteDAO.getOneNote(id);
     }
 
     @Override
-    public Flowable<List<Note>> getAllNotifies() {
-        return noteDAO.getAllNotifies();
+    public Flowable<List<Note>> getAllNotes() {
+        return noteDAO.getAllNotes();
     }
 
     @Override
-    public void insertNotify(Note... notifies) {
-        noteDAO.insertNotes(notifies);
+    public void insertNote(Note... notes) {
+        noteDAO.insertNotes(notes);
     }
 
     @Override
-    public void updateNotify(Note... notifies) {
-        noteDAO.updateNotes(notifies);
+    public void updateNote(Note... notes) {
+        noteDAO.updateNotes(notes);
     }
 
     @Override
-    public void deleteNotify(Note notify) {
-        noteDAO.deleteNote(notify);
+    public void deleteNote(Note note) {
+        noteDAO.deleteNote(note);
     }
 
     @Override
-    public void deleteAllNotifies() {
+    public void deleteAllNotes() {
         noteDAO.deleteAllNotes();
     }
 

@@ -15,10 +15,10 @@ import io.reactivex.Flowable;
 @Dao
 public interface NoteDAO {
     @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE id=:id")
-    Flowable<Note> getOneNotify(int id);
+    Flowable<Note> getOneNote(int id);
 
     @Query("SELECT * FROM " + Constants.TABLE_NAME)
-    Flowable<List<Note>> getAllNotifies();
+    Flowable<List<Note>> getAllNotes();
 
     @Insert
     void insertNotes(Note... notes);

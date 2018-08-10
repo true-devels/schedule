@@ -7,10 +7,10 @@ import java.util.List;
 import io.reactivex.Flowable;
 
 public interface NoteDataSource {
-    Flowable<Note> getOneNotify(int id);
-    Flowable<List<Note>> getAllNotifies();
-    void insertNotify(Note... notifies);
-    void updateNotify(Note... notifies);
-    void deleteNotify(Note notify);
-    void deleteAllNotifies();
+    Flowable<Note> getOneNote(int id);
+    Flowable<List<Note>> getAllNotes();
+    void insertNote(Note... notes);
+    void updateNote(Note... notes);
+    void deleteNote(Note note);
+    void deleteAllNotes();
 }
