@@ -24,15 +24,13 @@ import java.util.List;
 import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
 
 
-public class MainActivity extends AppCompatActivity implements MainContract.View, View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements MainContract.View, View.OnClickListener, NotesAdapter.ItemClickListener{
 
     private MainContract.Presenter presenter = new MainPresenter();
     final String TAG = "myLog MainActivity";
 
-
-//    TODO decoment it
-//    NotesAdapter adapter;
-//    ArrayList<Note> notes = new ArrayList<>();
+    NotesAdapter adapter;
+    ArrayList<Note> notes = new ArrayList<>();
     RecyclerView notesList;
 
     @Override
@@ -40,26 +38,28 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter.onCreate(this);
 
-        final Toolbar toolbar =  findViewById(R.id.toolbar);  // maybe toolbar will be useful
-        setSupportActionBar(toolbar);
-
-
-        FloatingActionButton fab =  findViewById(R.id.fab);  // button for jump to AddNoteActivity
-        fab.setOnClickListener(this);  // setting handle
+        // init adapter for notesList
+        adapter = new NotesAdapter(this, notes);
+        adapter.setClickListener(this);
 
         //recyclerview that is displaying all notes
         notesList = findViewById(R.id.notesList);
 
         notesList.setLayoutManager(new CustomLayoutManager(this));
-        notesList.setAdapter(
-                presenter.getAdapter(MainActivity.this)
-        );
+        notesList.setAdapter(adapter);
 
-        //load data from DB
-        presenter.loadData();
-        presenter.attachView(this);
+        FloatingActionButton fab =  findViewById(R.id.fab);  // button for jump to AddNoteActivity
+        fab.setOnClickListener(this);  // setting handle
+
+        final Toolbar toolbar =  findViewById(R.id.toolbar);  // maybe toolbar will be useful
+        setSupportActionBar(toolbar);
+
+
+        // for init view in presenter
+        presenter.attachView(MainActivity.this);
+        // we say the Presenter that the View are almost created
+        presenter.viewHasCreated(this);
     }
 
     @Override
@@ -69,6 +69,32 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             presenter.onFabAddClicked(MainActivity.this);
             break;
         }
+    }
+
+    // for adapter (NotesAdapter)
+    @Override
+    public void onItemClick(View view, int position) {
+        //if user clicks on item of recyclerview, app goes to AddNoteActivity but with requestCode (...)_EDIT_NOTE
+        Note toSend = notes.get(position);
+        Log.v(TAG,"pos" + Integer.toString(position) + Integer.toString(notes.get(position).getId()));
+        //sending all data, that is needed for editing note
+        Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
+        intent.putExtra("id",toSend.getId());
+        intent.putExtra("name",toSend.getName());
+        intent.putExtra("content",toSend.getContent());
+        intent.putExtra("frequency",toSend.getFrequency());
+        intent.putExtra("date",toSend.getDate());
+        startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE);
+    }
+
+    //method that writes all data to recyclerview
+    @Override
+    public void setAllNotes(List<Note> myNewNotes) {
+        notes.clear();
+        adapter.notifyItemRangeRemoved(0,adapter.getItemCount());
+        notes.addAll(myNewNotes);
+        adapter.notifyItemRangeInserted(0,myNewNotes.size());
+
     }
 
     @Override
@@ -108,8 +134,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
 
-
     // for notesList.setAdapter we must init adapter
+
     @Override
     public NotesAdapter.ItemClickListener getItemClickListener(final ArrayList<Note> notes) {
         return new NotesAdapter.ItemClickListener() {  // empty constructor
@@ -130,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         };
     }
 
-
     // for output logs
+
     @Override
     public void log(String log_text) {
         Log.v(TAG, log_text);
@@ -168,5 +194,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter.detachView();
         super.onDestroy();
     }
+
 }
 

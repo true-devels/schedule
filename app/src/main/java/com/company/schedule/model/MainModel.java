@@ -1,20 +1,14 @@
 package com.company.schedule.model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.view.View;
 
 import com.company.schedule.contract.MainContract;
 import com.company.schedule.database.AppDatabase;
 import com.company.schedule.database.Note;
 import com.company.schedule.database.data_source.NoteDataSourceClass;
 import com.company.schedule.database.data_source.NoteRepository;
-import com.company.schedule.ui.activities.AddNoteActivity;
-import com.company.schedule.ui.activities.MainActivity;
-import com.company.schedule.ui.adapters.NotesAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.ObservableEmitter;
@@ -33,15 +27,15 @@ public class MainModel implements MainContract.Model {
     private CompositeDisposable compositeDisposable;
     private NoteRepository noteRepository;
 
+//      TODO delete it
+//    NotesAdapter adapter;
+//    ArrayList<Note> notes = new ArrayList<>();
 
-    NotesAdapter adapter;
-    ArrayList<Note> notes = new ArrayList<>();
 
-
-    @Override
-    public ArrayList<Note> getNotes() {
-        return notes;
-    }
+//    @Override
+//    public ArrayList<Note> getNotes() {
+//        return notes;
+//    }
 
     @Override
     public void initDB(Context context) {
@@ -49,26 +43,13 @@ public class MainModel implements MainContract.Model {
         compositeDisposable = new CompositeDisposable();
         AppDatabase linkDatabase = AppDatabase.getInstance(context);
         noteRepository = NoteRepository.getmInstance(NoteDataSourceClass.getInstance(linkDatabase.notifyDAO()));
-
-
-    }
-
-    @Override
-    public void setAdapter(final Context context, NotesAdapter.ItemClickListener itemClickListener) {
-        adapter = new NotesAdapter(context, notes);
-        adapter.setClickListener(itemClickListener);
-    }
-
-    @Override
-    public NotesAdapter getAdapter(){
-        return adapter;
     }
 
 
     //method that inserts new note into DB
     //TODO make such methods for update
     @Override
-    public void insertToDb(final Note note) {
+    public void insertToDb(final Note note, final MainContract.Model.LoadNoteCallback callback) {
         Disposable disposable222 = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
             @Override
             public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
@@ -81,7 +62,7 @@ public class MainModel implements MainContract.Model {
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(Object o) throws Exception {
-                        loadData();
+                        loadData(callback);  // we give callback for view.onGetAllLinkSuccess(myNewNotes)
                         Log.i(TAG, "Link added!");
                     }
                 }, new Consumer<Throwable>() {
@@ -96,9 +77,8 @@ public class MainModel implements MainContract.Model {
     Note toDel;
     //method that deletes note from DB
     @Override
-    public void deleteFromDb(int id) {
-
-        Disposable disposable_get = noteRepository.getOneNotify(id)
+    public void deleteFromDb(int id, final MainContract.Model.LoadNoteCallback callback) {
+        Disposable disposable_get = noteRepository.getOneNotify(id)  // TODO why not a noteRepository.deleteNotify(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<Note>() {
@@ -119,7 +99,7 @@ public class MainModel implements MainContract.Model {
                                     @Override
                                     public void accept(Object o) throws Exception {
                                         Log.i(TAG, "Link deleted!");
-                                        loadData();
+                                        loadData(callback);  // we give callback for view.onGetAllLinkSuccess(myNewNotes)
 
                                     }
                                 }, new Consumer<Throwable>() {
@@ -141,15 +121,21 @@ public class MainModel implements MainContract.Model {
     }
 
     //method that gets all data from DB
-    public void loadData() {
+    public void loadData(final MainContract.Model.LoadNoteCallback callback) {
         Disposable disposable = noteRepository.getAllNotifies()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<List<Note>>() {
                     @Override
-                    public void accept(List<Note> myLinks) throws Exception {
-                        onGetAllLinkSuccess(myLinks);
-                        Log.v(TAG, " here loaddata is ");
+                    public void accept(List<Note> myNewNotes) throws Exception {
+                        Log.v(TAG, " here loaddata is");
+
+                        if (callback != null) {
+                            callback.onLoadData(myNewNotes);
+                        } else {
+                            Log.e(TAG, "callback is empty");
+                            // TODO throw
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -160,13 +146,5 @@ public class MainModel implements MainContract.Model {
         compositeDisposable.add(disposable);
     }
 
-    //method that writes all data to recyclerview
-    private void onGetAllLinkSuccess(List<Note> myLinks) {
-        notes.clear();
-        adapter.notifyItemRangeRemoved(0,adapter.getItemCount());
-        notes.addAll(myLinks);
-        adapter.notifyItemRangeInserted(0,myLinks.size());
-
-    }
 
 }

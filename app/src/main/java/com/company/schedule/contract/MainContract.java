@@ -7,12 +7,15 @@ import com.company.schedule.database.Note;
 import com.company.schedule.ui.adapters.NotesAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface MainContract {
 
     interface View {  // UI,  animation
         void startActivityForResult(Intent intent, int requestCode);
         NotesAdapter.ItemClickListener getItemClickListener(final ArrayList<Note> notes);
+        void setAllNotes(List<Note> myLinks);
+        // TODO delete logs
         void log(String log_message);
         void logV(String log_message);
         void logD(String log_message);
@@ -22,23 +25,25 @@ public interface MainContract {
     }
 
     interface Presenter {
-        void onCreate(Context context);
-//        void setAdapter(final Context context, NotesAdapter.ItemClickListener itemClickListener);
-        NotesAdapter getAdapter(Context context);
+        void viewHasCreated(Context context);
         void attachView(View view);
         void detachView();
         void onFabAddClicked(Context context);
         void onActivityResult(int requestCode, int resultCode, Intent data);
-        void loadData();
     }
 
     interface Model {
         void initDB(Context context);
-        ArrayList<Note> getNotes();
-        void setAdapter(final Context context, NotesAdapter.ItemClickListener itemClickListener);
-        NotesAdapter getAdapter();
-        void insertToDb(final Note note);
-        void deleteFromDb(int id);
-        void loadData();
+        void insertToDb(final Note note, final LoadNoteCallback callback);
+        void deleteFromDb(int id, final LoadNoteCallback callback);
+        void loadData(LoadNoteCallback callback);
+        // new code
+        interface LoadNoteCallback {
+            void onLoadData(List<Note> myNewNotes); //load data
+        }
+
+        interface OnComplectCallback {
+            void onComplete();
+        }
     }
 }

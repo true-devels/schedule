@@ -11,6 +11,7 @@ import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.ui.adapters.NotesAdapter;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.company.schedule.utils.Constants.REQUEST_CODE_ADD_NOTE;
@@ -20,20 +21,24 @@ public class MainPresenter implements MainContract.Presenter {
 
     private MainContract.View view;
     private MainContract.Model model = new MainModel();
+    // callback for Model, that call setAllNotes in View
+    private MainContract.Model.LoadNoteCallback callbackLoadDataFinish = new MainContract.Model.LoadNoteCallback() {
+        @Override
+        public void onLoadData(List<Note> myNewNotes) {
+            loadDataFinish(myNewNotes);
+        }
+    };
 
     @Override
-    public void onCreate(Context context) {
+    public void viewHasCreated(Context context) {
         model.initDB(context);
-    }
-
-    @Override
-    public NotesAdapter getAdapter(Context context) {
-        model.setAdapter(context,
-                view.getItemClickListener(
-                        model.getNotes()
-                )
-        );
-        return model.getAdapter();
+        // we load data from DB in Model, and then set all notes in View
+        model.loadData(new MainContract.Model.LoadNoteCallback() {
+            @Override
+            public void onLoadData(List<Note> myNewNotes) {
+                view.setAllNotes(myNewNotes);  // what we do when load data finish
+            }
+        });  // load data from DB
     }
 
     @Override
@@ -55,6 +60,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         // if data was correct entered
         if (resultCode == RESULT_OK && data != null) {
             view.logI("RESULT_OK");
@@ -77,8 +83,8 @@ public class MainPresenter implements MainContract.Presenter {
                 }
 
                 //creating and inserting to DB new note
-                final Note loc = new Note(name,content,not_date,prototype);
-                model.insertToDb(loc);
+                final Note local = new Note(name,content,not_date,prototype);
+                model.insertToDb(local, callbackLoadDataFinish);
                 view.log("case REQUEST_CODE_ADD_NOTE, noteName: \"" + noteName + "\";");
                 break;
             case REQUEST_CODE_EDIT_NOTE:
@@ -99,19 +105,19 @@ public class MainPresenter implements MainContract.Presenter {
                     } else {
                         not__date.setTimeInMillis(timeInMillis_);
                     }
-
+                    // TODO make update
                     //creating and inserting updated note to DB
-                    final Note local = new Note(name_, content_, not__date, prototype_);
-                    model.insertToDb(local);
+                    final Note local2 = new Note(name_, content_, not__date, prototype_);  // make declaration in start func
+                    model.insertToDb(local2, callbackLoadDataFinish);
                     view.logV("YEP" + Integer.toString(id));
 
                     //getting and deleting old version of note from DB
-                    model.deleteFromDb(id);
+                    model.deleteFromDb(id, callbackLoadDataFinish);
 
                 }else{
                     final int id = data.getIntExtra("id", -1);
                     view.logV( id + " here ");
-                    model.deleteFromDb(id);
+                    model.deleteFromDb(id, callbackLoadDataFinish);
                 }
                 break;
             default:
@@ -123,8 +129,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     }
 
-    @Override
-    public void loadData() {
-        model.loadData();  // load data from DB
+    public void loadDataFinish(List<Note> myNewNotes) {
+        view.setAllNotes(myNewNotes);
     }
 }
