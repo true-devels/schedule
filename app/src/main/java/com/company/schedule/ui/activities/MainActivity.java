@@ -12,19 +12,19 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.company.schedule.R;
-import com.company.schedule.contract.MainContract;
 import com.company.schedule.database.Note;
 import com.company.schedule.presenter.MainPresenter;
 import com.company.schedule.ui.adapters.CustomLayoutManager;
 import com.company.schedule.ui.adapters.NotesAdapter;
+import com.company.schedule.view.MainView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements MainContract.MainView, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements MainView, View.OnClickListener {
 
-    private MainContract.MainPresenter presenter = new MainPresenter();
+    private MainPresenter presenter = new MainPresenter();
     final String TAG = "myLog MainActivity";
 
     NotesAdapter adapter;

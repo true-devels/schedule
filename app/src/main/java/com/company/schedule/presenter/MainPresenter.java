@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.company.schedule.contract.MainContract;
 import com.company.schedule.database.Note;
 import com.company.schedule.model.MainModel;
 import com.company.schedule.ui.activities.AddNoteActivity;
+import com.company.schedule.view.MainView;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -16,24 +16,22 @@ import static android.app.Activity.RESULT_OK;
 import static com.company.schedule.utils.Constants.REQUEST_CODE_ADD_NOTE;
 import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
 
-public class MainPresenter implements MainContract.MainPresenter {
+public class MainPresenter {
 
-    private MainContract.MainView view;
-    private MainContract.Model model;
+    private MainView view;
+    private MainModel model;
     // callback for Model, that call setAllNotes in MainView
-    private MainContract.Model.LoadNoteCallback callbackLoadDataFinish;
+    private MainModel.LoadNoteCallback callbackLoadDataFinish;
 
     final String TAG = "myLog MainMainPresenter";
 
-    @Override
-    public void attachView(MainContract.MainView view) {
+    public void attachView(MainView view) {
         this.view = view;
     }
 
-    @Override
     public void viewHasCreated(Context context) {
         model = new MainModel();
-        callbackLoadDataFinish = new MainContract.Model.LoadNoteCallback() {
+        callbackLoadDataFinish = new MainModel.LoadNoteCallback() {
             @Override
             public void onLoadData(List<Note> myNewNotes) {
                 loadDataFinish(myNewNotes);
@@ -42,7 +40,7 @@ public class MainPresenter implements MainContract.MainPresenter {
 
         model.initDB(context);
         // we load data from DB in Model, and then set all notes in MainView
-        model.loadData(new MainContract.Model.LoadNoteCallback() {
+        model.loadData(new MainModel.LoadNoteCallback() {
             @Override
             public void onLoadData(List<Note> myNewNotes) {
                 view.setAllNotes(myNewNotes);  // what we do when load data finish
@@ -50,14 +48,12 @@ public class MainPresenter implements MainContract.MainPresenter {
         });  // load data from DB
     }
 
-    @Override
     public void onFabAddClicked(Context context) {
         //going to .AddNoteActivity for ADD new note
         Intent intent = new Intent(context, AddNoteActivity.class);  // we indicate an explicit transition to AddNoteActivity to enter the data of a note
         view.startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
     }
 
-    @Override
     public void onItemClicked(Context context, Note noteToSend) {
         //if user clicks on item of recyclerview, app goes to AddNoteActivity but with requestCode (...)_EDIT_NOTE
         //sending all data, that is needed for editing note
@@ -70,7 +66,6 @@ public class MainPresenter implements MainContract.MainPresenter {
         view.startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE);  // going to .AddNoteActivity for EDIT note
     }
 
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // if data was correct entered
         if (resultCode == RESULT_OK && data != null) {  // move part code to different class
@@ -105,7 +100,6 @@ public class MainPresenter implements MainContract.MainPresenter {
         view.setAllNotes(myNewNotes);
     }
 
-    @Override
     public void detachView() {
         this.view = null;
     }

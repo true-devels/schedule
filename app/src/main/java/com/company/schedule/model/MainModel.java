@@ -3,11 +3,9 @@ package com.company.schedule.model;
 import android.content.Context;
 import android.util.Log;
 
-import com.company.schedule.contract.MainContract;
 import com.company.schedule.database.AppDatabase;
 import com.company.schedule.database.Note;
 import com.company.schedule.database.data_source.NoteDataSourceClass;
-import com.company.schedule.database.data_source.NoteRepository;
 
 import java.util.List;
 
@@ -20,14 +18,13 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class MainModel implements MainContract.Model {
+public class MainModel {
 
     private static final String TAG = "myLog MainModel";
 
     private CompositeDisposable compositeDisposable;
     private NoteRepository noteRepository;
 
-    @Override
     public void initDB(Context context) {
         //DB variables
         compositeDisposable = new CompositeDisposable();
@@ -38,8 +35,7 @@ public class MainModel implements MainContract.Model {
 
     //method that inserts new note into DB
     //TODO make such methods for update
-    @Override
-    public void insertToDb(final Note note, final MainContract.Model.LoadNoteCallback callback) {
+    public void insertToDb(final Note note, final LoadNoteCallback callback) {
         Disposable disposable222 = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
             @Override
             public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
@@ -66,8 +62,7 @@ public class MainModel implements MainContract.Model {
 
     Note toDel;
     //method that deletes note from DB
-    @Override
-    public void deleteFromDb(int id, final MainContract.Model.LoadNoteCallback callback) {
+    public void deleteFromDb(int id, final LoadNoteCallback callback) {
         Disposable disposable_get = noteRepository.getOneNote(id)  // TODO why we use it instead just a noteRepository.deleteNote(note)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -111,7 +106,7 @@ public class MainModel implements MainContract.Model {
     }
 
     //method that gets all data from DB
-    public void loadData(final MainContract.Model.LoadNoteCallback callback) {
+    public void loadData(final LoadNoteCallback callback) {
         Disposable disposable = noteRepository.getAllNotes()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -136,5 +131,7 @@ public class MainModel implements MainContract.Model {
         compositeDisposable.add(disposable);
     }
 
-
+    public interface LoadNoteCallback {
+        void onLoadData(List<Note> myNewNotes); //load data
+    }
 }

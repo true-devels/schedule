@@ -56,4 +56,9 @@ dependencies {
     implementation 'com.annimon:stream:1.1.9'
     annotationProcessor "org.androidannotations:androidannotations:4.4.0"
     implementation "org.androidannotations:androidannotations-api:4.4.0"
+
+    //moxy
+    implementation 'com.arello-mobile:moxy:1.5.5'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.5'
+    implementation 'com.arello-mobile:moxy-android:1.5.5'
 }

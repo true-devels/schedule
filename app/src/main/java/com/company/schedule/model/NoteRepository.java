@@ -1,6 +1,7 @@
-package com.company.schedule.database.data_source;
+package com.company.schedule.model;
 
 import com.company.schedule.database.Note;
+import com.company.schedule.database.data_source.NoteDataSource;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ import io.reactivex.Flowable;
 
 public class NoteRepository implements NoteDataSource {
 
-    // TODO write comment why (m)Loc... or (m)Ins...
+    // TODO write comment what means (m) on start name
     private NoteDataSource mLocalDataSource;
     private static NoteRepository mInstance;
 

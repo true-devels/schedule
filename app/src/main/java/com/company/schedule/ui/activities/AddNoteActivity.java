@@ -21,12 +21,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.company.schedule.contract.MainContract;
 import com.company.schedule.presenter.AddNotePresenter;
 import com.company.schedule.R;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
 import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
 import com.company.schedule.utils.DateFormat;
+import com.company.schedule.view.AddNoteView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -34,9 +34,9 @@ import java.util.GregorianCalendar;
 
 //                                                                            for button method onClick(MainView v), for switch onCheckedChanged(CB cB, bool b),              for Date and Time picker
 
-public class AddNoteActivity extends AppCompatActivity implements MainContract.AddNoteView, View.OnClickListener, CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class AddNoteActivity extends AppCompatActivity implements AddNoteView, View.OnClickListener, CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    private MainContract.AddNotePresenter presenter = new AddNotePresenter();
+    private AddNotePresenter presenter = new AddNotePresenter();
 
     final private String TAG = "myLog AddNoteActivity";  // tag for log
 

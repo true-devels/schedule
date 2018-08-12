@@ -8,38 +8,32 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.view.View;
 
 import com.company.schedule.R;
-import com.company.schedule.contract.MainContract;
 import com.company.schedule.model.MainModel;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
 import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
 import com.company.schedule.utils.Constants;
-import com.company.schedule.utils.DateFormat;
 import com.company.schedule.utils.NotificationPublisher;
+import com.company.schedule.view.AddNoteView;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class AddNotePresenter implements MainContract.AddNotePresenter {
+public class AddNotePresenter {
 
-    private MainContract.AddNoteView view;
-    private MainContract.Model model;
+    private AddNoteView view;
+    private MainModel model;
 
     final private String TAG = "myLog AddNotePresenter";  // tag for log
 
-    @Override
-    public void attachView(MainContract.AddNoteView view) {
+    public void attachView(AddNoteView view) {
         this.view = view;
     }
 
-    @Override
     public void viewHasCreated(Bundle extras) {
         model = new MainModel();
     }
 
-    @Override
     public void pressedToSubmitNote() {
         final String noteName = view.getTextFromNameNote();
         final String noteContent = view.getTextFromContentNote();
@@ -74,7 +68,6 @@ public class AddNotePresenter implements MainContract.AddNotePresenter {
         view.finish();  // finish activity and go to MainActivity
     }
 
-    @Override
     public void pressedToEditDate() {
         DatePickerFragment datePicker = new DatePickerFragment(); // calls fragment with date picker dialog
         if (view.getIsEdited()) {
@@ -84,7 +77,6 @@ public class AddNotePresenter implements MainContract.AddNotePresenter {
         view.showDatePicker(datePicker);
     }
 
-    @Override
     public void pressedToEditTime() {
         TimePickerFragment timePicker = new TimePickerFragment();// calls fragment with time picker dialog
         if (view.getIsEdited()) {
@@ -94,7 +86,6 @@ public class AddNotePresenter implements MainContract.AddNotePresenter {
         view.showTimePicker(timePicker);
     }
 
-    @Override
     public void pressedToFabDelete() {
         if(view.getIsEdited()){
             Intent intent = new Intent();
@@ -107,7 +98,6 @@ public class AddNotePresenter implements MainContract.AddNotePresenter {
         }
     }
 
-    @Override
     public void changedRemindMe(boolean isChecked) {
         if (isChecked) { // if swtRemindMe.isChecked: show EditText for Date and for Time
             view.remindMeIsChecked();
@@ -169,7 +159,6 @@ public class AddNotePresenter implements MainContract.AddNotePresenter {
         }
     }
 
-    @Override
     public void detachView() {
         this.view = null;
     }
