@@ -2,9 +2,12 @@ package com.company.schedule.presenter;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -101,8 +104,11 @@ public class AddNotePresenter {
 
 
     private Notification getNotification(String title, String content) {
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(view.getContext())  // TODO Builder is deprecated
+        NotificationCompat.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        createNotificationChannel();
+        builder =
+                new NotificationCompat.Builder(view.getContext(),"First")
                         //default icon
                         .setSmallIcon(R.mipmap.ic_launcher)  // TODO change to good icon
                         .setContentTitle(title)
@@ -111,8 +117,36 @@ public class AddNotePresenter {
                         .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
                         .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 5000)
                         .setSound(Uri.parse(Constants.SOUND_URI))
-                        .setContentText(content);
+                        .setContentText(content); }
+        else{
+            builder = new NotificationCompat.Builder(view.getContext())
+                            //default icon
+                            .setSmallIcon(R.mipmap.ic_launcher)  // TODO change to good icon
+                            .setContentTitle(title)
+                            .setContentText(content)
+                            //TODO check these three lines work
+                            .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                            .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 5000)
+                            .setSound(Uri.parse(Constants.SOUND_URI))
+                            .setContentText(content);
+
+        }
         return builder.build();
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Notes";
+            String description = "Notes_Description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("First", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = view.getContext().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private void scheduleNotification(Notification notification, long time, int selectedItem) {

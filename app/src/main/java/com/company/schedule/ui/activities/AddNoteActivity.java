@@ -79,6 +79,8 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
 
         dateNotification = new GregorianCalendar();// get settings for current time
         dateNotification.setTimeInMillis(System.currentTimeMillis());
+        dateNotification.set(Calendar.SECOND,0);
+        dateNotification.set(Calendar.MILLISECOND,0);
 
         FloatingActionButton fab_delete =  findViewById(R.id.fab_delete);  // button for jump to AddNoteActivity
         fab_delete.setOnClickListener(this);  // setting handle
