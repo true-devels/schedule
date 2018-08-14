@@ -1,4 +1,4 @@
-package com.company.schedule.database;
+package com.company.schedule.model.data.base;
 
 
 import android.arch.persistence.room.Database;
@@ -11,14 +11,14 @@ import com.company.schedule.utils.Constants;
 @Database(entities = Note.class, version = Constants.DATABASE_VERSION)
 public abstract class AppDatabase extends RoomDatabase {
 
-    public abstract NoteDAO notifyDAO();
-    private static AppDatabase mInstance;
-    public static AppDatabase getInstance(Context context){
-        if(mInstance==null){
-            mInstance = Room.databaseBuilder(context, AppDatabase.class, Constants.DATABASE_NAME)
+    public abstract NoteDAO noteDAO();
+    private static AppDatabase database;
+    public static AppDatabase getDatabase(Context context){
+        if(database ==null){
+            database = Room.databaseBuilder(context, AppDatabase.class, Constants.DATABASE_NAME)
                     .fallbackToDestructiveMigration()  //  TODO explain it
                     .build();
         }
-        return  mInstance;
+        return database;
     }
 }

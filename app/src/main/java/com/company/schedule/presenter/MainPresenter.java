@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.company.schedule.database.Note;
-import com.company.schedule.model.MainModel;
+import com.company.schedule.model.data.base.Note;
+import com.company.schedule.model.interactor.MainInteractor;
+import com.company.schedule.model.system.LoadNoteCallback;
 import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.view.MainView;
 
@@ -19,28 +20,27 @@ import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
 public class MainPresenter {
 
     private MainView view;
-    private MainModel model;
+    private MainInteractor interactor;
     // callback for Model, that call setAllNotes in MainView
-    private MainModel.LoadNoteCallback callbackLoadDataFinish;
+    private LoadNoteCallback callbackLoadDataFinish;
 
     final String TAG = "myLog MainMainPresenter";
 
-    public void attachView(MainView view) {
+    public MainPresenter(MainView view, MainInteractor interactor) {
         this.view = view;
+        this.interactor = interactor;  // init interactor
     }
 
-    public void viewHasCreated(Context context) {
-        model = new MainModel();
-        callbackLoadDataFinish = new MainModel.LoadNoteCallback() {
+    public void viewHasCreated() {
+        callbackLoadDataFinish = new LoadNoteCallback() {
             @Override
             public void onLoadData(List<Note> myNewNotes) {
                 loadDataFinish(myNewNotes);
             }
         };
 
-        model.initDB(context);
         // we load data from DB in Model, and then set all notes in MainView
-        model.loadData(new MainModel.LoadNoteCallback() {
+        interactor.loadData(new LoadNoteCallback() {
             @Override
             public void onLoadData(List<Note> myNewNotes) {
                 view.setAllNotes(myNewNotes);  // what we do when load data finish
@@ -92,12 +92,14 @@ public class MainPresenter {
         }
 
     }
-    void resultFromDeleteNote(final int id) {
-        model.deleteFromDb(id, callbackLoadDataFinish);
+
+    private void resultFromDeleteNote(final int id) {
+        Note note = new Note(id);  // create object for delete TODO make it better
+        interactor.deleteNote(note, callbackLoadDataFinish);
     }
 
-    public void loadDataFinish(List<Note> myNewNotes) {
-        view.setAllNotes(myNewNotes);
+    private void loadDataFinish(List<Note> myNewNotes) {
+        view.setAllNotes(myNewNotes);  // TODO write it in callback and delete function in presenter
     }
 
     public void detachView() {
@@ -105,7 +107,7 @@ public class MainPresenter {
     }
 
     // Misha mey be below functions must be in Model?
-    void resultFromAddNote(Intent data) {
+    private void resultFromAddNote(Intent data) {
         //TODO make good default value
         //getting all data
         String name = data.getStringExtra("note_name");
@@ -120,11 +122,11 @@ public class MainPresenter {
 
         //creating and inserting to DB new note
         final Note local = new Note(name, content, notify_date, freq);
-        model.insertToDb(local, callbackLoadDataFinish);
+        interactor.insertNote(local, callbackLoadDataFinish);
 
     }
 
-    void resultFromEditNote(Intent data) {
+    private void resultFromEditNote(Intent data) {
         //getting all data
         final int id = data.getIntExtra("id", -1);  // TODO move repeated cod from REQUEST_CODE_EDIT_NOTE and REQUEST_CODE_ADD_NOTE to line below onActivityResult
         final String name = data.getStringExtra("note_name");
@@ -137,12 +139,8 @@ public class MainPresenter {
         if (timeInMillis == -1) notify_date = null;
         else notify_date.setTimeInMillis(timeInMillis);
 
-        // TODO make updateDb instead insertToDb & deleteFromDb
-        //creating and inserting updated note to DB
         final Note local = new Note(name, content, notify_date, freq);  // make declaration in start func
-        model.insertToDb(local, callbackLoadDataFinish);
-
-        //getting and deleting old version of note from DB
-        model.deleteFromDb(id, callbackLoadDataFinish);
+        local.setId(id);  // important
+        interactor.updateNote(local, callbackLoadDataFinish);
     }
 }

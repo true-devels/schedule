@@ -12,7 +12,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.company.schedule.R;
-import com.company.schedule.database.Note;
+import com.company.schedule.model.data.base.Note;
+import com.company.schedule.model.interactor.MainInteractor;
+import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.presenter.MainPresenter;
 import com.company.schedule.ui.adapters.CustomLayoutManager;
 import com.company.schedule.ui.adapters.NotesAdapter;
@@ -24,7 +26,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MainView, View.OnClickListener {
 
-    private MainPresenter presenter = new MainPresenter();
+    private MainPresenter presenter;
     final String TAG = "myLog MainActivity";
 
     NotesAdapter adapter;
@@ -36,6 +38,11 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        presenter = new MainPresenter(MainActivity.this,  // init view in presenter
+                new MainInteractor(  // create interactor
+                        new MainRepository(this)  // create repository with context
+                )
+        );
 
         // init adapter for notesList
         adapter = new NotesAdapter(this, notes);
@@ -59,10 +66,8 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
         setSupportActionBar(toolbar);
 
 
-        // for init view in presenter
-        presenter.attachView(MainActivity.this);
         // we say the MainPresenter that the MainView are almost created
-        presenter.viewHasCreated(this);
+        presenter.viewHasCreated();
     }
 
     @Override

@@ -5,12 +5,10 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.company.schedule.R;
-import com.company.schedule.model.MainModel;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
 import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
 import com.company.schedule.utils.Constants;
@@ -22,16 +20,11 @@ import java.util.GregorianCalendar;
 public class AddNotePresenter {
 
     private AddNoteView view;
-    private MainModel model;
 
     final private String TAG = "myLog AddNotePresenter";  // tag for log
 
     public void attachView(AddNoteView view) {
         this.view = view;
-    }
-
-    public void viewHasCreated(Bundle extras) {
-        model = new MainModel();
     }
 
     public void pressedToSubmitNote() {

@@ -1,53 +1,48 @@
-package com.company.schedule.database.data_source;
+package com.company.schedule.model.data.base.data_source;
 
 
-import com.company.schedule.database.Note;
-import com.company.schedule.database.NoteDAO;
+import com.company.schedule.model.data.base.Note;
+import com.company.schedule.model.data.base.NoteDAO;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
 
-public class NoteDataSourceClass implements NoteDataSource {
+public class NoteDataSourceClass {
     private NoteDAO noteDAO;
-    private static NoteDataSource mInstance;
+    private static NoteDataSourceClass mInstance;
 
-    public NoteDataSourceClass(NoteDAO noteDAO) {
+    NoteDataSourceClass(NoteDAO noteDAO) {
         this.noteDAO = noteDAO;
     }
-    public static NoteDataSource getInstance(NoteDAO noteDAO){
-        if(mInstance==null){
-            mInstance=new NoteDataSourceClass(noteDAO);
+
+    public static NoteDataSourceClass getInstance(NoteDAO noteDAO){
+        if(mInstance == null){
+            mInstance = new NoteDataSourceClass(noteDAO);
         }
         return mInstance;
     }
 
-    @Override
     public Flowable<Note> getOneNote(int id) {
         return noteDAO.getOneNote(id);
     }
 
-    @Override
     public Flowable<List<Note>> getAllNotes() {
         return noteDAO.getAllNotes();
     }
 
-    @Override
     public void insertNote(Note... notes) {
         noteDAO.insertNotes(notes);
     }
 
-    @Override
     public void updateNote(Note... notes) {
         noteDAO.updateNotes(notes);
     }
 
-    @Override
     public void deleteNote(Note note) {
         noteDAO.deleteNote(note);
     }
 
-    @Override
     public void deleteAllNotes() {
         noteDAO.deleteAllNotes();
     }

@@ -1,7 +1,8 @@
-package com.company.schedule.database;
+package com.company.schedule.model.data.base;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
@@ -45,6 +46,12 @@ public class Note {
         this.date = date;
         this.frequency = frequency;
         this.content = content;
+    }
+
+    //TODO just make noteDeleteById in notify dao
+    @Ignore
+    public Note(int id) {  // for create empty note only with id
+        this.id = id;
     }
 
     //getters and setters

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.company.schedule.R;
-import com.company.schedule.database.Note;
+import com.company.schedule.model.data.base.Note;
 import com.company.schedule.utils.DateFormat;
 
 import java.util.GregorianCalendar;

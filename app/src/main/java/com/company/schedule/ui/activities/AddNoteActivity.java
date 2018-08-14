@@ -54,6 +54,9 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_note);
 
+        presenter.attachView(this);
+
+
         etNameNote =  findViewById(R.id.etNameNote);  // to enter a note name
         etContentNote =  findViewById(R.id.etNameContent);  // to enter a note content
 
@@ -116,9 +119,6 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
             }
 
         }
-
-        presenter.attachView(this);
-        presenter.viewHasCreated(extras);
     }
 
 
