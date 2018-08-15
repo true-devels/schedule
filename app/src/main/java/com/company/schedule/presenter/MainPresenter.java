@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
-import com.company.schedule.model.system.LoadNoteCallback;
+import com.company.schedule.model.callback.LoadNoteCallback;
 import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.view.MainView;
 
@@ -24,7 +24,7 @@ public class MainPresenter {
     // callback for Model, that call setAllNotes in MainView
     private LoadNoteCallback callbackLoadDataFinish;
 
-    final String TAG = "myLog MainMainPresenter";
+    private final String TAG = "myLog MainMainPresenter";
 
     public MainPresenter(MainView view, MainInteractor interactor) {
         this.view = view;
@@ -131,7 +131,7 @@ public class MainPresenter {
         final int id = data.getIntExtra("id", -1);  // TODO move repeated cod from REQUEST_CODE_EDIT_NOTE and REQUEST_CODE_ADD_NOTE to line below onActivityResult
         final String name = data.getStringExtra("note_name");
         final String content = data.getStringExtra("note_content");
-        byte freq = (byte) data.getIntExtra("freq",0);  // TODO comment it (why prototype)
+        byte freq = (byte) data.getIntExtra("freq",0);
 
         //creating calendar with data, that is got from editnote activity
         GregorianCalendar notify_date = new GregorianCalendar();
@@ -141,6 +141,7 @@ public class MainPresenter {
 
         final Note local = new Note(name, content, notify_date, freq);  // make declaration in start func
         local.setId(id);  // important
+        Log.d(TAG, local.getId() + ") " + local.getName() + "; content: " + local.getContent() + "; date: " + local.getDate() + "; frequency: " + local.getFrequency());
         interactor.updateNote(local, callbackLoadDataFinish);
     }
 }

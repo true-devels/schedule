@@ -5,8 +5,7 @@ import android.util.Log;
 
 import com.company.schedule.model.data.base.NoteDAO;
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.data.base.AppDatabase;
-import com.company.schedule.model.system.LoadNoteCallback;
+import com.company.schedule.model.callback.LoadNoteCallback;
 
 import java.util.List;
 
@@ -26,21 +25,14 @@ public class MainRepository {
 
     private CompositeDisposable compositeDisposable;
 
-    private static final String TAG = "myLog MainModel";
+    private static final String TAG = "myLog MainRepository";
 
 
-    public MainRepository(Context context) {
+    public MainRepository(Context context, NoteDAO noteDAO) {
         this.context = context;
-        initDB(context);
-    }
+        this.noteDAO = noteDAO;
 
-
-    private void initDB(Context context) {
-        //DB variables
         compositeDisposable = new CompositeDisposable();
-        AppDatabase linkDatabase = AppDatabase.getDatabase(context);
-        noteDAO = linkDatabase.noteDAO();
-
     }
 
 
@@ -152,7 +144,9 @@ public class MainRepository {
                 .subscribe(new Consumer<List<Note>>() {
                     @Override
                     public void accept(List<Note> myNewNotes) throws Exception {
-                        Log.v(TAG, " here loaddata is");
+                        for (Note note : myNewNotes) {
+                            Log.v(TAG, "here note with id:" + note.getId());
+                        }
 
                         if (callback != null) {
                             callback.onLoadData(myNewNotes);

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.company.schedule.R;
+import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.MainRepository;
@@ -40,7 +41,9 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
 
         presenter = new MainPresenter(MainActivity.this,  // init view in presenter
                 new MainInteractor(  // create interactor
-                        new MainRepository(this)  // create repository with context
+                        new MainRepository(this,
+                                AppDatabase.getDatabase(this).noteDAO()
+                        )  // create repository with context and DAO
                 )
         );
 

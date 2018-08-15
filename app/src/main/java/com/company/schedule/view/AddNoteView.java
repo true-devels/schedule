@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Spinner;
 
+import com.company.schedule.model.data.base.Note;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
 import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
 
@@ -20,18 +21,9 @@ public interface AddNoteView {
     // setters
     void setResultOK(Intent data);
     void setResultCancel();
-    // getters
-    int getId();
-    String getTextFromNameNote();
-    String getTextFromContentNote();
-    boolean getIsReminded();
-    boolean getIsEdited();
-    GregorianCalendar getDateNotification();
-    GregorianCalendar getGcEditDate();
-    Spinner getSpinnerFreq();
-    Context getContext();
-    AlarmManager getAlarmManager();
-
+    // for notify
+    void createNotification(Note note);
+    // finish activity and going to MainActivity
     void finish();
 
 }

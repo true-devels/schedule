@@ -34,7 +34,7 @@ public interface NoteDAO {
     void deleteAllNotes();
 
     // for output notifies sorted by date
-    @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date")
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date;")
     Flowable<List<Note>> getNotesSortedByDate();
 
     @Query("DELETE FROM " + Constants.TABLE_NAME + " WHERE id=:id")

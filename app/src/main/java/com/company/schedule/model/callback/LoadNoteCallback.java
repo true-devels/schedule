@@ -1,4 +1,4 @@
-package com.company.schedule.model.system;
+package com.company.schedule.model.callback;
 
 import com.company.schedule.model.data.base.Note;
 

@@ -2,7 +2,7 @@ package com.company.schedule.model.interactor;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.repository.MainRepository;
-import com.company.schedule.model.system.LoadNoteCallback;
+import com.company.schedule.model.callback.LoadNoteCallback;
 
 public class MainInteractor {
 

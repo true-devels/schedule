@@ -2,6 +2,7 @@ package com.company.schedule.ui.activities;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.company.schedule.model.system.MyNotification;
+import com.company.schedule.model.data.base.Note;
 import com.company.schedule.presenter.AddNotePresenter;
 import com.company.schedule.R;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
@@ -40,12 +43,12 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
 
     final private String TAG = "myLog AddNoteActivity";  // tag for log
 
-    EditText etNameNote, etContentNote;  // EditTexts for enter name and content of note
-    LinearLayout llDateTime;  // LinearLayout which contain two object(id.editDate, id.editTime)
-    TextView editDate, editTime;
-    GregorianCalendar dateNotification;
-    Spinner spinnerFreq;
-    Switch swtRemindMe;
+    private EditText etNameNote, etContentNote;  // EditTexts for enter name and content of note
+    private LinearLayout llDateTime;  // LinearLayout which contain two object(id.editDate, id.editTime)
+    private TextView editDate, editTime;
+    private GregorianCalendar dateNotification;
+    private Spinner spinnerFreq;
+    private Switch swtRemindMe;
     boolean isEdited = false, isReminded = false;
     int id = -1;
     GregorianCalendar gcEditDate;
@@ -128,16 +131,22 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     public void onClick(View view) {
         switch (view.getId()) {
         case R.id.btnSubmitNote:  // if button send note to DB already pressed
-            presenter.pressedToSubmitNote();
+            Note noteToSubmit = new Note(etNameNote.getText().toString(),
+                    etContentNote.getText().toString(),
+                    dateNotification,
+                    (byte) spinnerFreq.getSelectedItemPosition()
+            );
+            noteToSubmit.setId(id);  // important!
+            presenter.pressedToSubmitNote(noteToSubmit, isReminded);
             break;
         case R.id.editDate:  //if clicking on TextView with date
-            presenter.pressedToEditDate();
+            presenter.pressedToEditDate(isEdited, gcEditDate);
             break;
         case R.id.editTime:   //if clicking on TextView with time
-            presenter.pressedToEditTime();
+            presenter.pressedToEditTime(isEdited, gcEditDate);
             break;
         case R.id.fab_delete:
-            presenter.pressedToFabDelete();
+            presenter.pressedToFabDelete(isEdited, id);
             break;
         }
     }
@@ -156,25 +165,6 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                 Log.e(TAG, "onCheckedChanged default, compoundButton.getId: " + compoundButton.getId() + "; isChecked: " + isChecked);
         }
 
-    }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        //month++; // because computer start count month from 0 to 11
-        dateNotification.set(GregorianCalendar.YEAR, year);
-        dateNotification.set(GregorianCalendar.MONTH, month);
-        dateNotification.set(GregorianCalendar.DAY_OF_MONTH, dayOfMonth);
-
-        editDate.setText(DateFormat.getDate(dateNotification));  // when user chose a date we switch it in TV in good date format
-    }
-
-    @Override
-    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-        dateNotification.set(GregorianCalendar.HOUR_OF_DAY, hourOfDay);
-        dateNotification.set(GregorianCalendar.MINUTE,minute);
-        dateNotification.set(GregorianCalendar.SECOND, 0);
-
-        editTime.setText(DateFormat.getTime(dateNotification));  // when user chose a date we switch it in TV in good time format
     }
 
     @Override
@@ -209,6 +199,26 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     public void showTimePicker(TimePickerFragment timePickerFragment) {
         timePickerFragment.show(getSupportFragmentManager(), "time picker");  // show time picker dialog
     }
+
+    // getting result from pickers
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+        //month++; // because computer start count month from 0 to 11
+        dateNotification.set(GregorianCalendar.YEAR, year);
+        dateNotification.set(GregorianCalendar.MONTH, month);
+        dateNotification.set(GregorianCalendar.DAY_OF_MONTH, dayOfMonth);
+
+        editDate.setText(DateFormat.getDate(dateNotification));  // when user chose a date we switch it in TV in good date format
+    }
+
+    @Override
+    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+        dateNotification.set(GregorianCalendar.HOUR_OF_DAY, hourOfDay);
+        dateNotification.set(GregorianCalendar.MINUTE,minute);
+        dateNotification.set(GregorianCalendar.SECOND, 0);  // second just always equals 0
+
+        editTime.setText(DateFormat.getTime(dateNotification));  // when user chose a date we switch it in TV in good time format
+    }
     // setters
     @Override
     public void setResultOK(Intent data) {
@@ -220,56 +230,19 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         setResult(RESULT_CANCELED);
     }
 
-    //getters
     @Override
-    public int getId() {
-        return this.id;
+    public void createNotification(Note note) {
+        MyNotification myNotification = new MyNotification(this);
+        Notification local = myNotification.getNotification(note.getName(), note.getContent());
+
+        myNotification.scheduleNotification(local,
+                note.getDate().getTimeInMillis(),
+                note.getFrequency(),
+                (AlarmManager) getSystemService(Context.ALARM_SERVICE)
+        );
+
     }
 
-    @Override
-    public String getTextFromNameNote() {
-        return etNameNote.getText().toString();
-    }
-
-    @Override
-    public String getTextFromContentNote() {
-        return etContentNote.getText().toString();
-    }
-
-    @Override
-    public boolean getIsReminded() {
-        return isReminded;
-    }
-
-    @Override
-    public boolean getIsEdited() {
-        return isEdited;
-    }
-
-    @Override
-    public GregorianCalendar getDateNotification() {
-        return dateNotification;
-    }
-
-    @Override
-    public GregorianCalendar getGcEditDate() {
-        return gcEditDate;
-    }
-
-    @Override
-    public Spinner getSpinnerFreq() {
-        return spinnerFreq;
-    }
-
-    @Override
-    public Context getContext() {
-        return AddNoteActivity.this;
-    }
-
-    @Override
-    public AlarmManager getAlarmManager() {
-        return (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-    }
 
     @Override
     public void finish() {
