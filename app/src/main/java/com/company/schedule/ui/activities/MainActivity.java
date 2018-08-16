@@ -41,9 +41,7 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
 
         presenter = new MainPresenter(MainActivity.this,  // init view in presenter
                 new MainInteractor(  // create interactor
-                        new MainRepository(this,
-                                AppDatabase.getDatabase(this).noteDAO()
-                        )  // create repository with context and DAO
+                        new MainRepository(AppDatabase.getDatabase(this).noteDAO())  // create repository and get DAO
                 )
         );
 

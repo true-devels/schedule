@@ -20,7 +20,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainRepository {
 
-    private Context context;
     private NoteDAO noteDAO;
 
     private CompositeDisposable compositeDisposable;
@@ -28,12 +27,12 @@ public class MainRepository {
     private static final String TAG = "myLog MainRepository";
 
 
-    public MainRepository(Context context, NoteDAO noteDAO) {
-        this.context = context;
+    public MainRepository(NoteDAO noteDAO) {
         this.noteDAO = noteDAO;
 
         compositeDisposable = new CompositeDisposable();
     }
+
 
 
     //method that inserts new note into DB
@@ -114,26 +113,6 @@ public class MainRepository {
         compositeDisposable.add(disposable_delete);
     }
 
-    public void deleteNoteById() {
-        //
-//        Disposable disposable_get = getOneNote(id)  // TODO why we use it instead just a repository.deleteNote(note)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe(new Consumer<Note>() {
-//                    @Override
-//                    public void accept(final Note note) throws Exception {
-//
-//
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        Log.e(TAG, "Error: " + throwable.getMessage());
-//                    }
-//                });
-//        compositeDisposable.add(disposable_get);
-    }
-
 
 
     //method that gets all data from DB and update Recycler view
@@ -164,7 +143,27 @@ public class MainRepository {
         compositeDisposable.add(disposable);
     }
 
-    //work with DB
+    //
+    public void getOneNoteByIdDisposable(int id) {
+        Disposable disposable = getOneNote(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<Note>() {
+                    @Override
+                    public void accept(Note myNewNotes) throws Exception {
+                        Log.v(TAG, "getOneNoteDisposable: here note with id:" + myNewNotes.getId());
+                        // TODO make something with
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, "Error in getOneNoteDisposable(): "+throwable.getMessage());
+                    }
+                });
+        compositeDisposable.add(disposable);
+    }
+
+    //work with DAO
     private Flowable<Note> getOneNote(int id) {
         return noteDAO.getOneNote(id);
     }
@@ -188,4 +187,24 @@ public class MainRepository {
     private void deleteAllNotes() {
         noteDAO.deleteAllNotes();
     }
+
+
+    //    public void deleteNoteById() {
+//        Disposable disposable_get = getOneNote(id)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Consumer<Note>() {
+//                    @Override
+//                    public void accept(final Note note) throws Exception {
+//
+//
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Exception {
+//                        Log.e(TAG, "Error: " + throwable.getMessage());
+//                    }
+//                });
+//        compositeDisposable.add(disposable_get);
+//    }
 }

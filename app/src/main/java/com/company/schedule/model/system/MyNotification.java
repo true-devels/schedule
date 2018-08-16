@@ -88,9 +88,7 @@ public class MyNotification {
         }
     }
 
-
-
-   private long getFrequencyInMillis(int selectedItem){
+    private long getFrequencyInMillis(int selectedItem){
         long day = 1000L * 60L * 60L * 24L; // 86 400 000 milliseconds in a day
         switch (selectedItem) {
             case 1:

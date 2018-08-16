@@ -29,4 +29,8 @@ public class MainInteractor {
     public void loadData(final LoadNoteCallback callback) {
         repository.loadData(callback);
     }
+
+    public void getOneNoteById(int id) {
+        repository.getOneNoteByIdDisposable(id);
+    }
 }

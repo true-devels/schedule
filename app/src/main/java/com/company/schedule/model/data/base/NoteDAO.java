@@ -18,7 +18,7 @@ public interface NoteDAO {
     @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE id=:id")
     Flowable<Note> getOneNote(int id);
 
-    @Query("SELECT * FROM " + Constants.TABLE_NAME)
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date;")
     Flowable<List<Note>> getAllNotes();
 
     @Insert
