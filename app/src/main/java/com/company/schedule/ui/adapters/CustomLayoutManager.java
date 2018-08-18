@@ -16,7 +16,7 @@ public class CustomLayoutManager extends LinearLayoutManager {
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            Log.e("myLog CustomLayoutManag", "Bugs of RecyclerView: "+e.getMessage());
+            Log.e("myLog CustomLayoutManag", "Bugs of RecyclerView: "+e.getMessage());  // TODO resolve bugs
         }
     }
 }

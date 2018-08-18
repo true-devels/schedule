@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
-import com.company.schedule.model.callback.LoadNoteCallback;
 import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.view.MainView;
 
@@ -22,7 +21,6 @@ public class MainPresenter {
     private MainView view;
     private MainInteractor interactor;
     // callback for Model, that call setAllNotes in MainView
-    private LoadNoteCallback callbackLoadDataFinish;
 
     private final String TAG = "myLog MainMainPresenter";
 
@@ -32,20 +30,8 @@ public class MainPresenter {
     }
 
     public void viewHasCreated() {
-        callbackLoadDataFinish = new LoadNoteCallback() {
-            @Override
-            public void onLoadData(List<Note> myNewNotes) {
-                loadDataFinish(myNewNotes);
-            }
-        };
-
         // we load data from DB in Model, and then set all notes in MainView
-        interactor.loadData(new LoadNoteCallback() {
-            @Override
-            public void onLoadData(List<Note> myNewNotes) {
-                view.setAllNotes(myNewNotes);  // what we do when load data finish
-            }
-        });  // load data from DB
+        interactor.loadData();  // load data from DB
     }
 
     public void onFabAddClicked(Context context) {
@@ -95,11 +81,7 @@ public class MainPresenter {
 
     private void resultFromDeleteNote(final int id) {
         Note note = new Note(id);  // create object for delete TODO make it better
-        interactor.deleteNote(note, callbackLoadDataFinish);
-    }
-
-    private void loadDataFinish(List<Note> myNewNotes) {
-        view.setAllNotes(myNewNotes);  // TODO write it in callback and delete function in presenter
+        interactor.deleteNote(note);
     }
 
     public void detachView() {
@@ -122,7 +104,7 @@ public class MainPresenter {
 
         //creating and inserting to DB new note
         final Note local = new Note(name, content, notify_date, freq);
-        interactor.insertNote(local, callbackLoadDataFinish);
+        interactor.insertNote(local);
 
     }
 
@@ -142,6 +124,6 @@ public class MainPresenter {
         final Note local = new Note(name, content, notify_date, freq);  // make declaration in start func
         local.setId(id);  // important
         Log.d(TAG, local.getId() + ") " + local.getName() + "; content: " + local.getContent() + "; date: " + local.getDate() + "; frequency: " + local.getFrequency());
-        interactor.updateNote(local, callbackLoadDataFinish);
+        interactor.updateNote(local);
     }
 }

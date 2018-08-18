@@ -1,210 +1,129 @@
 package com.company.schedule.model.repository;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.company.schedule.model.data.base.NoteDAO;
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.callback.LoadNoteCallback;
+import com.company.schedule.model.system.SchedulersProvider;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
-import io.reactivex.ObservableEmitter;
+import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainRepository {
 
     private NoteDAO noteDAO;
 
-    private CompositeDisposable compositeDisposable;
+    private Observer<List<Note>> observerNotes;
+    private Observer<Note> observerNote;  // observerNotes which get list notes
+    private Observer<Object> observerLoadData;
+
+    private SchedulersProvider provider;  // provider for threads
 
     private static final String TAG = "myLog MainRepository";
 
 
-    public MainRepository(NoteDAO noteDAO) {
+    public MainRepository(NoteDAO noteDAO, Observer<List<Note>> observerList, Observer<Note> observerNote , SchedulersProvider provider) {
         this.noteDAO = noteDAO;
 
-        compositeDisposable = new CompositeDisposable();
+        this.observerNotes = observerList;
+        this.observerNote = observerNote;
+        this.observerLoadData = new Observer<Object>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "onError "+e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                loadData();  // when we make changes we load data to screen
+            }
+
+        };
+
+        this.provider = provider;
     }
 
 
 
     //method that inserts new note into DB
-    public void insertNoteDisposable(final Note note, final LoadNoteCallback callback) {
-        Disposable disposable_insert = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
-            @Override
-            public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
-                insertNotes(note);
-                emitter.onComplete();
-            }
+    public void insertNoteObservable(final Note note) {
+        Observable.create(emitter -> {
+            noteDAO.insertNotes(note);
+            emitter.onComplete();
         })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        loadData(callback);  // we give callback for view.onGetAllLinkSuccess(myNewNotes)
-                        Log.i(TAG, "Link added!");
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "Error: " + throwable.getMessage());
-                    }
-                });
-        compositeDisposable.add(disposable_insert);
+                .subscribeOn(provider.io())
+                .observeOn(provider.ui())
+                .subscribe(observerLoadData);
     }
 
-    public void updateNoteDisposable(final Note note, final LoadNoteCallback callback) {
-        Disposable disposable_update = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
-            @Override
-            public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
-                updateNotes(note);
-                emitter.onComplete();
-            }
+
+    public void updateNoteObservable(final Note note) {
+        Observable.create(emitter -> {
+            noteDAO.updateNotes(note);
+            emitter.onComplete();
         })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        loadData(callback);  // we give callback for view.onGetAllLinkSuccess(myNewNotes)
-                        Log.i(TAG, "Link updated!");
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "Error: " + throwable.getMessage());
-                    }
-                });
-        compositeDisposable.add(disposable_update);
+                .subscribeOn(provider.io())
+                .observeOn(provider.ui())
+                .subscribe(observerLoadData);
     }
+
 
     //method that deletes note from DB
-    public void deleteNoteDisposable(final Note noteToDel, final LoadNoteCallback callback) {
-        Disposable disposable_delete = io.reactivex.Observable.create(new ObservableOnSubscribe<Object>() {
-            @Override
-            public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
-                deleteNote(noteToDel);
-                emitter.onComplete();
-            }
+    public void deleteNoteObservable(final Note noteToDel) {
+        Observable.create(emitter -> {
+            noteDAO.deleteNote(noteToDel);
+            emitter.onComplete();
         })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        Log.i(TAG, "Note has deleted!");
-                        loadData(callback);  // we give callback for view.onGetAllLinkSuccess(myNewNotes)
-
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "Error: " + throwable.getMessage());
-                    }
-                });
-        compositeDisposable.add(disposable_delete);
+                .subscribeOn(provider.io())
+                .observeOn(provider.ui())
+                .subscribe(observerLoadData);
     }
-
 
 
     //method that gets all data from DB and update Recycler view
-    public void loadData(final LoadNoteCallback callback) {
-        Disposable disposable = getAllNotes()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<List<Note>>() {
-                    @Override
-                    public void accept(List<Note> myNewNotes) throws Exception {
-                        for (Note note : myNewNotes) {
-                            Log.v(TAG, "here note with id:" + note.getId());
-                        }
+    public void loadData() {
 
-                        if (callback != null) {
-                            callback.onLoadData(myNewNotes);
-                        } else {
-                            Log.e(TAG, "callback is empty");
-                            // TODO throw
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "Error: "+throwable.getMessage());
-                    }
-                });
-        compositeDisposable.add(disposable);
-    }
-
-    //
-    public void getOneNoteByIdDisposable(int id) {
-        Disposable disposable = getOneNote(id)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<Note>() {
-                    @Override
-                    public void accept(Note myNewNotes) throws Exception {
-                        Log.v(TAG, "getOneNoteDisposable: here note with id:" + myNewNotes.getId());
-                        // TODO make something with
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "Error in getOneNoteDisposable(): "+throwable.getMessage());
-                    }
-                });
-        compositeDisposable.add(disposable);
-    }
-
-    //work with DAO
-    private Flowable<Note> getOneNote(int id) {
-        return noteDAO.getOneNote(id);
-    }
-
-    private Flowable<List<Note>> getAllNotes() {
-        return noteDAO.getAllNotes();
-    }
-
-    private void insertNotes(Note... notes) {
-        noteDAO.insertNotes(notes);
-    }
-
-    private void updateNotes(Note... notes) {
-        noteDAO.updateNotes(notes);
-    }
-
-    private void deleteNote(Note note) {
-        noteDAO.deleteNote(note);  // Note shall delete by note.id
-    }
-
-    private void deleteAllNotes() {
-        noteDAO.deleteAllNotes();
+        Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
+            try {
+                List<Note> notes = noteDAO.getAllNotes();  // get notes
+                emitter.onNext(notes);  // send notes
+                emitter.onComplete();
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
+        })
+                .subscribeOn(provider.io())
+                .observeOn(provider.ui())
+                .subscribe(observerNotes);  // set observer which will listen for changes
     }
 
 
-    //    public void deleteNoteById() {
-//        Disposable disposable_get = getOneNote(id)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe(new Consumer<Note>() {
-//                    @Override
-//                    public void accept(final Note note) throws Exception {
-//
-//
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        Log.e(TAG, "Error: " + throwable.getMessage());
-//                    }
-//                });
-//        compositeDisposable.add(disposable_get);
-//    }
+    public void getOneNoteByIdObservable(final int id) {
+
+        Observable.create((ObservableOnSubscribe<Note>) emitter -> {
+            try {
+                Note note = noteDAO.getOneNote(id);
+                emitter.onNext(note);
+                emitter.onComplete();
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
+        })
+                .subscribeOn(provider.io())
+                .observeOn(provider.ui())
+                .subscribe(observerNote);
+    }
 }

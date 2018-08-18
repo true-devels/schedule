@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.MainRepository;
+import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presenter.MainPresenter;
 import com.company.schedule.ui.adapters.CustomLayoutManager;
 import com.company.schedule.ui.adapters.NotesAdapter;
@@ -24,11 +26,15 @@ import com.company.schedule.view.MainView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 public class MainActivity extends AppCompatActivity implements MainView, View.OnClickListener {
 
     private MainPresenter presenter;
     final String TAG = "myLog MainActivity";
+    final String OBSERVER_TAG = "myLog Observer";
 
     NotesAdapter adapter;
     ArrayList<Note> notes = new ArrayList<>();
@@ -41,7 +47,56 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
 
         presenter = new MainPresenter(MainActivity.this,  // init view in presenter
                 new MainInteractor(  // create interactor
-                        new MainRepository(AppDatabase.getDatabase(this).noteDAO())  // create repository and get DAO
+                        new MainRepository(
+                                AppDatabase.getDatabase(this).noteDAO(),
+                                new Observer<List<Note>>() {
+
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
+                                        Log.i(OBSERVER_TAG, "onSubscribe");
+                                    }
+
+                                    @Override
+                                    public void onNext(List<Note> notes) {
+                                        setAllNotes(notes);
+                                        Log.i(OBSERVER_TAG, "onNext size:"+notes.size());
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Log.e(OBSERVER_TAG, "onError "+e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+                                        Log.i(OBSERVER_TAG, "onComplete");
+                                    }
+                                },
+                                new Observer<Note>() {
+
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
+                                        Log.i(OBSERVER_TAG, "onSubscribe");
+                                    }
+
+                                    @Override
+                                    public void onNext(Note newNote) {
+                                        setNote(newNote);
+                                        Log.i(OBSERVER_TAG, "onNext");
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Log.e(OBSERVER_TAG, "onError "+e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+                                        Log.i(OBSERVER_TAG, "onComplete");
+                                    }
+                                },
+                                new AppSchedulers()
+                                )  // create repository and get DAO
                 )
         );
 
@@ -81,13 +136,16 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
     }
 
     //method that writes all data to recyclerview
-    @Override
-    public void setAllNotes(List<Note> myNewNotes) {
+    public void setAllNotes(List<Note> newNotes) {
         notes.clear();
         adapter.notifyItemRangeRemoved(0,adapter.getItemCount());
-        notes.addAll(myNewNotes);
-        adapter.notifyItemRangeInserted(0,myNewNotes.size());
+        notes.addAll(newNotes);
+        adapter.notifyItemRangeInserted(0,newNotes.size());
 
+    }
+
+    public void setNote(Note newNote) {
+        // TODO make something with new Note
     }
 
     @Override

@@ -16,10 +16,10 @@ import io.reactivex.Flowable;
 @Dao
 public interface NoteDAO {
     @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE id=:id")
-    Flowable<Note> getOneNote(int id);
+    Note getOneNote(int id);
 
-    @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date;")
-    Flowable<List<Note>> getAllNotes();
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date")  // TODO make good sort by date
+    List<Note> getAllNotes();
 
     @Insert
     void insertNotes(Note... notes);
@@ -35,7 +35,7 @@ public interface NoteDAO {
 
     // for output notifies sorted by date
     @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date;")
-    Flowable<List<Note>> getNotesSortedByDate();
+    List<Note> getNotesSortedByDate();
 
     @Query("DELETE FROM " + Constants.TABLE_NAME + " WHERE id=:id")
     void deleteNoteById(int id);

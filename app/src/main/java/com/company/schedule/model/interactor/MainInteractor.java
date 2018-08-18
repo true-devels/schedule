@@ -2,7 +2,6 @@ package com.company.schedule.model.interactor;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.repository.MainRepository;
-import com.company.schedule.model.callback.LoadNoteCallback;
 
 public class MainInteractor {
 
@@ -13,24 +12,24 @@ public class MainInteractor {
     }
 
     //method that inserts new note into DB
-    public void insertNote(final Note note, final LoadNoteCallback callback) {
-        repository.insertNoteDisposable(note, callback);
+    public void insertNote(final Note note) {
+        repository.insertNoteObservable(note);
     }
 
-    public void updateNote(Note noteToUpdate, LoadNoteCallback callbackLoadDataFinish){
-        repository.updateNoteDisposable(noteToUpdate, callbackLoadDataFinish);
+    public void updateNote(Note noteToUpdate){
+        repository.updateNoteObservable(noteToUpdate);
     }
 
     //method that deletes note from DB
-    public void deleteNote(Note noteToDel, final LoadNoteCallback callback) {
-        repository.deleteNoteDisposable(noteToDel, callback);
+    public void deleteNote(Note noteToDel) {
+        repository.deleteNoteObservable(noteToDel);
     }
 
-    public void loadData(final LoadNoteCallback callback) {
-        repository.loadData(callback);
+    public void loadData() {
+        repository.loadData();
     }
 
     public void getOneNoteById(int id) {
-        repository.getOneNoteByIdDisposable(id);
+        repository.getOneNoteByIdObservable(id);
     }
 }
