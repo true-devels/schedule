@@ -39,7 +39,7 @@ public class AddNotePresenter {
             } else {  // TODO make good default value
                 //if switch button 'remind' is off
                 // we don't create notification and and don't give time_in_millis to DB
-                intentReturnNoteData.putExtra("time_in_millis", -1);
+                intentReturnNoteData.putExtra("time_in_millis", (long)-1);
             }
 
             Log.v(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");

@@ -49,7 +49,12 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
                 new MainInteractor(  // create interactor
                         new MainRepository(
                                 AppDatabase.getDatabase(this).noteDAO(),
-                                new Observer<List<Note>>() {
+                                new AppSchedulers()
+                                )  // create repository and get DAO
+                )
+        );
+        /*
+        new Observer<List<Note>>() {
 
                                     @Override
                                     public void onSubscribe(Disposable d) {
@@ -95,10 +100,8 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
                                         Log.i(OBSERVER_TAG, "onComplete");
                                     }
                                 },
-                                new AppSchedulers()
-                                )  // create repository and get DAO
-                )
-        );
+
+         */
 
         // init adapter for notesList
         adapter = new NotesAdapter(this, notes);
@@ -148,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
         // TODO make something with new Note
     }
 
-    @Override
+    @Override//TODO delete it
     public void startActivityForResult(Intent intent, int requestCode) {  // getting variables from presenter
         super.startActivityForResult(intent, requestCode); // and getting this information back. (using REQUEST_CODE_ADD_NOTE (1) we can find out that the result came exactly with AddNoteActivity)
     }

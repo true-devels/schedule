@@ -9,6 +9,7 @@ import java.util.List;
 public interface MainView {
     void startActivityForResult(Intent intent, int requestCode);
 
+    void setAllNotes(List<Note> newNotes);
     void toast(String toast_message);
     void toastLong(String toast_message);
 }

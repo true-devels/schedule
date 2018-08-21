@@ -27,16 +27,16 @@ public interface NoteDAO {
     @Update
     void updateNotes(Note... notes);
 
+    @Query("DELETE FROM " + Constants.TABLE_NAME + " WHERE id=:id")
+    void deleteNoteById(int id);
+
     @Delete
     void deleteNote(Note note);
 
     @Query("DELETE FROM " + Constants.TABLE_NAME)
     void deleteAllNotes();
-
     // for output notifies sorted by date
+
     @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date;")
     List<Note> getNotesSortedByDate();
-
-    @Query("DELETE FROM " + Constants.TABLE_NAME + " WHERE id=:id")
-    void deleteNoteById(int id);
 }

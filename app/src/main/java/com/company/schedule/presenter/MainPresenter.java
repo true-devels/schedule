@@ -10,7 +10,9 @@ import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.view.MainView;
 
 import java.util.GregorianCalendar;
-import java.util.List;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
 import static com.company.schedule.utils.Constants.REQUEST_CODE_ADD_NOTE;
@@ -20,6 +22,7 @@ public class MainPresenter {
 
     private MainView view;
     private MainInteractor interactor;
+    private CompositeDisposable compositeDisposable;
     // callback for Model, that call setAllNotes in MainView
 
     private final String TAG = "myLog MainMainPresenter";
@@ -27,14 +30,20 @@ public class MainPresenter {
     public MainPresenter(MainView view, MainInteractor interactor) {
         this.view = view;
         this.interactor = interactor;  // init interactor
+        compositeDisposable = new CompositeDisposable();
     }
 
     public void viewHasCreated() {
         // we load data from DB in Model, and then set all notes in MainView
-        interactor.loadData();  // load data from DB
+        Disposable disposable = interactor.loadData()
+                .subscribe(
+                        (notes) -> view.setAllNotes(notes),
+                        (Throwable e) -> Log.e(TAG, "onError " + e.getMessage())
+                );  // load data from DB
+        compositeDisposable.add(disposable);
     }
 
-    public void onFabAddClicked(Context context) {
+    public void onFabAddClicked(Context context) { //TODO delete it
         //going to .AddNoteActivity for ADD new note
         Intent intent = new Intent(context, AddNoteActivity.class);  // we indicate an explicit transition to AddNoteActivity to enter the data of a note
         view.startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
@@ -57,21 +66,21 @@ public class MainPresenter {
         if (resultCode == RESULT_OK && data != null) {  // move part code to different class
             Log.i(TAG, "RESULT_OK");
             switch (requestCode) {  // check from which object data come
-            case REQUEST_CODE_ADD_NOTE:  // if data come from .AddNoteActivity
-                resultFromAddNote(data);
-                Log.v(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + data.getStringExtra("note_name") + "\";");
-                break;
-            case REQUEST_CODE_EDIT_NOTE:
-                //checking, if button 'delete' was pressed
-                boolean isDel = data.getBooleanExtra("isDel",false);
-                if(!isDel) {  // if note has not deleted
-                    resultFromEditNote(data);
-                }else{  // if note has deleted
-                    resultFromDeleteNote(data.getIntExtra("id", -1));
-                }
-                break;
-            default:
-                Log.v(TAG, "onActivityResult in default");
+                case REQUEST_CODE_ADD_NOTE:  // if data come from .AddNoteActivity
+                    resultFromAddNote(data);
+                    Log.v(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + data.getStringExtra("note_name") + "\";");
+                    break;
+                case REQUEST_CODE_EDIT_NOTE:
+                    //checking, if button 'delete' was pressed
+                    boolean isDel = data.getBooleanExtra("isDel",false);
+                    if(!isDel) {  // if note has not deleted
+                        resultFromEditNote(data);
+                    }else{  // if note has deleted
+                        resultFromDeleteNote(data.getIntExtra("id", -1));
+                    }
+                    break;
+                default:
+                    Log.v(TAG, "onActivityResult in default");
             }
         } else {
             Log.v(TAG, "data == null or resultCode != RESULT_OK, requestCode: \"" + requestCode + "\"; resultCode: \"" + resultCode + "\";"); //RESULT_OK: -1; RESULT_CANCELED: 0; RESULT_FIRST_USER(other user result): 1, 2, 3...
@@ -79,9 +88,14 @@ public class MainPresenter {
 
     }
 
-    private void resultFromDeleteNote(final int id) {
-        Note note = new Note(id);  // create object for delete TODO make it better
-        interactor.deleteNote(note);
+    private void resultFromDeleteNote(int id) {
+        interactor.deleteNoteById(id)
+        .subscribe(() -> interactor.loadData()
+                .subscribe(
+                        (notes) -> view.setAllNotes(notes),
+                        (Throwable e) -> Log.e(TAG, "onError " + e.getMessage())
+                )  // load data from DB
+        );
     }
 
     public void detachView() {
@@ -104,7 +118,13 @@ public class MainPresenter {
 
         //creating and inserting to DB new note
         final Note local = new Note(name, content, notify_date, freq);
-        interactor.insertNote(local);
+        interactor.insertNote(local)
+        .subscribe(() -> interactor.loadData()
+                .subscribe(
+                        (notes) -> view.setAllNotes(notes),
+                        (Throwable e) -> Log.e(TAG, "onError " + e.getMessage())
+                )  // load data from DB
+        );
 
     }
 
@@ -124,6 +144,15 @@ public class MainPresenter {
         final Note local = new Note(name, content, notify_date, freq);  // make declaration in start func
         local.setId(id);  // important
         Log.d(TAG, local.getId() + ") " + local.getName() + "; content: " + local.getContent() + "; date: " + local.getDate() + "; frequency: " + local.getFrequency());
-        interactor.updateNote(local);
+        interactor.updateNote(local)
+                .subscribe(() -> interactor.loadData()
+                        .subscribe(
+                                (notes) -> view.setAllNotes(notes),
+                                (Throwable e) -> Log.e(TAG, "onError " + e.getMessage())
+                        )  // load data from DB
+                );
+    }
+    private void loadData() {
+
     }
 }
