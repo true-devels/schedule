@@ -28,15 +28,13 @@ import com.company.schedule.presenter.AddNotePresenter;
 import com.company.schedule.R;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
 import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
-import com.company.schedule.utils.DateFormat;
 import com.company.schedule.view.AddNoteView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-
-//                                                                            for button method onClick(MainView v), for switch onCheckedChanged(CB cB, bool b),              for Date and Time picker
-
+//                                                                       button method onClick(MainView v)
+//                                                                   MVP                             switch onCheckedChanged(CB cB, bool b)             Date and Time picker
 public class AddNoteActivity extends AppCompatActivity implements AddNoteView, View.OnClickListener, CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private AddNotePresenter presenter = new AddNotePresenter();
@@ -48,7 +46,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     private TextView editDate, editTime;
     private Note noteInfo;
     private Spinner spinnerFreq;
-    boolean isEdited = false, isReminded = false;
+    private boolean isEdited = false, isReminded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,23 +105,16 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
             etNameNote.setText(noteInfo.getName());
             etContentNote.setText(noteInfo.getContent());
 
+            // output date in good format
+            editDate.setText(noteInfo.getDateInFormat());  // Note: we don't need write checking for noteInfo.getDate() == null
+            editTime.setText(noteInfo.getTimeInFormat());
+
             if (noteInfo.getFrequency() != -1)
                 spinnerFreq.setSelection((int) noteInfo.getFrequency());
 
-            if (noteInfo.getDate() == null) {
-                //if field 'date' of CustomNotify object is null, so notify shouldn't be reminded
-                swtRemindMe.setChecked(false);
-            } else {
-                swtRemindMe.setChecked(true);
-
-                // output date in good format
-                editDate.setText(
-                        DateFormat.getDate(noteInfo.getDate())
-                );
-                editTime.setText(
-                        DateFormat.getTime(noteInfo.getDate())
-                );
-            }
+            //if field 'date' of CustomNotify object is null, so notify shouldn't be reminded
+            if (noteInfo.getDate() == null) swtRemindMe.setChecked(false);
+            else swtRemindMe.setChecked(true);
 
         } else {  // if we want create note instead edit
             GregorianCalendar currentDate = new GregorianCalendar();// get settings for current time
@@ -145,18 +136,18 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+        case R.id.editDate:  //if clicking on TextView with date
+            presenter.pressedToEditDate(isEdited, noteInfo.getDate());
+            break;
+        case R.id.editTime:   //if clicking on TextView with time
+            presenter.pressedToEditTime(isEdited, noteInfo.getDate());
+            break;
         case R.id.btnSubmitNote:  // if button send note to DB already pressed
             noteInfo.setName(etNameNote.getText().toString());
             noteInfo.setContent(etContentNote.getText().toString());
             noteInfo.setFrequency( (byte) spinnerFreq.getSelectedItemPosition());
 
             presenter.pressedToSubmitNote(noteInfo, isReminded);
-            break;
-        case R.id.editDate:  //if clicking on TextView with date
-            presenter.pressedToEditDate(isEdited, noteInfo.getDate());
-            break;
-        case R.id.editTime:   //if clicking on TextView with time
-            presenter.pressedToEditTime(isEdited, noteInfo.getDate());
             break;
         case R.id.fab_delete:
             presenter.pressedToFabDelete(isEdited, noteInfo.getId());
@@ -191,8 +182,8 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         }
 
         // output date depending on local settings
-        editDate.setText(DateFormat.getDate(noteInfo.getDate()));
-        editTime.setText(DateFormat.getTime(noteInfo.getDate()));
+        editDate.setText(noteInfo.getDateInFormat());
+        editTime.setText(noteInfo.getTimeInFormat());
 
         llDateTime.setVisibility(View.VISIBLE);  // and all MainView in ViewGroup become visible and exist (date and time)
         isReminded = true;
@@ -225,20 +216,53 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         noteInfo.getDate().set(GregorianCalendar.MONTH, month);
         noteInfo.getDate().set(GregorianCalendar.DAY_OF_MONTH, dayOfMonth);
 
-        editDate.setText(DateFormat.getDate(noteInfo.getDate()));  // when user chose a date we switch it in TV in good date format
+        editDate.setText(noteInfo.getDateInFormat());  // when user chose a date we switch it in TV in good date format
     }
-
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         noteInfo.getDate().set(GregorianCalendar.HOUR_OF_DAY, hourOfDay);
         noteInfo.getDate().set(GregorianCalendar.MINUTE,minute);
 
-        editTime.setText(DateFormat.getTime(noteInfo.getDate()));  // when user chose a date we switch it in TV in good time format
+        editTime.setText(noteInfo.getTimeInFormat());  // when user chose a date we switch it in TV in good time format
     }
+
+
+
     // setters
     @Override
-    public void setResultOK(Intent data) {
-        setResult(RESULT_OK, data);
+    public void setResultOkWithDate(Note noteWithDate) {
+        // create intent from note
+        Intent dataToReturn = getIntentFromNote(noteWithDate);
+        dataToReturn.putExtra("time_in_millis", noteWithDate.getDate().getTimeInMillis());
+
+        setResult(RESULT_OK, dataToReturn);
+    }
+
+    @Override
+    public void setResultOkWithoutDate(Note noteWithoutDate) {
+        // create intent from note
+        Intent dataToReturn = getIntentFromNote(noteWithoutDate);
+        dataToReturn.putExtra("time_in_millis", -1L);
+
+        setResult(RESULT_OK, dataToReturn);
+    }
+
+    @Override
+    public void setResultOkDelete(int id) {
+        // create intent for delete result
+        Intent intent = new Intent();
+        intent.putExtra("isDel",true);
+        intent.putExtra("id", id);
+
+    }
+
+    private Intent getIntentFromNote(Note noteToIntent) {
+        Intent intentFromNote = new Intent();  // return ready note to MainActivity to DB
+        intentFromNote.putExtra("id", noteToIntent.getId());  // Output error toast when id == -1 or id == 0
+        intentFromNote.putExtra("note_name", noteToIntent.getName());
+        intentFromNote.putExtra("note_content", noteToIntent.getContent());
+        intentFromNote.putExtra("freq", noteToIntent.getFrequency());
+        return intentFromNote;
     }
 
     @Override

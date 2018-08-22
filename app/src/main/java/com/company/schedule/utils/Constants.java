@@ -15,9 +15,12 @@ public final class Constants {
     public static final byte FREQUENCY_MONTHLY = 3;
     public static final byte FREQUENCY_YEARLY = 4;
 
+    public static final long MILLISECONDS_IN_DAY = 1000L * 60L * 60L * 24L;
+
     // for notification
-    public static final int COLOR_ARGB_BACKLIGHTING = Color.BLUE;
+    public static final String CHANEL_ID = "First";
     public static final String SOUND_URI = "uri://sadfasdfasdf.mp3";
+    public static final int COLOR_ARGB_BACKLIGHTING = Color.BLUE;
 
     //  when we move to a new activity to get the result we need to be indexed by its number
     public static final int REQUEST_CODE_ADD_NOTE = 1;

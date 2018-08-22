@@ -95,6 +95,34 @@ public class Note {
         this.content = content;
     }
 
+    // get good date/time format
+    public String getDateTimeInFormat() {
+        if (date != null)
+            return java.text.DateFormat
+                    .getDateTimeInstance()  // date and time local format
+                    .format(
+                            date.getTime()  // we need write .getTime to convert GregorianCalendar to Date
+                    );
+        else return "";
+    }
 
+    public String getDateInFormat() {
+        if (date != null)
+            return java.text.DateFormat
+                    .getDateInstance()  // date local format
+                    .format(
+                            date.getTime()  // we need write .getTime to convert GregorianCalendar to Date
+                    );
+        else return "";
+    }
 
+    public String getTimeInFormat() {
+        if (date != null)
+            return java.text.DateFormat
+                    .getTimeInstance()  // time local format
+                    .format(
+                            date.getTime()  // we need write .getTime to convert GregorianCalendar to Date
+                    );
+        else return "";
+    }
 }

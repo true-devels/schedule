@@ -18,7 +18,11 @@ public interface NoteDAO {
     @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE id=:id")
     Note getOneNote(int id);
 
-    @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date")  // TODO make good sort by date
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date"
+//            +
+//            "UNION ALL " +
+//            "SELECT * FROM " + Constants.TABLE_NAME + " WHERE date = NULL "
+    )  // TODO make good sort by date
     List<Note> getAllNotes();
 
     @Insert

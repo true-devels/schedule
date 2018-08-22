@@ -1,15 +1,8 @@
 package com.company.schedule.view;
 
-import android.app.AlarmManager;
-import android.content.Context;
-import android.content.Intent;
-import android.widget.Spinner;
-
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
 import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
-
-import java.util.GregorianCalendar;
 
 public interface AddNoteView {
     //
@@ -18,8 +11,10 @@ public interface AddNoteView {
     // pickers
     void showDatePicker(DatePickerFragment datePickerFragment);
     void showTimePicker(TimePickerFragment timePickerDialog);
-    // setters
-    void setResultOK(Intent data);
+    // setters result
+    void setResultOkWithDate(Note noteWithDate);
+    void setResultOkWithoutDate(Note noteWithoutDate);
+    void setResultOkDelete(int id);
     void setResultCancel();
     // for notify
     void createNotification(Note note);

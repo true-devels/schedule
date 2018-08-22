@@ -15,6 +15,13 @@ import com.company.schedule.R;
 import com.company.schedule.utils.Constants;
 import com.company.schedule.utils.NotificationPublisher;
 
+import static com.company.schedule.utils.Constants.CHANEL_ID;
+import static com.company.schedule.utils.Constants.FREQUENCY_DAILY;
+import static com.company.schedule.utils.Constants.FREQUENCY_MONTHLY;
+import static com.company.schedule.utils.Constants.FREQUENCY_WEEKLY;
+import static com.company.schedule.utils.Constants.FREQUENCY_YEARLY;
+import static com.company.schedule.utils.Constants.MILLISECONDS_IN_DAY;
+
 public class MyNotification {
 
     private Context context;
@@ -28,13 +35,13 @@ public class MyNotification {
         NotificationCompat.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel();
-            builder = new NotificationCompat.Builder(context,"First")
+            builder = new NotificationCompat.Builder(context,CHANEL_ID)
                     .setSmallIcon(R.mipmap.ic_launcher)  // default icon TODO change to good icon
                     .setContentTitle(title)
                     .setContentText(content)
                     //TODO check these three lines work
                     .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-                    .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 5000)
+                    .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
                     .setSound(Uri.parse(Constants.SOUND_URI))
                     .setContentText(content); }
         else{
@@ -44,7 +51,7 @@ public class MyNotification {
                     .setContentText(content)
                     //TODO check these three lines work
                     .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-                    .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 5000)
+                    .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
                     .setSound(Uri.parse(Constants.SOUND_URI))
                     .setContentText(content);
 
@@ -89,18 +96,18 @@ public class MyNotification {
     }
 
     private long getFrequencyInMillis(int selectedItem){
-        long day = 1000L * 60L * 60L * 24L; // 86 400 000 milliseconds in a day
+        long day = MILLISECONDS_IN_DAY; // 86 400 000 milliseconds in a day
         switch (selectedItem) {
-            case 1:
+            case FREQUENCY_DAILY:
                 return day;  // Daily
-            case 2:
+            case FREQUENCY_WEEKLY:
                 return day * 7L;  // Weekly
-            case 3:
+            case FREQUENCY_MONTHLY:
                 return day * 30L;  // Monthly
-            case 4:
+            case FREQUENCY_YEARLY:
                 return day * 365L;  // Yearly
-            default:  // Once(case 0)
-                return  -1;
+            default:  // FREQUENCY_NEVER(case 0)
+                return -1;
         }
     }
 }

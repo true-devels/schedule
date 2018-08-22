@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.utils.DateFormat;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -39,18 +38,8 @@ public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder>
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvItemNoteName.setText(mData.get(position).getName());
-
-        GregorianCalendar localDateOutput = mData.get(position).getDate();
-        if (localDateOutput != null){
-            holder.tvItemDate.setText(DateFormat.getDateTime(localDateOutput));  // output date time depending on local settings.
-            // We need write .getTime() to convert GregorianCalendar to Date
-        } else {
-            holder.tvItemDate.setText("");  // don't delete it
-        }
-
-
-
+        holder.tvItemNoteName.setText(mData.get(position).getName());  // output name
+        holder.tvItemDate.setText(mData.get(position).getDateTimeInFormat());  // output date time depending on local settings.
     }
 
     // total number of rows

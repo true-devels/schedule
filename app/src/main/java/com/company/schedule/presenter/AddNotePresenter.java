@@ -1,6 +1,5 @@
 package com.company.schedule.presenter;
 
-import android.content.Intent;
 import android.util.Log;
 
 import com.company.schedule.model.data.base.Note;
@@ -22,28 +21,18 @@ public class AddNotePresenter {
 
     public void pressedToSubmitNote(Note note, boolean isReminded) {
         final String noteName = note.getName();
-        final String noteContent = note.getContent();
-
 
         if (!noteName.isEmpty()) {
-            Intent intentReturnNoteData = new Intent();  // return ready note to MainActivity to DB
-            intentReturnNoteData.putExtra("id", note.getId());  // Output error toast when id == -1 or id == 0
-            intentReturnNoteData.putExtra("note_name", noteName);
-            intentReturnNoteData.putExtra("note_content", noteContent);
-            intentReturnNoteData.putExtra("freq", note.getFrequency());
-
+            Log.v(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
             if (isReminded) {  // TODO make frequency do not depends on isReminded
                 //if switch button 'remind' is on
+                view.setResultOkWithDate(note);
                 view.createNotification(note);  // create notification with data from our note
-                intentReturnNoteData.putExtra("time_in_millis", note.getDate().getTimeInMillis());
             } else {  // TODO make good default value
                 //if switch button 'remind' is off
                 // we don't create notification and and don't give time_in_millis to DB
-                intentReturnNoteData.putExtra("time_in_millis", (long)-1);
+                view.setResultOkWithoutDate(note);
             }
-
-            Log.v(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
-            view.setResultOK(intentReturnNoteData);
         } else { // if noteName is  empty
             Log.v(TAG, "RESULT_CANCELED, noteName: \"" + noteName + "\";");
             view.setResultCancel();
@@ -70,13 +59,11 @@ public class AddNotePresenter {
     }
 
     public void pressedToFabDelete(boolean isEdited, int id) {
+        //
         if(isEdited){
-            Intent intent = new Intent();
-            intent.putExtra("isDel",true);
-            intent.putExtra("id", id);
-            view.setResultOK(intent);
+            view.setResultOkDelete(id);
             view.finish();
-        }else{
+        } else {  // if we in add note we just finish view when click on delete
             view.finish();
         }
     }
