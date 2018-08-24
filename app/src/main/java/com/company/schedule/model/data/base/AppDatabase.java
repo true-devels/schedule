@@ -8,7 +8,7 @@ import android.content.Context;
 
 import com.company.schedule.utils.Constants;
 
-@Database(entities = Note.class, version = Constants.DATABASE_VERSION)
+@Database(entities = Note.class, version = Constants.DATABASE_VERSION, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract NoteDAO noteDAO();

@@ -95,13 +95,12 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
             isEdited = true;
 
             noteInfo = new Note(
+                    extras.getInt("id", -1),
                     extras.getString("name"),
                     extras.getString("content"),
                     (GregorianCalendar) extras.get("date"),
                     extras.getByte("frequency")
             );
-            noteInfo.setId(extras.getInt("id", -1));
-
             etNameNote.setText(noteInfo.getName());
             etContentNote.setText(noteInfo.getContent());
 
@@ -116,13 +115,14 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
             if (noteInfo.getDate() == null) swtRemindMe.setChecked(false);
             else swtRemindMe.setChecked(true);
 
-        } else {  // if we want create note instead edit
+        } else {  // if we want create new note
             GregorianCalendar currentDate = new GregorianCalendar();// get settings for current time
             currentDate.setTimeInMillis(System.currentTimeMillis());
             currentDate.set(Calendar.SECOND,0);
             currentDate.set(Calendar.MILLISECOND,0);
 
             noteInfo = new Note(
+                    -1,
                     "",
                     "",
                     currentDate,
@@ -197,16 +197,34 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         isReminded = false;
     }
 
-    // pickers
+    // picker for date
     @Override
-    public void showDatePicker(DatePickerFragment datePickerFragment) {
-        datePickerFragment.show(getSupportFragmentManager(), "date picker");  // show date picker dialog
+    public void openDatePickerFragment(GregorianCalendar calendar) {
+        DatePickerFragment datePicker = new DatePickerFragment(); // calls fragment with date picker dialog
+        datePicker.setGc(calendar);
+        datePicker.show(getSupportFragmentManager(), "date picker");  // show date picker dialog
     }
 
     @Override
-    public void showTimePicker(TimePickerFragment timePickerFragment) {
-        timePickerFragment.show(getSupportFragmentManager(), "time picker");  // show time picker dialog
+    public void showEmptyDatePicker() {
+        new DatePickerFragment()
+                .show(getSupportFragmentManager(), "date picker");  // show date picker dialog
     }
+
+    // picker for time
+    @Override
+    public void openTimePickerFragment(GregorianCalendar calendar) {
+        TimePickerFragment timePicker = new TimePickerFragment();
+        timePicker.setGc(calendar);
+        timePicker.show(getSupportFragmentManager(), "time picker");  // show time picker dialog
+    }
+
+    @Override
+    public void showEmptyTimePicker() {
+        new TimePickerFragment()
+                .show(getSupportFragmentManager(), "time picker");  // show time picker dialog
+    }
+
 
     // getting result from pickers
     @Override
@@ -254,6 +272,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         intent.putExtra("isDel",true);
         intent.putExtra("id", id);
 
+        setResult(RESULT_OK, intent);
     }
 
     private Intent getIntentFromNote(Note noteToIntent) {

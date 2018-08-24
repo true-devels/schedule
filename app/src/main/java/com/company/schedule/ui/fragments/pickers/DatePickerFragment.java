@@ -34,10 +34,6 @@ public class DatePickerFragment extends DialogFragment {
 
     }
 
-    public GregorianCalendar getGc() {
-        return gc;
-    }
-
     public void setGc(GregorianCalendar gc) {
         this.gc = gc;
     }

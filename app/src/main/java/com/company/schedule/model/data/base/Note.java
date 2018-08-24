@@ -41,17 +41,12 @@ public class Note {
     private byte frequency;
 
     //Constructor
-    public Note(String name, String content, GregorianCalendar date, byte frequency) {
+    public Note(int id, String name, String content, GregorianCalendar date, byte frequency) {
+        this.id = id;
         this.name = name;
         this.date = date;
         this.frequency = frequency;
         this.content = content;
-    }
-
-    //TODO just make noteDeleteById in notify dao
-    @Ignore
-    public Note(int id) {  // for create empty note only with id
-        this.id = id;
     }
 
     //getters and setters

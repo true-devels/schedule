@@ -41,39 +41,23 @@ public class AddNotePresenter {
     }
 
     public void pressedToEditDate(boolean isEdited, GregorianCalendar gregorianCalendar) {
-        DatePickerFragment datePicker = new DatePickerFragment(); // calls fragment with date picker dialog
-        if (isEdited) {
-            //if note is editing, then sending existing date to date picker
-            datePicker.setGc(gregorianCalendar);
-        }
-        view.showDatePicker(datePicker);
+        if (isEdited) view.openDatePickerFragment(gregorianCalendar);  // if note is editing, then sending existing date to date picker
+        else view.showEmptyDatePicker();
     }
 
     public void pressedToEditTime(boolean isEdited, GregorianCalendar gregorianCalendar) {
-        TimePickerFragment timePicker = new TimePickerFragment();// calls fragment with time picker dialog
-        if (isEdited) {
-            //if note is editing, then sending existing in note time to time picker
-            timePicker.setGc(gregorianCalendar);
-        }
-        view.showTimePicker(timePicker);
+        if (isEdited) view.openTimePickerFragment(gregorianCalendar);  // if note is editing, then sending existing in note time to time picker
+        else view.showEmptyTimePicker();
     }
 
     public void pressedToFabDelete(boolean isEdited, int id) {
-        //
-        if(isEdited){
-            view.setResultOkDelete(id);
-            view.finish();
-        } else {  // if we in add note we just finish view when click on delete
-            view.finish();
-        }
+        if(isEdited) view.setResultOkDelete(id);
+        view.finish();  // finish view in any case
     }
 
     public void changedRemindMe(boolean isChecked) {
-        if (isChecked) { // if swtRemindMe.isChecked: show EditText for Date and for Time
-            view.remindMeIsChecked();
-        } else {
-            view.remindMeIsNotChecked();
-        }
+        if (isChecked) view.remindMeIsChecked();  // if swtRemindMe.isChecked: show EditText for Date and for Time
+        else view.remindMeIsNotChecked();
     }
 
 

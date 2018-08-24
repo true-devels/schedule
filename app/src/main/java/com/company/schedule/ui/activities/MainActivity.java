@@ -118,46 +118,16 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
 //        resultCode - return code. Determines whether the call has passed successfully or not.
 //        data - Intent, in which the data is returned
 //        if data was correct entered
-        if (resultCode == RESULT_OK || data != null) {  // move part code to different class
-            Log.i(TAG, "RESULT_OK");
-            switch (requestCode) {  // check from which object data come
-                case REQUEST_CODE_ADD_NOTE:  // if data come from .AddNoteActivity
-                    presenter.resultFromAddNote(getNoteFromAddData(data));  // result from Add note
-                    Log.v(TAG, "case REQUEST_CODE_ADD_NOTE, noteName: \"" + data.getStringExtra("note_name") + "\";");
-                    break;
-                case REQUEST_CODE_EDIT_NOTE:
-                    //checking, if button 'delete' was pressed
-                    boolean isDel = data.getBooleanExtra("isDel",false);
-                    if(!isDel) {  // if note has not deleted
-                        presenter.resultFromEditNote(getNoteFromEditData(data));  // we say presenter that result from Edit note
-                    }else{  // if note has deleted
-                        presenter.resultFromDeleteNote(getIdFromDeleteData(data));  // we say presenter that result from Delete note
-                    }
-                    break;
-                default:
-                    Log.v(TAG, "onActivityResult in default");
-            }
-        } else {
-            Log.v(TAG, "resultCode != RESULT_OK, requestCode: \"" + requestCode + "\"; resultCode: \"" + resultCode + "\";"); //RESULT_OK: -1; RESULT_CANCELED: 0; RESULT_FIRST_USER(other user result): 1, 2, 3...
-        }    }
-
-    private Note getNoteFromAddData(Intent data) {
-        //TODO make good default value
-        //getting all data
-        String name = data.getStringExtra("note_name");
-        final String content = data.getStringExtra("note_content");
-        byte freq = (byte) data.getIntExtra("freq",0);
-
-        //creating calendar with data, that is got from addnote activity
-        GregorianCalendar notify_date =  new GregorianCalendar();
-        final long timeInMillis = data.getLongExtra("time_in_millis", -1L);  // TODO make it better
-        if(timeInMillis == -1L) notify_date = null;
-        else notify_date.setTimeInMillis(timeInMillis);
-        return new Note(name, content, notify_date, freq);
+        presenter.onActivityResult(requestCode,
+                resultCode,
+                getNoteFromIntent(data),
+                data != null && data.getBooleanExtra("isDel",false)
+        );
     }
 
-    private Note getNoteFromEditData(Intent data) {
-        // TODO move repeated cod from REQUEST_CODE_EDIT_NOTE and REQUEST_CODE_ADD_NOTE to line below onActivityResult
+
+    private Note getNoteFromIntent(Intent data) {
+        if (data == null) return null;  // it's not a bug
         //getting all data
         final int id = data.getIntExtra("id", -1);
         final String name = data.getStringExtra("note_name");
@@ -167,18 +137,11 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
         //creating calendar with data, that is got from editnote activity
         GregorianCalendar notify_date = new GregorianCalendar();
         final long timeInMillis = data.getLongExtra("time_in_millis", -1L);
+
         if (timeInMillis == -1L) notify_date = null;
         else notify_date.setTimeInMillis(timeInMillis);
 
-        final Note noteFromData = new Note(name, content, notify_date, freq);  // make declaration in start func
-        noteFromData.setId(id);  // important TODO id in constructor
-        Log.d(TAG, noteFromData.getId() + ") " + noteFromData.getName() + "; content: " + noteFromData.getContent() + "; date: " + noteFromData.getDate() + "; frequency: " + noteFromData.getFrequency());
-
-        return noteFromData;
-    }
-
-    private int getIdFromDeleteData(Intent data) {
-        return data.getIntExtra("id", -1);
+        return new Note(id, name, content, notify_date, freq);
     }
 
     @Override
