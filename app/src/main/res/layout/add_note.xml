@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/backgroundcolor"
     tools:context=".ui.activities.AddNoteActivity">
 
     <ScrollView
@@ -33,6 +33,8 @@
                     android:layout_weight="1"
                     android:hint="Enter name of note"
                     android:inputType="textShortMessage"
+                    android:textColorHint="?attr/textcolor"
+                    android:textColor="?attr/textcolor"
                     android:maxLines="1">
 
                     <requestFocus />
@@ -42,9 +44,9 @@
                     android:id="@+id/btnSubmitNote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorButtonBackground"
+                    android:background="?attr/tintcolor"
                     android:text="OK"
-                    android:textColor="@color/colorButtonText" />
+                    android:textColor="?attr/textcolor" />
 
             </LinearLayout>
 
@@ -54,6 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
+                android:textColor="?attr/textcolor"
+                android:textColorHint="?attr/textcolor"
                 android:hint="Enter content of note"
                 android:inputType="textLongMessage" />
 
@@ -70,14 +74,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:text="Repeated: "
-                    android:textColor="@color/colorText"
+                    android:textColor="?attr/textcolor"
                     android:textSize="16sp" />
 
                 <Spinner
                     android:id="@+id/spinnerFreq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:layout_weight="1"
                     android:visibility="visible" />
             </LinearLayout>
@@ -90,6 +93,7 @@
                 android:layout_marginTop="32dp"
                 android:checked="false"
                 android:text="Remind me"
+                android:textColor="?attr/textcolor"
                 android:textSize="16sp" />
 
             <LinearLayout
@@ -109,7 +113,7 @@
                     android:gravity="center"
                     android:text="25 July, 2018"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorText"
+                    android:textColor="?attr/textcolor"
                     android:textSize="16sp"
                     tools:text="25 July, 2018" />
 
@@ -120,7 +124,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="3:00 PM"
-                    android:textColor="@color/colorText"
+                    android:textColor="?attr/textcolor"
                     android:textSize="16sp"
                     tools:text="3:00 PM" />
 
@@ -140,5 +144,5 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:src="@android:drawable/ic_menu_delete"
-        android:backgroundTint="@color/colorFabDeleteBackground"/>
+        android:backgroundTint="?attr/tintcolor"/>
 </android.support.design.widget.CoordinatorLayout>

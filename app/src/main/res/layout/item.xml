@@ -17,7 +17,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textColor="@color/colorText"
+        android:textColor="?attr/textcolor"
         android:textSize="24sp"
         tools:text="Note name" />
 
@@ -26,6 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:textColor="@color/colorTextItemDate"
+        android:textColor="?attr/textcolor"
         tools:text="7 August 2018, 1:00 PM - simple date" />
 </LinearLayout>

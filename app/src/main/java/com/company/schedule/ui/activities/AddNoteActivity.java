@@ -28,6 +28,7 @@ import com.company.schedule.presenter.AddNotePresenter;
 import com.company.schedule.R;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
 import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
+import com.company.schedule.utils.SharedPrefs;
 import com.company.schedule.view.AddNoteView;
 
 import java.util.Calendar;
@@ -47,9 +48,20 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     private Note noteInfo;
     private Spinner spinnerFreq;
     private boolean isEdited = false, isReminded = false;
+    private SharedPrefs sharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //get data from sharedPrefs to set theme mode
+        sharedPrefs = new SharedPrefs(this);
+        if(sharedPrefs.loadNightModeState()==true) {
+            //dark
+            setTheme(R.style.darktheme);
+        }else {
+            //white
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_note);
 
@@ -82,7 +94,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
 
         //setting frequency spinner
         spinnerFreq = findViewById(R.id.spinnerFreq);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_frequency, android.R.layout.simple_spinner_item);  // TODO comment it
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_frequency, R.layout.simple_spinner_item);  // TODO comment it
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);  // TODO comment it
         spinnerFreq.setAdapter(adapter);
 

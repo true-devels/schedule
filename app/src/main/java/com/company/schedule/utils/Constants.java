@@ -25,4 +25,14 @@ public final class Constants {
     //  when we move to a new activity to get the result we need to be indexed by its number
     public static final int REQUEST_CODE_ADD_NOTE = 1;
     public static final int REQUEST_CODE_EDIT_NOTE = 2;
+
+
+    // SharedPreferences CONSTANTS
+        //mode
+    public final static int PRIVATE_MODE = 0;
+        // Shared preferences file name
+    public static final String PREF_NAME = "androidhive-welcome";
+        //preferences keys
+    public static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    public static final String NIGHT_MODE = "NightMode";
 }

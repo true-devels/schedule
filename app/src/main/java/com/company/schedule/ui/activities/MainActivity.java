@@ -21,6 +21,7 @@ import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presenter.MainPresenter;
 import com.company.schedule.ui.adapters.CustomLayoutManager;
 import com.company.schedule.ui.adapters.NotesAdapter;
+import com.company.schedule.utils.SharedPrefs;
 import com.company.schedule.view.MainView;
 
 import java.util.ArrayList;
@@ -38,9 +39,20 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
 
     private NotesAdapter adapter;
     private ArrayList<Note> notes = new ArrayList<>();
+    private SharedPrefs sharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //get data from sharedPrefs to set theme mode
+        sharedPrefs = new SharedPrefs(this);
+        if(sharedPrefs.loadNightModeState()==true) {
+            //dark
+            setTheme(R.style.darktheme);
+        }else {
+            //white
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -160,6 +172,8 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -181,6 +195,5 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
         presenter.detachView();
         super.onDestroy();
     }
-
 }
 
