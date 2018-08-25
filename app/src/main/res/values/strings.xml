@@ -9,4 +9,22 @@
         <item>Yearly</item>
     </string-array>
 
+    <!--WELCOME SLIDE-->
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">TITLE 1</string>
+    <string name="slide_1_desc">description</string>
+
+    <string name="slide_2_title">TITLE 2</string>
+    <string name="slide_2_desc">description</string>
+
+    <string name="slide_3_title">TITLE 3</string>
+    <string name="slide_3_desc">description</string>
+
+    <string name="slide_4_title">TITLE 4</string>
+    <string name="slide_4_desc">description</string>
+
 </resources>
