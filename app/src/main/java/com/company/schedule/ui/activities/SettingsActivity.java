@@ -10,13 +10,12 @@ import com.company.schedule.R;
 import com.company.schedule.utils.SharedPrefs;
 
 public class SettingsActivity extends AppCompatActivity {
-    private Switch mSwitch;
     private SharedPrefs sharedPrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
         sharedPrefs = new SharedPrefs(this);
-        if(sharedPrefs.loadNightModeState()==true) {
+        if(sharedPrefs.loadNightModeState()) {
             //dark
             setTheme(R.style.darktheme);
         }else {
@@ -28,23 +27,20 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_layout);
 
         //init
-        mSwitch = findViewById(R.id.myswitch);
-        if (sharedPrefs.loadNightModeState()==true) {
+        Switch mSwitch = findViewById(R.id.myswitch);
+        if (sharedPrefs.loadNightModeState()) {
             mSwitch.setChecked(true);
         }
 
         //set mode with switch widget
-        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    sharedPrefs.setNightModeState(true);
-                    restartSettings();
-                }
-                else {
-                    sharedPrefs.setNightModeState(false);
-                    restartSettings();
-                }
+        mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                sharedPrefs.setNightModeState(true);
+                restartSettings();
+            }
+            else {
+                sharedPrefs.setNightModeState(false);
+                restartSettings();
             }
         });
     }

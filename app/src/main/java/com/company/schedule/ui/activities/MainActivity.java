@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,17 +34,15 @@ import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
 public class MainActivity extends AppCompatActivity implements MainView, View.OnClickListener {
 
     private MainPresenter presenter;
-    final String TAG = "myLog MainActivity";
 
     private NotesAdapter adapter;
     private ArrayList<Note> notes = new ArrayList<>();
-    private SharedPrefs sharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
-        sharedPrefs = new SharedPrefs(this);
-        if(sharedPrefs.loadNightModeState()==true) {
+        SharedPrefs sharedPrefs = new SharedPrefs(this);
+        if(sharedPrefs.loadNightModeState()) {
             //dark
             setTheme(R.style.darktheme);
         }else {

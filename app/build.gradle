@@ -60,4 +60,7 @@ dependencies {
     implementation 'com.annimon:stream:1.1.9'
     annotationProcessor "org.androidannotations:androidannotations:4.4.0"
     implementation "org.androidannotations:androidannotations-api:4.4.0"
+
+    // throwable handle
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }

@@ -5,6 +5,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import timber.log.Timber;
+
 //class that catches bugs of recyclerview
 //these bugs really can`t be fixed in another way
 public class CustomLayoutManager extends LinearLayoutManager {
@@ -16,7 +18,8 @@ public class CustomLayoutManager extends LinearLayoutManager {
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            Log.e("myLog CustomLayoutManag", "Bugs of RecyclerView: "+e.getMessage());  // TODO resolve bugs
+
+            Timber.e(e);  // TODO resolve bugs
         }
     }
 }

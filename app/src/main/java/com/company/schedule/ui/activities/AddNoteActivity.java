@@ -34,6 +34,8 @@ import com.company.schedule.view.AddNoteView;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import timber.log.Timber;
+
 //                                                                       button method onClick(MainView v)
 //                                                                   MVP                             switch onCheckedChanged(CB cB, bool b)             Date and Time picker
 public class AddNoteActivity extends AppCompatActivity implements AddNoteView, View.OnClickListener, CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -48,13 +50,12 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     private Note noteInfo;
     private Spinner spinnerFreq;
     private boolean isEdited = false, isReminded = false;
-    private SharedPrefs sharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
-        sharedPrefs = new SharedPrefs(this);
-        if(sharedPrefs.loadNightModeState()==true) {
+        SharedPrefs sharedPrefs = new SharedPrefs(this);
+        if(sharedPrefs.loadNightModeState()) {
             //dark
             setTheme(R.style.darktheme);
         }else {
@@ -178,7 +179,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                 presenter.changedRemindMe(isChecked);
                 break;
             default:
-                Log.e(TAG, "onCheckedChanged default, compoundButton.getId: " + compoundButton.getId() + "; isChecked: " + isChecked);
+                Timber.e("onCheckedChanged default, compoundButton.getId: " + compoundButton.getId() + "; isChecked: " + isChecked);
         }
 
     }
@@ -199,7 +200,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
 
         llDateTime.setVisibility(View.VISIBLE);  // and all MainView in ViewGroup become visible and exist (date and time)
         isReminded = true;
-        Log.v(TAG, "onCheckedChanged dateNotification.get(): " + editDate.getText().toString() + " " + editTime.getText().toString());
+        Timber.v("onCheckedChanged dateNotification.get(): " + editDate.getText().toString() + " " + editTime.getText().toString());
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -26,9 +27,7 @@ import org.androidannotations.annotations.sharedpreferences.SharedPref;
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ViewPager viewPager;
-    private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
-    private TextView[] dots;
     private int[] layouts;
     private Button btnSkip, btnNext;
     private SharedPrefs prefManager;
@@ -64,9 +63,32 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         addBottomDots(0);
 
         //init VP adapter
-        myViewPagerAdapter = new MyViewPagerAdapter();
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
-        viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
+        // change listener
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                addBottomDots(position);
+
+                // changing the next button text 'NEXT' / 'GOT IT'
+                if (position == layouts.length - 1) {
+                    // last page. make button text to GOT IT
+                    btnNext.setText(getString(R.string.start));
+                    btnSkip.setVisibility(View.GONE);
+                } else {
+                    // still pages are left
+                    btnNext.setText(getString(R.string.next));
+                    btnSkip.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {}
+            @Override
+            public void onPageScrollStateChanged(int arg0) {}
+        });
 
         //set onClick
         btnSkip.setOnClickListener(this);
@@ -97,7 +119,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     //circles in the bottom
     private void addBottomDots(int currentPage) {
-        dots = new TextView[layouts.length];
+        TextView[] dots = new TextView[layouts.length];
 
         int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
         int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
@@ -126,43 +148,16 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         finish();
     }
 
-    //	viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
-        @Override
-        public void onPageSelected(int position) {
-            addBottomDots(position);
-
-            // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == layouts.length - 1) {
-                // last page. make button text to GOT IT
-                btnNext.setText(getString(R.string.start));
-                btnSkip.setVisibility(View.GONE);
-            } else {
-                // still pages are left
-                btnNext.setText(getString(R.string.next));
-                btnSkip.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {}
-        @Override
-        public void onPageScrollStateChanged(int arg0) {}
-    };
-
-
     //View pager adapter
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
 
-        public MyViewPagerAdapter() {
-        }
-
+        @NonNull
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+            assert layoutInflater != null;
             View view = layoutInflater.inflate(layouts[position], container, false);
             container.addView(view);
 
@@ -175,12 +170,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         @Override
-        public boolean isViewFromObject(View view, Object obj) {
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object obj) {
             return view == obj;
         }
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             View view = (View) object;
             container.removeView(view);
         }

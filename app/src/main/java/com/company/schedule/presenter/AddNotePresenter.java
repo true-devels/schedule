@@ -9,6 +9,8 @@ import com.company.schedule.view.AddNoteView;
 
 import java.util.GregorianCalendar;
 
+import timber.log.Timber;
+
 public class AddNotePresenter {
 
     private AddNoteView view;
@@ -23,7 +25,7 @@ public class AddNotePresenter {
         final String noteName = note.getName();
 
         if (!noteName.isEmpty()) {
-            Log.v(TAG, "RESULT_OK, noteName: \"" + noteName + "\";");
+            Timber.v("RESULT_OK, noteName: \"" + noteName + "\";");
             if (isReminded) {  // TODO make frequency do not depends on isReminded
                 //if switch button 'remind' is on
                 view.setResultOkWithDate(note);
@@ -34,7 +36,7 @@ public class AddNotePresenter {
                 view.setResultOkWithoutDate(note);
             }
         } else { // if noteName is  empty
-            Log.v(TAG, "RESULT_CANCELED, noteName: \"" + noteName + "\";");
+            Timber.v("RESULT_CANCELED, noteName: \"" + noteName + "\";");
             view.setResultCancel();
         }
         view.finish();  // finish activity and go to MainActivity

@@ -10,6 +10,8 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import timber.log.Timber;
+
 public class DatePickerFragment extends DialogFragment {
 
     GregorianCalendar gc;
@@ -24,7 +26,7 @@ public class DatePickerFragment extends DialogFragment {
             gc = new GregorianCalendar();
         }
 
-        Log.v(TAG, "onCreateDialog: " + gc.get(Calendar.DAY_OF_MONTH) + "." + gc.get(Calendar.MONTH) + "." + gc.get(Calendar.YEAR));
+        Timber.v("onCreateDialog: " + gc.get(Calendar.DAY_OF_MONTH) + "." + gc.get(Calendar.MONTH) + "." + gc.get(Calendar.YEAR));
         //                          context,             context for listener
         return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getActivity(),
                 gc.get(Calendar.YEAR),

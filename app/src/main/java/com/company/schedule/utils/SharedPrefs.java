@@ -1,5 +1,6 @@
 package com.company.schedule.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -8,17 +9,13 @@ import static com.company.schedule.utils.Constants.NIGHT_MODE;
 import static com.company.schedule.utils.Constants.PREF_NAME;
 import static com.company.schedule.utils.Constants.PRIVATE_MODE;
 
-/**
- * Created by lincollincol
- */
 public class SharedPrefs {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
-    private Context mContext;
 
+    @SuppressLint("CommitPrefEdits")
     public SharedPrefs(Context context) {
-        this.mContext = context;
-        pref = mContext.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
 
@@ -39,7 +36,6 @@ public class SharedPrefs {
     }
     //method will load the Night Mode State
     public Boolean loadNightModeState (){
-        Boolean state = pref.getBoolean(NIGHT_MODE,false);
-        return  state;
+        return pref.getBoolean(NIGHT_MODE,false);
     }
 }

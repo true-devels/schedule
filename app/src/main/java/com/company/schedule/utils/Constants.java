@@ -28,11 +28,11 @@ public final class Constants {
 
 
     // SharedPreferences CONSTANTS
-        //mode
+    //mode
     public final static int PRIVATE_MODE = 0;
-        // Shared preferences file name
+    // Shared preferences file name
     public static final String PREF_NAME = "androidhive-welcome";
-        //preferences keys
+    //preferences keys
     public static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     public static final String NIGHT_MODE = "NightMode";
 }
