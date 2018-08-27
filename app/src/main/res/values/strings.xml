@@ -27,4 +27,6 @@
     <string name="slide_4_title">TITLE 4</string>
     <string name="slide_4_desc">description</string>
 
+    <string name="checkbox">Done</string>
+
 </resources>

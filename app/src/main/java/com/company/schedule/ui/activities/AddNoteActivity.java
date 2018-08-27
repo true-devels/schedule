@@ -50,7 +50,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     private Note noteInfo;
     private Spinner spinnerFreq;
     private boolean isEdited = false, isReminded = false;
-
+    private boolean isDone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
@@ -108,12 +108,14 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
             isEdited = true;
 
             noteInfo = new Note(
-                    extras.getInt("id", -1),
                     extras.getString("name"),
                     extras.getString("content"),
                     (GregorianCalendar) extras.get("date"),
-                    extras.getByte("frequency")
+                    extras.getByte("frequency"),
+                    extras.getBoolean("done")
             );
+            noteInfo.setId( extras.getInt("id", -1));
+            isDone = extras.getBoolean("done");
             etNameNote.setText(noteInfo.getName());
             etContentNote.setText(noteInfo.getContent());
 
@@ -135,12 +137,13 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
             currentDate.set(Calendar.MILLISECOND,0);
 
             noteInfo = new Note(
-                    -1,
                     "",
                     "",
                     currentDate,
-                    (byte) 0
+                    (byte) 0,
+                    false
             );
+            noteInfo.setId(-1);
 
         }
     }
@@ -293,7 +296,8 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         intentFromNote.putExtra("id", noteToIntent.getId());  // Output error toast when id == -1 or id == 0
         intentFromNote.putExtra("note_name", noteToIntent.getName());
         intentFromNote.putExtra("note_content", noteToIntent.getContent());
-        intentFromNote.putExtra("freq", noteToIntent.getFrequency());
+        intentFromNote.putExtra("freq",  noteToIntent.getFrequency());
+        intentFromNote.putExtra("done",noteToIntent.isDone());
         return intentFromNote;
     }
 

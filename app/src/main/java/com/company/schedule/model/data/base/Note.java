@@ -40,13 +40,17 @@ public class Note {
     @ColumnInfo(name = "frequency")
     private byte frequency;
 
+    //is note already done
+    @ColumnInfo(name = "done")
+    private boolean done;
+
     //Constructor
-    public Note(int id, String name, String content, GregorianCalendar date, byte frequency) {
-        this.id = id;
+    public Note( String name, String content, GregorianCalendar date, byte frequency, boolean done) {
         this.name = name;
         this.date = date;
         this.frequency = frequency;
         this.content = content;
+        this.done = done;
     }
 
     //getters and setters
@@ -119,5 +123,13 @@ public class Note {
                             date.getTime()  // we need write .getTime to convert GregorianCalendar to Date
                     );
         else return "";
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }

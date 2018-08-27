@@ -4,8 +4,8 @@ import android.graphics.Color;
 
 public final class Constants {
     // for DB
-    public static final int DATABASE_VERSION = 10;
-    public static final String DATABASE_NAME = "Notifies-DB";
+    public static final int DATABASE_VERSION = 12;
+    public static final String DATABASE_NAME = "Notifies-DB2";
     public static final String TABLE_NAME = "normal_notes";
 
     //frequency

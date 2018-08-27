@@ -84,4 +84,12 @@ public class MainPresenter {
     public void detachView() {
         this.view = null;
     }
+
+    public void onChangedCheckBox(Note noteToUpdate) {
+        interactor.updateNote(noteToUpdate)
+                .subscribe(
+                        () -> loadData(),
+                        e -> handleThrowable(e)
+                );
+    }
 }

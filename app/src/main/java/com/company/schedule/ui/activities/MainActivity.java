@@ -9,6 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.company.schedule.R;
@@ -34,7 +37,7 @@ import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
 public class MainActivity extends AppCompatActivity implements MainView, View.OnClickListener {
 
     private MainPresenter presenter;
-
+    private CheckBox checkBox;
     private NotesAdapter adapter;
     private ArrayList<Note> notes = new ArrayList<>();
 
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
                 )
         );
 
+
         // init adapter for notesList
         adapter = new NotesAdapter(this, notes);
         adapter.setClickListener((view, position) -> {
@@ -75,8 +79,17 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
             intent.putExtra("content", noteToSend.getContent());
             intent.putExtra("frequency", noteToSend.getFrequency());
             intent.putExtra("date", noteToSend.getDate());
-
+            intent.putExtra("done",noteToSend.isDone());
             startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE);  // going to .AddNoteActivity for EDIT note
+        });
+
+        //if user clicks on checkbox
+        adapter.setChangeListener((compoundButton, position, done) -> {
+
+            Note toInsert = notes.get(position);
+            toInsert.setDone(done);
+            presenter.onChangedCheckBox(toInsert);
+
         });
 
         //recyclerview that is displaying all notes
@@ -90,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
 
         final Toolbar toolbar =  findViewById(R.id.toolbar);  // maybe toolbar will be useful
         setSupportActionBar(toolbar);
+
+
 
 
         // we say the MainPresenter that the MainView are almost created
@@ -138,11 +153,10 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
     private Note getNoteFromIntent(Intent data) {
         if (data == null) return null;  // it's not a bug
         //getting all data
-        final int id = data.getIntExtra("id", -1);
         final String name = data.getStringExtra("note_name");
         final String content = data.getStringExtra("note_content");
-        byte freq = (byte) data.getIntExtra("freq",0);
-
+        byte freq =  data.getByteExtra("freq",(byte) 0);
+        boolean done = data.getBooleanExtra("done",false);
         //creating calendar with data, that is got from editnote activity
         GregorianCalendar notify_date = new GregorianCalendar();
         final long timeInMillis = data.getLongExtra("time_in_millis", -1L);
@@ -150,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
         if (timeInMillis == -1L) notify_date = null;
         else notify_date.setTimeInMillis(timeInMillis);
 
-        return new Note(id, name, content, notify_date, freq);
+        return new Note( name, content, notify_date,  freq, done);
     }
 
     @Override
