@@ -9,7 +9,7 @@ public final class Constants {
     public static final String TABLE_NAME = "normal_notes";
 
     //frequency
-    public static final byte FREQUENCY_NEVER = 0;
+    public static final byte FREQUENCY_ONCE = 0;
     public static final byte FREQUENCY_DAILY = 1;
     public static final byte FREQUENCY_WEEKLY = 2;
     public static final byte FREQUENCY_MONTHLY = 3;

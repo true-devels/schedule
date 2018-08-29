@@ -46,7 +46,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     final private String TAG = "myLog AddNoteActivity";  // tag for log
 
     private EditText etNameNote, etContentNote;  // EditTexts for enter name and content of note
-    private LinearLayout llDateTime;  // LinearLayout which contain two object(id.editDate, id.editTime)
+    private LinearLayout llDateTime, llSpinner;  // LinearLayout which contain two object(id.editDate, id.editTime)
     private TextView editDate, editTime;
     private Note noteInfo;
     private Spinner spinnerFreq;
@@ -88,6 +88,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
 
 
         llDateTime = findViewById(R.id.llDateTime);  // by default visibility == gone
+        llSpinner = findViewById(R.id.llSpinner);
         //llDateTime.setVisibility(MainView.GONE);
 
 
@@ -205,7 +206,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         // output date depending on local settings
         editDate.setText(noteInfo.getDateInFormat());
         editTime.setText(noteInfo.getTimeInFormat());
-
+        llSpinner.setVisibility(View.VISIBLE);
         llDateTime.setVisibility(View.VISIBLE);  // and all MainView in ViewGroup become visible and exist (date and time)
         isReminded = true;
         Timber.v("onCheckedChanged dateNotification.get(): " + editDate.getText().toString() + " " + editTime.getText().toString());
@@ -214,6 +215,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     @Override
     public void remindMeIsNotChecked() {
 //      gone  EditText for Date and for Time
+        llSpinner.setVisibility(View.GONE);
         llDateTime.setVisibility(View.GONE);  // all MainView in ViewGroup become invisible and doesn't exist
         isReminded = false;
     }
