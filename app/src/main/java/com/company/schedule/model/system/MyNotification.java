@@ -12,6 +12,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.company.schedule.R;
+import com.company.schedule.ui.activities.MainActivity;
 import com.company.schedule.utils.Constants;
 import com.company.schedule.utils.NotificationPublisher;
 
@@ -33,8 +34,11 @@ public class MyNotification {
     // TODO check if it can be static
     public android.app.Notification getNotification(String title, String content) {
         NotificationCompat.Builder builder;
+        Intent resultIntent = new Intent(context,MainActivity.class);
+        PendingIntent pendingIntentResult = PendingIntent.getActivity(context, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel();
+
             builder = new NotificationCompat.Builder(context,CHANEL_ID)
                     .setSmallIcon(R.mipmap.ic_launcher)  // default icon TODO change to good icon
                     .setContentTitle(title)
@@ -43,7 +47,10 @@ public class MyNotification {
                     .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
                     .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
                     .setSound(Uri.parse(Constants.SOUND_URI))
-                    .setContentText(content); }
+                    .setContentText(content)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntentResult);
+        }
         else{
             builder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.mipmap.ic_launcher)  // default icon TODO change to good icon
@@ -53,19 +60,24 @@ public class MyNotification {
                     .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
                     .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
                     .setSound(Uri.parse(Constants.SOUND_URI))
-                    .setContentText(content);
+                    .setContentText(content)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntentResult);
 
         }
         return builder.build();
     }
 
-    public void scheduleNotification(Notification notification, long time, int selectedItem, AlarmManager alarmManager) {
-        Intent notificationIntent = new Intent(context, NotificationPublisher.class);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);  // TODO comment it (why value == 1)
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+    public void scheduleNotification(Notification notification, long time, int selectedItem, AlarmManager alarmManager, int id) {
+
+        Intent notification_Intent = new Intent(context, NotificationPublisher.class);
+        notification_Intent.putExtra(NotificationPublisher.NOTIFICATION_ID, id);
+        notification_Intent.putExtra(NotificationPublisher.NOTIFICATION, notification);
 
         PendingIntent pendingIntent;  // TODO comment it
-        pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getBroadcast(context, 0, notification_Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
 
         //setting frequency
         long frequencyInMillis = getFrequencyInMillis(selectedItem);

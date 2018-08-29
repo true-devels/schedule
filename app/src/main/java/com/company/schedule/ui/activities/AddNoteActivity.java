@@ -319,7 +319,8 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         myNotification.scheduleNotification(local,
                 note.getDate().getTimeInMillis(),
                 note.getFrequency(),
-                (AlarmManager) getSystemService(Context.ALARM_SERVICE)
+                (AlarmManager) getSystemService(Context.ALARM_SERVICE),
+                note.getId()
         );
 
     }
