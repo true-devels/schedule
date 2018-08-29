@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.company.schedule.model.system.MyNotification;
 import com.company.schedule.model.data.base.Note;
@@ -50,7 +51,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     private Note noteInfo;
     private Spinner spinnerFreq;
     private boolean isEdited = false, isReminded = false;
-    private boolean isDone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
@@ -115,7 +116,6 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                     extras.getBoolean("done")
             );
             noteInfo.setId( extras.getInt("id", -1));
-            isDone = extras.getBoolean("done");
             etNameNote.setText(noteInfo.getName());
             etContentNote.setText(noteInfo.getContent());
 
@@ -162,8 +162,13 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
             noteInfo.setName(etNameNote.getText().toString());
             noteInfo.setContent(etContentNote.getText().toString());
             noteInfo.setFrequency( (byte) spinnerFreq.getSelectedItemPosition());
+            GregorianCalendar check = new GregorianCalendar();
+            if(isReminded && check.getTimeInMillis()>noteInfo.getDate().getTimeInMillis()){
+                Toast.makeText(this,"Date should be in future",Toast.LENGTH_LONG).show();
+            }else{
+                presenter.pressedToSubmitNote(noteInfo, isReminded);
+            }
 
-            presenter.pressedToSubmitNote(noteInfo, isReminded);
             break;
         case R.id.fab_delete:
             presenter.pressedToFabDelete(isEdited, noteInfo.getId());
