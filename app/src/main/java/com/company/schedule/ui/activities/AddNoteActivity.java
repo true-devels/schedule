@@ -144,7 +144,6 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                     (byte) 0,
                     false
             );
-            noteInfo.setId(-1);
 
         }
     }
