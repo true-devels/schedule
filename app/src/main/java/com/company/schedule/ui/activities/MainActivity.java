@@ -142,11 +142,18 @@ public class MainActivity extends AppCompatActivity implements MainView, View.On
 //        resultCode - return code. Determines whether the call has passed successfully or not.
 //        data - Intent, in which the data is returned
 //        if data was correct entered
-        presenter.onActivityResult(requestCode,
-                resultCode,
-                getNoteFromIntent(data),
-                data != null && data.getBooleanExtra("isDel",false)
-        );
+        if(data.getBooleanExtra("isDel",false)){
+            presenter.onActivityResult(
+                    resultCode,
+                    data.getIntExtra("id",-1)
+            );
+        }else{
+            presenter.onActivityResult(requestCode,
+                    resultCode,
+                    getNoteFromIntent(data)
+            );
+        }
+
     }
 
 

@@ -34,7 +34,7 @@ public class MainPresenter {
                 );  // load data from DB
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Note note, boolean isDel) {
+    public void onActivityResult(int requestCode, int resultCode, Note note) {
         if (resultCode == RESULT_OK || note != null) {  // move part code to different class
             Timber.i("RESULT_OK");
 
@@ -43,12 +43,21 @@ public class MainPresenter {
                     resultFromAddNote(note);  // result from Add note
                     break;
                 case REQUEST_CODE_EDIT_NOTE:
-                    if (isDel) resultFromDeleteNote(note.getId());  // result from Delete note
-                    else resultFromEditNote(note);  // result from Edit note
+                    resultFromEditNote(note);  // result from Edit note
                     break;
             }
         } else {
             Timber.v("resultCode != RESULT_OK, requestCode: \"" + requestCode + "\"; resultCode: \"" + resultCode + "\";"); //RESULT_OK: -1; RESULT_CANCELED: 0; RESULT_FIRST_USER(other user result): 1, 2, 3...
+        }
+    }
+
+    public void onActivityResult( int resultCode, int id) { //for deleting note
+        if (resultCode == RESULT_OK || id != -1) {  // move part code to different class
+            Timber.i("RESULT_OK");
+                   resultFromDeleteNote(id);
+            }
+         else {
+            Timber.v("resultCode != RESULT_OK, \""  + "\"; resultCode: \"" + resultCode + "\";"); //RESULT_OK: -1; RESULT_CANCELED: 0; RESULT_FIRST_USER(other user result): 1, 2, 3...
         }
     }
 
