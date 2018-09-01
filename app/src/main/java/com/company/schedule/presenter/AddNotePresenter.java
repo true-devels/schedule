@@ -1,10 +1,6 @@
 package com.company.schedule.presenter;
 
-import android.util.Log;
-
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
-import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
 import com.company.schedule.view.AddNoteView;
 
 import java.util.GregorianCalendar;

@@ -3,7 +3,6 @@ package com.company.schedule.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.company.schedule.R;
@@ -15,13 +14,10 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
         sharedPrefs = new SharedPrefs(this);
-        if(sharedPrefs.loadNightModeState()) {
-            //dark
-            setTheme(R.style.darktheme);
-        }else {
-            //white
-            setTheme(R.style.AppTheme);
-        }
+
+        //set theme
+        if(sharedPrefs.loadNightModeState()) setTheme(R.style.darktheme);
+        else setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
@@ -34,25 +30,20 @@ public class SettingsActivity extends AppCompatActivity {
 
         //set mode with switch widget
         mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                sharedPrefs.setNightModeState(true);
-                restartSettings();
-            }
-            else {
-                sharedPrefs.setNightModeState(false);
-                restartSettings();
-            }
+            if (isChecked) sharedPrefs.setNightModeState(true);
+            else sharedPrefs.setNightModeState(false);
+            restartSettings();
         });
     }
 
     //restarts methods
     public void restartSettings() {
-        Intent i = new Intent(getApplicationContext(),SettingsActivity.class);
+        Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivity(i);
         finish();
     }
     public void restartMain() {
-        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
         finish();
     }

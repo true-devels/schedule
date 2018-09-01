@@ -42,8 +42,6 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
 
     private AddNotePresenter presenter = new AddNotePresenter();
 
-    final private String TAG = "myLog AddNoteActivity";  // tag for log
-
     private EditText etNameNote, etContentNote;  // EditTexts for enter name and content of note
     private LinearLayout llDateTime;  // LinearLayout which contain two object(id.editDate, id.editTime)
     private TextView editDate, editTime;
