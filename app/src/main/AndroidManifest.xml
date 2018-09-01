@@ -25,7 +25,6 @@
             >
         </activity>
         <activity android:name=".ui.activities.SettingsActivity"/>
-        <activity android:name=".ui.activities.AddNoteActivity" />
         <receiver android:name=".utils.NotificationPublisher" />
     </application>
 

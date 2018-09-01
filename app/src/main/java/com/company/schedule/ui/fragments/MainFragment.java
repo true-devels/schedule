@@ -20,7 +20,6 @@ import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presenter.MainPresenter;
-import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.ui.activities.MainActivity;
 import com.company.schedule.ui.activities.SettingsActivity;
 import com.company.schedule.ui.adapters.CustomLayoutManager;
@@ -31,15 +30,9 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
-
-/**
- * A placeholder fragment containing a simple view.
- */
 public class MainFragment extends Fragment implements MainView {
 
     private MainActivity mainActivity;
-    private View view;
     private MainPresenter presenter;
 
     private NotesAdapter adapter;
@@ -61,37 +54,24 @@ public class MainFragment extends Fragment implements MainView {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_main, container, false);
+        View fragmentMain = inflater.inflate(R.layout.fragment_main, container, false);
         mainActivity = (MainActivity) getActivity();
         // init view components
         // init adapter for notesList
         adapter = new NotesAdapter(getContext(), notes);
-        adapter.setClickListener((view, position) -> {
-            Note noteToSend = notes.get(position);
-            //if user clicks on item of recycler view, app goes to AddNoteActivity but with requestCode (...)_EDIT_NOTE
-            //sending all data, that is needed for editing note
-            Intent intent = new Intent(getContext(), AddNoteActivity.class);
-            // TODO replace on Serializable or Parcelable
-            intent.putExtra("id", noteToSend.getId());
-            intent.putExtra("name", noteToSend.getName());
-            intent.putExtra("content", noteToSend.getContent());
-            intent.putExtra("frequency", noteToSend.getFrequency());
-            intent.putExtra("date", noteToSend.getDate());
-
-            startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE);  // going to .AddNoteActivity for EDIT note
-        });
+        adapter.setClickListener((v, position) -> mainActivity.replaceFragment(new UpdateNoteFragment()));
 
         //recyclerview that is displaying all notes
-        RecyclerView notesList = view.findViewById(R.id.notesList);
+        RecyclerView notesList = fragmentMain.findViewById(R.id.notesList);
 
         notesList.setLayoutManager(new CustomLayoutManager(getContext()));
         notesList.setAdapter(adapter);
 
 
-        FloatingActionButton fab = view.findViewById(R.id.fab);  // button for jump to AddNoteActivity
-        fab.setOnClickListener(v -> mainActivity.showUpdateNoteFragment());  // setting handle
+        FloatingActionButton fab = fragmentMain.findViewById(R.id.fab);  // button for jump to AddNoteActivity
+        fab.setOnClickListener(v -> mainActivity.replaceFragment(new UpdateNoteFragment()));  // setting handle
 
-        return view;
+        return fragmentMain;
     }
 
 
@@ -116,20 +96,6 @@ public class MainFragment extends Fragment implements MainView {
 
     public void setNote(Note newNote) {
         // TODO make something with new Note
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        on requestCode we determine from which subsidiary activity the result came
-//        resultCode - return code. Determines whether the call has passed successfully or not.
-//        data - Intent, in which the data is returned
-//        if data was correct entered
-        presenter.onActivityResult(requestCode,
-                resultCode,
-                getNoteFromIntent(data),
-                data != null && data.getBooleanExtra("isDel",false)
-        );
     }
 
 

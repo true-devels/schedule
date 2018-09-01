@@ -4,7 +4,7 @@ import com.company.schedule.model.data.base.Note;
 
 import java.util.GregorianCalendar;
 
-public interface AddNoteView {
+public interface UpdateNoteView {
     //
     void remindMeIsChecked();
     void remindMeIsNotChecked();
@@ -13,11 +13,6 @@ public interface AddNoteView {
     void showEmptyDatePicker();
     void openTimePickerFragment(GregorianCalendar calendar);  // Time picker fragment
     void showEmptyTimePicker();
-    // setters result
-    void setResultOkWithDate(Note noteWithDate);
-    void setResultOkWithoutDate(Note noteWithoutDate);
-    void setResultOkDelete(int id);
-    void setResultCancel();
     // for notify
     void createNotification(Note note);
     // finish activity and going to MainActivity

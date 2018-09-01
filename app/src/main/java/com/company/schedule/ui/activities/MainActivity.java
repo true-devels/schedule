@@ -3,6 +3,7 @@ package com.company.schedule.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -38,9 +39,6 @@ import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
 
 public class MainActivity extends AppCompatActivity {
 
-    MainFragment mainFragment;
-    UpdateNoteFragment updateNoteFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
@@ -56,26 +54,46 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // init fragment
-        mainFragment = new MainFragment();
-        updateNoteFragment = new UpdateNoteFragment();
+        MainFragment mainFragment = new MainFragment();
+        UpdateNoteFragment updateNoteFragment = new UpdateNoteFragment();
         // open fragment transaction
-        showMainFragment();
+        addFragment(mainFragment);
     }
 
-
-    public void showMainFragment() {
+    public void addFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragmentContainer, mainFragment);
+        fragmentTransaction.add(R.id.fragmentContainer, fragment);  // add fragment to screen
+//        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
+        fragmentTransaction.commit();
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // add fragment to screen
+//        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
+        fragmentTransaction.commit();
+    }
+
+    public void removeFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // add fragment to screen
+//        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
+        fragmentTransaction.commit();
+    }
+
+//    public void showMainFragment() {
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.add(R.id.fragmentContainer, mainFragment);
+////        fragmentTransaction.addToBackStack(null); // feature
+//        fragmentTransaction.commit();
+//    }
+//
+//    public void showUpdateNoteFragment() {
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.fragmentContainer, updateNoteFragment);
 //        fragmentTransaction.addToBackStack(null); // feature
-        fragmentTransaction.commit();
-    }
-
-    public void showUpdateNoteFragment() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, updateNoteFragment);
-        fragmentTransaction.addToBackStack(null); // feature
-        fragmentTransaction.commit();
-    }
+//        fragmentTransaction.commit();
+//    }
 
 
 

@@ -8,6 +8,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,14 +26,14 @@
 
                 <EditText
                     android:id="@+id/etNameNote"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Enter name of note"
                     android:inputType="textShortMessage"
-                    android:textColorHint="?attr/textcolor"
+                    android:maxLines="1"
                     android:textColor="?attr/textcolor"
-                    android:maxLines="1">
+                    android:textColorHint="?attr/textcolor">
 
                     <requestFocus />
                 </EditText>
@@ -53,10 +54,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:textColor="?attr/textcolor"
-                android:textColorHint="?attr/textcolor"
                 android:hint="Enter content of note"
-                android:inputType="textLongMessage" />
+                android:inputType="textLongMessage"
+                android:textColor="?attr/textcolor"
+                android:textColorHint="?attr/textcolor" />
 
             <LinearLayout
                 android:layout_width="match_parent"
