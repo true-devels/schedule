@@ -60,21 +60,22 @@ public class MainActivity extends AppCompatActivity {
         addFragment(mainFragment);
     }
 
-    public void addFragment(Fragment fragment) {
+    private void addFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragmentContainer, fragment);  // add fragment to screen
 //        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
         fragmentTransaction.commit();
     }
 
-    public void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment, boolean useBackStack) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // add fragment to screen
-//        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
+        useBackStack = false; //TODO delete it in future
+        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
         fragmentTransaction.commit();
     }
 
-    public void removeFragment(Fragment fragment) {
+    private void removeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // add fragment to screen
 //        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature

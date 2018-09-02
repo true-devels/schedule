@@ -40,8 +40,8 @@ public class MainRepository {
                 .observeOn(schedulers.ui());
     }
 
-    public Observable getOneNoteByIdObservable(final int id) {
-        return Observable.create((ObservableOnSubscribe<Note>) emitter -> {
+    public void getOneNoteByIdObservable(final int id) {
+        Observable.create((ObservableOnSubscribe<Note>) emitter -> {
             try {
                 Note note = noteDAO.getOneNote(id);
                 emitter.onNext(note);

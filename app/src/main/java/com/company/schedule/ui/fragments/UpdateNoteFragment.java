@@ -106,7 +106,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
             currentDate.set(Calendar.MILLISECOND,0);
 
             noteInfo = new Note(
-                    -1,
+                    0,  // important set id 0 instead -1
                     "",
                     "",
                     currentDate,
@@ -119,6 +119,10 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        if (savedInstanceState != null)
+            Timber.v("Saved instance state != null");
+
         View fragmentUpdateNote = inflater.inflate(R.layout.fragment_update_note, container, false);
         mainActivity = (MainActivity) getActivity();
 
@@ -154,8 +158,6 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
 
         return fragmentUpdateNote;
     }
-
-
 
 
     @Override
@@ -224,28 +226,28 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
 
     // picker for date
     @Override
-    public void openDatePickerFragment(GregorianCalendar calendar) {
+    public void showDatePickerFragment(GregorianCalendar calendar) {
         DatePickerFragment datePicker = new DatePickerFragment(); // calls fragment with date picker dialog
         datePicker.setGc(calendar);
         datePicker.show(mainActivity.getSupportFragmentManager(), "date picker");  // show date picker dialog
     }
 
     @Override
-    public void showEmptyDatePicker() {
+    public void showDatePickerFragment() {
         new DatePickerFragment()
                 .show(mainActivity.getSupportFragmentManager(), "date picker");  // show date picker dialog
     }
 
     // picker for time
     @Override
-    public void openTimePickerFragment(GregorianCalendar calendar) {
+    public void showTimePickerFragment(GregorianCalendar calendar) {
         TimePickerFragment timePicker = new TimePickerFragment();
         timePicker.setGc(calendar);
         timePicker.show(mainActivity.getSupportFragmentManager(), "time picker");  // show time picker dialog
     }
 
     @Override
-    public void showEmptyTimePicker() {
+    public void showTimePickerFragment() {
         new TimePickerFragment()
                 .show(mainActivity.getSupportFragmentManager(), "time picker");  // show time picker dialog
     }
@@ -284,11 +286,11 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
 
     }
 
-
     @Override
-    public void finish() {
-        mainActivity.finish();
+    public void goToMainFragment() {
+        mainActivity.replaceFragment(new MainFragment(), false);
     }
+
 
     @Override
     public void onDestroy() {

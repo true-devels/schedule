@@ -59,7 +59,7 @@ public class MainFragment extends Fragment implements MainView {
         // init view components
         // init adapter for notesList
         adapter = new NotesAdapter(getContext(), notes);
-        adapter.setClickListener((v, position) -> mainActivity.replaceFragment(new UpdateNoteFragment()));
+        adapter.setClickListener((v, position) -> mainActivity.replaceFragment(new UpdateNoteFragment(), true));
 
         //recyclerview that is displaying all notes
         RecyclerView notesList = fragmentMain.findViewById(R.id.notesList);
@@ -69,7 +69,7 @@ public class MainFragment extends Fragment implements MainView {
 
 
         FloatingActionButton fab = fragmentMain.findViewById(R.id.fab);  // button for jump to AddNoteActivity
-        fab.setOnClickListener(v -> mainActivity.replaceFragment(new UpdateNoteFragment()));  // setting handle
+        fab.setOnClickListener(v -> mainActivity.replaceFragment(new UpdateNoteFragment(), true));  // setting handle
 
         return fragmentMain;
     }

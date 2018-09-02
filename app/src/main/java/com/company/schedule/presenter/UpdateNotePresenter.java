@@ -30,22 +30,22 @@ public class UpdateNotePresenter {
         }
         else Timber.v("RESULT_CANCELED, noteName: \"" + noteName + "\";");
 
-        view.finish();  // finish fragment
+        view.goToMainFragment();  // finish fragment
     }
 
     public void pressedToEditDate(boolean isEdited, GregorianCalendar gregorianCalendar) {
-        if (isEdited) view.openDatePickerFragment(gregorianCalendar);  // if note is editing, then sending existing date to date picker
-        else view.showEmptyDatePicker();
+        if (isEdited) view.showDatePickerFragment(gregorianCalendar);  // if note is editing, then sending existing date to date picker
+        else view.showDatePickerFragment();
     }
 
     public void pressedToEditTime(boolean isEdited, GregorianCalendar gregorianCalendar) {
-        if (isEdited) view.openTimePickerFragment(gregorianCalendar);  // if note is editing, then sending existing in note time to time picker
-        else view.showEmptyTimePicker();
+        if (isEdited) view.showTimePickerFragment(gregorianCalendar);  // if note is editing, then sending existing in note time to time picker
+        else view.showTimePickerFragment();
     }
 
     public void pressedToFabDelete(boolean isEdited, int id) {
         if(isEdited) resultFromDeleteNote(id);
-        view.finish();  // finish view in any case
+        view.goToMainFragment();  // finish view in any case
     }
 
     public void changedRemindMe(boolean isChecked) {
