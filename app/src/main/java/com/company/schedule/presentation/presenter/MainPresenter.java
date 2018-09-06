@@ -1,9 +1,9 @@
-package com.company.schedule.presenter;
+package com.company.schedule.presentation.presenter;
 
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.view.MainView;
 
-import timber.log.Timber;
+import static com.company.schedule.utils.Error.handleThrowable;
 
 public class MainPresenter {
 
@@ -16,12 +16,8 @@ public class MainPresenter {
         this.interactor = interactor;  // init interactor
     }
 
-    public void viewHasCreated() {
+    public void loadData() {
         // we load data from DB in Model, and then set all notes in MainView
-        loadData();
-    }
-
-    private void loadData() {
         interactor.loadData()
                 .subscribe(
                         (notes) -> view.setAllNotes(notes),
@@ -29,10 +25,6 @@ public class MainPresenter {
                 );  // load data from DB
     }
 
-
-    private void handleThrowable(Throwable throwable) {
-        Timber.e(throwable, throwable.toString());
-    }
 
     public void detachView() {
         this.view = null;

@@ -1,21 +1,24 @@
-package com.company.schedule.presenter;
+package com.company.schedule.presentation.presenter;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
+import com.company.schedule.model.interactor.UpdateNoteInteractor;
 import com.company.schedule.view.UpdateNoteView;
 
 import java.util.GregorianCalendar;
 
 import timber.log.Timber;
 
+import static com.company.schedule.utils.Error.handleThrowable;
+
 public class UpdateNotePresenter {
 
     private UpdateNoteView view;
-    private MainInteractor interactor;
+    private UpdateNoteInteractor interactor;
 
-    public UpdateNotePresenter(UpdateNoteView view, MainInteractor mainInteractor) {
+    public UpdateNotePresenter(UpdateNoteView view, UpdateNoteInteractor interactor) {
         this.view = view;
-        this.interactor = mainInteractor;
+        this.interactor = interactor;
     }
 
     public void pressedToSubmitNote(Note note, boolean isReminded) {
@@ -88,12 +91,6 @@ public class UpdateNotePresenter {
                         e -> handleThrowable(e)
                 );
     }
-
-    private void handleThrowable(Throwable throwable) {
-        Timber.e(throwable, throwable.toString());
-    }
-
-
 
     public void detachView() {
         this.view = null;

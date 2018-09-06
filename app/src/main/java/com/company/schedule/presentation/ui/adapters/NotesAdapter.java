@@ -1,6 +1,5 @@
-package com.company.schedule.ui.adapters;
+package com.company.schedule.presentation.ui.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,42 +9,41 @@ import android.widget.TextView;
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.Note;
 
-import java.util.GregorianCalendar;
+import java.util.ArrayList;
 import java.util.List;
 
 //custom adapter class for recyclerview
-public class NotesAdapter  extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
+public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
-    private List<Note> mData;
-    private LayoutInflater mInflater;
+    public List<Note> listNotes = new ArrayList<>();
     private ItemClickListener mClickListener;
 
-    final String TAG = "myLog MainActivity";
-
-    // data is passed into the constructor
-    public NotesAdapter(Context context, List<Note> data) {
-        this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+    //method that writes all data to recyclerview
+    public void setAllNotes(List<Note> newNotes) {
+        listNotes.clear();
+        notifyItemRangeRemoved(0, getItemCount());
+        listNotes.addAll(newNotes);
+        notifyItemRangeInserted(0,newNotes.size());
     }
 
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item, parent, false);  // find example item element
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);  // find example item element
         return new ViewHolder(view);
     }
 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvItemNoteName.setText(mData.get(position).getName());  // output name
-        holder.tvItemDate.setText(mData.get(position).getDateTimeInFormat());  // output date time depending on local settings.
+        holder.tvItemNoteName.setText(listNotes.get(position).getName());  // output name
+        holder.tvItemDate.setText(listNotes.get(position).getDateTimeInFormat());  // output date time depending on local settings.
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return listNotes.size();
     }
 
 

@@ -1,4 +1,4 @@
-package com.company.schedule.ui.activities;
+package com.company.schedule.presentation.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -95,8 +95,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btn_next:
                 // checking for last page
                 // if last page home screen will be launched
-                int current = getItem(+1);
-                if (current < layouts.length) {
+                int current = getItem();
+                if (current  < layouts.length) {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
@@ -131,13 +131,13 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             dots[currentPage].setTextColor(colorsActive[currentPage]);
     }
 
-    private int getItem(int i) {
-        return viewPager.getCurrentItem() + i;
+    private int getItem() {
+        return viewPager.getCurrentItem() + 1;
     }
 
     //launch MainActivity
     private void launchHomeScreen() {
-        prefManager.setFirstTimeLaunch(false);
+        prefManager.setFirstTimeLaunchFalse();
         startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
         finish();
     }

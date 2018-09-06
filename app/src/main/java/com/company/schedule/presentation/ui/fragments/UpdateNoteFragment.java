@@ -1,11 +1,10 @@
-package com.company.schedule.ui.fragments;
+package com.company.schedule.presentation.ui.fragments;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,22 +28,20 @@ import com.company.schedule.R;
 import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
+import com.company.schedule.model.interactor.UpdateNoteInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.model.system.MyNotification;
-import com.company.schedule.presenter.UpdateNotePresenter;
-import com.company.schedule.ui.activities.MainActivity;
-import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
-import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
+import com.company.schedule.presentation.presenter.UpdateNotePresenter;
+import com.company.schedule.presentation.ui.activities.MainActivity;
+import com.company.schedule.presentation.ui.fragments.pickers.DatePickerFragment;
+import com.company.schedule.presentation.ui.fragments.pickers.TimePickerFragment;
 import com.company.schedule.view.UpdateNoteView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import timber.log.Timber;
-
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
 
 public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, View.OnClickListener, CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -65,7 +62,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
         super.onCreate(savedInstanceState);
 
         presenter = new UpdateNotePresenter(this,
-                new MainInteractor(  // create interactor
+                new UpdateNoteInteractor(  // create interactor
                         new MainRepository(
                                 AppDatabase.getDatabase(getContext()).noteDAO(),
                                 new AppSchedulers()  // for threads
@@ -159,6 +156,11 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
         return fragmentUpdateNote;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
 
     @Override
     public void onClick(View view) {
@@ -227,28 +229,32 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
     // picker for date
     @Override
     public void showDatePickerFragment(GregorianCalendar calendar) {
-        DatePickerFragment datePicker = new DatePickerFragment(); // calls fragment with date picker dialog
-        datePicker.setGc(calendar);
-        datePicker.show(mainActivity.getSupportFragmentManager(), "date picker");  // show date picker dialog
+        new DatePickerFragment()
+                .setGc(calendar)
+                .setListener(this)
+                .show(mainActivity.getSupportFragmentManager(), "date picker");  // show date picker dialog
     }
 
     @Override
     public void showDatePickerFragment() {
         new DatePickerFragment()
+                .setListener(this)
                 .show(mainActivity.getSupportFragmentManager(), "date picker");  // show date picker dialog
     }
 
     // picker for time
     @Override
     public void showTimePickerFragment(GregorianCalendar calendar) {
-        TimePickerFragment timePicker = new TimePickerFragment();
-        timePicker.setGc(calendar);
-        timePicker.show(mainActivity.getSupportFragmentManager(), "time picker");  // show time picker dialog
+        new TimePickerFragment()
+                .setGc(calendar)  // set gregorian calendar
+                .setListener(this)  // set onTimeSet as listener
+                .show(mainActivity.getSupportFragmentManager(), "time picker");  // show time picker dialog
     }
 
     @Override
     public void showTimePickerFragment() {
         new TimePickerFragment()
+                .setListener(this)  // setListener return instance
                 .show(mainActivity.getSupportFragmentManager(), "time picker");  // show time picker dialog
     }
 

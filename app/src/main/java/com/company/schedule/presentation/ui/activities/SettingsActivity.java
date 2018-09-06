@@ -1,4 +1,4 @@
-package com.company.schedule.ui.activities;
+package com.company.schedule.presentation.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ public class SettingsActivity extends AppCompatActivity {
         sharedPrefs = new SharedPrefs(this);
 
         //set theme
-        if(sharedPrefs.loadNightModeState()) setTheme(R.style.darktheme);
+        if(sharedPrefs.isNightMode()) setTheme(R.style.darktheme);
         else setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
@@ -24,7 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         //init
         Switch mSwitch = findViewById(R.id.myswitch);
-        if (sharedPrefs.loadNightModeState()) {
+        if (sharedPrefs.isNightMode()) {
             mSwitch.setChecked(true);
         }
 

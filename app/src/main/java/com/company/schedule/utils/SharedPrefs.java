@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import static com.company.schedule.utils.Constants.IS_FIRST_TIME_LAUNCH;
+import static com.company.schedule.utils.Constants.FIRST_TIME_LAUNCH_KEY;
 import static com.company.schedule.utils.Constants.NIGHT_MODE;
 import static com.company.schedule.utils.Constants.PREF_NAME;
 import static com.company.schedule.utils.Constants.PRIVATE_MODE;
@@ -19,23 +19,23 @@ public class SharedPrefs {
         editor = pref.edit();
     }
 
-    public void setFirstTimeLaunch(boolean isFirstTime) {
-        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
-        editor.commit();
+    public void setFirstTimeLaunchFalse() {
+        editor.putBoolean(FIRST_TIME_LAUNCH_KEY, false);
+        editor.apply();
     }
 
     public boolean isFirstTimeLaunch() {
-        return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
+        return pref.getBoolean(FIRST_TIME_LAUNCH_KEY, true);
     }
 
 
     //method will save the nightMode State : True or False
     public void setNightModeState(Boolean state) {
         editor.putBoolean(NIGHT_MODE,state);
-        editor.commit();
+        editor.apply();
     }
     //method will load the Night Mode State
-    public Boolean loadNightModeState (){
+    public boolean isNightMode(){
         return pref.getBoolean(NIGHT_MODE,false);
     }
 }

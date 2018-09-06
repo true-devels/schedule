@@ -33,6 +33,6 @@ public final class Constants {
     // Shared preferences file name
     public static final String PREF_NAME = "androidhive-welcome";
     //preferences keys
-    public static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    public static final String FIRST_TIME_LAUNCH_KEY = "FirstTimeLaunch";
     public static final String NIGHT_MODE = "NightMode";
 }

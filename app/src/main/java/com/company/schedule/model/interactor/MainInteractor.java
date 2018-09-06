@@ -19,21 +19,4 @@ public class MainInteractor {
     public Observable<List<Note>> loadData() {
         return repository.loadData();
     }
-
-    public void getOneNoteById(int id) {
-        repository.getOneNoteByIdObservable(id);
-    }
-
-    //method that inserts new note into DB
-    public Completable insertNote(final Note note) {
-        return repository.insertNote(note);
-    }
-
-    public Completable updateNote(Note noteToUpdate){
-        return repository.updateNote(noteToUpdate);
-    }
-
-    public Completable deleteNoteById(int id) {
-        return repository.deleteNoteById(id);
-    }
 }

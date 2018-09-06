@@ -1,4 +1,4 @@
-package com.company.schedule.ui.fragments;
+package com.company.schedule.presentation.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,37 +20,40 @@ import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
-import com.company.schedule.presenter.MainPresenter;
-import com.company.schedule.ui.activities.MainActivity;
-import com.company.schedule.ui.activities.SettingsActivity;
-import com.company.schedule.ui.adapters.CustomLayoutManager;
-import com.company.schedule.ui.adapters.NotesAdapter;
+import com.company.schedule.presentation.presenter.MainPresenter;
+import com.company.schedule.presentation.ui.activities.MainActivity;
+import com.company.schedule.presentation.ui.activities.SettingsActivity;
+import com.company.schedule.presentation.ui.adapters.NotesAdapter;
 import com.company.schedule.view.MainView;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MainFragment extends Fragment implements MainView {
 
+    // architecture
     private MainActivity mainActivity;
     private MainPresenter presenter;
 
+    // view components
+    private RecyclerView notesList;
+    private FloatingActionButton fab;
+
     private NotesAdapter adapter;
-    private ArrayList<Note> notes = new ArrayList<>();
+//    private ArrayList<Note> notes = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new MainPresenter(this,  // init view in presenter
-                new MainInteractor(  // create interactor
-                        new MainRepository(
-                                AppDatabase.getDatabase(getContext()).noteDAO(),
-                                new AppSchedulers()  // for threads
-                        )  // create repository and get DAO
-                )
-        );
+        if (presenter == null)  // if presenter isn't created we create it
+            presenter = new MainPresenter(this,  // init view in presenter
+                    new MainInteractor(  // create interactor
+                            new MainRepository(
+                                    AppDatabase.getDatabase(getContext()).noteDAO(),
+                                    new AppSchedulers()  // for threads
+                            )  // create repository and get DAO
+                    )
+            );
     }
 
     @Override
@@ -57,19 +61,8 @@ public class MainFragment extends Fragment implements MainView {
         View fragmentMain = inflater.inflate(R.layout.fragment_main, container, false);
         mainActivity = (MainActivity) getActivity();
         // init view components
-        // init adapter for notesList
-        adapter = new NotesAdapter(getContext(), notes);
-        adapter.setClickListener((v, position) -> mainActivity.replaceFragment(new UpdateNoteFragment(), true));
-
-        //recyclerview that is displaying all notes
-        RecyclerView notesList = fragmentMain.findViewById(R.id.notesList);
-
-        notesList.setLayoutManager(new CustomLayoutManager(getContext()));
-        notesList.setAdapter(adapter);
-
-
-        FloatingActionButton fab = fragmentMain.findViewById(R.id.fab);  // button for jump to AddNoteActivity
-        fab.setOnClickListener(v -> mainActivity.replaceFragment(new UpdateNoteFragment(), true));  // setting handle
+        notesList = fragmentMain.findViewById(R.id.notesList);
+        fab = fragmentMain.findViewById(R.id.fab);  // button for jump to AddNoteActivity
 
         return fragmentMain;
     }
@@ -79,42 +72,25 @@ public class MainFragment extends Fragment implements MainView {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // we say the MainPresenter that the MainView are almost created
-        presenter.viewHasCreated();
+        adapter = new NotesAdapter();
+        adapter.setClickListener((v, position) -> mainActivity.replaceFragment(new UpdateNoteFragment(), true));
 
+        notesList.setLayoutManager(new LinearLayoutManager(getContext()));
+        notesList.setAdapter(adapter);
+
+        presenter.loadData();  // we load data to Recycler view
+
+        fab.setOnClickListener(v -> mainActivity.replaceFragment(new UpdateNoteFragment(), true));  // setting handle
     }
 
     //method that writes all data to recyclerview
-
     public void setAllNotes(List<Note> newNotes) {
-        notes.clear();
-        adapter.notifyItemRangeRemoved(0,adapter.getItemCount());
-        notes.addAll(newNotes);
-        adapter.notifyItemRangeInserted(0,newNotes.size());
-
+        adapter.setAllNotes(newNotes);
     }
+
 
     public void setNote(Note newNote) {
         // TODO make something with new Note
-    }
-
-
-    private Note getNoteFromIntent(Intent data) {
-        if (data == null) return null;  // it's not a bug
-        //getting all data
-        final int id = data.getIntExtra("id", -1);
-        final String name = data.getStringExtra("note_name");
-        final String content = data.getStringExtra("note_content");
-        byte freq = (byte) data.getIntExtra("freq",0);
-
-        //creating calendar with data, that is got from editnote activity
-        GregorianCalendar notify_date = new GregorianCalendar();
-        final long timeInMillis = data.getLongExtra("time_in_millis", -1L);
-
-        if (timeInMillis == -1L) notify_date = null;
-        else notify_date.setTimeInMillis(timeInMillis);
-
-        return new Note(id, name, content, notify_date, freq);
     }
 
     @Override
