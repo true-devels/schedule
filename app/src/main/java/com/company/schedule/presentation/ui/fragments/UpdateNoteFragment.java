@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.AppDatabase;
@@ -50,7 +51,8 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
 
     private EditText etNameNote, etContentNote;  // EditTexts for enter name and content of note
 
-    private LinearLayout llDateTime;  // LinearLayout which contain two object(id.editDate, id.editTime)
+    private LinearLayout llDateTime, llSpinner;  // LinearLayout which contain two object(id.editDate, id.editTime)
+
     private TextView editDate, editTime;
     private Note noteInfo;
     private Spinner spinnerFreq;
@@ -76,12 +78,22 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
             isEdited = true;
 
             noteInfo = new Note(
-                    savedInstanceState.getInt("id", -1),
+//<<<<<<< HEAD:app/src/main/java/com/company/schedule/presentation/ui/fragments/UpdateNoteFragment.java
+                    savedInstanceState.getInt("id", 0),  // important 0 instead -1
                     savedInstanceState.getString("name"),
                     savedInstanceState.getString("content"),
                     (GregorianCalendar) savedInstanceState.get("date"),
-                    savedInstanceState.getByte("frequency")
+                    savedInstanceState.getByte("frequency"),
+                    savedInstanceState.getBoolean("done")
+//=======
+//                    extras.getString("name"),
+//                    extras.getString("content"),
+//                    (GregorianCalendar) extras.get("date"),
+//                    extras.getByte("frequency"),
+//                    extras.getBoolean("done")
+//>>>>>>> master:app/src/main/java/com/company/schedule/ui/activities/AddNoteActivity.java
             );
+//            noteInfo.setId( extras.getInt("id", -1));
             etNameNote.setText(noteInfo.getName());
             etContentNote.setText(noteInfo.getContent());
 
@@ -107,7 +119,8 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
                     "",
                     "",
                     currentDate,
-                    (byte) 0
+                    (byte) 0,
+                    false
             );
 
         }
@@ -141,6 +154,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
 
 
         llDateTime = fragmentUpdateNote.findViewById(R.id.llDateTime);  // by default visibility == gone
+        llSpinner = fragmentUpdateNote.findViewById(R.id.llSpinner);
         //llDateTime.setVisibility(MainView.GONE);
 
 
@@ -165,22 +179,26 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.editDate:  //if clicking on TextView with date
-                presenter.pressedToEditDate(isEdited, noteInfo.getDate());
-                break;
-            case R.id.editTime:   //if clicking on TextView with time
-                presenter.pressedToEditTime(isEdited, noteInfo.getDate());
-                break;
-            case R.id.btnSubmitNote:  // if button send note to DB already pressed
-                noteInfo.setName(etNameNote.getText().toString());
-                noteInfo.setContent(etContentNote.getText().toString());
-                noteInfo.setFrequency( (byte) spinnerFreq.getSelectedItemPosition());
+        case R.id.editDate:  //if clicking on TextView with date
+            presenter.pressedToEditDate(isEdited, noteInfo.getDate());
+            break;
+        case R.id.editTime:   //if clicking on TextView with time
+            presenter.pressedToEditTime(isEdited, noteInfo.getDate());
+            break;
+        case R.id.btnSubmitNote:  // if button send note to DB already pressed
+            noteInfo.setName(etNameNote.getText().toString());
+            noteInfo.setContent(etContentNote.getText().toString());
+            noteInfo.setFrequency( (byte) spinnerFreq.getSelectedItemPosition());
 
-                presenter.pressedToSubmitNote(noteInfo, isReminded);
-                break;
-            case R.id.fab_delete:
-                presenter.pressedToFabDelete(isEdited, noteInfo.getId());
-                break;
+            GregorianCalendar check = new GregorianCalendar();
+            if(isReminded && check.getTimeInMillis() > noteInfo.getDate().getTimeInMillis()) {
+                Timber.w("Date should be in future");
+                toastLong("Date should be in future");
+            } else presenter.pressedToSubmitNote(noteInfo, isReminded);
+            break;
+        case R.id.fab_delete:
+            presenter.pressedToFabDelete(isEdited, noteInfo.getId());
+            break;
         }
     }
 
@@ -213,7 +231,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
         // output date depending on local settings
         editDate.setText(noteInfo.getDateInFormat());
         editTime.setText(noteInfo.getTimeInFormat());
-
+        llSpinner.setVisibility(View.VISIBLE);
         llDateTime.setVisibility(View.VISIBLE);  // and all MainView in ViewGroup become visible and exist (date and time)
         isReminded = true;
         Timber.v("onCheckedChanged dateNotification.get(): " + editDate.getText().toString() + " " + editTime.getText().toString());
@@ -222,6 +240,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
     @Override
     public void remindMeIsNotChecked() {
 //      gone  EditText for Date and for Time
+        llSpinner.setVisibility(View.GONE);
         llDateTime.setVisibility(View.GONE);  // all MainView in ViewGroup become invisible and doesn't exist
         isReminded = false;
     }
@@ -277,8 +296,6 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
         editTime.setText(noteInfo.getTimeInFormat());  // when user chose a date we switch it in TV in good time format
     }
 
-
-
     @Override
     public void createNotification(Note note) {
         MyNotification myNotification = new MyNotification(mainActivity);
@@ -287,9 +304,21 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
         myNotification.scheduleNotification(local,
                 note.getDate().getTimeInMillis(),
                 note.getFrequency(),
-                (AlarmManager) mainActivity.getSystemService(Context.ALARM_SERVICE)
+                (AlarmManager) mainActivity.getSystemService(Context.ALARM_SERVICE),
+                note.getId()
         );
 
+    }
+
+
+    @Override
+    public void toast(String toast_message) {
+        Toast.makeText(getContext(), toast_message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void toastLong(String toast_message) {
+        Toast.makeText(getContext(), toast_message, Toast.LENGTH_LONG).show();
     }
 
     @Override

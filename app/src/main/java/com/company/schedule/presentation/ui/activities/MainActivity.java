@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         // init fragment
         MainFragment mainFragment = new MainFragment();
-        UpdateNoteFragment updateNoteFragment = new UpdateNoteFragment();
+//        UpdateNoteFragment updateNoteFragment = new UpdateNoteFragment();
         // open fragment transaction
         addFragment(mainFragment);
     }
