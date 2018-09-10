@@ -19,18 +19,22 @@ import java.util.List;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
     private List<Note> listNotes = new ArrayList<>();
+
     private ItemClickListener mClickListener;
     private ChangeListener mChangeListener;
-
     //method that writes all data to recyclerview
+
     public void setAllNotes(List<Note> newNotes) {
         listNotes.clear();
         notifyItemRangeRemoved(0, getItemCount());
         listNotes.addAll(newNotes);
         notifyItemRangeInserted(0,newNotes.size());
     }
-
     // inflates the row layout from xml when needed
+
+    public Note getNoteByPosition(int position) {
+        return listNotes.get(position);
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

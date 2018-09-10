@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,13 +51,12 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
     private UpdateNotePresenter presenter;
 
     private EditText etNameNote, etContentNote;  // EditTexts for enter name and content of note
-
+    private Switch swtRemindMe;
     private LinearLayout llDateTime, llSpinner;  // LinearLayout which contain two object(id.editDate, id.editTime)
 
     private TextView editDate, editTime;
     private Note noteInfo;
     private Spinner spinnerFreq;
-    private Switch swtRemindMe;
     private boolean isEdited = false, isReminded = false;
 
     @Override
@@ -73,41 +73,13 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
                 )
         );
 
-        //if note is editing, there is some data, that should be read from intent
-        if (savedInstanceState != null) {
+        Bundle transmission = this.getArguments();
+
+        if (transmission != null) {  // if we want to update note
+            noteInfo = (Note) transmission.getSerializable("note");
+            if (noteInfo == null) Log.e("myLog", "note info equals null");
             isEdited = true;
-
-            noteInfo = new Note(
-//<<<<<<< HEAD:app/src/main/java/com/company/schedule/presentation/ui/fragments/UpdateNoteFragment.java
-                    savedInstanceState.getInt("id", 0),  // important 0 instead -1
-                    savedInstanceState.getString("name"),
-                    savedInstanceState.getString("content"),
-                    (GregorianCalendar) savedInstanceState.get("date"),
-                    savedInstanceState.getByte("frequency"),
-                    savedInstanceState.getBoolean("done")
-//=======
-//                    extras.getString("name"),
-//                    extras.getString("content"),
-//                    (GregorianCalendar) extras.get("date"),
-//                    extras.getByte("frequency"),
-//                    extras.getBoolean("done")
-//>>>>>>> master:app/src/main/java/com/company/schedule/ui/activities/AddNoteActivity.java
-            );
-//            noteInfo.setId( extras.getInt("id", -1));
-            etNameNote.setText(noteInfo.getName());
-            etContentNote.setText(noteInfo.getContent());
-
-            // output date in good format
-            editDate.setText(noteInfo.getDateInFormat());  // Note: we don't need write checking for noteInfo.getDate() == null
-            editTime.setText(noteInfo.getTimeInFormat());
-
-            if (noteInfo.getFrequency() != -1)
-                spinnerFreq.setSelection((int) noteInfo.getFrequency());
-
-            //if field 'date' of CustomNotify object is null, so notify shouldn't be reminded
-            if (noteInfo.getDate() == null) swtRemindMe.setChecked(false);
-            else swtRemindMe.setChecked(true);
-
+            // set names and content in edit text for edit
         } else {  // if we want create new note
             GregorianCalendar currentDate = new GregorianCalendar();// get settings for current time
             currentDate.setTimeInMillis(System.currentTimeMillis());
@@ -174,6 +146,21 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        if (isEdited) {
+            etNameNote.setText(noteInfo.getName());
+            etContentNote.setText(noteInfo.getContent());
+
+            // output date in good format
+            editDate.setText(noteInfo.getDateInFormat());  // Note: we don't need write checking for noteInfo.getDate() == null
+            editTime.setText(noteInfo.getTimeInFormat());
+
+            if (noteInfo.getFrequency() != -1)
+                spinnerFreq.setSelection((int) noteInfo.getFrequency());
+
+            //if field 'date' of CustomNotify object is null, so notify shouldn't be reminded
+            if (noteInfo.getDate() == null) swtRemindMe.setChecked(false);
+            else swtRemindMe.setChecked(true);
+        }
     }
 
     @Override
@@ -321,6 +308,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_LONG).show();
     }
 
+    // TODO make fragment transition through fragment, but don't through activity
     @Override
     public void goToMainFragment() {
         mainActivity.replaceFragment(new MainFragment(), false);

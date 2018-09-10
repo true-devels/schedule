@@ -2,13 +2,13 @@ package com.company.schedule.model.data.base;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import com.company.schedule.utils.DateConverter;
 import com.company.schedule.utils.Constants;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import io.reactivex.annotations.NonNull;
@@ -16,7 +16,7 @@ import io.reactivex.annotations.NonNull;
 
 //class of notifications
 @Entity(tableName = Constants.TABLE_NAME)
-public class Note {
+public class Note implements Serializable {  // TODO make Parcelable instead Serializable. it is optimise time
     @NonNull
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -76,6 +76,11 @@ public class Note {
 
     public void setDate(GregorianCalendar date) {
         this.date = date;
+    }
+
+    // use this instead note.getDate == null
+    public boolean isDateNull(){
+        return date == null;  // is date equals null
     }
 
     public byte getFrequency() {

@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +30,8 @@ import com.company.schedule.view.MainView;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class MainFragment extends Fragment implements MainView {
 
     // architecture
@@ -44,7 +48,7 @@ public class MainFragment extends Fragment implements MainView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Timber.tag("TAG").d("my message");
         if (presenter == null)  // if presenter isn't created we create it
             presenter = new MainPresenter(this,  // init view in presenter
                     new MainInteractor(  // create interactor
@@ -73,14 +77,14 @@ public class MainFragment extends Fragment implements MainView {
         super.onActivityCreated(savedInstanceState);
 
         adapter = new NotesAdapter();
-        adapter.setClickListener((v, position) -> mainActivity.replaceFragment(new UpdateNoteFragment(), true));
+        adapter.setClickListener((v, position) -> goToUpdateNoteFragment(adapter.getNoteByPosition(position)));
 
         notesList.setLayoutManager(new LinearLayoutManager(getContext()));
         notesList.setAdapter(adapter);
 
         presenter.loadData();  // we load data to Recycler view
 
-        fab.setOnClickListener(v -> mainActivity.replaceFragment(new UpdateNoteFragment(), true));  // setting handle
+        fab.setOnClickListener(v -> goToAddNoteFragment());  // setting handle
     }
 
     //method that writes all data to recyclerview
@@ -92,6 +96,33 @@ public class MainFragment extends Fragment implements MainView {
     public void setNote(Note newNote) {
         // TODO make something with new Note
     }
+
+    private void goToAddNoteFragment() {
+        Fragment fragment = new UpdateNoteFragment();
+        FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // where we place fragment
+        fragmentTransaction.addToBackStack(null);  // features for the back button
+
+        fragmentTransaction.commit();
+    }
+
+    private void goToUpdateNoteFragment(Note noteToSend) {
+        Fragment fragment = new UpdateNoteFragment();
+        FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // where we place fragment
+        fragmentTransaction.addToBackStack(null);  // features for the back button
+
+        Bundle transmission = new Bundle();
+        transmission.putSerializable("note", noteToSend);
+        fragment.setArguments(transmission);
+
+        fragmentTransaction.commit();
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
