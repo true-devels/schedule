@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.interactor.UpdateNoteInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
@@ -158,7 +157,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
                 spinnerFreq.setSelection((int) noteInfo.getFrequency());
 
             //if field 'date' of CustomNotify object is null, so notify shouldn't be reminded
-            if (noteInfo.getDate() == null) swtRemindMe.setChecked(false);
+            if (noteInfo.isDateNull()) swtRemindMe.setChecked(false);
             else swtRemindMe.setChecked(true);
         }
     }
@@ -178,10 +177,12 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
             noteInfo.setFrequency( (byte) spinnerFreq.getSelectedItemPosition());
 
             GregorianCalendar check = new GregorianCalendar();
-            if(isReminded && check.getTimeInMillis() > noteInfo.getDate().getTimeInMillis()) {
+            if (!isReminded || noteInfo.getDate().getTimeInMillis() > check.getTimeInMillis()) {
+                presenter.pressedToSubmitNote(noteInfo, isEdited, isReminded);
+            } else {
                 Timber.w("Date should be in future");
                 toastLong("Date should be in future");
-            } else presenter.pressedToSubmitNote(noteInfo, isReminded);
+            }
             break;
         case R.id.fab_delete:
             presenter.pressedToFabDelete(isEdited, noteInfo.getId());
@@ -207,7 +208,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
 
     @Override
     public void remindMeIsChecked() {
-        if (!isEdited || noteInfo.getDate() == null) { // if from add note we update date every time
+        if (!isEdited || noteInfo.isDateNull()) { // if from add note we update date every time
             GregorianCalendar date = (GregorianCalendar) Calendar.getInstance(); // update to current date/time
             date.set(Calendar.SECOND, 0);
             date.set(Calendar.MILLISECOND, 0);

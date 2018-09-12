@@ -1,5 +1,7 @@
 package com.company.schedule.utils;
 
+import android.util.Log;
+
 import timber.log.Timber;
 
 public class Error {
@@ -8,6 +10,12 @@ public class Error {
 
     public static void handleThrowable(Throwable throwable) {
         Timber.e(throwable, throwable.toString());
+        Log.e("myLog", throwable.toString());
+        try {
+            throw throwable;
+        } catch (Throwable throwable1) {
+            throwable1.printStackTrace();
+        }
     }
 
     public static void throwException(String errorMessage) throws Exception {

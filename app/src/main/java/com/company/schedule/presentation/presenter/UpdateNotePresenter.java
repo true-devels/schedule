@@ -1,7 +1,8 @@
 package com.company.schedule.presentation.presenter;
 
+import android.util.Log;
+
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.interactor.UpdateNoteInteractor;
 import com.company.schedule.view.UpdateNoteView;
 
@@ -21,15 +22,18 @@ public class UpdateNotePresenter {
         this.interactor = interactor;
     }
 
-    public void pressedToSubmitNote(Note note, boolean isReminded) {
+    public void pressedToSubmitNote(Note note, boolean isEdited, boolean isReminded) {
         final String noteName = note.getName();
 
         // if noteName is  empty
         if (!noteName.isEmpty()) {
             Timber.v("RESULT_OK, noteName: \"" + noteName + "\";");
-            resultFromAddNote(note);
 
             if (isReminded) view.createNotification(note);  // create notification
+            else note.setDate(null);  // this line must be before insert/updateNote
+
+            if (isEdited) updateNote(note);
+            else insertNewNote(note);
         }
         else Timber.v("RESULT_CANCELED, noteName: \"" + noteName + "\";");
 
@@ -47,7 +51,7 @@ public class UpdateNotePresenter {
     }
 
     public void pressedToFabDelete(boolean isEdited, int id) {
-        if(isEdited) resultFromDeleteNote(id);
+        if(isEdited) deleteNote(id);
         view.goToMainFragment();  // finish view in any case
     }
 
@@ -61,13 +65,17 @@ public class UpdateNotePresenter {
         interactor.loadData()
                 .subscribe(
 //                        (notes) -> view.setAllNotes(notes),
-                        (notes) -> Timber.d("setAllNotes"),
+                        (notes) -> {
+                            for (Note note:notes) {
+                                Log.d("myLogUNP", "loadData:"+note.getId()+") "+note.getName());
+                            }
+                        },
                         (Throwable e) -> handleThrowable(e)
                 );  // load data from DB
     }
 
 
-    private void resultFromAddNote(Note noteToInsert) {
+    private void insertNewNote(Note noteToInsert) {
         //creating and inserting to DB new note
 //        final Note local = new Note(name, content, notify_date, freq);
         interactor.insertNote(noteToInsert)
@@ -77,14 +85,14 @@ public class UpdateNotePresenter {
                 );
     }
 
-    private void resultFromEditNote(Note noteToUpdate) {
+    private void updateNote(Note noteToUpdate) {
         interactor.updateNote(noteToUpdate)
                 .subscribe(
                         () -> loadData(),
                         e -> handleThrowable(e)
                 );
     }
-    private void resultFromDeleteNote(int id) {
+    private void deleteNote(int id) {
         interactor.deleteNoteById(id)
                 .subscribe(
                         () -> loadData(),

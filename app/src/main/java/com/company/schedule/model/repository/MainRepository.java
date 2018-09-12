@@ -1,5 +1,7 @@
 package com.company.schedule.model.repository;
 
+import android.util.Log;
+
 import com.company.schedule.model.data.base.NoteDAO;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.system.SchedulersProvider;
@@ -57,7 +59,8 @@ public class MainRepository {
     //method that inserts new note into DB
     public Completable insertNote(final Note note) {
         return Completable.create(emitter -> {
-            noteDAO.insertNotes(note);
+            long[] ids = noteDAO.insertNotes(note);
+            for (long id: ids) Log.d("myLog", String.valueOf(id));
             emitter.onComplete();
         })
                 .subscribeOn(schedulers.io())

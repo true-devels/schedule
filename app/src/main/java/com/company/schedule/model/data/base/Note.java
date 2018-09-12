@@ -46,6 +46,7 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
 
     //Constructor
     public Note(int id, String name, String content, GregorianCalendar date, byte frequency, boolean done) {
+        this.id = id;
         this.name = name;
         this.date = date;
         this.frequency = frequency;

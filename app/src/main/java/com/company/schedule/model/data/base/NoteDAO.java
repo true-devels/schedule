@@ -6,12 +6,9 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.company.schedule.model.data.base.Note;
 import com.company.schedule.utils.Constants;
 
 import java.util.List;
-
-import io.reactivex.Flowable;
 
 @Dao
 public interface NoteDAO {
@@ -24,7 +21,7 @@ public interface NoteDAO {
 //            "SELECT * FROM " + Constants.TABLE_NAME + " WHERE date = NULL "
 
     @Insert
-    void insertNotes(Note... notes);
+    long[] insertNotes(Note... notes);
 
     @Update
     void updateNotes(Note... notes);
