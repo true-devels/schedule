@@ -1,11 +1,13 @@
 package com.company.schedule.presentation.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.company.schedule.R;
 import com.company.schedule.presentation.ui.fragments.MainFragment;
@@ -29,36 +31,12 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar =  findViewById(R.id.toolbar);  // maybe toolbar will be useful
         setSupportActionBar(toolbar);
 
-        // init fragment
-        MainFragment mainFragment = new MainFragment();
-//        UpdateNoteFragment updateNoteFragment = new UpdateNoteFragment();
         // open fragment transaction
-        addFragment(mainFragment);
-    }
-
-    private void addFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragmentContainer, fragment);  // add fragment to screen
+        fragmentTransaction.add(R.id.fragmentContainer, new MainFragment());  // add fragment to screen
 //        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
         fragmentTransaction.commit();
     }
-
-    public void replaceFragment(Fragment fragment, boolean useBackStack) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // add fragment to screen
-        useBackStack = false; //TODO delete it in future
-        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
-        fragmentTransaction.commit();
-    }
-
-    private void removeFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // add fragment to screen
-//        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
-        fragmentTransaction.commit();
-    }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,6 +45,22 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }
 

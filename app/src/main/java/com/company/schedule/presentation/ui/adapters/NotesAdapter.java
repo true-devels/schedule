@@ -45,8 +45,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {holder.checkBoxDone.setChecked(listNotes.get(position).isDone());
-        holder.tvItemNoteName.setText(listNotes.get(position).getName());  // output name
-        holder.tvItemDate.setText(listNotes.get(position).getDateTimeInFormat());  // output date time depending on local settings.
+        Note currentNote = listNotes.get(position);
+        holder.tvItemNoteName.setText(currentNote.getName());  // output name
+        holder.tvItemDate.setText(currentNote.getDateTimeInFormat());  // output date time depending on local settings.
+        holder.checkBoxDone.setSelected(currentNote.isDone());  // set check box isDone
     }
 
     // total number of rows
@@ -70,8 +72,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
             checkBoxDone = itemView.findViewById(R.id.checkBox_done);
             itemView.setOnClickListener(this);
             checkBoxDone.setOnCheckedChangeListener(this);
-
-
         }
 
         @Override
@@ -82,7 +82,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if (mChangeListener != null) mChangeListener.onChangedBox(compoundButton, getAdapterPosition(), b);
+            if (mChangeListener != null) {
+                mChangeListener.onChangedBox(compoundButton, getAdapterPosition(), b);
+                // TODO set done note in DB
+            }
         }
     }
 

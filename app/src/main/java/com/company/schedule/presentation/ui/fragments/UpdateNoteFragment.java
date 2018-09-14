@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -312,7 +313,13 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
     // TODO make fragment transition through fragment, but don't through activity
     @Override
     public void goToMainFragment() {
-        mainActivity.replaceFragment(new MainFragment(), false);
+        Fragment fragment = new MainFragment();
+        FragmentTransaction fragmentTransaction = mainActivity
+                .getSupportFragmentManager()
+                .beginTransaction();
+
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // add fragment to screen
+        fragmentTransaction.commit();
     }
 
 
