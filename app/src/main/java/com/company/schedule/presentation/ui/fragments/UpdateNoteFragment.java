@@ -176,13 +176,16 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
             noteInfo.setName(etNameNote.getText().toString());
             noteInfo.setContent(etContentNote.getText().toString());
             noteInfo.setFrequency( (byte) spinnerFreq.getSelectedItemPosition());
-
-            GregorianCalendar check = new GregorianCalendar();
-            if (!isReminded || noteInfo.getDate().getTimeInMillis() > check.getTimeInMillis()) {
-                presenter.pressedToSubmitNote(noteInfo, isEdited, isReminded);
-            } else {
-                Timber.w("Date should be in future");
-                toastLong("Date should be in future");
+            if(noteInfo.getName().trim().isEmpty()){
+                toastLong("Note must have name");
+            }else{
+                GregorianCalendar check = new GregorianCalendar();
+                if (!isReminded || noteInfo.getDate().getTimeInMillis() > check.getTimeInMillis()) {
+                    presenter.pressedToSubmitNote(noteInfo, isEdited, isReminded);
+                } else {
+                    Timber.w("Date should be in future");
+                    toastLong("Date should be in future");
+                }
             }
             break;
         case R.id.fab_delete:
