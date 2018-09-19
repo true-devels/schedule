@@ -44,7 +44,7 @@ public class DatePickerFragment extends DialogFragment {
                     gc.get(Calendar.DAY_OF_MONTH)
             );
         } else {
-            Error.throwNullPointerException(ERROR_LISTENER_DO_NOT_INITIALIZED);
+            Error.throwNullPointerException(ERROR_LISTENER_DO_NOT_INITIALIZED);  // just make listener init in constructor and delete error handle
             return null;
         }
     }

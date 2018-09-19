@@ -1,5 +1,6 @@
 package com.company.schedule.presentation.presenter;
 
+import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.view.MainView;
 
@@ -9,11 +10,19 @@ public class MainPresenter {
 
     private MainView view;
     private MainInteractor interactor;
-    // callback for Model, that call setAllNotes in MainView
 
     public MainPresenter(MainView view, MainInteractor interactor) {
         this.view = view;
         this.interactor = interactor;  // init interactor
+    }
+
+    public void onCheckedDoneChanged(Note noteCheckedOn, boolean isChecked) {
+        noteCheckedOn.setDone(isChecked);
+        interactor.updateNote(noteCheckedOn)
+                .subscribe(
+                        () -> loadData(),
+                        e -> handleThrowable(e)
+                );
     }
 
     public void loadData() {
