@@ -20,21 +20,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
     private List<Note> listNotes = new ArrayList<>();
 
-    private ItemClickListener mClickListener;
-    private ChangeListener mChangeListener;
-    //method that writes all data to recyclerview
+    private MyItemClickListener mClickListener;
+    private MyOnCheckedChangeListener mCheckedChangeListener;
 
+        //method that writes all data to recyclerview
     public void setAllNotes(List<Note> newNotes) {
-        listNotes.clear();
         notifyItemRangeRemoved(0, getItemCount());
+        listNotes.clear();
         listNotes.addAll(newNotes);
         notifyItemRangeInserted(0,newNotes.size());
+
     }
     // inflates the row layout from xml when needed
-
-    public Note getNoteByPosition(int position) {
-        return listNotes.get(position);
-    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,11 +41,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
     // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {holder.checkBoxDone.setChecked(listNotes.get(position).isDone());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Note currentNote = listNotes.get(position);
         holder.tvItemNoteName.setText(currentNote.getName());  // output name
         holder.tvItemDate.setText(currentNote.getDateTimeInFormat());  // output date time depending on local settings.
-        holder.checkBoxDone.setSelected(currentNote.isDone());  // set check box isDone
+        holder.checkBoxDone.setChecked(currentNote.isDone());
+//        holder.checkBoxDone.setSelected(currentNote.isDone());  // set check box isDone
     }
 
     // total number of rows
@@ -59,7 +57,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+    public class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         CheckBox checkBoxDone;
         TextView tvItemNoteName, tvItemDate;
 
@@ -76,38 +74,37 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (mClickListener != null)
+                mClickListener.onItemClick(listNotes.get(getAdapterPosition()));
+//            else
+                // TODO throw error or make init listener in constructor
         }
 
 
         @Override
-        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if (mChangeListener != null) {
-                mChangeListener.onChangedBox(compoundButton, getAdapterPosition(), b);
-                // TODO set done note in DB
-            }
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (mCheckedChangeListener != null)
+                mCheckedChangeListener.onCheckedChange(listNotes.get(getAdapterPosition()), isChecked);
+//            else
+            //TODO throw error or make init listener in constructor
         }
     }
 
     // allows clicks events to be caught
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
+    public void setClickListener(MyItemClickListener myItemClickListener) {
+        this.mClickListener = myItemClickListener;
+    }
+
+    public void setOnCheckedChangeListener(MyOnCheckedChangeListener checkedChangeListener) {
+        this.mCheckedChangeListener = checkedChangeListener;
     }
 
     // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
+    public interface MyItemClickListener {
+        void onItemClick(Note noteClickedOn);
     }
 
-    // allows clicks oncheckbox be caught
-    public void setChangeListener(ChangeListener changeListener) {
-        this.mChangeListener = changeListener;
+    public interface MyOnCheckedChangeListener {
+        void onCheckedChange(Note noteCheckedOn, boolean isChecked);
     }
-
-    // parent activity will implement this method to respond to click events
-    public interface ChangeListener {
-        void onChangedBox(CompoundButton compoundButton, int position, boolean done);
-    }
-
-
 }

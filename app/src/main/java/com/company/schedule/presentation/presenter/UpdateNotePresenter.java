@@ -62,7 +62,7 @@ public class UpdateNotePresenter {
     }
 
 
-    private void loadData(int isReminded) {
+    private void loadData(int isReminded) {  // this function do nothing, so we can just delete this
         interactor.loadData()
                 .subscribe(
 //                        (notes) -> view.setAllNotes(notes),

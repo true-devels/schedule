@@ -74,7 +74,8 @@ public class MainFragment extends Fragment implements MainView {
         super.onActivityCreated(savedInstanceState);
 
         adapter = new NotesAdapter();
-        adapter.setClickListener((v, position) -> goToUpdateNoteFragment(adapter.getNoteByPosition(position)));
+        adapter.setClickListener((noteClickedOn) -> goToUpdateNoteFragment(noteClickedOn));
+        adapter.setOnCheckedChangeListener((noteCheckedOn, isChecked) -> presenter.onCheckedDoneChanged(noteCheckedOn, isChecked));
 
         notesList.setLayoutManager(new LinearLayoutManager(getContext()));
         notesList.setAdapter(adapter);

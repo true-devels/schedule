@@ -24,10 +24,7 @@ public class MainRepository {
     }
 
 
-
-
     //method that gets all data from DB and update Recycler view
-
     public Observable<List<Note>> loadData() {
         return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
             try {

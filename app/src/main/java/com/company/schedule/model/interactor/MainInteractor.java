@@ -16,6 +16,11 @@ public class MainInteractor {
         this.repository = repository;
     }
 
+
+    public Completable updateNote(Note noteToUpdate){
+        return repository.updateNote(noteToUpdate);
+    }
+
     public Observable<List<Note>> loadData() {
         return repository.loadData();
     }
