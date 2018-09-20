@@ -1,6 +1,9 @@
 package com.company.schedule.presentation.presenter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.UpdateNoteInteractor;
@@ -20,24 +23,19 @@ public class UpdateNotePresenter {
     public UpdateNotePresenter(UpdateNoteView view, UpdateNoteInteractor interactor) {
         this.view = view;
         this.interactor = interactor;
+
     }
 
     public void pressedToSubmitNote(Note note, boolean isEdited, boolean isReminded) {
-        final String noteName = note.getName();
 
-        // if noteName is  empty
-        if (!noteName.isEmpty()) {
-            Timber.v("RESULT_OK, noteName: \"" + noteName + "\";");
 
             if (isReminded) view.createNotification(note);  // create notification
             else note.setDate(null);  // this line must be before insert/updateNote
 
             if (isEdited) updateNote(note);
             else insertNewNote(note);
-        }
-        else Timber.v("RESULT_CANCELED, noteName: \"" + noteName + "\";");
+            view.goToMainFragment();  // finish fragment
 
-        view.goToMainFragment();  // finish fragment
     }
 
     public void pressedToEditDate(boolean isEdited, GregorianCalendar gregorianCalendar) {
