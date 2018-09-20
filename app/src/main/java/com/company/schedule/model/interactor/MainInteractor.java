@@ -17,7 +17,7 @@ public class MainInteractor {
     }
 
 
-    public Completable updateNote(Note noteToUpdate) {
+    public Completable updateNote(Note noteToUpdate){
         return repository.updateNote(noteToUpdate);
     }
 

@@ -17,12 +17,14 @@ public class MainPresenter {
     }
 
     public void onCheckedDoneChanged(Note noteCheckedOn, boolean isChecked) {
-        noteCheckedOn.setDone(isChecked);
-        interactor.updateNote(noteCheckedOn)
-                .subscribe(
-                        () -> loadData(),
-                        e -> handleThrowable(e)
-                );
+        if (noteCheckedOn.isDone() != isChecked) {  // we update DB only if we need change value
+            noteCheckedOn.setDone(isChecked);
+            interactor.updateNote(noteCheckedOn)
+                    .subscribe(
+                            () -> emptyFunction(),
+                            e -> handleThrowable(e)
+                    );
+        }
     }
 
     public void loadData() {
@@ -37,5 +39,9 @@ public class MainPresenter {
 
     public void detachView() {
         this.view = null;
+    }
+
+    private void emptyFunction() {
+
     }
 }
