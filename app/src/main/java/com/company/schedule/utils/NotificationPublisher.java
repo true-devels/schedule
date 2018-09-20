@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 //class that show notifications
 public class NotificationPublisher extends BroadcastReceiver {
@@ -18,6 +19,7 @@ public class NotificationPublisher extends BroadcastReceiver {
 
         Notification notification = intent.getParcelableExtra(NOTIFICATION);
         int id = intent.getIntExtra(NOTIFICATION_ID, 0);
+        Log.v("Publ",""+id);
         notificationManager.notify(id, notification);
 
     }

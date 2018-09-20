@@ -19,7 +19,9 @@ public class UpdateNotePresenter {
 
     private UpdateNoteView view;
     private UpdateNoteInteractor interactor;
-
+    long id_toSent = -1;
+    int for_loaddata;
+    Note toSent;
     public UpdateNotePresenter(UpdateNoteView view, UpdateNoteInteractor interactor) {
         this.view = view;
         this.interactor = interactor;
@@ -29,11 +31,12 @@ public class UpdateNotePresenter {
     public void pressedToSubmitNote(Note note, boolean isEdited, boolean isReminded) {
 
 
-            if (isReminded) view.createNotification(note);  // create notification
-            else note.setDate(null);  // this line must be before insert/updateNote
-
+            if (!isReminded) note.setDate(null);  // this line must be before insert/updateNote
+            toSent = note;
             if (isEdited) updateNote(note);
-            else insertNewNote(note);
+            else insertNewNote(note, isReminded);
+
+
             view.goToMainFragment();  // finish fragment
 
     }
@@ -59,7 +62,7 @@ public class UpdateNotePresenter {
     }
 
 
-    private void loadData() {
+    private void loadData(int isReminded) {
         interactor.loadData()
                 .subscribe(
 //                        (notes) -> view.setAllNotes(notes),
@@ -70,30 +73,37 @@ public class UpdateNotePresenter {
                         },
                         (Throwable e) -> handleThrowable(e)
                 );  // load data from DB
+        if(isReminded==1){
+            view.createNotification(toSent, (int)id_toSent);
+        }
     }
 
 
-    private void insertNewNote(Note noteToInsert) {
+    private void insertNewNote(Note noteToInsert, boolean isReminded) {
+        if (isReminded)  for_loaddata = 1;
+        else for_loaddata = 0;
         //creating and inserting to DB new note
 //        final Note local = new Note(name, content, notify_date, freq);
         interactor.insertNote(noteToInsert)
                 .subscribe(
-                        () -> loadData(),
-                        e -> handleThrowable(e)
+                        (id) -> id_toSent = Long.valueOf(id.toString()),
+                        e -> handleThrowable((Throwable) e),
+                        () -> loadData(for_loaddata)
                 );
+
     }
 
     private void updateNote(Note noteToUpdate) {
         interactor.updateNote(noteToUpdate)
                 .subscribe(
-                        () -> loadData(),
+                        () -> loadData(-1),
                         e -> handleThrowable(e)
                 );
     }
     private void deleteNote(int id) {
         interactor.deleteNoteById(id)
                 .subscribe(
-                        () -> loadData(),
+                        () -> loadData(-1),
                         e -> handleThrowable(e)
                 );
     }
@@ -101,4 +111,9 @@ public class UpdateNotePresenter {
     public void detachView() {
         this.view = null;
     }
+
+    public void createNote(Note note){
+        view.createNotification(note, (int)id_toSent);
+    }
+
 }

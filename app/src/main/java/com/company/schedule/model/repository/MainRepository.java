@@ -57,10 +57,10 @@ public class MainRepository {
     }
 
     //method that inserts new note into DB
-    public Completable insertNote(final Note note) {
-        return Completable.create(emitter -> {
-            long[] ids = noteDAO.insertNotes(note);
-            for (long id: ids) Log.d("myLog", String.valueOf(id));
+    public Observable insertNote(final Note note) {
+        return Observable.create(emitter -> {
+            long id = noteDAO.insertNote(note);
+            emitter.onNext(id);
             emitter.onComplete();
         })
                 .subscribeOn(schedulers.io())

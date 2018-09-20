@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.company.schedule.R;
 import com.company.schedule.presentation.ui.activities.MainActivity;
@@ -75,7 +76,7 @@ public class MyNotification {
         notification_Intent.putExtra(NotificationPublisher.NOTIFICATION, notification);
 
         PendingIntent pendingIntent;  // TODO comment it
-        pendingIntent = PendingIntent.getBroadcast(context, 0, notification_Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getBroadcast(context, id, notification_Intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
 
@@ -89,6 +90,7 @@ public class MyNotification {
             //if user switched button 'repeat' on, then we send also time of frequency
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, frequencyInMillis, pendingIntent);
         }
+        Log.v("Final final check",""+id);
     }
 
     private void createNotificationChannel() {

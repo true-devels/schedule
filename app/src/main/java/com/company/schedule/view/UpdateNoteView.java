@@ -16,7 +16,7 @@ public interface UpdateNoteView {
     void showTimePickerFragment(GregorianCalendar calendar);  // Time picker fragment
     void showTimePickerFragment();
     // for notify
-    void createNotification(Note note);
+    void createNotification(Note note, int id);
 
     void toast(String toast_message);
     void toastLong(String toast_message);
