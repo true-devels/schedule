@@ -35,4 +35,10 @@ public final class Constants {
     //preferences keys
     public static final String FIRST_TIME_LAUNCH_KEY = "FirstTimeLaunch";
     public static final String NIGHT_MODE = "NightMode";
+
+
+    //Notification CONSTANTS
+    public static final String NOTIFICATION_ID = "notification-id";
+    public static final String NOTIFICATION = "notification";
+    public static final String NOTE = "note";
 }

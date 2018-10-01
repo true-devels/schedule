@@ -290,16 +290,15 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
 
     @Override
     public void createNotification(Note note, int id) {
-        MyNotification myNotification = new MyNotification(mainActivity);
+        MyNotification myNotification = new MyNotification(getContext(), mainActivity);
         note.getDate().set(Calendar.SECOND,0);
         note.getDate().set(Calendar.MILLISECOND,0);
         Notification local = myNotification.getNotification(note.getName(), note.getContent());
 
         myNotification.scheduleNotification(local,
-                note.getDate().getTimeInMillis(),
-                note.getFrequency(),
                 (AlarmManager) mainActivity.getSystemService(Context.ALARM_SERVICE),
-                id
+                id,
+                note
         );
 
     }
