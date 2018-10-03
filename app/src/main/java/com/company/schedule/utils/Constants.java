@@ -40,5 +40,4 @@ public final class Constants {
     //Notification CONSTANTS
     public static final String NOTIFICATION_ID = "notification-id";
     public static final String NOTIFICATION = "notification";
-    public static final String NOTE = "note";
 }

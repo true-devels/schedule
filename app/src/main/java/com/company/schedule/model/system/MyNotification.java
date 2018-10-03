@@ -27,6 +27,7 @@ import com.company.schedule.presentation.ui.activities.MainActivity;
 import com.company.schedule.presentation.ui.fragments.UpdateNoteFragment;
 import com.company.schedule.utils.Constants;
 import com.company.schedule.utils.DateConverter;
+import com.company.schedule.utils.NotificationPublisher;
 import com.company.schedule.view.MainView;
 
 import java.util.Calendar;
@@ -44,15 +45,15 @@ public class MyNotification {
 
     private Context context;
     private MyNoteInteractor interactor;
-    private MainActivity mainActivity;
 
-    public MyNotification(Context context, MainActivity mainActivity) {
+
+    public MyNotification(Context context) {
         this.context = context;
         this.interactor = new MyNoteInteractor(new MainRepository(
                 AppDatabase.getDatabase(context).noteDAO(),
                 new AppSchedulers()  // for threads
         ));  // create repository and get DAO);
-        this.mainActivity = mainActivity;
+
     }
 
     // TODO check if it can be static
@@ -92,7 +93,7 @@ public class MyNotification {
         return builder.build();
     }
 
-    public void scheduleNotification(Notification notification, AlarmManager alarmManager, int id, Note note) {
+    public void scheduleNotification(Notification notification, int id, Note note) {
 
 
         //TODO make correct intentfilter
@@ -103,7 +104,6 @@ public class MyNotification {
 
         notification_Intent.putExtra(Constants.NOTIFICATION_ID, id);
         notification_Intent.putExtra(Constants.NOTIFICATION, notification);
-        //notification_Intent.putExtra(NotificationPublisher.MAIN_ACTIVITY_INSTANCE, context);
 
         GregorianCalendar next;
 
@@ -152,21 +152,9 @@ public class MyNotification {
             note.setDate(next);
             interactor.updateNote(note);
         }
-        notification_Intent.putExtra(Constants.NOTE, note);
-
-        AlarmManager alarmManager1 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, note.getDate().getTimeInMillis(), pendingIntent);
-        //setting frequency
-        /*long frequencyInMillis = getFrequencyInMillis(selectedItem);
-
-        if (frequencyInMillis == -1) {
-            //if user switched button 'repeat' off
-            alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
-        } else {
-            //if user switched button 'repeat' on, then we send also time of frequency
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, frequencyInMillis, pendingIntent);
-        }*/
         Log.v("Final final check",""+id);
     }
 
@@ -186,48 +174,8 @@ public class MyNotification {
         }
     }
 
-    private long getFrequencyInMillis(int selectedItem){
-        long day = MILLISECONDS_IN_DAY; // 86 400 000 milliseconds in a day
-        switch (selectedItem) {
-            case FREQUENCY_DAILY:
-                return day;  // Daily
-            case FREQUENCY_WEEKLY:
-                return day * 7L;  // Weekly
-            case FREQUENCY_MONTHLY:
-                return day * 30L;  // Monthly
-            case FREQUENCY_YEARLY:
-                return day * 365L;  // Yearly
-            default:  // FREQUENCY_NEVER(case 0)
-                return -1;
-        }
-    }
-
-   public  class NotificationPublisher extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-            Notification notification = intent.getParcelableExtra(Constants.NOTIFICATION);
-            int id = intent.getIntExtra(Constants.NOTIFICATION_ID, 0);
-
-            Log.v("Publ",""+id);
-            notificationManager.notify(id, notification);
-            Note note = intent.getParcelableExtra("note");
 
 
-            MyNotification myNotification = new MyNotification(context, mainActivity);
-            note.getDate().set(Calendar.SECOND,0);
-            note.getDate().set(Calendar.MILLISECOND,0);
-            Notification local = myNotification.getNotification(note.getName(), note.getContent());
 
-            myNotification.scheduleNotification(local,
-                    (AlarmManager) mainActivity.getSystemService(Context.ALARM_SERVICE),
-                    id,
-                    note
-            );
-        }
-    }
 
 }

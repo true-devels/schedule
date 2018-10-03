@@ -27,7 +27,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".presentation.ui.activities.SettingsActivity" />
 
-         <receiver android:name=".model.system.MyNotification$NotificationPublisher" />
+         <receiver android:name=".utils.NotificationPublisher" />
 
     </application>
 
