@@ -1,10 +1,8 @@
-package com.company.schedule.presentation.ui.fragments;
+package com.company.schedule.ui.fragments;
 
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,11 +32,11 @@ import com.company.schedule.model.interactor.UpdateNoteInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.model.system.MyNotification;
-import com.company.schedule.presentation.presenter.UpdateNotePresenter;
-import com.company.schedule.presentation.ui.activities.MainActivity;
-import com.company.schedule.presentation.ui.fragments.pickers.DatePickerFragment;
-import com.company.schedule.presentation.ui.fragments.pickers.TimePickerFragment;
-import com.company.schedule.view.UpdateNoteView;
+import com.company.schedule.presentation.updateNote.UpdateNotePresenter;
+import com.company.schedule.ui.activities.MainActivity;
+import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
+import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
+import com.company.schedule.presentation.updateNote.UpdateNoteView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -289,15 +287,15 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
     }
 
     @Override
-    public void createNotification(Note note) {
-        MyNotification myNotification = new MyNotification(mainActivity);
+    public void createNotification(Note note, int id) {
+        MyNotification myNotification = new MyNotification(getContext());
+        note.getDate().set(Calendar.SECOND,0);
+        note.getDate().set(Calendar.MILLISECOND,0);
         Notification local = myNotification.getNotification(note.getName(), note.getContent());
 
         myNotification.scheduleNotification(local,
-                note.getDate().getTimeInMillis(),
-                note.getFrequency(),
-                (AlarmManager) mainActivity.getSystemService(Context.ALARM_SERVICE),
-                note.getId()
+                id,
+                note
         );
 
     }

@@ -10,11 +10,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.company.schedule.R;
-import com.company.schedule.presentation.ui.activities.MainActivity;
+import com.company.schedule.model.data.base.AppDatabase;
+import com.company.schedule.model.data.base.Note;
+import com.company.schedule.model.interactor.MyNoteInteractor;
+import com.company.schedule.model.repository.MainRepository;
+import com.company.schedule.ui.activities.MainActivity;
 import com.company.schedule.utils.Constants;
 import com.company.schedule.utils.NotificationPublisher;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static com.company.schedule.utils.Constants.CHANEL_ID;
 import static com.company.schedule.utils.Constants.FREQUENCY_DAILY;
@@ -26,9 +34,16 @@ import static com.company.schedule.utils.Constants.MILLISECONDS_IN_DAY;
 public class MyNotification {
 
     private Context context;
+    private MyNoteInteractor interactor;
+
 
     public MyNotification(Context context) {
         this.context = context;
+        this.interactor = new MyNoteInteractor(new MainRepository(
+                AppDatabase.getDatabase(context).noteDAO(),
+                new AppSchedulers()  // for threads
+        ));  // create repository and get DAO);
+
     }
 
     // TODO check if it can be static
@@ -68,27 +83,69 @@ public class MyNotification {
         return builder.build();
     }
 
-    public void scheduleNotification(Notification notification, long time, int selectedItem, AlarmManager alarmManager, int id) {
+    public void scheduleNotification(Notification notification, int id, Note note) {
+
+
+        //TODO make correct intentfilter
+
+      //  mainActivity.registerReceiver( new NotificationPublisher(), IntentFilter.create("com.company.schedule.model.system.MyNotification$NotificationPublisher","text/plain"));
 
         Intent notification_Intent = new Intent(context, NotificationPublisher.class);
-        notification_Intent.putExtra(NotificationPublisher.NOTIFICATION_ID, id);
-        notification_Intent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+
+        notification_Intent.putExtra(Constants.NOTIFICATION_ID, id);
+        notification_Intent.putExtra(Constants.NOTIFICATION, notification);
+
+        GregorianCalendar next;
 
         PendingIntent pendingIntent;  // TODO comment it
-        pendingIntent = PendingIntent.getBroadcast(context, 0, notification_Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getBroadcast(context, id, notification_Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if(note.getDate().getTimeInMillis()<= new GregorianCalendar().getTimeInMillis() & note.getFrequency()!=-1){
+            next = new GregorianCalendar();
+            switch (note.getFrequency()){
+                case FREQUENCY_DAILY:
+                    next.setTimeInMillis(next.getTimeInMillis()+MILLISECONDS_IN_DAY);  // Daily
+                    break;
+                case FREQUENCY_WEEKLY:
+                    next.setTimeInMillis(next.getTimeInMillis()+MILLISECONDS_IN_DAY*7); // Weekly
+                    break;
+                case FREQUENCY_MONTHLY: // Monthly
+                    GregorianCalendar local = new GregorianCalendar();
+                    local.set(Calendar.MONTH,local.get(Calendar.MONTH)+1);
+                    if(next.get(Calendar.DAY_OF_MONTH)>local.getActualMaximum(Calendar.DAY_OF_MONTH)){
+                        next.set(Calendar.MONTH,local.get(Calendar.MONTH));
+                        next.set(Calendar.DAY_OF_MONTH, local.getActualMaximum(Calendar.DAY_OF_MONTH));
+                    }else{
+                        next.set(Calendar.MONTH,Calendar.MONTH+1);
+                    }
+                    break;
+                case FREQUENCY_YEARLY:
+                    GregorianCalendar local2 = new GregorianCalendar();  // Yearly
+                    local2.set(Calendar.YEAR,local2.get(Calendar.YEAR)+1);
+                     if(next.getActualMaximum(Calendar.DAY_OF_YEAR)!=local2.getActualMaximum(Calendar.DAY_OF_YEAR) && next.get(Calendar.DAY_OF_YEAR)>59)
+                     {
+                        if(next.getActualMaximum(Calendar.DAY_OF_YEAR)>local2.getActualMaximum(Calendar.DAY_OF_YEAR)){
+                            next.set(Calendar.DAY_OF_YEAR,next.get(Calendar.DAY_OF_YEAR)-1);
+                            next.set(Calendar.YEAR,next.get(Calendar.YEAR)+1);
+                        }else{
+                            next.set(Calendar.DAY_OF_YEAR,next.get(Calendar.DAY_OF_YEAR)+1);
+                            next.set(Calendar.YEAR,next.get(Calendar.YEAR)-1);
+                        }
+
+                     }else{
+                         next.set(Calendar.YEAR,next.get(Calendar.YEAR)+1);
+                     }
+                     break;
 
 
-
-        //setting frequency
-        long frequencyInMillis = getFrequencyInMillis(selectedItem);
-
-        if (frequencyInMillis == -1) {
-            //if user switched button 'repeat' off
-            alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
-        } else {
-            //if user switched button 'repeat' on, then we send also time of frequency
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, frequencyInMillis, pendingIntent);
+            }
+            note.setDate(next);
+            interactor.updateNote(note);
         }
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, note.getDate().getTimeInMillis(), pendingIntent);
+        Log.v("Final final check",""+id);
     }
 
     private void createNotificationChannel() {
@@ -107,19 +164,8 @@ public class MyNotification {
         }
     }
 
-    private long getFrequencyInMillis(int selectedItem){
-        long day = MILLISECONDS_IN_DAY; // 86 400 000 milliseconds in a day
-        switch (selectedItem) {
-            case FREQUENCY_DAILY:
-                return day;  // Daily
-            case FREQUENCY_WEEKLY:
-                return day * 7L;  // Weekly
-            case FREQUENCY_MONTHLY:
-                return day * 30L;  // Monthly
-            case FREQUENCY_YEARLY:
-                return day * 365L;  // Yearly
-            default:  // FREQUENCY_NEVER(case 0)
-                return -1;
-        }
-    }
+
+
+
+
 }

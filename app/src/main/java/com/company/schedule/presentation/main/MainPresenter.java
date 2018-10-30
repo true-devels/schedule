@@ -1,8 +1,7 @@
-package com.company.schedule.presentation.presenter;
+package com.company.schedule.presentation.main;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
-import com.company.schedule.view.MainView;
 
 import static com.company.schedule.utils.Error.handleThrowable;
 

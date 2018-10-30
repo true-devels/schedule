@@ -1,4 +1,4 @@
-package com.company.schedule.presentation.ui.activities;
+package com.company.schedule.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

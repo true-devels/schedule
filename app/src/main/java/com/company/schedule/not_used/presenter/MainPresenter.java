@@ -1,15 +1,5 @@
 package com.company.schedule.not_used.presenter;
 
-import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.MainInteractor;
-import com.company.schedule.view.MainView;
-
-import timber.log.Timber;
-
-import static android.app.Activity.RESULT_OK;
-import static com.company.schedule.utils.Constants.REQUEST_CODE_ADD_NOTE;
-import static com.company.schedule.utils.Constants.REQUEST_CODE_EDIT_NOTE;
-
 class MainPresenterOutdated {
 /*
 

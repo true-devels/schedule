@@ -1,6 +1,4 @@
-package com.company.schedule.view;
-
-import android.support.v4.app.Fragment;
+package com.company.schedule.presentation.updateNote;
 
 import com.company.schedule.model.data.base.Note;
 
@@ -16,7 +14,7 @@ public interface UpdateNoteView {
     void showTimePickerFragment(GregorianCalendar calendar);  // Time picker fragment
     void showTimePickerFragment();
     // for notify
-    void createNotification(Note note);
+    void createNotification(Note note, int id);
 
     void toast(String toast_message);
     void toastLong(String toast_message);

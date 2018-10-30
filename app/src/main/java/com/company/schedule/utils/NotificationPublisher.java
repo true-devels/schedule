@@ -5,20 +5,52 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 
-//class that show notifications
-public class NotificationPublisher extends BroadcastReceiver {
+import com.company.schedule.model.data.base.AppDatabase;
+import com.company.schedule.model.data.base.Note;
+import com.company.schedule.model.interactor.MyNoteInteractor;
+import com.company.schedule.model.repository.MainRepository;
+import com.company.schedule.model.system.AppSchedulers;
+import com.company.schedule.model.system.MyNotification;
 
-    public static String NOTIFICATION_ID = "notification-id";
-    public static String NOTIFICATION = "notification";
+import java.util.Calendar;
 
+public  class NotificationPublisher extends BroadcastReceiver {
+    Note noteToShow;
+    @Override
     public void onReceive(Context context, Intent intent) {
 
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Notification notification = intent.getParcelableExtra(NOTIFICATION);
-        int id = intent.getIntExtra(NOTIFICATION_ID, 0);
+        Notification notification = intent.getParcelableExtra(Constants.NOTIFICATION);
+        int id = intent.getIntExtra(Constants.NOTIFICATION_ID, 0);
+
+        Log.v("Publ",""+id);
         notificationManager.notify(id, notification);
 
+        MyNoteInteractor interactor = new MyNoteInteractor(new MainRepository(
+                AppDatabase.getDatabase(context).noteDAO(),
+                new AppSchedulers()  // for threads
+        ));  // create repository and get DAO);
+
+        interactor.getOneNoteByIdObservable(id).subscribe(
+                (note) -> noteToShow = note,
+                (e) -> e.printStackTrace(),
+                () -> show(noteToShow, context, id)
+        );
+
+    }
+    private void show(Note noteToShow,Context context, int id){
+        MyNotification myNotification = new MyNotification(context);
+        noteToShow.getDate().set(Calendar.SECOND,0);
+        noteToShow.getDate().set(Calendar.MILLISECOND,0);
+        Notification local = myNotification.getNotification(noteToShow.getName(), noteToShow.getContent());
+
+        myNotification.scheduleNotification(local,
+                id,
+                noteToShow
+        );
     }
 }

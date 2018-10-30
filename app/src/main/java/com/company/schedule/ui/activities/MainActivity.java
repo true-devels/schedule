@@ -1,8 +1,7 @@
-package com.company.schedule.presentation.ui.activities;
+package com.company.schedule.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.company.schedule.R;
-import com.company.schedule.presentation.ui.fragments.MainFragment;
-import com.company.schedule.presentation.ui.fragments.UpdateNoteFragment;
+import com.company.schedule.ui.fragments.MainFragment;
 import com.company.schedule.utils.SharedPrefs;
 
 

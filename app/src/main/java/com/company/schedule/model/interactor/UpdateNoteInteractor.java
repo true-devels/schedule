@@ -18,7 +18,7 @@ public class UpdateNoteInteractor {
 
 
     //method that inserts new note into DB
-    public Completable insertNote(final Note note) {
+    public Observable insertNote(final Note note) {
         return mainRepository.insertNote(note);
     }
 

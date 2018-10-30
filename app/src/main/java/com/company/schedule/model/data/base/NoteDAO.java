@@ -21,7 +21,7 @@ public interface NoteDAO {
 //            "SELECT * FROM " + Constants.TABLE_NAME + " WHERE date = NULL "
 
     @Insert
-    long[] insertNotes(Note... notes);
+    long insertNote(Note note);
 
     @Update
     void updateNotes(Note... notes);
