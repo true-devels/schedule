@@ -3,45 +3,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="horizontal">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp">
 
         <TextView
             android:id="@+id/tvItemNoteName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:focusable="true"
-
-            android:focusableInTouchMode="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:textColor="?attr/textcolor"
             android:textSize="24sp"
-            tools:text="Note name" />
-
-        <CheckBox
-            android:id="@+id/checkBox_done"
-            android:layout_width="wrap_content"
+            tools:text="Tools long name of my note" />
+        <!--android:focusable="true"
+            android:focusableInTouchMode="true"-->
+        <TextView
+            android:id="@+id/tvItemDate"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_alignParentEnd="true"
-            android:text="@string/checkbox" />
-    </RelativeLayout>
+            android:layout_marginStart="16dp"
+            android:textColor="?attr/textcolor"
+            tools:text="7 August 2018, 1:00 PM - simple date" />
 
-    <TextView
-        android:id="@+id/tvItemDate"
-        android:layout_width="match_parent"
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkBox_done"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:textColor="?attr/textcolor"
-        tools:text="7 August 2018, 1:00 PM - simple date" />
+        android:layout_gravity="center"
+        android:buttonTint="?attr/textcolor"
+        android:paddingBottom="24dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="24dp"
+        android:text="@string/checkbox"
+        android:textColor="?attr/textcolor" />
 
 
 </LinearLayout>

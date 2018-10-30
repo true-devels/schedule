@@ -9,6 +9,7 @@ import com.company.schedule.model.system.SchedulersProvider;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.CompletableEmitter;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 
@@ -55,9 +56,8 @@ public class MainRepository {
 
     //method that inserts new note into DB
     public Completable insertNote(final Note note) {
-        return Completable.create(emitter -> {
-            long[] ids = noteDAO.insertNotes(note);
-            for (long id: ids) Log.d("myLog", String.valueOf(id));
+        return Completable.create((CompletableEmitter emitter) -> {
+            noteDAO.insertNotes(note);
             emitter.onComplete();
         })
                 .subscribeOn(schedulers.io())

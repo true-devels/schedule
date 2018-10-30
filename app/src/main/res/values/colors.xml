@@ -10,7 +10,7 @@
     <color name="colorButtonText">@color/colorAccent</color>
     <color name="colorButtonBackground">#d6ffffff</color>
 
-    <color name="whiteModeTintColor">#ff4f5a</color>
+    <color name="whiteModeTintColor">#f7717b</color>
     <color name="darkModeTintColor">#db3272f4</color>
 
     <color name="colorBackground">#c3caf2fe</color>
@@ -18,15 +18,15 @@
 
 
 
-    <color name="brownPrimary">#b5723f</color>
-    <color name="brownPrimaryDark">#9e5f2f</color>
-    <color name="brownAccent">#ff9340</color>
+    <!--<color name="brownPrimary">#b5723f</color>-->
+    <!--<color name="brownPrimaryDark">#9e5f2f</color>-->
+    <!--<color name="brownAccent">#ff9340</color>-->
 
-    <color name="brownText">#000000</color>
-    <color name="brownTextItemDate">#1d6ba7</color>
+    <!--<color name="brownText">#000000</color>-->
+    <!--<color name="brownTextItemDate">#1d6ba7</color>-->
 
-    <color name="brownButtonText">#ef7416</color>
-    <color name="brownButtonBackground">#64fee9da</color>
+    <!--<color name="brownButtonText">#ef7416</color>-->
+    <!--<color name="brownButtonBackground">#64fee9da</color>-->
 
 
     <!--WELCOME SLIDE-->

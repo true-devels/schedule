@@ -21,7 +21,7 @@ public class MainPresenter {
             noteCheckedOn.setDone(isChecked);
             interactor.updateNote(noteCheckedOn)
                     .subscribe(
-                            () -> emptyFunction(),
+                            () -> {},  // we do nothing when update finished
                             e -> handleThrowable(e)
                     );
         }
@@ -39,9 +39,5 @@ public class MainPresenter {
 
     public void detachView() {
         this.view = null;
-    }
-
-    private void emptyFunction() {
-
     }
 }
