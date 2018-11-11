@@ -36,6 +36,9 @@ import com.company.schedule.presentation.updateNote.UpdateNotePresenter;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.ui.main.MainFragment;
 import com.company.schedule.presentation.updateNote.UpdateNoteView;
+import com.company.schedule.ui.pickers.DatePickerFragment;
+import com.company.schedule.ui.pickers.TimePickerFragment;
+import com.company.schedule.ui.timer.TimerFragment;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

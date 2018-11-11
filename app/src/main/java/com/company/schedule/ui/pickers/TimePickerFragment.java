@@ -1,4 +1,4 @@
-package com.company.schedule.ui.updateNote;
+package com.company.schedule.ui.pickers;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -43,7 +43,7 @@ public class TimePickerFragment extends DialogFragment {
                     gc.get(Calendar.MINUTE),
                     DateFormat.is24HourFormat(getActivity())); // switched 12 or 24 hour format, depending on user settings
         } else {
-            Error.throwNullPointerException(ERROR_LISTENER_DO_NOT_INITIALIZED);
+            Error.throwNullPointerException(ERROR_LISTENER_DO_NOT_INITIALIZED);  // TODO just make listener init in Constructor
             return null;
         }
     }

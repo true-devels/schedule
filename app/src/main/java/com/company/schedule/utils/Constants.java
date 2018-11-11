@@ -41,6 +41,11 @@ public final class Constants {
     public static final String NOTIFICATION_ID = "notification-id";
     public static final String NOTIFICATION = "notification";
 
-    //
+    // TIMER
     public static final long TASK_TIME_SECONDS = 10;
+    public static final String START_TIMER = "start";
+    public static final String PAUSE_TIMER = "pause";
+    public static final String RESUME_TIMER = "resume";
+    public static final String STOP_TIMER = "stop";
+
 }
