@@ -1,4 +1,4 @@
-package com.company.schedule.ui.activities;
+package com.company.schedule.ui.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Switch;
 
 import com.company.schedule.R;
+import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.utils.SharedPrefs;
 
 public class SettingsActivity extends AppCompatActivity {

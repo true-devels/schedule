@@ -17,7 +17,7 @@ import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MyNoteInteractor;
 import com.company.schedule.model.repository.MainRepository;
-import com.company.schedule.ui.activities.MainActivity;
+import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.utils.Constants;
 import com.company.schedule.utils.NotificationPublisher;
 

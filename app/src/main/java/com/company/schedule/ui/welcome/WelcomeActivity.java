@@ -1,4 +1,4 @@
-package com.company.schedule.ui.activities;
+package com.company.schedule.ui.welcome;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.company.schedule.R;
+import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.utils.SharedPrefs;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener{

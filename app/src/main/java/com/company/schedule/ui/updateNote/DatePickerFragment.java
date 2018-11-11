@@ -1,4 +1,4 @@
-package com.company.schedule.ui.fragments.pickers;
+package com.company.schedule.ui.updateNote;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

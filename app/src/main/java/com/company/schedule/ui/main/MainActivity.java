@@ -1,4 +1,4 @@
-package com.company.schedule.ui.activities;
+package com.company.schedule.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.company.schedule.R;
-import com.company.schedule.ui.fragments.MainFragment;
+import com.company.schedule.ui.main.MainFragment;
+import com.company.schedule.ui.settings.SettingsActivity;
 import com.company.schedule.utils.SharedPrefs;
 
 

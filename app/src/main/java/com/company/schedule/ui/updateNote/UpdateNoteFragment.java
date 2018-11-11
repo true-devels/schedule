@@ -1,4 +1,4 @@
-package com.company.schedule.ui.fragments;
+package com.company.schedule.ui.updateNote;
 
 import android.app.DatePickerDialog;
 import android.app.Notification;
@@ -33,9 +33,8 @@ import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.model.system.MyNotification;
 import com.company.schedule.presentation.updateNote.UpdateNotePresenter;
-import com.company.schedule.ui.activities.MainActivity;
-import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
-import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
+import com.company.schedule.ui.main.MainActivity;
+import com.company.schedule.ui.main.MainFragment;
 import com.company.schedule.presentation.updateNote.UpdateNoteView;
 
 import java.util.Calendar;
@@ -134,7 +133,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
         //setting frequency spinner
         spinnerFreq = fragmentUpdateNote.findViewById(R.id.spinnerFreq);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.types_of_frequency, R.layout.simple_spinner_item);  // TODO comment it
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);  // TODO comment it
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFreq.setAdapter(adapter);
 
         return fragmentUpdateNote;
@@ -143,9 +142,9 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        Fragment childFragment = new ChildFragment();
+        Fragment childFragment = new TimerFragment();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.child_fragment_container, childFragment).commit();
+        transaction.replace(R.id.childTimerContainer, childFragment).commit();
     }
 
     @Override

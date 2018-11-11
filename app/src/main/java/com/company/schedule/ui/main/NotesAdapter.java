@@ -1,4 +1,4 @@
-package com.company.schedule.ui.adapters;
+package com.company.schedule.ui.main;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
