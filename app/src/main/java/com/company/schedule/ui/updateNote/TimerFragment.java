@@ -14,8 +14,20 @@ import android.widget.Toast;
 
 import com.company.schedule.R;
 
+import static com.company.schedule.utils.Constants.TASK_TIME_SECONDS;
+
 public class TimerFragment extends Fragment {
+
     Button b;
+    TextView timerTextView;
+
+    //runs without a timer by reposting this handler at the end of the runnable
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable;
+
+    long startTime = 0;
+    boolean isTaskFinished = false;
+
 
     @Nullable
     @Override
@@ -28,36 +40,34 @@ public class TimerFragment extends Fragment {
         return fragmentTimer;
     }
 
-    TextView timerTextView;
-    long startTime = 0;
-
-    //runs without a timer by reposting this handler at the end of the runnable
-    Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            long millis = startTime - System.currentTimeMillis();
-            if (millis<0)
-            {
-                millis = 0;
-                stopTimer();
-                Toast.makeText(getContext(), "You finish task", Toast.LENGTH_SHORT).show();
-            }
-            int seconds = (int) (millis / 1000);
-            millis %= 1000;
-            int minutes = seconds / 60;
-            seconds = seconds % 60;
-
-            timerTextView.setText(String.format("%d:%02d.%04d", minutes, seconds, millis));
-
-            timerHandler.postDelayed(this, 10);  // delay for update timer
-        }
-    };
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+         timerRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                long millis = startTime - System.currentTimeMillis();
+                if (millis<0)
+                {
+                    millis = 0;
+                    if(!isTaskFinished) {
+                        stopTimer();
+                        Toast.makeText(getContext(), "You finish task", Toast.LENGTH_SHORT).show();
+                        isTaskFinished = true;
+                    }
+                }
+                int seconds = (int) (millis / 1000);
+                millis %= 1000;
+                int minutes = seconds / 60;
+                seconds = seconds % 60;
+
+                timerTextView.setText(String.format("%d:%02d.%04d", minutes, seconds, millis));
+
+                timerHandler.postDelayed(this, 10);  // delay for update timer
+            }
+        };
 
         b.setText("start");
         b.setOnClickListener(v -> {  // to stop the timer
@@ -66,13 +76,13 @@ public class TimerFragment extends Fragment {
                 case "start":
                     startTimer();
                     break;
-   /*             case "pause":
+                case "pause":
                     pauseTimer();
                     break;
                 case "resume":
                     resumeTimer();
                     break;
-     */           case "stop":
+                case "stop":
                     stopTimer();
                     break;
             }
@@ -88,12 +98,12 @@ public class TimerFragment extends Fragment {
 
     private void startTimer()
     {
-        startTime = System.currentTimeMillis()+10*1000;
+        startTime = System.currentTimeMillis() + TASK_TIME_SECONDS*1000;  // startTime is time when task will finished
         timerHandler.postDelayed(timerRunnable, 0);
-        b.setText("stop");
-        //b.setText("pause");
+
+        b.setText("pause");
     }
-/*
+
     private void pauseTimer()
     {
         timerHandler.removeCallbacks(timerRunnable);
@@ -106,7 +116,7 @@ public class TimerFragment extends Fragment {
         timerHandler.postDelayed(timerRunnable, 0);
         b.setText("pause");
     }
-*/
+
 
     private void stopTimer()
     {

@@ -40,4 +40,7 @@ public final class Constants {
     //Notification CONSTANTS
     public static final String NOTIFICATION_ID = "notification-id";
     public static final String NOTIFICATION = "notification";
+
+    //
+    public static final long TASK_TIME_SECONDS = 10;
 }
