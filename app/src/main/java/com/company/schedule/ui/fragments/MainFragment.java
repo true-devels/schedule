@@ -1,4 +1,4 @@
-package com.company.schedule.presentation.ui.fragments;
+package com.company.schedule.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,10 +20,10 @@ import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
-import com.company.schedule.presentation.presenter.MainPresenter;
-import com.company.schedule.presentation.ui.activities.MainActivity;
-import com.company.schedule.presentation.ui.adapters.NotesAdapter;
-import com.company.schedule.view.MainView;
+import com.company.schedule.presentation.main.MainPresenter;
+import com.company.schedule.ui.activities.MainActivity;
+import com.company.schedule.ui.adapters.NotesAdapter;
+import com.company.schedule.presentation.main.MainView;
 
 import java.util.List;
 

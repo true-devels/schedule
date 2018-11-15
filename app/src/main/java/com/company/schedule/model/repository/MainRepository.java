@@ -9,6 +9,7 @@ import com.company.schedule.model.system.SchedulersProvider;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.CompletableEmitter;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 

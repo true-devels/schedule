@@ -1,37 +1,27 @@
 package com.company.schedule.model.system;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Parcelable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.interactor.MyNoteInteractor;
 import com.company.schedule.model.repository.MainRepository;
-import com.company.schedule.presentation.presenter.MainPresenter;
-import com.company.schedule.presentation.ui.activities.MainActivity;
-import com.company.schedule.presentation.ui.fragments.UpdateNoteFragment;
+import com.company.schedule.ui.activities.MainActivity;
 import com.company.schedule.utils.Constants;
-import com.company.schedule.utils.DateConverter;
 import com.company.schedule.utils.NotificationPublisher;
-import com.company.schedule.view.MainView;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static com.company.schedule.utils.Constants.CHANEL_ID;

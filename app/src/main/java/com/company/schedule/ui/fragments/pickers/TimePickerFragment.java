@@ -1,4 +1,4 @@
-package com.company.schedule.presentation.ui.fragments.pickers;
+package com.company.schedule.ui.fragments.pickers;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

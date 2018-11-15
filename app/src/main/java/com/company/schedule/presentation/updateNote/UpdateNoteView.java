@@ -1,6 +1,4 @@
-package com.company.schedule.view;
-
-import android.support.v4.app.Fragment;
+package com.company.schedule.presentation.updateNote;
 
 import com.company.schedule.model.data.base.Note;
 

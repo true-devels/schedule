@@ -1,4 +1,4 @@
-package com.company.schedule.view;
+package com.company.schedule.presentation.main;
 
 import com.company.schedule.model.data.base.Note;
 

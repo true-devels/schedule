@@ -1,10 +1,8 @@
-package com.company.schedule.presentation.ui.fragments;
+package com.company.schedule.ui.fragments;
 
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,11 +32,11 @@ import com.company.schedule.model.interactor.UpdateNoteInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.model.system.MyNotification;
-import com.company.schedule.presentation.presenter.UpdateNotePresenter;
-import com.company.schedule.presentation.ui.activities.MainActivity;
-import com.company.schedule.presentation.ui.fragments.pickers.DatePickerFragment;
-import com.company.schedule.presentation.ui.fragments.pickers.TimePickerFragment;
-import com.company.schedule.view.UpdateNoteView;
+import com.company.schedule.presentation.updateNote.UpdateNotePresenter;
+import com.company.schedule.ui.activities.MainActivity;
+import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
+import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
+import com.company.schedule.presentation.updateNote.UpdateNoteView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

@@ -1,17 +1,11 @@
-package com.company.schedule.presentation.presenter;
+package com.company.schedule.presentation.updateNote;
 
-import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.UpdateNoteInteractor;
-import com.company.schedule.view.UpdateNoteView;
 
 import java.util.GregorianCalendar;
-
-import timber.log.Timber;
 
 import static com.company.schedule.utils.Error.handleThrowable;
 
