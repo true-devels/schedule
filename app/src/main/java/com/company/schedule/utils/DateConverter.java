@@ -14,6 +14,7 @@ public class DateConverter {
             return date.getTimeInMillis();
         } else {
             return -1;
+          //  Log.d();
         }
     }
 

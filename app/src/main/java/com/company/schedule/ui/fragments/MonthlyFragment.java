@@ -112,37 +112,10 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
     }
 
     @Override
-    public void setAllNotes(List<Note> newNotes) {
-        mAdapter.setAllNotes(newNotes);
+    public void setAllNotes(List<Note> newNotesList) {
 
-        List<EventDay> events = new ArrayList<>();
-        Calendar calendar2 = Calendar.getInstance();
-        try {
-            mCalendarView.setDate(calendar2);
-        } catch (OutOfDateRangeException e) {
-            e.printStackTrace();
-        }
-
-        for(int i = 0; i<newNotes.size();i++){
-            switch(newNotes.get(i).getPriority()){
-                case 2:
-                    events.add(new EventDay(newNotes.get(i).getDate(), R.drawable.button_bg_round_green));
-                    break;
-                case 3:
-                    events.add(new EventDay(newNotes.get(i).getDate(), R.drawable.button_bg_round_red));
-                    break;
-                case 4:
-                    events.add(new EventDay(newNotes.get(i).getDate(), R.drawable.button_bg_round_yellow));
-                    break;
-                default:
-                    events.add(new EventDay(newNotes.get(i).getDate(), R.drawable.button_bg_round));
-                    break;
-
-            }
-
-        }
-        mCalendarView.setEvents(events);
-        Log.d("check of events",events.size()+" ");
+ //       onGetNotes(newNotesList);
+        mAdapter.setAllNotes(newNotesList);
     }
 
     @Override
@@ -168,5 +141,38 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
             Log.d("id_check ",Integer.toString(id));
         }
 
+    }
+
+    public void onGetNotes(List<Note> local){
+//        setAllNotes(local);
+
+        List<EventDay> events = new ArrayList<>();
+        Calendar calendar2 = Calendar.getInstance();
+        try {
+            mCalendarView.setDate(calendar2);
+        } catch (OutOfDateRangeException e) {
+            e.printStackTrace();
+        }
+
+        for(int i = 0; i<local.size();i++){
+            switch(local.get(i).getPriority()){
+                case 2:
+                    events.add(new EventDay(local.get(i).getDate(), R.drawable.button_bg_round_green));
+                    break;
+                case 3:
+                    events.add(new EventDay(local.get(i).getDate(), R.drawable.button_bg_round_red));
+                    break;
+                case 4:
+                    events.add(new EventDay(local.get(i).getDate(), R.drawable.button_bg_round_yellow));
+                    break;
+                default:
+                    events.add(new EventDay(local.get(i).getDate(), R.drawable.button_bg_round));
+                    break;
+
+            }
+
+        }
+        mCalendarView.setEvents(events);
+        Log.d("check of events",events.size()+" ");
     }
 }

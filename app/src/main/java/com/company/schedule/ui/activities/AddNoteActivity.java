@@ -68,6 +68,7 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
 
         et_name =  findViewById(R.id.name_et);  // to enter a note name
         et_description =  findViewById(R.id.description_et);  // to enter a note content
+        et_category = findViewById(R.id.category_et); // to enter category
 
         et_date = findViewById(R.id.date_et);// to enter a date
         et_date.setKeyListener(null);
@@ -80,6 +81,8 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
 
         Button btnSubmitNote = findViewById(R.id.buttonAdd);  // when button click, sends result to MainActivity
         btnSubmitNote.setOnClickListener(this);  // set listener (MainView.OnClickListener, name @Override method is onClick)
+
+
 
         btnBlue = findViewById(R.id.imageButtonBlue);
         btnGreen = findViewById(R.id.imageButtonGreen);
@@ -105,10 +108,12 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
 
                 et_name.setText(noteInfo.getName());
                 et_description.setText(noteInfo.getContent());
+                et_category.setText(noteInfo.getCategory());
 
                 // output date in good format
                 et_date.setText(noteInfo.getDateInFormat());  // Note: we don't need write checking for noteInfo.getDate() == null
                 et_time.setText(noteInfo.getTimeInFormat());
+
 
                 btnSubmitNote.setText("SAVE");
 
@@ -126,7 +131,8 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
                     currentDate,
                     (byte) tab,
                     false,
-                    1
+                    1,
+                    ""
             );
 
         }
@@ -275,12 +281,15 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
             case R.id.buttonAdd:  // if button send note to DB already pressed
                 noteInfo.setName(et_name.getText().toString());
                 noteInfo.setContent(et_description.getText().toString());
+                noteInfo.setCategory(et_category.getText().toString());
                 if(noteInfo.getName().trim().isEmpty()){
                     toastLong("Note must have name");
                 }else{
                     GregorianCalendar check = new GregorianCalendar();
-                    if (!isReminded || noteInfo.getDate().getTimeInMillis() > check.getTimeInMillis()) {
-                        presenter.pressedToSubmitNote(noteInfo, isEdited, isReminded);
+                    if (noteInfo.getDate().getTimeInMillis() > check.getTimeInMillis()) {
+                        Log.d("datecheck",noteInfo.getDate().get(Calendar.MINUTE)+"");
+                        presenter.pressedToSubmitNote(noteInfo, isEdited);
+
                     } else {
                         Timber.w("Date should be in future");
                         toastLong("Date should be in future");

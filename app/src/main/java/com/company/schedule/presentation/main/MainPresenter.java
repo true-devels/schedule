@@ -1,7 +1,13 @@
 package com.company.schedule.presentation.main;
 
+import android.util.Log;
+
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
+import com.company.schedule.ui.fragments.MonthlyFragment;
+
+import java.util.Calendar;
+import java.util.List;
 
 import static com.company.schedule.utils.Error.handleThrowable;
 
@@ -55,7 +61,7 @@ public class MainPresenter {
         // we load data from DB in Model, and then set all notes in MainView
         interactor.loadMonthlyData()
                 .subscribe(
-                        (notes) -> view.setAllNotes(notes),
+                        (notes) ->  view.setAllNotes(notes),
                         (Throwable e) -> handleThrowable(e)
                 );  // load data from DB
     }
@@ -101,4 +107,5 @@ public class MainPresenter {
     public void swipedToDelete(int id, int tab){
         deleteNote(id, tab);
     }
+
 }

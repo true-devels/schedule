@@ -22,15 +22,12 @@ public class UpdateNotePresenter {
 
     }
 
-    public void pressedToSubmitNote(Note note, boolean isEdited, boolean isReminded) {
+    public void pressedToSubmitNote(Note note, boolean isEdited) {
 
 
-            if (!isReminded) note.setDate(null);  // this line must be before insert/updateNote
             toSent = note;
             if (isEdited) updateNote(note);
-            else insertNewNote(note, isReminded);
-
-
+            else insertNewNote(note);
             view.goToMainFragment();  // finish fragment
 
     }
@@ -73,16 +70,15 @@ public class UpdateNotePresenter {
     }
 
 
-    private void insertNewNote(Note noteToInsert, boolean isReminded) {
-        if (isReminded)  for_loaddata = 1;
-        else for_loaddata = 0;
+    private void insertNewNote(Note noteToInsert) {
+
         //creating and inserting to DB new note
 //        final Note local = new Note(name, content, notify_date, freq);
         interactor.insertNote(noteToInsert)
                 .subscribe(
                         (id) -> id_toSent = Long.valueOf(id.toString()),
                         e -> handleThrowable((Throwable) e),
-                        () -> loadData(for_loaddata)
+                        () -> loadData(1)
                 );
 
     }

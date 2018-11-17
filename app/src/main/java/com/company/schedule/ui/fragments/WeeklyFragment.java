@@ -130,7 +130,7 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
             local.set(Calendar.DAY_OF_WEEK,i+2);
             tv_numbers.get(i).setText(Integer.toString(local.get(Calendar.DAY_OF_MONTH)));
         }
-        tv_monthyear.setText(new GregorianCalendar().get(Calendar.MONTH)+", "+ new GregorianCalendar().get(Calendar.YEAR));
+        tv_monthyear.setText(getMonthForInt(new GregorianCalendar().get(Calendar.MONTH))+", "+ new GregorianCalendar().get(Calendar.YEAR));
 
     }
 
@@ -162,5 +162,14 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
             Log.d("id_check ",Integer.toString(id));
         }
 
+    }
+
+    String getMonthForInt(int num) {
+        String month = "wrong";
+        String[] mon = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+        if (num >= 0 && num <= 11 ) {
+            month = mon[num];
+        }
+        return month;
     }
 }

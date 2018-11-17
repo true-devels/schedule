@@ -18,7 +18,7 @@
 
     <LinearLayout
         android:id="@+id/week"
-        android:layout_below="@id/textView6"
+        android:layout_below="@id/month_year"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

@@ -71,15 +71,41 @@
     <RelativeLayout
         android:id="@+id/foreground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/ll_datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:text="10:30"
+                android:textColor="@color/blackText"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:text="28 feb"
+                android:textColor="@color/blackText"
+                />
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/textes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_toEndOf="@+id/ll_datetime"
             android:layout_centerVertical="true">
 
             <TextView
@@ -94,7 +120,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

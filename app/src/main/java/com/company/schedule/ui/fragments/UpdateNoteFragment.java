@@ -91,7 +91,8 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
                     currentDate,
                     (byte) 0,
                     false,
-                    1
+                    1,
+                    ""
             );
 
         }
@@ -180,7 +181,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
             }else{
                 GregorianCalendar check = new GregorianCalendar();
                 if (!isReminded || noteInfo.getDate().getTimeInMillis() > check.getTimeInMillis()) {
-                    presenter.pressedToSubmitNote(noteInfo, isEdited, isReminded);
+                    presenter.pressedToSubmitNote(noteInfo, isEdited);
                 } else {
                     Timber.w("Date should be in future");
                     toastLong("Date should be in future");

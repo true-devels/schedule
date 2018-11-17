@@ -3,6 +3,7 @@ package com.company.schedule.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.utils.ItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -30,7 +32,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder  implements  View.OnClickListener{
         // each data item is just a string in this case
-        public TextView mTextView;
+        public TextView mTextView, tv_time, tv_date, tv_category;
         public RelativeLayout foreground, delete_layout, save_layout;
         private ItemClickListener itemClickListener;
         ImageButton img_priority;
@@ -42,6 +44,9 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
             save_layout = v.findViewById(R.id.save_layout);
             mTextView = v.findViewById(R.id.textView2);
             img_priority = v.findViewById(R.id.imageButton4);
+            tv_time =  v.findViewById(R.id.textViewTime);
+            tv_date = v.findViewById(R.id.textViewDate);
+            tv_category = v.findViewById(R.id.tv_category);
            // mTextView = v;
             v.setOnClickListener(this);
         }
@@ -103,6 +108,18 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
                 holder.img_priority.setImageResource(R.drawable.button_bg_round);
                 break;
         }
+        String time = mDataset.get(position).getDate().get(Calendar.HOUR_OF_DAY) + ":" + mDataset.get(position).getDate().get(Calendar.MINUTE);
+        holder.tv_time.setText(time);
+        Log.d("check dates", mDataset.get(position).getDateTimeInFormat());
+        if(mDataset.get(position).getFrequency()!=1){
+           String date = mDataset.get(position).getDate().get(Calendar.DAY_OF_MONTH) + ", " + getMonthForInt(mDataset.get(position).getDate().get(Calendar.MONTH));
+            holder.tv_date.setText(date);
+        }else{
+            //holder.tv_time.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            holder.tv_date.setText("");
+        }
+        holder.tv_category.setText(mDataset.get(position).getCategory());
+
 
     }
 
@@ -124,15 +141,19 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         notifyDataSetChanged();
     }
 
-    public  void setAllNotes(List<Note> dataset){
+    public  void setAllNotes(List<Note> dataset) {
         mDataset.clear();
         mDataset.addAll(dataset);
         notifyDataSetChanged();
     }
 
-    public ArrayList<Note> getNotes(){
-        return mDataset;
+
+    private String getMonthForInt(int num) {
+        String month = "wrong";
+        String[] mon = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+        if (num >= 0 && num <= 11 ) {
+            month = mon[num];
+        }
+        return month;
     }
-
-
 }

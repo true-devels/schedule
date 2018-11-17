@@ -6,6 +6,7 @@ import com.company.schedule.model.data.base.NoteDAO;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.system.SchedulersProvider;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -60,6 +61,7 @@ public class MainRepository {
             long id = noteDAO.insertNote(note);
             emitter.onNext(id);
             emitter.onComplete();
+           // Log.d("last check add",note.getDate().get(Calendar.MINUTE)+"");
         })
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui());

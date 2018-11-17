@@ -47,8 +47,11 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
     @ColumnInfo(name = "prioirity")
     private int priority;
 
+    @ColumnInfo(name = "category")
+    private String category;
+
     //Constructor
-    public Note(int id, String name, String content, GregorianCalendar date, byte frequency, boolean done, int priority) {
+    public Note(int id, String name, String content, GregorianCalendar date, byte frequency, boolean done, int priority, String category) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -56,6 +59,7 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
         this.content = content;
         this.done = done;
         this.priority = priority;
+        this.category = category;
     }
 
     //getters and setters
@@ -149,5 +153,13 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
