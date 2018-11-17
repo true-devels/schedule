@@ -7,14 +7,14 @@ import android.widget.Switch;
 
 import com.company.schedule.R;
 import com.company.schedule.ui.main.MainActivity;
-import com.company.schedule.utils.SharedPrefs;
+import com.company.schedule.model.repository.SharedPrefsRepository;
 
 public class SettingsActivity extends AppCompatActivity {
-    private SharedPrefs sharedPrefs;
+    private SharedPrefsRepository sharedPrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
-        sharedPrefs = new SharedPrefs(this);
+        sharedPrefs = new SharedPrefsRepository(this);
 
         //set theme
         if(sharedPrefs.isNightMode()) setTheme(R.style.darktheme);

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.company.schedule.R;
 import com.company.schedule.ui.main.MainActivity;
-import com.company.schedule.utils.SharedPrefs;
+import com.company.schedule.model.repository.SharedPrefsRepository;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -25,14 +25,14 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private LinearLayout dotsLayout;
     private int[] layouts;
     private Button btnSkip, btnNext;
-    private SharedPrefs prefManager;
+    private SharedPrefsRepository prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Checking for first time launch
-        prefManager = new SharedPrefs(this);
+        prefManager = new SharedPrefsRepository(this);
         if (!prefManager.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();

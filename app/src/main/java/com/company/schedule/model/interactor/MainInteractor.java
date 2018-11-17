@@ -22,6 +22,6 @@ public class MainInteractor {
     }
 
     public Observable<List<Note>> loadData() {
-        return repository.loadData();
+        return repository.getAllNotes();
     }
 }

@@ -13,9 +13,10 @@ public class UpdateNotePresenter {
 
     private UpdateNoteView view;
     private UpdateNoteInteractor interactor;
-    long id_toSent = -1;
-    int for_loaddata;
-    Note toSent;
+    private long id_toSent = -1;
+    private int for_loaddata;
+    private Note toSent;
+
     public UpdateNotePresenter(UpdateNoteView view, UpdateNoteInteractor interactor) {
         this.view = view;
         this.interactor = interactor;
@@ -56,17 +57,19 @@ public class UpdateNotePresenter {
     }
 
 
-    private void loadData(int isReminded) {  // this function do nothing, so we can just delete this
+    private void loadData(int isReminded) {
+        /*
         interactor.loadData()
                 .subscribe(
 //                        (notes) -> view.setAllNotes(notes),
                         (notes) -> {
                             for (Note note:notes) {
-                                Log.d("myLogUNP", "loadData:"+note.getId()+") "+note.getName());
+                                Log.d("myLogUNP", "getAllNotes:"+note.getId()+") "+note.getName());
                             }
                         },
                         (Throwable e) -> handleThrowable(e)
                 );  // load data from DB
+        */
         if(isReminded==1){
             view.createNotification(toSent, (int)id_toSent);
         }

@@ -1,7 +1,5 @@
 package com.company.schedule.model.repository;
 
-import android.util.Log;
-
 import com.company.schedule.model.data.base.NoteDAO;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.system.SchedulersProvider;
@@ -9,7 +7,6 @@ import com.company.schedule.model.system.SchedulersProvider;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 
@@ -26,7 +23,7 @@ public class MainRepository {
 
 
     //method that gets all data from DB and update Recycler view
-    public Observable<List<Note>> loadData() {
+    public Observable<List<Note>> getAllNotes() {
         return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
             try {
                 List<Note> notes = noteDAO.getAllNotes();  // get notes
@@ -68,7 +65,7 @@ public class MainRepository {
 
     public Completable updateNote(final Note note) {
         return Completable.create(emitter -> {
-            noteDAO.updateNotes(note);
+            noteDAO.updateNote(note);
             emitter.onComplete();
         })
                 .subscribeOn(schedulers.io())

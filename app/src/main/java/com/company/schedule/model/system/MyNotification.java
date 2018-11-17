@@ -15,7 +15,7 @@ import android.util.Log;
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.MyNoteInteractor;
+import com.company.schedule.model.interactor.NotificationInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.utils.Constants;
@@ -34,12 +34,12 @@ import static com.company.schedule.utils.Constants.MILLISECONDS_IN_DAY;
 public class MyNotification {
 
     private Context context;
-    private MyNoteInteractor interactor;
+    private NotificationInteractor interactor;
 
 
     public MyNotification(Context context) {
         this.context = context;
-        this.interactor = new MyNoteInteractor(new MainRepository(
+        this.interactor = new NotificationInteractor(new MainRepository(
                 AppDatabase.getDatabase(context).noteDAO(),
                 new AppSchedulers()  // for threads
         ));  // create repository and get DAO);

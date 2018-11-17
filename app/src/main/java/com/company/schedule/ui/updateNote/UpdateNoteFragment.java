@@ -147,7 +147,13 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
 
         Fragment childFragment = new TimerFragment();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.childTimerContainer, childFragment).commit();
+
+        Bundle transmission = new Bundle();
+        transmission.putSerializable("NOTE_TO_DONE", noteInfo);
+        childFragment.setArguments(transmission);
+
+        transaction.replace(R.id.childTimerContainer, childFragment);
+        transaction.commit();
     }
 
     @Override

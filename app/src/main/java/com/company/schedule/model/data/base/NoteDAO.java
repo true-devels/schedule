@@ -24,7 +24,7 @@ public interface NoteDAO {
     long insertNote(Note note);
 
     @Update
-    void updateNotes(Note... notes);
+    void updateNote(Note note);
 
     @Query("DELETE FROM " + Constants.TABLE_NAME + " WHERE id=:id")
     void deleteNoteById(int id);

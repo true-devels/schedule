@@ -5,12 +5,11 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.MyNoteInteractor;
+import com.company.schedule.model.interactor.NotificationInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.model.system.MyNotification;
@@ -30,7 +29,7 @@ public  class NotificationPublisher extends BroadcastReceiver {
         Log.v("Publ",""+id);
         notificationManager.notify(id, notification);
 
-        MyNoteInteractor interactor = new MyNoteInteractor(new MainRepository(
+        NotificationInteractor interactor = new NotificationInteractor(new MainRepository(
                 AppDatabase.getDatabase(context).noteDAO(),
                 new AppSchedulers()  // for threads
         ));  // create repository and get DAO);

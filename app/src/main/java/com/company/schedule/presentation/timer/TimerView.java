@@ -9,4 +9,5 @@ public interface TimerView {
     void stopTimer();
     // message show
     void showMessage(String text);
+    void showErrorMessage(String error);
 }

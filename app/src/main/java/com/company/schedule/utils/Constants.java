@@ -27,6 +27,11 @@ public final class Constants {
     public static final int REQUEST_CODE_EDIT_NOTE = 2;
 
 
+    //Notification CONSTANTS
+    public static final String NOTIFICATION_ID = "notification-id";
+    public static final String NOTIFICATION = "notification";
+
+
     // SharedPreferences CONSTANTS
     //mode
     public final static int PRIVATE_MODE = 0;
@@ -35,17 +40,16 @@ public final class Constants {
     //preferences keys
     public static final String FIRST_TIME_LAUNCH_KEY = "FirstTimeLaunch";
     public static final String NIGHT_MODE = "NightMode";
+    // timer
+    public static final String FINISH_TIME = "finishTime";
+    public static final String PAUSE_TIME = "pauseTime";
 
-
-    //Notification CONSTANTS
-    public static final String NOTIFICATION_ID = "notification-id";
-    public static final String NOTIFICATION = "notification";
 
     // TIMER
-    public static final long TASK_TIME_SECONDS = 10;
+    public static final long TASK_TIME_SECONDS = 10*60;
     public static final String START_TIMER = "start";
     public static final String PAUSE_TIMER = "pause";
     public static final String RESUME_TIMER = "resume";
-    public static final String STOP_TIMER = "stop";
+    public static final String STOP_TIMER = "finish";
 
 }

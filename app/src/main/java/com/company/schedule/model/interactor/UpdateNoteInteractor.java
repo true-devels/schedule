@@ -36,7 +36,7 @@ public class UpdateNoteInteractor {
 
 
     public Observable<List<Note>> loadData() {
-        return mainRepository.loadData();
+        return mainRepository.getAllNotes();
     }
 
 }

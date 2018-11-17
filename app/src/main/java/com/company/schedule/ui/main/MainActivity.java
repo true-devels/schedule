@@ -7,11 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.company.schedule.R;
-import com.company.schedule.ui.main.MainFragment;
 import com.company.schedule.ui.settings.SettingsActivity;
-import com.company.schedule.utils.SharedPrefs;
+import com.company.schedule.model.repository.SharedPrefsRepository;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
-        SharedPrefs sharedPrefs = new SharedPrefs(this);
+        SharedPrefsRepository sharedPrefs = new SharedPrefsRepository(this);
 
         if(sharedPrefs.isNightMode()) setTheme(R.style.darktheme);  //dark
         else setTheme(R.style.AppTheme);  //white

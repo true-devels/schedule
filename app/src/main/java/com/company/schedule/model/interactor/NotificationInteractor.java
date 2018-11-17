@@ -6,10 +6,10 @@ import com.company.schedule.model.repository.MainRepository;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public class MyNoteInteractor {
+public class NotificationInteractor {
     private MainRepository repository;
 
-    public MyNoteInteractor(MainRepository repository) {
+    public NotificationInteractor(MainRepository repository) {
         this.repository = repository;
     }
 
@@ -23,7 +23,7 @@ public class MyNoteInteractor {
     }
 
     /*
-    public Observable<List<Note>> loadData() {
-        return repository.loadData();
+    public Observable<List<Note>> getAllNotes() {
+        return mainRepository.getAllNotes();
     }*/
 }
