@@ -22,14 +22,14 @@ public class MainPresenter {
     }
 
     public void onCheckedDoneChanged(Note noteCheckedOn, boolean isChecked) {
-        if (noteCheckedOn.isDone() != isChecked) {  // we update DB only if we need change value
+       /* if (noteCheckedOn.isDone() != isChecked) {  // we update DB only if we need change value
             noteCheckedOn.setDone(isChecked);
             interactor.updateNote(noteCheckedOn)
                     .subscribe(
                             () -> {},  // we do nothing when update finished
                             e -> handleThrowable(e)
                     );
-        }
+        }*/
     }
 
     public void loadData() {
@@ -98,14 +98,53 @@ public class MainPresenter {
                 break;
         }
     }
+    private void updateNote(Note noteToUpdate,int tab) {
+        switch (tab){
+            case 0:
+                interactor.updateNote(noteToUpdate)
+                        .subscribe(
+                                () -> loadDailyData(),
+                                e -> handleThrowable(e)
+                        );
+                break;
+            case 1:
+                interactor.updateNote(noteToUpdate)
+                        .subscribe(
+                                () -> loadWeeklyData(),
+                                e -> handleThrowable(e)
+                        );
+                break;
+            case 2:
+                interactor.updateNote(noteToUpdate)
+                        .subscribe(
+                                () -> loadMonthlyData(),
+                                e -> handleThrowable(e)
+                        );
+                break;
+            default:
+                interactor.updateNote(noteToUpdate)
+                        .subscribe(
+                                () -> loadData(),
+                                e -> handleThrowable(e)
+                        );
+                break;
+        }
+
+    }
 
 
     public void detachView() {
         this.view = null;
     }
 
-    public void swipedToDelete(int id, int tab){
-        deleteNote(id, tab);
+    public void swipedToLater(Note note, int tab){
+        note.setLater(1);
+        updateNote(note, tab);
+    }
+
+    public void restore(Note item, int tab){
+        item.setLater(0);
+        updateNote(item, tab);
     }
 
 }

@@ -24,7 +24,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> {
-    private ArrayList<Note> mDataset = new ArrayList<>();
+    public ArrayList<Note> mDataset = new ArrayList<>();
     Context context;
 
     // Provide a reference to the views for each data item

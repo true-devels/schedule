@@ -21,17 +21,20 @@ public interface NoteDAO {
 //            "SELECT * FROM " + Constants.TABLE_NAME + " WHERE date = NULL "
 
 
-    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=2")
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=2 AND later = 0 AND done = 0 ")
     List<Note> getAllWeeklyNotes();
 
-    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=3")
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=3 AND later=0 AND done = 0")
     List<Note> getAllMonthlyNotes();
 
-    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=0")
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=0 AND later = 0 AND done = 0")
     List<Note> getAllOnceNotes();
 
-    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=1")
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=1 AND later = 0 AND done = 0")
     List<Note> getAllDailyNotes();
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE later = 1")
+    List<Note> getAllLaterNotes();
 
     @Insert
     long insertNote(Note note);

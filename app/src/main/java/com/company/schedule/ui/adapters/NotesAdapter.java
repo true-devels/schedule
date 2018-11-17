@@ -45,7 +45,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         Note currentNote = listNotes.get(position);
         holder.tvItemNoteName.setText(currentNote.getName());  // output name
         holder.tvItemDate.setText(currentNote.getDateTimeInFormat());  // output date time depending on local settings.
-        holder.checkBoxDone.setChecked(currentNote.isDone());
+      //  holder.checkBoxDone.setChecked(currentNote.isDone());
 //        holder.checkBoxDone.setSelected(currentNote.isDone());  // set check box isDone
     }
 

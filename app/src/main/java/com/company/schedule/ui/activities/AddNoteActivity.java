@@ -130,7 +130,8 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
                     "",
                     currentDate,
                     (byte) tab,
-                    false,
+                    0,
+                    0,
                     1,
                     ""
             );

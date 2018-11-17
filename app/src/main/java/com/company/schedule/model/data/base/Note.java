@@ -42,7 +42,11 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
 
     //is note already done
     @ColumnInfo(name = "done")
-    private boolean done;
+    private int done;
+
+    //user may postpone note
+    @ColumnInfo(name = "later")
+    private int later;
 
     @ColumnInfo(name = "prioirity")
     private int priority;
@@ -51,13 +55,14 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
     private String category;
 
     //Constructor
-    public Note(int id, String name, String content, GregorianCalendar date, byte frequency, boolean done, int priority, String category) {
+    public Note(int id, String name, String content, GregorianCalendar date, byte frequency, int done, int later, int priority, String category) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.frequency = frequency;
         this.content = content;
         this.done = done;
+        this.later = later;
         this.priority = priority;
         this.category = category;
     }
@@ -139,12 +144,20 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
         else return "";
     }
 
-    public boolean isDone() {
+    public int getDone() {
         return done;
     }
 
-    public void setDone(boolean done) {
+    public void setDone(int done) {
         this.done = done;
+    }
+
+    public int getLater() {
+        return later;
+    }
+
+    public void setLater(int later) {
+        this.later = later;
     }
 
     public int getPriority() {

@@ -133,11 +133,18 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
         int deleteIndex = viewHolder.getAdapterPosition ();
         Note item = mAdapter.removeItem(deleteIndex);
         if(direction == ItemTouchHelper.LEFT){
-            Snackbar snackbar = Snackbar.make(mainLayout,"Deleted " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(mainLayout,"Postponed " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
             snackbar.show();
-            snackbar.setAction("UNDO", v -> mAdapter.restoreItem(item,deleteIndex));
+            snackbar.setAction("UNDO", new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    mAdapter.restoreItem(item,deleteIndex);
+                    presenter.restore(item, 1);
+                }
+            });
             int id = ((NodeAdapter.MyViewHolder) viewHolder).id;
-            presenter.swipedToDelete(id,2);
+
+            presenter.swipedToLater(item,2);
             Log.d("id_check ",Integer.toString(id));
         }
 

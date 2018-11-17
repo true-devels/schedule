@@ -129,6 +129,20 @@ public class MainRepository {
                 .observeOn(schedulers.ui());
     }
 
+    public Observable<List<Note>> loadLaterData() {
+        return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
+            try {
+                List<Note> notes = noteDAO.getAllLaterNotes();  // get notes
+                emitter.onNext(notes);  // send notes
+                emitter.onComplete();
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
+        })
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui());
+    }
+
     public Observable<List<Note>> loadOnceData() {
         return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
             try {

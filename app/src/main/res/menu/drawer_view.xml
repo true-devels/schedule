@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_home"
             android:icon="@android:drawable/star_big_off"
-            android:title="Important" />
+            android:title="Home" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_done"
             android:icon="@android:drawable/checkbox_on_background"
             android:title="Done" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_later"
             android:icon="@android:drawable/ic_menu_recent_history"
             android:title="Later" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_settings"
             android:icon="@android:drawable/ic_menu_manage"
             android:title="Settings" />
     </group>
