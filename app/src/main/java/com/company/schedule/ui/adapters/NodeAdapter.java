@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,6 +17,8 @@ import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.utils.ItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> {
@@ -29,6 +33,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         public TextView mTextView;
         public RelativeLayout foreground, delete_layout, save_layout;
         private ItemClickListener itemClickListener;
+        ImageButton img_priority;
         public int id;
         public MyViewHolder(View v) {
             super(v);
@@ -36,6 +41,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
             delete_layout = v.findViewById(R.id.delete_layout);
             save_layout = v.findViewById(R.id.save_layout);
             mTextView = v.findViewById(R.id.textView2);
+            img_priority = v.findViewById(R.id.imageButton4);
            // mTextView = v;
             v.setOnClickListener(this);
         }
@@ -81,9 +87,23 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
                 Intent intent = new Intent(context,AddNoteActivity.class);
                 intent.putExtra("note",mDataset.get(position));
                 context.startActivity(intent);
-
             }
         });
+        switch (mDataset.get(position).getPriority()){
+            case 2:
+                holder.img_priority.setImageResource(R.drawable.button_bg_round_green);
+                break;
+            case 3:
+                holder.img_priority.setImageResource(R.drawable.button_bg_round_red);
+                break;
+            case 4:
+                holder.img_priority.setImageResource(R.drawable.button_bg_round_yellow);
+                break;
+            default:
+                holder.img_priority.setImageResource(R.drawable.button_bg_round);
+                break;
+        }
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -109,4 +129,10 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         mDataset.addAll(dataset);
         notifyDataSetChanged();
     }
+
+    public ArrayList<Note> getNotes(){
+        return mDataset;
+    }
+
+
 }

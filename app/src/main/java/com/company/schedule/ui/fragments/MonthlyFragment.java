@@ -39,6 +39,7 @@ import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -84,18 +85,7 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        List<EventDay> events = new ArrayList<>();
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.set(2018, 11, 10);
-        try {
-            mCalendarView.setDate(calendar2);
-        } catch (OutOfDateRangeException e) {
-            e.printStackTrace();
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2018, 11, 12);
-        events.add(new EventDay(calendar, R.drawable.button_bg_round));
-        mCalendarView.setEvents(events);
+
 
         notes_rc.setHasFixedSize(true);
 
@@ -118,11 +108,41 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
         ItemTouchHelper.SimpleCallback callback_right = new RecyclerViewItemTouchHelper(0,ItemTouchHelper.RIGHT,this);
         new ItemTouchHelper(callback_right).attachToRecyclerView(notes_rc);
 
+
     }
 
     @Override
     public void setAllNotes(List<Note> newNotes) {
         mAdapter.setAllNotes(newNotes);
+
+        List<EventDay> events = new ArrayList<>();
+        Calendar calendar2 = Calendar.getInstance();
+        try {
+            mCalendarView.setDate(calendar2);
+        } catch (OutOfDateRangeException e) {
+            e.printStackTrace();
+        }
+
+        for(int i = 0; i<newNotes.size();i++){
+            switch(newNotes.get(i).getPriority()){
+                case 2:
+                    events.add(new EventDay(newNotes.get(i).getDate(), R.drawable.button_bg_round_green));
+                    break;
+                case 3:
+                    events.add(new EventDay(newNotes.get(i).getDate(), R.drawable.button_bg_round_red));
+                    break;
+                case 4:
+                    events.add(new EventDay(newNotes.get(i).getDate(), R.drawable.button_bg_round_yellow));
+                    break;
+                default:
+                    events.add(new EventDay(newNotes.get(i).getDate(), R.drawable.button_bg_round));
+                    break;
+
+            }
+
+        }
+        mCalendarView.setEvents(events);
+        Log.d("check of events",events.size()+" ");
     }
 
     @Override

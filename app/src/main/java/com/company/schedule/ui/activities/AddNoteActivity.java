@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -34,6 +35,8 @@ import com.company.schedule.ui.fragments.MainFragment;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
 import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
 
+import org.w3c.dom.Node;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -42,11 +45,11 @@ import timber.log.Timber;
 public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView, View.OnClickListener,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private UpdateNotePresenter presenter;
-    private Note noteInfo;
+    private Note noteInfo = null;
     private boolean isEdited = false;
     EditText et_name, et_description, et_category, et_date, et_time;
     boolean isReminded = true;
-    Spinner spinnerFrequency;
+    ImageButton btnBlue, btnGreen,btnRed,btnYellow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +61,6 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
                                 AppDatabase.getDatabase(this).noteDAO(),
                                 new AppSchedulers()  // for threads
                         )  // create repository and get DAO
-
                 )
         );
 
@@ -79,17 +81,26 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
         Button btnSubmitNote = findViewById(R.id.buttonAdd);  // when button click, sends result to MainActivity
         btnSubmitNote.setOnClickListener(this);  // set listener (MainView.OnClickListener, name @Override method is onClick)
 
-        //setting frequency spinner
-        spinnerFrequency = findViewById(R.id.spinnerFreq);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_frequency, R.layout.simple_spinner_item);  // TODO comment it
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);  // TODO comment it
-        spinnerFrequency.setAdapter(adapter);
+        btnBlue = findViewById(R.id.imageButtonBlue);
+        btnGreen = findViewById(R.id.imageButtonGreen);
+        btnRed = findViewById(R.id.imageButtonRed);
+        btnYellow = findViewById(R.id.imageButtonYellow);
+        btnBlue.setOnClickListener(this);
+        btnGreen.setOnClickListener(this);
+        btnYellow.setOnClickListener(this);
+        btnRed.setOnClickListener(this);
+
 
 
         Bundle transmission = getIntent().getExtras();
-        if (transmission != null) {  // if we want to update note
+
+        try{
             noteInfo = (Note) transmission.getSerializable("note");
-            if (noteInfo == null) Log.e("myLog", "note info equals null");
+        }catch (NullPointerException ne){
+            ne.printStackTrace();
+        }
+        if (noteInfo != null) {  // if we want to update note
+
             isEdited = true;
 
                 et_name.setText(noteInfo.getName());
@@ -99,8 +110,6 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
                 et_date.setText(noteInfo.getDateInFormat());  // Note: we don't need write checking for noteInfo.getDate() == null
                 et_time.setText(noteInfo.getTimeInFormat());
 
-                if (noteInfo.getFrequency() != -1)
-                    spinnerFrequency.setSelection((int) noteInfo.getFrequency());
                 btnSubmitNote.setText("SAVE");
 
         } else {  // if we want create new note
@@ -108,14 +117,16 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
             currentDate.setTimeInMillis(System.currentTimeMillis());
             currentDate.set(Calendar.SECOND,0);
             currentDate.set(Calendar.MILLISECOND,0);
-
+            int tab = transmission.getInt("tab");
+            tab++;
             noteInfo = new Note(
                     0,  // important set id 0 instead -1
                     "",
                     "",
                     currentDate,
-                    (byte) 0,
-                    false
+                    (byte) tab,
+                    false,
+                    1
             );
 
         }
@@ -227,6 +238,34 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.imageButtonBlue:
+                noteInfo.setPriority(1);
+                btnBlue.setBackgroundResource(R.color.specialGrey);
+                btnYellow.setBackgroundResource(R.color.colorWhite);
+                btnGreen.setBackgroundResource(R.color.colorWhite);
+                btnRed.setBackgroundResource(R.color.colorWhite);
+                break;
+            case R.id.imageButtonGreen:
+                noteInfo.setPriority(2);
+                btnBlue.setBackgroundResource(R.color.colorWhite);
+                btnYellow.setBackgroundResource(R.color.colorWhite);
+                btnGreen.setBackgroundResource(R.color.specialGrey);
+                btnRed.setBackgroundResource(R.color.colorWhite);
+                break;
+            case R.id.imageButtonRed:
+                noteInfo.setPriority(3);
+                btnBlue.setBackgroundResource(R.color.colorWhite);
+                btnYellow.setBackgroundResource(R.color.colorWhite);
+                btnGreen.setBackgroundResource(R.color.colorWhite);
+                btnRed.setBackgroundResource(R.color.specialGrey);
+                break;
+            case R.id.imageButtonYellow:
+                noteInfo.setPriority(4);
+                btnBlue.setBackgroundResource(R.color.colorWhite);
+                btnYellow.setBackgroundResource(R.color.specialGrey);
+                btnGreen.setBackgroundResource(R.color.colorWhite);
+                btnRed.setBackgroundResource(R.color.colorWhite);
+                break;
             case R.id.date_et:  //if clicking on TextView with date
                 presenter.pressedToEditDate(isEdited, noteInfo.getDate());
                 break;
@@ -236,7 +275,6 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
             case R.id.buttonAdd:  // if button send note to DB already pressed
                 noteInfo.setName(et_name.getText().toString());
                 noteInfo.setContent(et_description.getText().toString());
-                noteInfo.setFrequency( (byte) spinnerFrequency.getSelectedItemPosition());
                 if(noteInfo.getName().trim().isEmpty()){
                     toastLong("Note must have name");
                 }else{

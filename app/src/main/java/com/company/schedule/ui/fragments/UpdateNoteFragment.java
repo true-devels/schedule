@@ -90,7 +90,8 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
                     "",
                     currentDate,
                     (byte) 0,
-                    false
+                    false,
+                    1
             );
 
         }

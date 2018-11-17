@@ -7,13 +7,13 @@
 
     <TextView
 
-        android:id="@+id/textView6"
+        android:id="@+id/month_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tabs"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_centerHorizontal="true"
         android:text="November,2108" />
 
     <LinearLayout
@@ -23,19 +23,22 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/colorToolbar">
+
         <LinearLayout
+            android:id="@+id/ll_monday"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textViewMON"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="MON"
-                android:layout_gravity="center_horizontal"/>
+                android:text="MON" />
 
             <TextView
 
@@ -46,19 +49,22 @@
                 android:layout_margin="5dp"
                 android:text="1" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_tuesday"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textViewTUE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="TUE"
-                android:layout_gravity="center_horizontal"/>
+                android:text="TUE" />
 
             <TextView
 
@@ -71,121 +77,137 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_wednesday"
             android:layout_width="0dp"
             android:layout_height="66dp"
             android:layout_weight="1"
-            android:background="@drawable/now_week"
             android:orientation="vertical">
 
             <TextView
-                android:textColor="@color/blackText"
                 android:id="@+id/textViewWED"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="WED" />
+                android:text="WED"
+                />
 
             <TextView
-                android:textColor="@color/blackText"
                 android:id="@+id/textViewWEDnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:text="3" />
+                android:text="3"
+                 />
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_thursday"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textViewTHU"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="THU"
-                android:layout_gravity="center_horizontal"/>
+                android:text="THU" />
+
             <TextView
 
                 android:id="@+id/textViewTHUnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_gravity="center"
+                android:layout_margin="5dp"
                 android:text="4" />
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_friday"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textViewFRI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="FRI"
-                android:layout_gravity="center_horizontal"/>
+                android:text="FRI" />
+
             <TextView
 
                 android:id="@+id/textViewFRInumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_gravity="center"
+                android:layout_margin="5dp"
                 android:text="5" />
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_saturday"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textViewSAT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="SAT"
-                android:layout_gravity="center_horizontal"/>
+                android:text="SAT" />
+
             <TextView
 
                 android:id="@+id/textViewSATnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_gravity="center"
+                android:layout_margin="5dp"
                 android:text="6" />
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_sunday"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textViewSUN"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="SUN"
-                android:layout_gravity="center_horizontal"/>
+                android:text="SUN" />
+
             <TextView
 
                 android:id="@+id/textViewSUNnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_gravity="center"
+                android:layout_margin="5dp"
                 android:text="7" />
 
         </LinearLayout>
