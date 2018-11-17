@@ -27,8 +27,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activities.SettingsActivity" />
 
-         <receiver android:name=".utils.NotificationPublisher" />
+        <receiver android:name=".utils.NotificationPublisher" />
 
+        <activity android:name=".ui.activities.AddNoteActivity"></activity>
     </application>
 
 </manifest>

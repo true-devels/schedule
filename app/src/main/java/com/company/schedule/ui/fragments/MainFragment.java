@@ -100,7 +100,7 @@ public class MainFragment extends Fragment implements MainView {
         FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // where we place fragment
+     //   fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // where we place fragment
         fragmentTransaction.addToBackStack(null);  // features for the back button
 
         fragmentTransaction.commit();
@@ -111,7 +111,7 @@ public class MainFragment extends Fragment implements MainView {
         FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // where we place fragment
+   //     fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // where we place fragment
         fragmentTransaction.addToBackStack(null);  // features for the back button
 
         Bundle transmission = new Bundle();

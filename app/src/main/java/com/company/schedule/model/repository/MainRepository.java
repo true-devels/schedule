@@ -85,4 +85,60 @@ public class MainRepository {
     }
 
 
+    public Observable<List<Note>> loadDataDaily() {
+        return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
+            try {
+                List<Note> notes = noteDAO.getAllDailyNotes();  // get notes
+                emitter.onNext(notes);  // send notes
+                emitter.onComplete();
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
+        })
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui());
+    }
+
+    public Observable<List<Note>> loadWeeklyData() {
+        return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
+            try {
+                List<Note> notes = noteDAO.getAllWeeklyNotes();  // get notes
+                emitter.onNext(notes);  // send notes
+                emitter.onComplete();
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
+        })
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui());
+    }
+
+    public Observable<List<Note>> loadMonthlyData() {
+        return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
+            try {
+                List<Note> notes = noteDAO.getAllMonthlyNotes();  // get notes
+                emitter.onNext(notes);  // send notes
+                emitter.onComplete();
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
+        })
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui());
+    }
+
+    public Observable<List<Note>> loadOnceData() {
+        return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
+            try {
+                List<Note> notes = noteDAO.getAllOnceNotes();  // get notes
+                emitter.onNext(notes);  // send notes
+                emitter.onComplete();
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
+        })
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui());
+    }
+
 }

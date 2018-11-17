@@ -24,4 +24,20 @@ public class MainInteractor {
     public Observable<List<Note>> loadData() {
         return repository.loadData();
     }
+    public Observable<List<Note>> loadDailyData() {
+        return repository.loadDataDaily();
+    }
+    public Observable<List<Note>> loadWeeklyData() {
+        return repository.loadWeeklyData();
+    }
+    public Observable<List<Note>> loadMonthlyData() {
+        return repository.loadMonthlyData();
+    }
+
+
+
+    public Completable deleteNoteById(int id) {
+        return repository.deleteNoteById(id);
+    }
+
 }

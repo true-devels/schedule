@@ -35,8 +35,70 @@ public class MainPresenter {
                 );  // load data from DB
     }
 
+    public void loadDailyData() {
+        // we load data from DB in Model, and then set all notes in MainView
+        interactor.loadDailyData()
+                .subscribe(
+                        (notes) -> view.setAllNotes(notes),
+                        (Throwable e) -> handleThrowable(e)
+                );  // load data from DB
+    }
+    public void loadWeeklyData() {
+        // we load data from DB in Model, and then set all notes in MainView
+        interactor.loadWeeklyData()
+                .subscribe(
+                        (notes) -> view.setAllNotes(notes),
+                        (Throwable e) -> handleThrowable(e)
+                );  // load data from DB
+    }
+    public void loadMonthlyData() {
+        // we load data from DB in Model, and then set all notes in MainView
+        interactor.loadMonthlyData()
+                .subscribe(
+                        (notes) -> view.setAllNotes(notes),
+                        (Throwable e) -> handleThrowable(e)
+                );  // load data from DB
+    }
+
+    private void deleteNote(int id, int tab) {
+        switch (tab){
+            case 0:
+                interactor.deleteNoteById(id)
+                    .subscribe(
+                        () -> loadDailyData(),
+                        e -> handleThrowable(e)
+                );
+                break;
+            case 1:
+                interactor.deleteNoteById(id)
+                        .subscribe(
+                                () -> loadWeeklyData(),
+                                e -> handleThrowable(e)
+                        );
+                break;
+            case 2:
+                interactor.deleteNoteById(id)
+                        .subscribe(
+                                () -> loadMonthlyData(),
+                                e -> handleThrowable(e)
+                        );
+                break;
+            default:
+                interactor.deleteNoteById(id)
+                        .subscribe(
+                                () -> loadData(),
+                                e -> handleThrowable(e)
+                        );
+                break;
+        }
+    }
+
 
     public void detachView() {
         this.view = null;
+    }
+
+    public void swipedToDelete(int id, int tab){
+        deleteNote(id, tab);
     }
 }

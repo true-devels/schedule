@@ -20,6 +20,19 @@ public interface NoteDAO {
 //            "UNION ALL " +
 //            "SELECT * FROM " + Constants.TABLE_NAME + " WHERE date = NULL "
 
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=2")
+    List<Note> getAllWeeklyNotes();
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=3")
+    List<Note> getAllMonthlyNotes();
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=0")
+    List<Note> getAllOnceNotes();
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=1")
+    List<Note> getAllDailyNotes();
+
     @Insert
     long insertNote(Note note);
 

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="8dp"
+        >
+
+        <RelativeLayout
+            android:id="@+id/save_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/greenText">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@android:drawable/ic_menu_save" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Save"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/imageView6"
+                android:textColor="@color/colorWhite"
+                />
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/delete_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/redText">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Delete"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/imageView5"
+            android:textColor="@color/colorWhite"
+           />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/foreground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/textes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="7"
+                android:text="Meeting with client"
+                android:textColor="@color/blackText"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="2"
+                android:text="Official"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_toStartOf="@id/imageButton4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="30dp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@android:drawable/star_big_off" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="30dp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/button_bg_round" />
+
+    </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</FrameLayout>

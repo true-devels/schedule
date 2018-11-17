@@ -319,7 +319,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
                 .getSupportFragmentManager()
                 .beginTransaction();
 
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // add fragment to screen
+       // fragmentTransaction.replace(R.id.fragmentContainer, fragment);  // add fragment to screen
         fragmentTransaction.commit();
     }
 
