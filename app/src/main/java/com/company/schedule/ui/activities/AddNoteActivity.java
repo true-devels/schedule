@@ -1,65 +1,46 @@
 package com.company.schedule.ui.activities;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.UpdateNoteInteractor;
+import com.company.schedule.model.interactor.AddNoteInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.model.system.MyNotification;
-import com.company.schedule.presentation.updateNote.UpdateNotePresenter;
-import com.company.schedule.presentation.updateNote.UpdateNoteView;
-import com.company.schedule.ui.fragments.MainFragment;
+import com.company.schedule.presentation.addNote.AddNotePresenter;
+import com.company.schedule.presentation.addNote.AddNoteView;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
 import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
-import org.w3c.dom.Node;
-
-import java.sql.Array;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import timber.log.Timber;
+public class AddNoteActivity extends AppCompatActivity implements AddNoteView, View.OnClickListener,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView, View.OnClickListener,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-
-    private UpdateNotePresenter presenter;
+    private AddNotePresenter presenter;
     private Note noteInfo = null;
     private boolean isEdited = false;
     EditText et_name, et_description, et_category, et_date, et_time;
@@ -73,8 +54,8 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
 
-        presenter = new UpdateNotePresenter(this,
-                new UpdateNoteInteractor(  // create interactor
+        presenter = new AddNotePresenter(this,
+                new AddNoteInteractor(  // create interactor
                         new MainRepository(
                                 AppDatabase.getDatabase(this).noteDAO(),
                                 new AppSchedulers()  // for threads

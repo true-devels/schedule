@@ -1,22 +1,22 @@
-package com.company.schedule.presentation.updateNote;
+package com.company.schedule.presentation.addNote;
 
 import android.util.Log;
 
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.UpdateNoteInteractor;
+import com.company.schedule.model.interactor.AddNoteInteractor;
 
 import java.util.GregorianCalendar;
 
 import static com.company.schedule.utils.Error.handleThrowable;
 
-public class UpdateNotePresenter {
+public class AddNotePresenter {
 
-    private UpdateNoteView view;
-    private UpdateNoteInteractor interactor;
+    private AddNoteView view;
+    private AddNoteInteractor interactor;
     long id_toSent = -1;
     int for_loaddata;
     Note toSent;
-    public UpdateNotePresenter(UpdateNoteView view, UpdateNoteInteractor interactor) {
+    public AddNotePresenter(AddNoteView view, AddNoteInteractor interactor) {
         this.view = view;
         this.interactor = interactor;
 

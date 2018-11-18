@@ -8,11 +8,11 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public class UpdateNoteInteractor {
+public class AddNoteInteractor {
 
     private MainRepository mainRepository;
 
-    public UpdateNoteInteractor(MainRepository mainRepository) {
+    public AddNoteInteractor(MainRepository mainRepository) {
         this.mainRepository = mainRepository;
     }
 

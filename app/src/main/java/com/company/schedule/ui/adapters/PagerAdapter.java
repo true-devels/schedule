@@ -35,9 +35,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 //return tab3;
                 ret=new MonthlyFragment();
                 break;
-
-            default:
-                ret = new DailyFragment();
         }
         return ret;
     }
