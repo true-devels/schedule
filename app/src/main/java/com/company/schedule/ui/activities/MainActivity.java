@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent2 = new Intent(this,LaterActivity.class);
                             intent2.putExtra("role",2);
                             startActivity(intent2);
+                            break;
+                        case R.id.nav_settings:
+                            Intent intent3 = new Intent(this,SettingsActivity.class);
+                            startActivity(intent3);
                     }
                     // close drawer when item is tapped
                     mDrawerLayout.closeDrawers();
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton imgbtn2 = findViewById(R.id.imageButton2);
+        ImageButton imgbtn2 = findViewById(R.id.btnToolbarRight);
         imgbtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton imgbtn = findViewById(R.id.imageButton);
+        ImageButton imgbtn = findViewById(R.id.btnLeftToolbar);
         imgbtn.setOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
 
 

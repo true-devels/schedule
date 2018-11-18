@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.ui.activities.AddNoteActivity;
+import com.company.schedule.ui.activities.OneNoteActivity;
 import com.company.schedule.utils.ItemClickListener;
 
 import java.util.ArrayList;
@@ -87,13 +88,10 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         holder.freq = (int) mDataset.get(position).getFrequency();
         holder.mTextView.setText(mDataset.get(position).getName());
         holder.id = mDataset.get(position).getId();
-        holder.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onClick(View view, int position, boolean isLongClick) {
-                Intent intent = new Intent(context,AddNoteActivity.class);
-                intent.putExtra("note",mDataset.get(position));
-                context.startActivity(intent);
-            }
+        holder.setItemClickListener((view, position1, isLongClick) -> {
+            Intent intent = new Intent(context,OneNoteActivity.class);
+            intent.putExtra("note",mDataset.get(position1));
+            context.startActivity(intent);
         });
         switch (mDataset.get(position).getPriority()){
             case 2:

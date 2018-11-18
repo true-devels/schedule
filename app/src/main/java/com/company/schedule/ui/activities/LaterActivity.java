@@ -1,5 +1,6 @@
 package com.company.schedule.ui.activities;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,6 +37,8 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
     RecyclerView rc_day, rc_week, rc_month;
     LaterPresenter presenter;
     NodeAdapter adapter_day, adapter_week, adapter_month;
+    ImageButton btn_right, btn_left;
+    ImageView backward;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,21 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
         layout_week = findViewById(R.id.week_later_layout);
         layout_month = findViewById(R.id.month_later_layout);
         tv_title = findViewById(R.id.tv_title);
+        backward = findViewById(R.id.backward_btn);
+        backward.setVisibility(View.VISIBLE);
+        btn_right = findViewById(R.id.btnToolbarRight);
+        btn_right.setVisibility(View.GONE);
+
+        backward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LaterActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_left = findViewById(R.id.btnLeftToolbar);
+        btn_left.setVisibility(View.GONE);
 
         rc_day = findViewById(R.id.rc_today);
         rc_week = findViewById(R.id.rc_week);

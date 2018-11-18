@@ -86,7 +86,7 @@ public class UpdateNotePresenter {
     private void updateNote(Note noteToUpdate) {
         interactor.updateNote(noteToUpdate)
                 .subscribe(
-                        () -> loadData(-1),
+                        () -> loadData(1),
                         e -> handleThrowable(e)
                 );
     }

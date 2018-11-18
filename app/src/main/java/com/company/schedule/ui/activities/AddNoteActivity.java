@@ -1,24 +1,35 @@
 package com.company.schedule.ui.activities;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -34,10 +45,14 @@ import com.company.schedule.presentation.updateNote.UpdateNoteView;
 import com.company.schedule.ui.fragments.MainFragment;
 import com.company.schedule.ui.fragments.pickers.DatePickerFragment;
 import com.company.schedule.ui.fragments.pickers.TimePickerFragment;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.w3c.dom.Node;
 
+import java.sql.Array;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import timber.log.Timber;
@@ -48,8 +63,11 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
     private Note noteInfo = null;
     private boolean isEdited = false;
     EditText et_name, et_description, et_category, et_date, et_time;
-    boolean isReminded = true;
-    ImageButton btnBlue, btnGreen,btnRed,btnYellow;
+    ImageButton btnBlue, btnGreen,btnRed,btnYellow, btn_right, btn_left;
+    TextInputLayout date_layout;
+    MaterialBetterSpinner week_spinner;
+    boolean isSelected = true;
+    ImageView backward;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +87,21 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
         et_name =  findViewById(R.id.name_et);  // to enter a note name
         et_description =  findViewById(R.id.description_et);  // to enter a note content
         et_category = findViewById(R.id.category_et); // to enter category
+        date_layout = findViewById(R.id.date_layout);
+        backward = findViewById(R.id.backward_btn);
+        backward.setVisibility(View.VISIBLE);
+        btn_right = findViewById(R.id.btnToolbarRight);
+        btn_right.setVisibility(View.GONE);
+
+        backward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddNoteActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_left = findViewById(R.id.btnLeftToolbar);
+        btn_left.setVisibility(View.GONE);
 
         et_date = findViewById(R.id.date_et);// to enter a date
         et_date.setKeyListener(null);
@@ -93,7 +126,54 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
         btnYellow.setOnClickListener(this);
         btnRed.setOnClickListener(this);
 
+        String[] SPINNERLIST = {"Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday","Sunday"};
 
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
+        week_spinner = findViewById(R.id.week_spinner);
+        week_spinner.setAdapter(arrayAdapter);
+        week_spinner.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int pos = Arrays.asList(SPINNERLIST).indexOf(s.toString());
+                isSelected = true;
+                switch (pos){
+                    case 0:
+                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                        break;
+                    case 1:
+                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+                        break;
+                    case 2:
+                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+                        break;
+                    case 3:
+                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                        break;
+                    case 4:
+                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                        break;
+                    case 5:
+                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                        break;
+                    case 6:
+                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                        break;
+                }
+                if(noteInfo.getDate().getTimeInMillis()<new Date().getTime()){
+                    noteInfo.getDate().set(Calendar.WEEK_OF_YEAR,noteInfo.getDate().get(Calendar.WEEK_OF_YEAR)+1);
+                }
+            }
+        });
 
         Bundle transmission = getIntent().getExtras();
 
@@ -135,7 +215,22 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
                     1,
                     ""
             );
-
+            switch (tab){
+                case 1:
+                    btnSubmitNote.setText("ADD DAILY NOTE");
+                    date_layout.setVisibility(View.GONE);
+                    week_spinner.setVisibility(View.GONE);
+                    break;
+                case 2:
+                    btnSubmitNote.setText("ADD WEEKLY NOTE");
+                    date_layout.setVisibility(View.GONE);
+                    isSelected = false;
+                    break;
+                case 3:
+                    btnSubmitNote.setText("ADD MONTHLY NOTE");
+                    week_spinner.setVisibility(View.GONE);
+                    break;
+            }
         }
     }
 
@@ -286,17 +381,37 @@ public class AddNoteActivity extends AppCompatActivity implements UpdateNoteView
                 if(noteInfo.getName().trim().isEmpty()){
                     toastLong("Note must have name");
                 }else{
-                    GregorianCalendar check = new GregorianCalendar();
-                    if (noteInfo.getDate().getTimeInMillis() > check.getTimeInMillis()) {
-                        Log.d("datecheck",noteInfo.getDate().get(Calendar.MINUTE)+"");
-                        presenter.pressedToSubmitNote(noteInfo, isEdited);
+                    Log.d("da id ",week_spinner.getVerticalScrollbarPosition()+"");
+                    week_spinner.setVerticalScrollbarPosition(3);
+                   // week_spinner.setVisibility(View.GONE);
+                    if(isSelected){
+                        if(noteInfo.getDate().getTimeInMillis()<new Date().getTime()){
+                            if(noteInfo.getFrequency()==1){
+                                noteInfo.getDate().set(Calendar.DAY_OF_YEAR, noteInfo.getDate().get(Calendar.DAY_OF_YEAR)+1);
+                            }
+                            if(noteInfo.getFrequency()==3){
+                                GregorianCalendar local = new GregorianCalendar();
+                                local.set(Calendar.MONTH,local.get(Calendar.MONTH)+1);
+                                if(noteInfo.getDate().get(Calendar.DAY_OF_MONTH)>local.getActualMaximum(Calendar.DAY_OF_MONTH)){
+                                    noteInfo.getDate().set(Calendar.MONTH,local.get(Calendar.MONTH));
+                                    noteInfo.getDate().set(Calendar.DAY_OF_MONTH, local.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                }else{
+                                    noteInfo.getDate().set(Calendar.MONTH,Calendar.MONTH+1);
+                                }
+                            }
+                        }
 
-                    } else {
-                        Timber.w("Date should be in future");
-                        toastLong("Date should be in future");
-                    }
+                        Log.d("datecheck",noteInfo.getDateTimeInFormat());
+
+                        presenter.pressedToSubmitNote(noteInfo, isEdited);}
+                        else{
+                            toast("You should choose day of week");
+                        }
+
                 }
                 break;
         }
     }
 }
+
+

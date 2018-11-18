@@ -103,12 +103,22 @@
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
+    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+        android:id="@+id/week_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_datetime"
+        android:hint="Day of week"
+        android:textColorHint="#05ab9a"
+        app:met_floatingLabel="normal" />
+
+
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_datetime"
+        android:layout_below="@+id/week_spinner"
         android:layout_alignParentStart="true"
         android:text="Priority"
         android:layout_margin="10dp"
@@ -153,6 +163,8 @@
 
 
     </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

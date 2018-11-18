@@ -11,13 +11,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
+
+                <ImageButton
+                    android:id="@+id/btnLeftToolbar"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/backward_btn"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/backward" />
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -26,13 +35,14 @@
             android:textSize="20sp"
             android:layout_weight="32"
             android:text="Scheduler" />
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_add" />
+
+                <ImageButton
+                    android:id="@+id/btnToolbarRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@android:drawable/ic_menu_add" />
         </LinearLayout>
 </android.support.v7.widget.Toolbar>
 
