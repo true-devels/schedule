@@ -46,7 +46,7 @@ public final class Constants {
 
 
     // TIMER
-    public static final long TASK_TIME_SECONDS = 10*60;
+    public static final long TASK_TIME_SECONDS = 25*60;
     public static final String START_TIMER = "start";
     public static final String PAUSE_TIMER = "pause";
     public static final String RESUME_TIMER = "resume";

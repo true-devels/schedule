@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.company.schedule.model.data.base.Note;
+
 import static com.company.schedule.utils.Constants.FINISH_TIME;
 import static com.company.schedule.utils.Constants.FIRST_TIME_LAUNCH_KEY;
 import static com.company.schedule.utils.Constants.NIGHT_MODE;
@@ -42,6 +44,18 @@ public class SharedPrefsRepository {
     }
 
 
+
+//  Timer
+    public void saveFinishTime(int id, long finishTime) {
+        editor.putLong(FINISH_TIME+id, finishTime);  // finish time depend on note, save with key FINISH_TIME+ id_note
+        editor.apply();
+    }
+
+    public long getFinishTime(int id) {
+        return pref.getLong(FINISH_TIME+id, 0L);
+    }
+/*
+TODO deprecated
     public void saveTimerState(long finishTime, long pauseTime) {
         editor.putLong(FINISH_TIME, finishTime);
         editor.putLong(PAUSE_TIME, pauseTime);
@@ -55,4 +69,5 @@ public class SharedPrefsRepository {
     public long getPauseTime() {
         return pref.getLong(PAUSE_TIME, 0L);
     }
+*/
 }

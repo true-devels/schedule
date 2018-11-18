@@ -30,11 +30,20 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar =  findViewById(R.id.toolbar);  // maybe toolbar will be useful
         setSupportActionBar(toolbar);
 
-        // open fragment transaction
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragmentContainer, new MainFragment());  // add fragment to screen
+        if (savedInstanceState == null) {
+            // open fragment transaction
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.fragmentContainer, new MainFragment());  // add fragment to screen
 //        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
-        fragmentTransaction.commit();
+            fragmentTransaction.commit();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
     }
 
     @Override

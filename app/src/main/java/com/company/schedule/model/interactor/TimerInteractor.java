@@ -21,17 +21,20 @@ public class TimerInteractor {
     }
 
 
+    public void saveFinishTime(int idNote, long finishTime) {
+        preferences.saveFinishTime(idNote, finishTime);
+    }
 
+    public long getFinishTime(int id) {
+        return preferences.getFinishTime(id);
+    }
+
+/*
     public void saveTimerState(long finishTime, long pauseTime) {
         preferences.saveTimerState(finishTime, pauseTime);
     }
-
-    public long getFinishTime() {
-        return preferences.getFinishTime();
-    }
-
     public long getPauseTime() {
         return preferences.getFinishTime();
     }
-
+*/
 }

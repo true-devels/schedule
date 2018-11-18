@@ -31,6 +31,11 @@ public class TimerPresenter {
         this.view = view;
         this.noteCarryOut = noteToDone;
         this.interactor = interactor;
+
+        if(this.noteCarryOut.getId() == 0)
+        {
+            view.showErrorMessage("Id of note is equal 0. You must see timer only when integer id >= 1");
+        }
     }
 
     public void timerAction(String operation) {
@@ -54,9 +59,9 @@ public class TimerPresenter {
     }
 
 
-//  ================_FRAGMENT_LIFECYCLE_================
+//  ================_LIFECYCLE_================
     public void onActivityCreated() {  // note to update column `done`
-        view.setTimerText(String.format("fake %d:%02d", TASK_TIME_SECONDS / 60, TASK_TIME_SECONDS % 60));
+        view.setTimerText(String.format("%d:%02d", TASK_TIME_SECONDS / 60, TASK_TIME_SECONDS % 60));
 
         timerRunnable = new Runnable() {
 
@@ -84,62 +89,50 @@ public class TimerPresenter {
         };
     }
 
-    public void onPause() {
-        /* TODO decoment
-        pauseTimer();
-        // save must be after pause Timer
-        interactor.saveTimerState(finishTime, pauseTime);
-        */
+    public void onStart() {
+        finishTime = interactor.getFinishTime(noteCarryOut.getId());
+
+        if (finishTime != 0)  // It means we haven't finished task
+            resumeTimer();  // continue count
     }
 
 
-    public void onResume() {
-        /* TODO decoment
-        // get must be before resume Timer
-        finishTime = interactor.getFinishTime();
-        pauseTime = interactor.getPauseTime();
-
-        if (finishTime == 0)
-            startTimer();
-        else
-            resumeTimer();
-        */
+    public void onStop() {
+        interactor.saveFinishTime(noteCarryOut.getId(), finishTime);
     }
-
-
 
 
     //  ================_PRIVATE_================
     private void startTimer() {
         finishTime = System.currentTimeMillis() + TASK_TIME_SECONDS*1000;  // finishTime is time when task will finished
-        view.startTimer();
-        timerHandler.postDelayed(timerRunnable, 0);
         isTaskFinished = false;
+
+        resumeTimer();
     }
 
     private void pauseTimer() {
   //todo      pauseTime = System.currentTimeMillis();
-        view.pauseTimer();
+        view.setBtnTimerText(RESUME_TIMER);
         timerHandler.removeCallbacks(timerRunnable);
     }
 
 
     private void resumeTimer() {
-/*    todo    if (pauseTime != 0)
-  todo          finishTime += System.currentTimeMillis() - pauseTime;  // update time when task will be finished
-*/
-        view.resumeTimer();
-        //finishTime = System.currentTimeMillis()+5*1000;
+//    todo    if (pauseTime != 0)          finishTime += System.currentTimeMillis() - pauseTime;  // update time when task will be finished
+        view.setBtnTimerText(STOP_TIMER); //  TODO PAUSE_TIMER
         timerHandler.postDelayed(timerRunnable, 0);
     }
 
 
     private void stopTimer() {
 //todo        pauseTime = 0;
-        view.stopTimer();
+        view.setBtnTimerText(START_TIMER);  // TODO null pointer exception
         timerHandler.removeCallbacks(timerRunnable);
         view.showMessage("You finish task");
         isTaskFinished = true;
+        finishTime = 0L;
+        interactor.saveFinishTime(noteCarryOut.getId(), finishTime);
+
         if (noteCarryOut != null) {
             noteCarryOut.setDone(true);  // timer was finished so task is done
             interactor.updateNoteDone(noteCarryOut)

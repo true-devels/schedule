@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +21,7 @@ import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.timer.TimerPresenter;
 import com.company.schedule.presentation.timer.TimerView;
 
-import static com.company.schedule.utils.Constants.PAUSE_TIMER;
-import static com.company.schedule.utils.Constants.RESUME_TIMER;
 import static com.company.schedule.utils.Constants.START_TIMER;
-import static com.company.schedule.utils.Constants.STOP_TIMER;
 
 public class TimerFragment extends Fragment implements TimerView {
 
@@ -34,7 +30,7 @@ public class TimerFragment extends Fragment implements TimerView {
     Button btnTimer;
     TextView tvTimer;
 
-
+//  ================_LIFECYCLE_START_================
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +67,7 @@ public class TimerFragment extends Fragment implements TimerView {
         tvTimer = (TextView) fragmentTimer.findViewById(R.id.tvTimer);
 
         btnTimer = (Button) fragmentTimer.findViewById(R.id.btnTimer);
+
         return fragmentTimer;
     }
 
@@ -89,31 +86,21 @@ public class TimerFragment extends Fragment implements TimerView {
     }
 
     @Override
-    public void setTimerText(String text) {
-        tvTimer.setText(text);
+    public void onStart() {
+        super.onStart();
+        presenter.onStart();
     }
 
 
 //  ================_VIEW_IMPLEMENTATION_================
     @Override
-    public void startTimer() {
-        btnTimer.setText(STOP_TIMER);  // TODO clean up
-        //btnTimer.setText(PAUSE_TIMER);  // TODO clean up
+    public void setTimerText(String timeInFormat) {
+        tvTimer.setText(timeInFormat);
     }
 
     @Override
-    public void pauseTimer() {
-        btnTimer.setText(RESUME_TIMER);
-    }
-
-    @Override
-    public void resumeTimer() {
-        btnTimer.setText(PAUSE_TIMER);
-    }
-
-    @Override
-    public void stopTimer() {
-        btnTimer.setText(START_TIMER);
+    public void setBtnTimerText(String btnAction) {
+        btnTimer.setText(btnAction);
     }
 
     @Override
@@ -128,24 +115,34 @@ public class TimerFragment extends Fragment implements TimerView {
     }
 
 
-    //  ================_LIFECYCLE_================
+//  ================_LIFECYCLE_FINISH_================
     @Override
-    public void onPause() {
-        super.onPause();
-        presenter.onPause();
-        //timerHandler.removeCallbacks(timerRunnable);
-        //btnTimer.setText("start");
+    public void onStop() {
+        presenter.onStop();
+        super.onStop();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        presenter.onResume();
-    }
+
 
     @Override
     public void onDestroy() {
         presenter.detachView();
         super.onDestroy();
     }
+
 }
+/*
+Fragment lifecycle
+onAttach
+-onCreate
+-onCreateView
+-onActivityCreated
+-onStart
+onResume
+
+onPause
+-onStop
+onDestroyView
+-onDestroy
+onDetach
+ */
