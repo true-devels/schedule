@@ -36,6 +36,9 @@ public interface NoteDAO {
     @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE later = 1")
     List<Note> getAllLaterNotes();
 
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE done = 1")
+    List<Note> getAllDoneNotes();
+
     @Insert
     long insertNote(Note note);
 
@@ -54,4 +57,13 @@ public interface NoteDAO {
 
     @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date;")
     List<Note> getNotesSortedByDate();
+
+    @Query("UPDATE " + Constants.TABLE_NAME + " SET done = 0, later=0 WHERE frequency=1")
+    void refreshDailyNotes();
+
+    @Query("UPDATE " + Constants.TABLE_NAME + " SET done = 0, later=0 WHERE frequency=2")
+    void refreshWeeklyNotes();
+
+    @Query("UPDATE " + Constants.TABLE_NAME + " SET done = 0, later=0 WHERE frequency=3")
+    void refreshMonthlyNotes();
 }

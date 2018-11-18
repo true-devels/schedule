@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import static com.company.schedule.utils.Constants.FIRST_TIME_LAUNCH_KEY;
+import static com.company.schedule.utils.Constants.LAST_TIME_DAILY;
+import static com.company.schedule.utils.Constants.LAST_TIME_MONTHLY;
+import static com.company.schedule.utils.Constants.LAST_TIME_WEEKLY;
 import static com.company.schedule.utils.Constants.NIGHT_MODE;
 import static com.company.schedule.utils.Constants.PREF_NAME;
 import static com.company.schedule.utils.Constants.PRIVATE_MODE;
@@ -38,4 +41,32 @@ public class SharedPrefs {
     public boolean isNightMode(){
         return pref.getBoolean(NIGHT_MODE,false);
     }
+
+    public void setTimeLastUpdateDaily(long time){
+        editor.putLong(LAST_TIME_DAILY,time);
+        editor.apply();
+    }
+
+    public long getTimeLastUpdateDaily(){
+        return pref.getLong(LAST_TIME_DAILY,0);
+    }
+
+    public void setTimeLastUpdateWeekly(long time){
+        editor.putLong(LAST_TIME_WEEKLY,time);
+        editor.apply();
+    }
+
+    public long getTimeLastUpdateWeekly(){
+        return pref.getLong(LAST_TIME_WEEKLY,0);
+    }
+
+    public void setTimeLastUpdateMonthly(long time){
+        editor.putLong(LAST_TIME_MONTHLY,time);
+        editor.apply();
+    }
+
+    public long getTimeLastUpdateMonthly(){
+        return pref.getLong(LAST_TIME_MONTHLY,0);
+    }
+
 }

@@ -36,7 +36,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         public RelativeLayout foreground, delete_layout, save_layout;
         private ItemClickListener itemClickListener;
         ImageButton img_priority;
-        public int id;
+        public int id, freq;
         public MyViewHolder(View v) {
             super(v);
             foreground = v.findViewById(R.id.foreground);
@@ -84,6 +84,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        holder.freq = (int) mDataset.get(position).getFrequency();
         holder.mTextView.setText(mDataset.get(position).getName());
         holder.id = mDataset.get(position).getId();
         holder.setItemClickListener(new ItemClickListener() {

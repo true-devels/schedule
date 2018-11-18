@@ -31,11 +31,13 @@ public final class Constants {
     //mode
     public final static int PRIVATE_MODE = 0;
     // Shared preferences file name
-    public static final String PREF_NAME = "androidhive-welcome";
+    public static final String PREF_NAME = "scheduler_prefs";
     //preferences keys
     public static final String FIRST_TIME_LAUNCH_KEY = "FirstTimeLaunch";
     public static final String NIGHT_MODE = "NightMode";
-
+    public static final String LAST_TIME_DAILY = "LastTimeDaily";
+    public static final String LAST_TIME_WEEKLY = "LastTimeWeekly";
+    public static final String LAST_TIME_MONTHLY = "LastTimeMonthly";
 
     //Notification CONSTANTS
     public static final String NOTIFICATION_ID = "notification-id";

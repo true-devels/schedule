@@ -66,7 +66,8 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
                                     AppDatabase.getDatabase(getContext()).noteDAO(),
                                     new AppSchedulers()  // for threads
                             )  // create repository and get DAO
-                    )
+                    ),
+                    getContext()
             );
     }
 
@@ -97,7 +98,7 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
 
         notes_rc.setItemAnimator(new DefaultItemAnimator());
         notes_rc.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-        presenter.loadMonthlyData();
+        presenter.refreshMonthlyData();
         mAdapter = new NodeAdapter(getContext());
 
         notes_rc.setAdapter(mAdapter);
@@ -139,13 +140,18 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
                 @Override
                 public void onClick(View v) {
                     mAdapter.restoreItem(item,deleteIndex);
-                    presenter.restore(item, 1);
+                    presenter.restoreFromLater(item, 2);
                 }
             });
-            int id = ((NodeAdapter.MyViewHolder) viewHolder).id;
-
             presenter.swipedToLater(item,2);
-            Log.d("id_check ",Integer.toString(id));
+        }else{
+            Snackbar snackbar = Snackbar.make(mainLayout,"Done " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
+            snackbar.show();
+            snackbar.setAction("UNDO", v -> {
+                mAdapter.restoreItem(item,deleteIndex);
+                presenter.restoreFromDone(item, 2);
+            });
+            presenter.swipedToDone(item,2);
         }
 
     }

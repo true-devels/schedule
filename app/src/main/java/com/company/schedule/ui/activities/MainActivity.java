@@ -49,9 +49,13 @@ public class MainActivity extends AppCompatActivity {
                     switch (menuItem.getItemId()){
                         case R.id.nav_later:
                             Intent intent= new Intent(this,LaterActivity.class);
+                            intent.putExtra("role",1);
                             startActivity(intent);
                             break;
-
+                        case R.id.nav_done:
+                            Intent intent2 = new Intent(this,LaterActivity.class);
+                            intent2.putExtra("role",2);
+                            startActivity(intent2);
                     }
                     // close drawer when item is tapped
                     mDrawerLayout.closeDrawers();

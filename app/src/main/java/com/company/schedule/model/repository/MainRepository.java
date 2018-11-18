@@ -143,6 +143,20 @@ public class MainRepository {
                 .observeOn(schedulers.ui());
     }
 
+    public Observable<List<Note>> loadDoneData() {
+        return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
+            try {
+                List<Note> notes = noteDAO.getAllDoneNotes();  // get notes
+                emitter.onNext(notes);  // send notes
+                emitter.onComplete();
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
+        })
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui());
+    }
+
     public Observable<List<Note>> loadOnceData() {
         return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
             try {
@@ -152,6 +166,32 @@ public class MainRepository {
             } catch (Exception e) {
                 emitter.onError(e);
             }
+        })
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui());
+    }
+    public Completable refreshDailyData() {
+        return Completable.create(emitter -> {
+            noteDAO.refreshDailyNotes();
+            emitter.onComplete();
+        })
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui());
+    }
+
+    public Completable refreshWeeklyData() {
+        return Completable.create(emitter -> {
+            noteDAO.refreshWeeklyNotes();
+            emitter.onComplete();
+        })
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.ui());
+    }
+
+    public Completable refreshMonthlyData() {
+        return Completable.create(emitter -> {
+            noteDAO.refreshMonthlyNotes();
+            emitter.onComplete();
         })
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui());

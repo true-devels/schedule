@@ -17,9 +17,18 @@ public class LaterPresenter {
         this.interactor = interactor;  // init interactor
     }
 
-    public void loadData() {
+    public void loadDataLater() {
         // we load data from DB in Model, and then set all notes in MainView
         interactor.loadLaterData()
+                .subscribe(
+                        (notes) -> sortNotes(notes),
+                        (Throwable e) -> handleThrowable(e)
+                );  // load data from DB
+    }
+
+    public void loadDataDone() {
+        // we load data from DB in Model, and then set all notes in MainView
+        interactor.loadDoneData()
                 .subscribe(
                         (notes) -> sortNotes(notes),
                         (Throwable e) -> handleThrowable(e)
@@ -47,5 +56,25 @@ public class LaterPresenter {
         view.setTodayNotes(today);
         view.setWeekNotes(week);
         view.setMonthNotes(month);
+    }
+
+    public void swipedToDone(Note note){
+        note.setDone(1);
+        note.setLater(0);
+        updateNote(note);
+    }
+
+    public void restoreFromDone(Note item){
+        item.setDone(0);
+        item.setLater(1);
+        updateNote(item);
+    }
+
+    private void updateNote(Note noteToUpdate) {
+        interactor.updateNote(noteToUpdate)
+                .subscribe(
+                        () -> loadDataLater(),
+                        e -> handleThrowable(e)
+                        );
     }
 }

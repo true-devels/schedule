@@ -38,6 +38,7 @@ import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -66,7 +67,8 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
                                     AppDatabase.getDatabase(getContext()).noteDAO(),
                                     new AppSchedulers()  // for threads
                             )  // create repository and get DAO
-                    )
+                    ),
+                    getContext()
             );
     }
 
@@ -112,7 +114,7 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
 
         notes_rc.setItemAnimator(new DefaultItemAnimator());
         notes_rc.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-        presenter.loadWeeklyData();
+        presenter.refreshWeeklyData();
         mAdapter = new NodeAdapter(getContext());
 
         notes_rc.setAdapter(mAdapter);
@@ -123,7 +125,17 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
         ItemTouchHelper.SimpleCallback callback_right = new RecyclerViewItemTouchHelper(0,ItemTouchHelper.RIGHT,this);
         new ItemTouchHelper(callback_right).attachToRecyclerView(notes_rc);
 
-        ll_numbers.get(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-2).setBackgroundResource(R.drawable.now_week);
+        Calendar cal =Calendar.getInstance();
+        cal.setFirstDayOfWeek(Calendar.MONDAY);
+        cal.setTime(new Date());
+        int day;
+        if(cal.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY){
+            day=7;
+        }else{
+            day=cal.get(Calendar.DAY_OF_WEEK);
+            day--;
+        }
+        ll_numbers.get(--day).setBackgroundResource(R.drawable.now_week);
 
         for(int i=0; i<=6;i++){
             Calendar local = new GregorianCalendar();
@@ -160,12 +172,20 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
                 @Override
                 public void onClick(View v) {
                     mAdapter.restoreItem(item,deleteIndex);
-                    presenter.restore(item, 1);
+                    presenter.restoreFromLater(item, 1);
                 }
             });
             int id = ((NodeAdapter.MyViewHolder) viewHolder).id;
             presenter.swipedToLater(item,1);
             Log.d("id_check ",Integer.toString(id));
+        }else{
+            Snackbar snackbar = Snackbar.make(mainLayout,"Done " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
+            snackbar.show();
+            snackbar.setAction("UNDO", v -> {
+                mAdapter.restoreItem(item,deleteIndex);
+                presenter.restoreFromDone(item, 1);
+            });
+            presenter.swipedToDone(item,1);
         }
 
     }

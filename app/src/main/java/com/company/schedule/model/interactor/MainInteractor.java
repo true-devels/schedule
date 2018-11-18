@@ -40,4 +40,16 @@ public class MainInteractor {
         return repository.deleteNoteById(id);
     }
 
+    public Completable refreshDailyData(){
+        return repository.refreshDailyData();
+    }
+
+    public Completable refreshWeeklyData(){
+        return repository.refreshWeeklyData();
+    }
+
+    public Completable refreshMonthlyData(){
+        return repository.refreshMonthlyData();
+    }
+
 }

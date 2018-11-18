@@ -1,12 +1,18 @@
 package com.company.schedule.presentation.main;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.ui.fragments.MonthlyFragment;
+import com.company.schedule.utils.SharedPrefs;
+
+import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static com.company.schedule.utils.Error.handleThrowable;
@@ -15,10 +21,12 @@ public class MainPresenter {
 
     private MainView view;
     private MainInteractor interactor;
+    private Context context;
 
-    public MainPresenter(MainView view, MainInteractor interactor) {
+    public MainPresenter(MainView view, MainInteractor interactor, Context context) {
         this.view = view;
         this.interactor = interactor;  // init interactor
+        this.context = context;
     }
 
     public void onCheckedDoneChanged(Note noteCheckedOn, boolean isChecked) {
@@ -142,9 +150,74 @@ public class MainPresenter {
         updateNote(note, tab);
     }
 
-    public void restore(Note item, int tab){
+    public void restoreFromLater(Note item, int tab){
         item.setLater(0);
         updateNote(item, tab);
+    }
+
+    public void swipedToDone(Note note, int tab){
+        note.setDone(1);
+        updateNote(note, tab);
+    }
+
+    public void restoreFromDone(Note item, int tab){
+        item.setDone(0);
+        updateNote(item, tab);
+    }
+
+    public void refreshDailyData(){
+        GregorianCalendar gc_now = new GregorianCalendar();
+        GregorianCalendar gc_last = new GregorianCalendar();
+        gc_last.setTimeInMillis(new SharedPrefs(context).getTimeLastUpdateDaily());
+        if(gc_now.get(Calendar.DAY_OF_YEAR)!=gc_last.get(Calendar.DAY_OF_YEAR)){
+           interactor.refreshDailyData()
+                .subscribe(
+                        () -> {
+                            loadDailyData();
+                            new SharedPrefs(context).setTimeLastUpdateDaily(new Date().getTime());
+                        },
+                        e -> handleThrowable(e)
+                );
+        }else{
+            loadDailyData();
+        }
+    }
+
+    public void refreshWeeklyData(){
+        GregorianCalendar gc_now = new GregorianCalendar();
+        GregorianCalendar gc_last = new GregorianCalendar();
+        gc_last.setTimeInMillis(new SharedPrefs(context).getTimeLastUpdateWeekly());
+        if(gc_now.get(Calendar.WEEK_OF_YEAR)!=gc_last.get(Calendar.WEEK_OF_YEAR)){
+            interactor.refreshWeeklyData()
+                    .subscribe(
+                            () -> {
+                                loadWeeklyData();
+                                new SharedPrefs(context).setTimeLastUpdateWeekly(new Date().getTime());
+                            },
+                            e -> handleThrowable(e)
+                    );
+        }else{
+            loadWeeklyData();
+        }
+    }
+
+    public void refreshMonthlyData(){
+        GregorianCalendar gc_now = new GregorianCalendar();
+        GregorianCalendar gc_last = new GregorianCalendar();
+        gc_last.setTimeInMillis(new SharedPrefs(context).getTimeLastUpdateMonthly());
+        if(gc_now.get(Calendar.MONTH)!=gc_last.get(Calendar.MONTH)){
+            interactor.refreshMonthlyData()
+                    .subscribe(
+                            () -> {
+                                loadMonthlyData();
+                                new SharedPrefs(context).setTimeLastUpdateMonthly(new Date().getTime());
+                            },
+                            e -> handleThrowable(e)
+                    );
+
+        }else{
+            loadMonthlyData();
+        }
     }
 
 }

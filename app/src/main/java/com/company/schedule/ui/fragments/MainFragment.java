@@ -53,7 +53,8 @@ public class MainFragment extends Fragment implements MainView {
                                     AppDatabase.getDatabase(getContext()).noteDAO(),
                                     new AppSchedulers()  // for threads
                             )  // create repository and get DAO
-                    )
+                    ),
+                    getContext()
             );
     }
 
