@@ -20,6 +20,25 @@ public interface NoteDAO {
 //            "UNION ALL " +
 //            "SELECT * FROM " + Constants.TABLE_NAME + " WHERE date = NULL "
 
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=2 AND later = 0 AND done = 0 ")
+    List<Note> getAllWeeklyNotes();
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=3 AND later=0 AND done = 0")
+    List<Note> getAllMonthlyNotes();
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=0 AND later = 0 AND done = 0")
+    List<Note> getAllOnceNotes();
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE frequency=1 AND later = 0 AND done = 0")
+    List<Note> getAllDailyNotes();
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE later = 1")
+    List<Note> getAllLaterNotes();
+
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE done = 1")
+    List<Note> getAllDoneNotes();
+
     @Insert
     long insertNote(Note note);
 
@@ -38,4 +57,13 @@ public interface NoteDAO {
 
     @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date;")
     List<Note> getNotesSortedByDate();
+
+    @Query("UPDATE " + Constants.TABLE_NAME + " SET done = 0, later=0 WHERE frequency=1")
+    void refreshDailyNotes();
+
+    @Query("UPDATE " + Constants.TABLE_NAME + " SET done = 0, later=0 WHERE frequency=2")
+    void refreshWeeklyNotes();
+
+    @Query("UPDATE " + Constants.TABLE_NAME + " SET done = 0, later=0 WHERE frequency=3")
+    void refreshMonthlyNotes();
 }

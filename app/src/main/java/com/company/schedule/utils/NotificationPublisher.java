@@ -21,13 +21,12 @@ public  class NotificationPublisher extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Notification notification = intent.getParcelableExtra(Constants.NOTIFICATION);
+    //    Notification notification = intent.getParcelableExtra(Constants.NOTIFICATION);
         int id = intent.getIntExtra(Constants.NOTIFICATION_ID, 0);
 
         Log.v("Publ",""+id);
-        notificationManager.notify(id, notification);
+       // notificationManager.notify(id, notification);
 
         NotificationInteractor interactor = new NotificationInteractor(new MainRepository(
                 AppDatabase.getDatabase(context).noteDAO(),
@@ -43,13 +42,20 @@ public  class NotificationPublisher extends BroadcastReceiver {
     }
     private void show(Note noteToShow,Context context, int id){
         MyNotification myNotification = new MyNotification(context);
-        noteToShow.getDate().set(Calendar.SECOND,0);
-        noteToShow.getDate().set(Calendar.MILLISECOND,0);
-        Notification local = myNotification.getNotification(noteToShow.getName(), noteToShow.getContent());
+        if(!noteToShow.isDone() & !noteToShow.isLater()){
 
-        myNotification.scheduleNotification(local,
-                id,
-                noteToShow
-        );
+            noteToShow.getDate().set(Calendar.SECOND,0);
+            noteToShow.getDate().set(Calendar.MILLISECOND,0);
+            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification local = myNotification.getNotification(noteToShow.getName(), noteToShow.getContent());
+            notificationManager.notify(id, local);
+
+
+
+            myNotification.scheduleNotification(local,
+                    id,
+                    noteToShow
+            );
+        }
     }
 }

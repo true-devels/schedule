@@ -1,12 +1,11 @@
 <resources>
-    <string name="app_name">Schedule</string>
+    <string name="app_name">Scheduler</string>
     <string name="action_settings">Settings</string>
     <string-array name="types_of_frequency">
         <item>Once</item>
         <item>Daily</item>
         <item>Weekly</item>
         <item>Monthly</item>
-        <item>Yearly</item>
     </string-array>
 
     <!--WELCOME SLIDE-->

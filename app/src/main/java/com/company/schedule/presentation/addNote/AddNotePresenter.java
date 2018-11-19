@@ -1,37 +1,33 @@
-package com.company.schedule.presentation.updateNote;
-
-import android.util.Log;
+package com.company.schedule.presentation.addNote;
 
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.UpdateNoteInteractor;
+import com.company.schedule.model.interactor.AddNoteInteractor;
 
 import java.util.GregorianCalendar;
 
 import static com.company.schedule.utils.Error.handleThrowable;
 
-public class UpdateNotePresenter {
+public class AddNotePresenter {
 
-    private UpdateNoteView view;
-    private UpdateNoteInteractor interactor;
-    private long id_toSent = -1;
-    private int for_loaddata;
-    private Note toSent;
+    private AddNoteView view;
+    private AddNoteInteractor interactor;
+    long id_toSent = -1;
+    int for_loaddata;
+    Note toSent;
 
-    public UpdateNotePresenter(UpdateNoteView view, UpdateNoteInteractor interactor) {
+
+    public AddNotePresenter(AddNoteView view, AddNoteInteractor interactor) {
         this.view = view;
         this.interactor = interactor;
 
     }
 
-    public void pressedToSubmitNote(Note note, boolean isEdited, boolean isReminded) {
+    public void pressedToSubmitNote(Note note, boolean isEdited) {
 
 
-            if (!isReminded) note.setDate(null);  // this line must be before insert/updateNote
             toSent = note;
             if (isEdited) updateNote(note);
-            else insertNewNote(note, isReminded);
-
-
+            else insertNewNote(note);
             view.goToMainFragment();  // finish fragment
 
     }
@@ -76,16 +72,15 @@ public class UpdateNotePresenter {
     }
 
 
-    private void insertNewNote(Note noteToInsert, boolean isReminded) {
-        if (isReminded)  for_loaddata = 1;
-        else for_loaddata = 0;
+    private void insertNewNote(Note noteToInsert) {
+
         //creating and inserting to DB new note
 //        final Note local = new Note(name, content, notify_date, freq);
         interactor.insertNote(noteToInsert)
                 .subscribe(
                         (id) -> id_toSent = Long.valueOf(id.toString()),
                         e -> handleThrowable((Throwable) e),
-                        () -> loadData(for_loaddata)
+                        () -> loadData(1)
                 );
 
     }
@@ -93,7 +88,7 @@ public class UpdateNotePresenter {
     private void updateNote(Note noteToUpdate) {
         interactor.updateNote(noteToUpdate)
                 .subscribe(
-                        () -> loadData(-1),
+                        () -> loadData(1),
                         e -> handleThrowable(e)
                 );
     }

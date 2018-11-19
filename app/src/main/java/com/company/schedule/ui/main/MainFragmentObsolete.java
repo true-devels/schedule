@@ -22,14 +22,14 @@ import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.presentation.main.MainView;
-import com.company.schedule.ui.updateNote.UpdateNoteFragment;
+import com.company.schedule.ui.updateNoteObsolete.UpdateNoteFragment;
 
 import java.util.List;
 
 import timber.log.Timber;
 
-public class MainFragment extends Fragment implements MainView {
-
+public class MainFragmentObsolete extends Fragment {// implements MainView {
+/*  TODO obsolete
     // architecture
     private MainActivity mainActivity;
     private MainPresenter presenter;
@@ -38,7 +38,7 @@ public class MainFragment extends Fragment implements MainView {
     private RecyclerView notesList;
     private FloatingActionButton fab;
 
-    private NotesAdapter adapter;
+    private NotesAdapterObsolete adapter;
 //    private ArrayList<Note> notes = new ArrayList<>();
 
     @Override
@@ -52,7 +52,8 @@ public class MainFragment extends Fragment implements MainView {
                                     AppDatabase.getDatabase(getContext()).noteDAO(),
                                     new AppSchedulers()  // for threads
                             )  // create repository and get DAO
-                    )
+                    ),
+                    getContext()
             );
     }
 
@@ -72,7 +73,7 @@ public class MainFragment extends Fragment implements MainView {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        adapter = new NotesAdapter();
+        adapter = new NotesAdapterObsolete();
         adapter.setClickListener((noteClickedOn) -> goToUpdateNoteFragment(noteClickedOn));
         adapter.setOnCheckedChangeListener((noteCheckedOn, isChecked) -> presenter.onCheckedDoneChanged(noteCheckedOn, isChecked));
 
@@ -137,4 +138,5 @@ public class MainFragment extends Fragment implements MainView {
         presenter.detachView();
         super.onDestroy();
     }
+*/
 }

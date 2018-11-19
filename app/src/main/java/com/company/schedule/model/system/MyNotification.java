@@ -83,6 +83,7 @@ public class MyNotification {
         return builder.build();
     }
 
+
     public void scheduleNotification(Notification notification, int id, Note note) {
 
 
@@ -96,46 +97,28 @@ public class MyNotification {
         notification_Intent.putExtra(Constants.NOTIFICATION, notification);
 
         GregorianCalendar next;
-
         PendingIntent pendingIntent;  // TODO comment it
         pendingIntent = PendingIntent.getBroadcast(context, id, notification_Intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if(note.getDate().getTimeInMillis()<= new GregorianCalendar().getTimeInMillis() & note.getFrequency()!=-1){
+        if(note.getDate().getTimeInMillis()<= new GregorianCalendar().getTimeInMillis()){
             next = new GregorianCalendar();
             switch (note.getFrequency()){
                 case FREQUENCY_DAILY:
-                    next.setTimeInMillis(next.getTimeInMillis()+MILLISECONDS_IN_DAY);  // Daily
+                    next.set(Calendar.DAY_OF_YEAR,next.get(Calendar.DAY_OF_YEAR)+1);  // Daily
                     break;
                 case FREQUENCY_WEEKLY:
                     next.setTimeInMillis(next.getTimeInMillis()+MILLISECONDS_IN_DAY*7); // Weekly
                     break;
                 case FREQUENCY_MONTHLY: // Monthly
-                    GregorianCalendar local = new GregorianCalendar();
-                    local.set(Calendar.MONTH,local.get(Calendar.MONTH)+1);
-                    if(next.get(Calendar.DAY_OF_MONTH)>local.getActualMaximum(Calendar.DAY_OF_MONTH)){
+
+                    next.set(Calendar.MONTH,next.get(Calendar.MONTH)+1);
+                   /* if(next.get(Calendar.DAY_OF_MONTH)>local.getActualMaximum(Calendar.DAY_OF_MONTH)){
                         next.set(Calendar.MONTH,local.get(Calendar.MONTH));
                         next.set(Calendar.DAY_OF_MONTH, local.getActualMaximum(Calendar.DAY_OF_MONTH));
                     }else{
                         next.set(Calendar.MONTH,Calendar.MONTH+1);
-                    }
+                    }*/
                     break;
-                case FREQUENCY_YEARLY:
-                    GregorianCalendar local2 = new GregorianCalendar();  // Yearly
-                    local2.set(Calendar.YEAR,local2.get(Calendar.YEAR)+1);
-                     if(next.getActualMaximum(Calendar.DAY_OF_YEAR)!=local2.getActualMaximum(Calendar.DAY_OF_YEAR) && next.get(Calendar.DAY_OF_YEAR)>59)
-                     {
-                        if(next.getActualMaximum(Calendar.DAY_OF_YEAR)>local2.getActualMaximum(Calendar.DAY_OF_YEAR)){
-                            next.set(Calendar.DAY_OF_YEAR,next.get(Calendar.DAY_OF_YEAR)-1);
-                            next.set(Calendar.YEAR,next.get(Calendar.YEAR)+1);
-                        }else{
-                            next.set(Calendar.DAY_OF_YEAR,next.get(Calendar.DAY_OF_YEAR)+1);
-                            next.set(Calendar.YEAR,next.get(Calendar.YEAR)-1);
-                        }
-
-                     }else{
-                         next.set(Calendar.YEAR,next.get(Calendar.YEAR)+1);
-                     }
-                     break;
 
 
             }

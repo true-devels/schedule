@@ -38,11 +38,19 @@ public class DatePickerFragment extends DialogFragment {
         }
         //                          context,             context for listener
         if (listener != null) {
-            return new DatePickerDialog(getContext(), listener,
+            DatePickerDialog dialog = new DatePickerDialog(getContext(), listener,
                     gc.get(Calendar.YEAR),
                     gc.get(Calendar.MONTH),
                     gc.get(Calendar.DAY_OF_MONTH)
             );
+            GregorianCalendar max = gc;
+            max.set(Calendar.DAY_OF_MONTH,gc.getActualMaximum(Calendar.DAY_OF_MONTH));
+            dialog.getDatePicker().setMaxDate(max.getTimeInMillis());
+            GregorianCalendar min = gc;
+            max.set(Calendar.DAY_OF_MONTH,1);
+            dialog.getDatePicker().setMinDate(min.getTimeInMillis());
+            return dialog;
+
         } else {
             Error.throwNullPointerException(ERROR_LISTENER_DO_NOT_INITIALIZED);  // TODO just make listener init in constructor and delete error handle
             return null;

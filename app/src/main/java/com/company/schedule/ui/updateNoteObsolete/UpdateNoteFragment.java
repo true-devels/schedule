@@ -1,51 +1,14 @@
-package com.company.schedule.ui.updateNote;
+package com.company.schedule.ui.updateNoteObsolete;
 
-import android.app.DatePickerDialog;
-import android.app.Notification;
-import android.app.TimePickerDialog;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.company.schedule.R;
-import com.company.schedule.model.data.base.AppDatabase;
-import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.UpdateNoteInteractor;
-import com.company.schedule.model.repository.MainRepository;
-import com.company.schedule.model.system.AppSchedulers;
-import com.company.schedule.model.system.MyNotification;
-import com.company.schedule.presentation.updateNote.UpdateNotePresenter;
-import com.company.schedule.ui.main.MainActivity;
-import com.company.schedule.ui.main.MainFragment;
-import com.company.schedule.presentation.updateNote.UpdateNoteView;
-import com.company.schedule.ui.pickers.DatePickerFragment;
-import com.company.schedule.ui.pickers.TimePickerFragment;
-import com.company.schedule.ui.timer.TimerFragment;
+//import com.company.schedule.model.interactor.UpdateNoteInteractor;
+//import com.company.schedule.presentation.updateNote.UpdateNotePresenter;
+//import com.company.schedule.presentation.updateNote.UpdateNoteView;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
-import timber.log.Timber;
-
-public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, View.OnClickListener, CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class UpdateNoteFragment extends Fragment {// implements UpdateNoteView, View.OnClickListener, CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+/* TODO obsolete
 
     private MainActivity mainActivity;
     private UpdateNotePresenter presenter;
@@ -332,7 +295,7 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
     // TODO make fragment transition through fragment, but don't through activity
     @Override
     public void goToMainFragment() {
-        Fragment fragment = new MainFragment();
+        Fragment fragment = new MainFragmentObsolete();
         FragmentTransaction fragmentTransaction = mainActivity
                 .getSupportFragmentManager()
                 .beginTransaction();
@@ -347,4 +310,5 @@ public class UpdateNoteFragment extends Fragment  implements UpdateNoteView, Vie
         presenter.detachView();
         super.onDestroy();
     }
+    */
 }

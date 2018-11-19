@@ -4,7 +4,7 @@ import android.graphics.Color;
 
 public final class Constants {
     // for DB
-    public static final int DATABASE_VERSION = 12;
+    public static final int DATABASE_VERSION = 18;
     public static final String DATABASE_NAME = "Notifies-DB2";
     public static final String TABLE_NAME = "normal_notes";
 
@@ -36,14 +36,18 @@ public final class Constants {
     //mode
     public final static int PRIVATE_MODE = 0;
     // Shared preferences file name
-    public static final String PREF_NAME = "androidhive-welcome";
+    public static final String PREF_NAME = "scheduler_prefs";
     //preferences keys
     public static final String FIRST_TIME_LAUNCH_KEY = "FirstTimeLaunch";
     public static final String NIGHT_MODE = "NightMode";
+
     // timer
     public static final String FINISH_TIME = "finishTime";
     public static final String PAUSE_TIME = "pauseTime";
 
+    public static final String LAST_TIME_DAILY = "LastTimeDaily";
+    public static final String LAST_TIME_WEEKLY = "LastTimeWeekly";
+    public static final String LAST_TIME_MONTHLY = "LastTimeMonthly";
 
     // TIMER
     public static final long TASK_TIME_SECONDS = 25*60;

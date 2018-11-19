@@ -1,10 +1,10 @@
-package com.company.schedule.presentation.updateNote;
+package com.company.schedule.presentation.addNote;
 
 import com.company.schedule.model.data.base.Note;
 
 import java.util.GregorianCalendar;
 
-public interface UpdateNoteView {
+public interface AddNoteView {
     //
     void remindMeIsChecked();
     void remindMeIsNotChecked();

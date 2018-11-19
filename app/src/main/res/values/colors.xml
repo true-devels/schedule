@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#413fb5</color>
-    <color name="colorPrimaryDark">#312f9e</color>
-    <color name="colorAccent">#6ca7ff</color>
+    <color name="colorToolbar">#7646ff</color>
+    <color name="blackText">#000</color>
+    <color name="greenText">#0f0</color>
+    <color name="redText">#f00</color>
+    <color name="colorPrimaryDark">#7646ff</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorWhite">#fff</color>
 
     <color name="colorText">#ffffff</color>
+    <color name="brownText">#ffffff</color>
     <color name="colorTextItemDate">#339ea0</color>
 
     <color name="colorButtonText">@color/colorAccent</color>
@@ -17,7 +23,7 @@
     <color name="colorBackground2">#c39beeff</color>
 
 
-
+    <color name="specialGrey">#efefef</color>
     <!--<color name="brownPrimary">#b5723f</color>-->
     <!--<color name="brownPrimaryDark">#9e5f2f</color>-->
     <!--<color name="brownAccent">#ff9340</color>-->

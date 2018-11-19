@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 //custom adapter class for recyclerview
-public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
-
+public class NotesAdapterObsolete {//extends RecyclerView.Adapter<NotesAdapterObsolete.ViewHolder> {
+/*  TODO obsolete
     private List<Note> listNotes = new ArrayList<>();
 
     private MyItemClickListener mClickListener;
@@ -107,4 +107,5 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     public interface MyOnCheckedChangeListener {
         void onCheckedChange(Note noteCheckedOn, boolean isChecked);
     }
+    */
 }

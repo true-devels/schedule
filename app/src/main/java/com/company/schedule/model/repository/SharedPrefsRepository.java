@@ -8,6 +8,9 @@ import com.company.schedule.model.data.base.Note;
 
 import static com.company.schedule.utils.Constants.FINISH_TIME;
 import static com.company.schedule.utils.Constants.FIRST_TIME_LAUNCH_KEY;
+import static com.company.schedule.utils.Constants.LAST_TIME_DAILY;
+import static com.company.schedule.utils.Constants.LAST_TIME_MONTHLY;
+import static com.company.schedule.utils.Constants.LAST_TIME_WEEKLY;
 import static com.company.schedule.utils.Constants.NIGHT_MODE;
 import static com.company.schedule.utils.Constants.PAUSE_TIME;
 import static com.company.schedule.utils.Constants.PREF_NAME;
@@ -43,8 +46,6 @@ public class SharedPrefsRepository {
         return pref.getBoolean(NIGHT_MODE,false);
     }
 
-
-
 //  Timer
     public void saveFinishTime(int id, long finishTime) {
         editor.putLong(FINISH_TIME+id, finishTime);  // finish time depend on note, save with key FINISH_TIME+ id_note
@@ -54,20 +55,32 @@ public class SharedPrefsRepository {
     public long getFinishTime(int id) {
         return pref.getLong(FINISH_TIME+id, 0L);
     }
-/*
-TODO deprecated
-    public void saveTimerState(long finishTime, long pauseTime) {
-        editor.putLong(FINISH_TIME, finishTime);
-        editor.putLong(PAUSE_TIME, pauseTime);
+
+    public void setTimeLastUpdateDaily(long time){
+        editor.putLong(LAST_TIME_DAILY,time);
         editor.apply();
     }
 
-    public long getFinishTime() {
-        return pref.getLong(FINISH_TIME, 0L);
+    public long getTimeLastUpdateDaily(){
+        return pref.getLong(LAST_TIME_DAILY,0);
     }
 
-    public long getPauseTime() {
-        return pref.getLong(PAUSE_TIME, 0L);
+    public void setTimeLastUpdateWeekly(long time){
+        editor.putLong(LAST_TIME_WEEKLY,time);
+        editor.apply();
     }
-*/
+
+    public long getTimeLastUpdateWeekly(){
+        return pref.getLong(LAST_TIME_WEEKLY,0);
+    }
+
+    public void setTimeLastUpdateMonthly(long time){
+        editor.putLong(LAST_TIME_MONTHLY,time);
+        editor.apply();
+    }
+
+    public long getTimeLastUpdateMonthly(){
+        return pref.getLong(LAST_TIME_MONTHLY,0);
+    }
+
 }

@@ -17,8 +17,8 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/font'] } }
 }
@@ -63,4 +63,7 @@ dependencies {
 
     // throwable handle
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    implementation 'com.applandeo:material-calendar-view:1.5.0'
+    implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
 }
