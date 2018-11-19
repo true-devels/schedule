@@ -1,4 +1,4 @@
-package com.company.schedule.ui.adapters;
+package com.company.schedule.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,20 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.Note;
-import com.company.schedule.ui.activities.AddNoteActivity;
-import com.company.schedule.ui.activities.OneNoteActivity;
+import com.company.schedule.ui.oneNote.OneNoteActivity;
 import com.company.schedule.utils.ItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> {

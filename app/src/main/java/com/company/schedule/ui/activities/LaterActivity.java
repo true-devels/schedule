@@ -25,8 +25,8 @@ import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.later.LaterPresenter;
 import com.company.schedule.presentation.later.LaterView;
 import com.company.schedule.presentation.main.MainPresenter;
-import com.company.schedule.ui.adapters.NodeAdapter;
 import com.company.schedule.ui.main.MainActivity;
+import com.company.schedule.ui.main.NodeAdapter;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
@@ -64,12 +64,9 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
         btn_right = findViewById(R.id.btnToolbarRight);
         btn_right.setVisibility(View.GONE);
 
-        backward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LaterActivity.this,MainActivity.class);
-                startActivity(intent);
-            }
+        backward.setOnClickListener(v -> {
+            Intent intent = new Intent(LaterActivity.this,MainActivity.class);
+            startActivity(intent);
         });
 
         btn_left = findViewById(R.id.btnLeftToolbar);

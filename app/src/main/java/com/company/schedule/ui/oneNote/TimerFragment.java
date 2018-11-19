@@ -1,4 +1,4 @@
-package com.company.schedule.ui.timer;
+package com.company.schedule.ui.oneNote;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

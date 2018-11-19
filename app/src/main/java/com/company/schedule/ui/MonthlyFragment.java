@@ -31,8 +31,8 @@ import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.presentation.main.MainView;
-import com.company.schedule.ui.adapters.NodeAdapter;
 import com.company.schedule.ui.main.MainActivity;
+import com.company.schedule.ui.main.NodeAdapter;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 

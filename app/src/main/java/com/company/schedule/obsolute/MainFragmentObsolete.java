@@ -1,32 +1,6 @@
-package com.company.schedule.ui.main;
+package com.company.schedule.obsolute;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.company.schedule.R;
-import com.company.schedule.model.data.base.AppDatabase;
-import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.MainInteractor;
-import com.company.schedule.model.repository.MainRepository;
-import com.company.schedule.model.system.AppSchedulers;
-import com.company.schedule.presentation.main.MainPresenter;
-import com.company.schedule.presentation.main.MainView;
-import com.company.schedule.ui.updateNoteObsolete.UpdateNoteFragment;
-
-import java.util.List;
-
-import timber.log.Timber;
 
 public class MainFragmentObsolete extends Fragment {// implements MainView {
 /*  TODO obsolete

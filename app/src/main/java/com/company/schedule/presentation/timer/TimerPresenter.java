@@ -5,6 +5,9 @@ import android.os.Handler;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.TimerInteractor;
 
+import io.reactivex.CompletableObserver;
+import io.reactivex.disposables.Disposable;
+
 import static com.company.schedule.utils.Constants.PAUSE_TIMER;
 import static com.company.schedule.utils.Constants.RESUME_TIMER;
 import static com.company.schedule.utils.Constants.START_TIMER;
@@ -24,6 +27,8 @@ public class TimerPresenter {
 //    private long pauseTime = 0;
     private boolean isTaskFinished = false;
 
+    private String NOTE_IS_NULL_ERROR = "I haven't note, so I can't save result when timer will be finished";
+
     private Note noteCarryOut;
 
 
@@ -32,10 +37,9 @@ public class TimerPresenter {
         this.noteCarryOut = noteToDone;
         this.interactor = interactor;
 
-        if(this.noteCarryOut.getId() == 0)
-        {
+        if(this.noteCarryOut == null)     view.showErrorMessage(NOTE_IS_NULL_ERROR);
+        else if(this.noteCarryOut.getId() == 0)
             view.showErrorMessage("Id of note is equal 0. You must see timer only when integer id >= 1");
-        }
     }
 
     public void timerAction(String operation) {
@@ -90,7 +94,7 @@ public class TimerPresenter {
     }
 
     public void onStart() {
-        finishTime = interactor.getFinishTime(noteCarryOut.getId());
+        finishTime = interactor.getFinishTime(getId());
 
         if (finishTime != 0)  // It means we haven't finished task
             resumeTimer();  // continue count
@@ -98,11 +102,11 @@ public class TimerPresenter {
 
 
     public void onStop() {
-        interactor.saveFinishTime(noteCarryOut.getId(), finishTime);
+        interactor.saveFinishTime(getId(), finishTime);
     }
 
 
-    //  ================_PRIVATE_================
+//  ================_PRIVATE_================
     private void startTimer() {
         finishTime = System.currentTimeMillis() + TASK_TIME_SECONDS*1000;  // finishTime is time when task will finished
         isTaskFinished = false;
@@ -128,20 +132,30 @@ public class TimerPresenter {
 //todo        pauseTime = 0;
         view.setBtnTimerText(START_TIMER);  // TODO null pointer exception
         timerHandler.removeCallbacks(timerRunnable);
-        view.showMessage("You finish task");
+
         isTaskFinished = true;
         finishTime = 0L;
-        interactor.saveFinishTime(noteCarryOut.getId(), finishTime);
+        interactor.saveFinishTime(getId(), finishTime);
 
         if (noteCarryOut != null) {
             noteCarryOut.setDone(true);  // timer was finished so task is done
             interactor.updateNoteDone(noteCarryOut)
-                    .subscribe();  // update column `done` when timer will finished
+                    .subscribe(() -> {view.showMessage("You have finished task");});  // update column `done` when timer will finished
+
         }
         else
             view.showErrorMessage("you have done task, but we can't save this results");
     }
 
+
+    private int getId() {
+        if (noteCarryOut != null)
+            return noteCarryOut.getId();
+        else {
+            view.showErrorMessage(NOTE_IS_NULL_ERROR);
+        return 0;
+        }
+    }
 //  ================_DETACHING_================
     public void detachView() {
     //    timerHandler.removeCallbacks(timerRunnable);

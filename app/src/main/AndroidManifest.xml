@@ -31,7 +31,7 @@
 
         <activity android:name=".ui.activities.AddNoteActivity" />
         <activity android:name=".ui.activities.LaterActivity" />
-        <activity android:name=".ui.activities.OneNoteActivity"></activity>
+        <activity android:name=".ui.oneNote.OneNoteActivity"></activity>
     </application>
 
 </manifest>

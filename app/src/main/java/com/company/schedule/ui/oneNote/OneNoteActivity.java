@@ -1,9 +1,10 @@
-package com.company.schedule.ui.activities;
+package com.company.schedule.ui.oneNote;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.oneNote.OneNotePresenter;
 import com.company.schedule.presentation.oneNote.OneNoteView;
+import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.ui.main.MainActivity;
 
 import java.util.Calendar;
@@ -77,7 +79,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         tv_content.setText(toshow.getContent());
         tv_category.setText("Category: " + toshow.getCategory());
         String date = "";
-        date+=Integer.toString(toshow.getDate().get(Calendar.DAY_OF_MONTH));
+        date+=Integer.toString(toshow.getDate().get(Calendar.DAY_OF_MONTH));  // TODO use Note.getDateTimeInFormat
         date+=" " +getMonthForInt(toshow.getDate().get(Calendar.MONTH));
         date+=" " +toshow.getDate().get(Calendar.YEAR);
         date+=" " +toshow.getTimeInFormat();
@@ -111,6 +113,20 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
             }else{
                 tv_status.setText("Status: To Be Done");
             }
+        }
+
+        if (savedInstanceState == null) { // if haven't create fragment
+            TimerFragment timerFragment = new TimerFragment();
+
+            // give note for `done` status
+            Bundle transmission = new Bundle();
+            transmission.putSerializable("NOTE_TO_DONE", toshow);
+            timerFragment.setArguments(transmission);
+
+            // open fragment transaction
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.timerFragmentContainer, timerFragment);  // add fragment to screen
+            fragmentTransaction.commit();
         }
     }
 
