@@ -226,32 +226,28 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     // picker for date
     @Override
     public void showDatePickerFragment(GregorianCalendar calendar) {
-        new DatePickerFragment()
+        new DatePickerFragment(this)
                 .setGc(calendar)
-                .setListener(this)
                 .show(getSupportFragmentManager(), "date picker");  // show date picker dialog
     }
 
     @Override
     public void showDatePickerFragment() {
-        new DatePickerFragment()
-                .setListener(this)
+        new DatePickerFragment(this)
                 .show(getSupportFragmentManager(), "date picker");  // show date picker dialog
     }
 
     // picker for time
     @Override
     public void showTimePickerFragment(GregorianCalendar calendar) {
-        new TimePickerFragment()
+        new TimePickerFragment(this)
                 .setGc(calendar)  // set gregorian calendar
-                .setListener(this)  // set onTimeSet as listener
                 .show(getSupportFragmentManager(), "time picker");  // show time picker dialog
     }
 
     @Override
     public void showTimePickerFragment() {
-        new TimePickerFragment()
-                .setListener(this)  // setListener return instance
+        new TimePickerFragment(this) // setListener return instance
                 .show(getSupportFragmentManager(), "time picker");  // show time picker dialog
     }
 

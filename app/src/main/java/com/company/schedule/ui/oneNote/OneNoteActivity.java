@@ -64,7 +64,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         tv_datetime = findViewById(R.id.textViewDateTime);
         tv_category = findViewById(R.id.textViewCategory);
         tv_status = findViewById(R.id.textViewStatus);
-        mainLayout = findViewById(R.id.mainlayout);
+        mainLayout = findViewById(R.id.mainLayout);
         img_prior = findViewById(R.id.imageViewPriority);
 
         btn_later.setOnClickListener(this);
@@ -145,9 +145,9 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.imageButtonDone:
                 Snackbar snackbar = Snackbar.make(mainLayout,"Done " + toshow.getName(),Snackbar.LENGTH_LONG);
                 snackbar.show();
-                presenter.updateNoteDone(toshow);
+                presenter.doneClicked(toshow);
                 snackbar.setAction("UNDO", v -> {
-                    presenter.updateNoteDoneCanceled(toshow);
+                    presenter.doneCanceled(toshow);
                 });
 
                 break;
@@ -155,7 +155,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        presenter.deleteNote(toshow.getId());
+                        presenter.deleteClicked(toshow.getId());
                         Intent intent = new Intent(OneNoteActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
@@ -173,7 +173,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.imageButtonLater:
                 Snackbar snackbar2 = Snackbar.make(mainLayout,"Postponed " + toshow.getName(),Snackbar.LENGTH_LONG);
                 snackbar2.show();
-                presenter.updateNoteLater(toshow);
+                presenter.laterClicked(toshow);
                 snackbar2.setAction("UNDO", v -> {
                     presenter.updateNoteLaterCanceled(toshow);
                 });
@@ -197,39 +197,41 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onLaterButtonClicked() {
+    public void setStatusLater() {
         tv_status.setTextColor(getResources().getColor(R.color.redText));
         tv_status.setText("Status: Later");
-        btn_later.setVisibility(View.GONE);
     }
 
     @Override
-    public void onDoneButtonClicked() {
+    public void setStatusDone() {
         tv_status.setText("Status: Done");
         tv_status.setTextColor(getResources().getColor(R.color.greenText));
-        btn_later.setVisibility(View.GONE);
-        btn_done.setVisibility(View.GONE);
     }
 
     @Override
-    public void onDoneCanceled() {
-        if(!toshow.isLater()){
-            tv_status.setText("Status: To Be Done");
-            tv_status.setTextColor(getResources().getColor(R.color.blackText));
-            btn_later.setVisibility(View.VISIBLE);
-        }else{
-            tv_status.setTextColor(getResources().getColor(R.color.redText));
-            tv_status.setText("Status: Later");
-            btn_later.setVisibility(View.GONE);
-        }
+    public void setStatusToBeDone() {
+        tv_status.setText("Status: To Be Done");
+        tv_status.setTextColor(getResources().getColor(R.color.blackText));
+    }
+
+    @Override
+    public void setBtnDoneVisible() {
         btn_done.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onLaterCanceled() {
-        tv_status.setText("Status: To Be Done");
-        tv_status.setTextColor(getResources().getColor(R.color.blackText));
+    public void setBtnDoneInvisible() {
+        btn_done.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setBtnLaterVisible() {
         btn_later.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setBtnLaterInvisible() {
+        btn_later.setVisibility(View.GONE);
     }
 
 }

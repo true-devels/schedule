@@ -2,8 +2,12 @@ package com.company.schedule.presentation.oneNote;
 
 public interface OneNoteView {
     void goToMainActivity();
-    void onLaterButtonClicked();
-    void onDoneButtonClicked();
-    void onDoneCanceled();
-    void onLaterCanceled();
+    void setStatusLater();
+    void setStatusDone();
+    void setStatusToBeDone();
+    void setBtnDoneVisible();
+    void setBtnDoneInvisible();  // setVisible(Gone)
+    void setBtnLaterVisible();
+    void setBtnLaterInvisible();  // setVisible(Gone)
+
 }

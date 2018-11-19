@@ -1,5 +1,6 @@
 package com.company.schedule.ui.pickers;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -14,19 +15,20 @@ import java.util.GregorianCalendar;
 
 import static com.company.schedule.utils.Error.ERROR_LISTENER_DO_NOT_INITIALIZED;
 
+@SuppressLint("ValidFragment")
 public class TimePickerFragment extends DialogFragment {
 
     GregorianCalendar gc;
     TimePickerDialog.OnTimeSetListener listener;
 
+    @SuppressLint("ValidFragment")
+    public TimePickerFragment(TimePickerDialog.OnTimeSetListener listener) {
+        this.listener = listener;  // we really need a constructor here
+    }
+
     public TimePickerFragment setGc(GregorianCalendar gc) {
         this.gc = gc;
         return this;   // features
-    }
-
-    public TimePickerFragment setListener(TimePickerDialog.OnTimeSetListener listener) {
-        this.listener = listener;
-        return this;  // features for new TPF().setGc(gc).setListener(l).show() instead create new instance
     }
 
     @NonNull
@@ -37,15 +39,10 @@ public class TimePickerFragment extends DialogFragment {
         if(gc == null){
             gc = (GregorianCalendar) Calendar.getInstance();
         }
-        if (listener != null) {
-            return new TimePickerDialog(getContext(), listener, // we should set context
-                    gc.get(Calendar.HOUR_OF_DAY),
-                    gc.get(Calendar.MINUTE),
-                    DateFormat.is24HourFormat(getActivity())); // switched 12 or 24 hour format, depending on user settings
-        } else {
-            Error.throwNullPointerException(ERROR_LISTENER_DO_NOT_INITIALIZED);  // TODO just make listener init in Constructor
-            return null;
-        }
+        return new TimePickerDialog(getContext(), listener, // we should set context
+                gc.get(Calendar.HOUR_OF_DAY),
+                gc.get(Calendar.MINUTE),
+                DateFormat.is24HourFormat(getActivity())); // switched 12 or 24 hour format, depending on user settings
     }
 }
 // gc means gregorian calendar

@@ -1,5 +1,6 @@
 package com.company.schedule.ui.pickers;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -13,19 +14,20 @@ import java.util.GregorianCalendar;
 
 import static com.company.schedule.utils.Error.ERROR_LISTENER_DO_NOT_INITIALIZED;
 
+@SuppressLint("ValidFragment")
 public class DatePickerFragment extends DialogFragment {
 
     GregorianCalendar gc;
     DatePickerDialog.OnDateSetListener listener;
 
+    @SuppressLint("ValidFragment")
+    public DatePickerFragment(DatePickerDialog.OnDateSetListener listener) {
+        this.listener = listener;  // we really need a constructor here
+    }
+
     public DatePickerFragment setGc(GregorianCalendar gc) {
         this.gc = gc;
         return this;  // features
-    }
-
-    public DatePickerFragment setListener(DatePickerDialog.OnDateSetListener listener) {
-        this.listener = listener;
-        return this;  // features for return new DPF().setListener(l).show()
     }
 
     @NonNull
@@ -36,24 +38,23 @@ public class DatePickerFragment extends DialogFragment {
         if (gc == null) {
             gc = new GregorianCalendar();
         }
-        //                          context,             context for listener
-        if (listener != null) {
-            DatePickerDialog dialog = new DatePickerDialog(getContext(), listener,
-                    gc.get(Calendar.YEAR),
-                    gc.get(Calendar.MONTH),
-                    gc.get(Calendar.DAY_OF_MONTH)
-            );
-            GregorianCalendar max = gc;
-            max.set(Calendar.DAY_OF_MONTH,gc.getActualMaximum(Calendar.DAY_OF_MONTH));
-            dialog.getDatePicker().setMaxDate(max.getTimeInMillis());
-            GregorianCalendar min = gc;
-            max.set(Calendar.DAY_OF_MONTH,1);
-            dialog.getDatePicker().setMinDate(min.getTimeInMillis());
-            return dialog;
+        GregorianCalendar max = gc, min = gc;
 
-        } else {
-            Error.throwNullPointerException(ERROR_LISTENER_DO_NOT_INITIALIZED);  // TODO just make listener init in constructor and delete error handle
-            return null;
-        }
+        //                                                 context,   context for listener
+        DatePickerDialog dialog = new DatePickerDialog(getContext(), listener,
+                gc.get(Calendar.YEAR),
+                gc.get(Calendar.MONTH),
+                gc.get(Calendar.DAY_OF_MONTH)
+        );
+        // set minimum possible date
+        min.set(Calendar.DAY_OF_MONTH,1);
+        dialog.getDatePicker().setMinDate(min.getTimeInMillis());
+
+        // set maximum possible date
+        max.set(Calendar.DAY_OF_MONTH, gc.getActualMaximum(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(max.getTimeInMillis());
+
+        return dialog;
+
     }
 }
