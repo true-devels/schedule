@@ -22,7 +22,7 @@ public class MainRepository {
         this.schedulers = schedulers;
     }
 
-
+// TODO optimise code
     //method that gets all data from DB and update Recycler view
     public Observable<List<Note>> getAllNotes() {
         return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {

@@ -1,19 +1,4 @@
-package com.company.schedule.obsolute;
-
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-
-import com.company.schedule.R;
-import com.company.schedule.model.data.base.Note;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.company.schedule.obsolete;
 
 //custom adapter class for recyclerview
 public class NotesAdapterObsolete {//extends RecyclerView.Adapter<NotesAdapterObsolete.ViewHolder> {

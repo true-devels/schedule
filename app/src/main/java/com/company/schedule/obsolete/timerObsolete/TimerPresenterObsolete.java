@@ -1,22 +1,8 @@
-package com.company.schedule.presentation.timer;
+package com.company.schedule.obsolete.timerObsolete;
 
-import android.os.Handler;
-
-import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.TimerInteractor;
-
-import io.reactivex.CompletableObserver;
-import io.reactivex.disposables.Disposable;
-
-import static com.company.schedule.utils.Constants.PAUSE_TIMER;
-import static com.company.schedule.utils.Constants.RESUME_TIMER;
-import static com.company.schedule.utils.Constants.START_TIMER;
-import static com.company.schedule.utils.Constants.STOP_TIMER;
-import static com.company.schedule.utils.Constants.TASK_TIME_SECONDS;
-
-public class TimerPresenter {
-
-    private TimerView view;
+public class TimerPresenterObsolete {
+/*
+    private TimerViewObsolete view;
     private TimerInteractor interactor;
 
 
@@ -32,7 +18,7 @@ public class TimerPresenter {
     private Note noteCarryOut;
 
 
-    public TimerPresenter(TimerView view, Note noteToDone, TimerInteractor interactor) {
+    public TimerPresenterObsolete(TimerViewObsolete view, Note noteToDone, TimerInteractor interactor) {
         this.view = view;
         this.noteCarryOut = noteToDone;
         this.interactor = interactor;
@@ -161,4 +147,5 @@ public class TimerPresenter {
     //    timerHandler.removeCallbacks(timerRunnable);
         this.view = null;
     }
+    */
 }

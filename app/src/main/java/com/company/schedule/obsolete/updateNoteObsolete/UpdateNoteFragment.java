@@ -1,4 +1,4 @@
-package com.company.schedule.obsolute.updateNoteObsolete;
+package com.company.schedule.obsolete.updateNoteObsolete;
 
 import android.support.v4.app.Fragment;
 

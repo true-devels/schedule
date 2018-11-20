@@ -1,31 +1,12 @@
-package com.company.schedule.ui.oneNote;
+package com.company.schedule.obsolete.timerObsolete;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.company.schedule.R;
-import com.company.schedule.model.data.base.AppDatabase;
-import com.company.schedule.model.data.base.Note;
-import com.company.schedule.model.interactor.TimerInteractor;
-import com.company.schedule.model.repository.MainRepository;
-import com.company.schedule.model.repository.SharedPrefsRepository;
-import com.company.schedule.model.system.AppSchedulers;
-import com.company.schedule.presentation.timer.TimerPresenter;
-import com.company.schedule.presentation.timer.TimerView;
+import com.company.schedule.obsolete.timerObsolete.TimerViewObsolete;
 
-import static com.company.schedule.utils.Constants.START_TIMER;
-
-public class TimerFragment extends Fragment implements TimerView {
-
-    TimerPresenter presenter;
+public class TimerFragmentObsolete extends Fragment implements TimerViewObsolete {
+/*
+    TimerPresenterObsolete presenter;
 
     Button btnTimer;
     TextView tvTimer;
@@ -46,7 +27,7 @@ public class TimerFragment extends Fragment implements TimerView {
 
 
         if (presenter == null)  // if presenter isn't created we create it
-            presenter = new TimerPresenter(this,
+            presenter = new TimerPresenterObsolete(this,
                     noteToDone,
                     new TimerInteractor(
                             new MainRepository(
@@ -129,7 +110,7 @@ public class TimerFragment extends Fragment implements TimerView {
         presenter.detachView();
         super.onDestroy();
     }
-
+*/
 }
 /*
 Fragment lifecycle

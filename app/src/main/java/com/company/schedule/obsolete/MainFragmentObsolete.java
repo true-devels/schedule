@@ -1,4 +1,4 @@
-package com.company.schedule.obsolute;
+package com.company.schedule.obsolete;
 
 import android.support.v4.app.Fragment;
 
