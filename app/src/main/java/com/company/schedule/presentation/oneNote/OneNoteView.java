@@ -4,18 +4,20 @@ import com.company.schedule.model.data.base.Note;
 
 public interface OneNoteView {
     void goToMainActivity();
-    void onLaterButtonClicked();
-    void onDoneButtonClicked();
-    void onDoneCanceled();
-    void onLaterCanceled();
+    // actions with textView
+    void setStatusDone();
+    void setStatusLater();
+    void setStatusToBeDone();
+    // button done
+    void setBtnDoneVisible();
+    void setBtnDoneInvisible();  // setVisible(Gone)
+    // button later
+    void setBtnLaterVisible();
+    void setBtnLaterInvisible();  // setVisible(Gone)
+
     // Timer
-    // actions
     void setTimerText(String timeInFormat);
     void setBtnTimerText(String btnAction);
-    /*    void startTimer();
-        void pauseTimer();
-        void resumeTimer();
-        void stopTimer();*/
     // message show
     void showMessage(String text);
     void showErrorMessage(String error);

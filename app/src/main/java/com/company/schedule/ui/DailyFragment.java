@@ -1,4 +1,4 @@
-package com.company.schedule.ui.fragments;
+package com.company.schedule.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +28,7 @@ import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.presentation.main.MainView;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.ui.main.NodeAdapter;
+import com.company.schedule.utils.LocalFormat;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
@@ -43,7 +44,7 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
     NodeAdapter adapter;
     MainPresenter presenter;
     RelativeLayout mainLayout;
-    TextView tv_date;
+    TextView tvDateToday;
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
@@ -68,8 +69,8 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
         mainActivity = (MainActivity) getActivity();
         View fragmentDaily = inflater.inflate(R.layout.fragment_daily, container, false);
         notes_rc= fragmentDaily.findViewById(R.id.my_recycler_view);
-        mainLayout = fragmentDaily.findViewById(R.id.mainlayout);
-        tv_date = fragmentDaily.findViewById(R.id.textView_date);
+        mainLayout = fragmentDaily.findViewById(R.id.mainLayout);
+        tvDateToday = fragmentDaily.findViewById(R.id.tvDateToday);
         return fragmentDaily;
     }
     @Override
@@ -96,12 +97,12 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
         ItemTouchHelper.SimpleCallback callback_right = new RecyclerViewItemTouchHelper(0,ItemTouchHelper.RIGHT,this);
         new ItemTouchHelper(callback_right).attachToRecyclerView(notes_rc);
 
-        Calendar now = new GregorianCalendar();
+        Calendar today = new GregorianCalendar();
+        /* TODO obsolete
         String toshow = now.get(Calendar.DAY_OF_MONTH)+" ";
         toshow+= getMonthForInt(now.get(Calendar.MONTH))+", ";
-        toshow+= now.get(Calendar.YEAR);
-
-        tv_date.setText(toshow);
+        toshow+= now.get(Calendar.YEAR);*/
+        tvDateToday.setText(LocalFormat.getDate(today));
 
     }
 
@@ -143,14 +144,5 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
             });
             presenter.swipedToDone(item,0);
         }
-    }
-
-    String getMonthForInt(int num) {
-        String month = "wrong";
-        String[] mon = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
-        if (num >= 0 && num <= 11 ) {
-            month = mon[num];
-        }
-        return month;
     }
 }

@@ -126,7 +126,7 @@ public class TimerPresenterObsolete {
         if (noteCarryOut != null) {
             noteCarryOut.setDone(true);  // timer was finished so task is done
             interactor.updateNoteDone(noteCarryOut)
-                    .subscribe(() -> {view.showMessage("You have finished task");});  // update column `done` when timer will finished
+                    .subscribe(() -> view.showMessage("You have finished task"));  // update column `done` when timer will finished
 
         }
         else

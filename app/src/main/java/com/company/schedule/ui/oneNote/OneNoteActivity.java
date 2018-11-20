@@ -77,7 +77,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         tv_datetime = findViewById(R.id.textViewDateTime);
         tv_category = findViewById(R.id.textViewCategory);
         tv_status = findViewById(R.id.textViewStatus);
-        mainLayout = findViewById(R.id.mainlayout);
+        mainLayout = findViewById(R.id.mainLayout);
         img_prior = findViewById(R.id.imageViewPriority);
 
         btn_later.setOnClickListener(this);
@@ -117,7 +117,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
             tv_status.setTextColor(getResources().getColor(R.color.redText));
             tv_status.setText("Status: Later");
             btn_later.setVisibility(View.GONE);
-        }else{
+        } else {
             if(noteToShow.isDone()){
                 tv_status.setText("Status: Done");
                 tv_status.setTextColor(getResources().getColor(R.color.greenText));
@@ -129,7 +129,6 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 //      Timer
-
         tvTimer = findViewById(R.id.tvTimer);
         btnTimer = findViewById(R.id.btnTimer);
 
@@ -139,22 +138,6 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         btnTimer.setOnClickListener(v -> {  // to stop the timer
             presenter.timerAction(btnTimer.getText().toString());
         });
-
-        /*  TODO clean up
-        if (savedInstanceState == null) { // if haven't create fragment
-            TimerFragmentObsolete timerFragment = new TimerFragmentObsolete();
-
-            // give note for `done` status
-            Bundle transmission = new Bundle();
-            transmission.putSerializable("NOTE_TO_DONE", noteToShow);
-            timerFragment.setArguments(transmission);
-
-            // open fragment transaction
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.timerFragmentContainer, timerFragment);  // add fragment to screen
-            fragmentTransaction.commit();
-        }
-        */
     }
 
     @Override
@@ -169,46 +152,38 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.imageButtonDone:
-                Snackbar snackbar = Snackbar.make(mainLayout,"Done " + noteToShow.getName(),Snackbar.LENGTH_LONG);
-                snackbar.show();
-                presenter.updateNoteDone(noteToShow);
-                snackbar.setAction("UNDO", v -> {
-                    presenter.updateNoteDoneCanceled(noteToShow);
-                });
-
-                break;
-            case R.id.imageButtonDelet:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        presenter.deleteNote(noteToShow.getId());
-                        Intent intent = new Intent(OneNoteActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setMessage("Are you sure do you want to delete this note?");
-                builder.setTitle("Confirm");
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                presenter.doneClicked(noteToShow);
                 break;
             case R.id.imageButtonLater:
-                Snackbar snackbar2 = Snackbar.make(mainLayout,"Postponed " + noteToShow.getName(),Snackbar.LENGTH_LONG);
-                snackbar2.show();
-                presenter.updateNoteLater(noteToShow);
-                snackbar2.setAction("UNDO", v -> {
-                    presenter.updateNoteLaterCanceled(noteToShow);
-                });
+                presenter.laterClicked(noteToShow);
                 break;
+
             case R.id.imageButtonEdit:
                 Intent intent = new Intent(this, AddNoteActivity.class);
                 intent.putExtra("note", noteToShow);
                 startActivity(intent);
                 break;
+
+            case R.id.imageButtonDelet:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            presenter.deleteClicked(noteToShow.getId());
+                            Intent intent = new Intent(OneNoteActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                builder.setMessage("Are you sure do you want to delete this note?");
+                builder.setTitle("Confirm");
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                break;
+
             case R.id.backward_btn:
                 Intent intent2 = new Intent(this, MainActivity.class);
                 startActivity(intent2);
@@ -223,44 +198,55 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
     }
-    @Override
-    public void onLaterButtonClicked() {
-        tv_status.setTextColor(getResources().getColor(R.color.redText));
-        tv_status.setText("Status: Later");
-        btn_later.setVisibility(View.GONE);
-    }
 
     @Override
-    public void onDoneButtonClicked() {
+    public void setStatusDone() {
         tv_status.setText("Status: Done");
         tv_status.setTextColor(getResources().getColor(R.color.greenText));
-        btn_later.setVisibility(View.GONE);
-        btn_done.setVisibility(View.GONE);
+
+        Snackbar snackbar = Snackbar.make(mainLayout,"You have finished " + noteToShow.getName(),Snackbar.LENGTH_LONG);
+        snackbar.show();
+        snackbar.setAction("UNDO", v -> presenter.doneCanceled(noteToShow));
     }
 
     @Override
-    public void onDoneCanceled() {
-        if(!noteToShow.isLater()){
-            tv_status.setText("Status: To Be Done");
-            tv_status.setTextColor(getResources().getColor(R.color.blackText));
-            btn_later.setVisibility(View.VISIBLE);
-        }else{
-            tv_status.setTextColor(getResources().getColor(R.color.redText));
-            tv_status.setText("Status: Later");
-            btn_later.setVisibility(View.GONE);
-        }
+    public void setStatusLater() {
+        tv_status.setText("Status: Later");
+        tv_status.setTextColor(getResources().getColor(R.color.redText));
+
+        Snackbar snackbar2 = Snackbar.make(mainLayout,"Postponed " + noteToShow.getName(),Snackbar.LENGTH_LONG);
+        snackbar2.show();
+        snackbar2.setAction("UNDO", v -> presenter.laterCanceled(noteToShow));
+    }
+
+    @Override
+    public void setStatusToBeDone() {
+        tv_status.setText("Status: To Be Done");
+        tv_status.setTextColor(getResources().getColor(R.color.blackText));
+    }
+
+    @Override
+    public void setBtnDoneVisible() {
         btn_done.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onLaterCanceled() {
-        tv_status.setText("Status: To Be Done");
-        tv_status.setTextColor(getResources().getColor(R.color.blackText));
+    public void setBtnDoneInvisible() {
+        btn_done.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setBtnLaterVisible() {
         btn_later.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void setBtnLaterInvisible() {
+        btn_later.setVisibility(View.GONE);
+    }
 
 //  ================_TIMER_VIEW_IMPLEMENTATION_================
+
     @Override
     public void setTimerText(String timeInFormat) {
         tvTimer.setText(timeInFormat);
@@ -287,8 +273,8 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         return noteToShow;
     }
 
-
     //  ================_PRIVATE_================
+
     private String getMonthForInt(int num) {
         String month = "wrong";
         String[] mon = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
@@ -298,17 +284,17 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         return month;
     }
 
-
 //  ================_LIFECYCLE_FINISH_================
+
     @Override
     public void onStop() {
         presenter.onStop();
         super.onStop();
     }
-
     @Override
     public void onDestroy() {
         presenter.detachView();
         super.onDestroy();
     }
+
 }

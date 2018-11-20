@@ -1,10 +1,9 @@
-package com.company.schedule.ui.fragments;
+package com.company.schedule.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,9 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
@@ -37,9 +34,7 @@ import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -80,7 +75,7 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
 
         notes_rc= fragmentDaily.findViewById(R.id.my_recycler_view3);
 
-        mainLayout = fragmentDaily.findViewById(R.id.mainlayout);
+        mainLayout = fragmentDaily.findViewById(R.id.mainLayout);
         return fragmentDaily;
     }
     @Override

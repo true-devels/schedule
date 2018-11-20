@@ -17,18 +17,6 @@ public class Error {
             throwable1.printStackTrace();
         }
     }
-
-    public static void throwException(String errorMessage) throws Exception {
-        Exception exception = new Exception(errorMessage);
-        handleThrowable(exception);
-        throw exception;
-    }
-
-    public static void throwNullPointerException(String errorMessage) {
-        NullPointerException exception = new NullPointerException(errorMessage);
-        handleThrowable(exception);
-        throw exception;
-    }
 }
 
 

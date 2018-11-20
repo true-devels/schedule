@@ -19,12 +19,10 @@ import com.company.schedule.R;
 import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.LaterInteractor;
-import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.MainRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.later.LaterPresenter;
 import com.company.schedule.presentation.later.LaterView;
-import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.ui.main.NodeAdapter;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
@@ -54,7 +52,7 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
                             )  // create repository and get DAO
                     )
             );
-        mainlayout = findViewById(R.id.mainlayout);
+        mainlayout = findViewById(R.id.mainLayout);
         layout_day = findViewById(R.id.today_later_layout);
         layout_week = findViewById(R.id.week_later_layout);
         layout_month = findViewById(R.id.month_later_layout);

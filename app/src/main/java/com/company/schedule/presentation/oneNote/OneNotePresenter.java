@@ -1,6 +1,5 @@
 package com.company.schedule.presentation.oneNote;
 
-import android.content.Context;
 import android.os.Handler;
 
 import com.company.schedule.model.data.base.Note;
@@ -30,7 +29,7 @@ public class OneNotePresenter {
         this.interactor = interactor;  // init interactor
     }
 
-    public void deleteNote(int id) {
+    public void deleteClicked(int id) {
                 interactor.deleteNoteById(id)
                         .subscribe(
                                 () -> view.goToMainActivity(),
@@ -38,38 +37,59 @@ public class OneNotePresenter {
                         );
 
     }
-    public void updateNoteLater(Note noteToUpdate) {
+    public void laterClicked(Note noteToUpdate) {
         noteToUpdate.setLater(true);
                 interactor.updateNote(noteToUpdate)
                         .subscribe(
-                                () -> view.onLaterButtonClicked(),
+                                () -> {
+                                    view.setStatusLater();
+                                    view.setBtnLaterInvisible();
+                                },
                                 e -> handleThrowable(e)
                         );
     }
 
-    public void updateNoteDone(Note noteToUpdate) {
+    public void doneClicked(Note noteToUpdate) {
         noteToUpdate.setDone(true);
         interactor.updateNote(noteToUpdate)
                 .subscribe(
-                        () -> view.onDoneButtonClicked(),
+                        () -> {
+                            view.setStatusDone();
+                            view.setBtnDoneInvisible();
+                            view.setBtnLaterInvisible();
+                        },
                         e -> handleThrowable(e)
                 );
     }
 
-    public void updateNoteDoneCanceled(Note noteToUpdate){
+    public void doneCanceled(Note noteToUpdate){
         noteToUpdate.setDone(false);
         interactor.updateNote(noteToUpdate)
                 .subscribe(
-                        () -> view.onDoneCanceled(),
+                        () -> {
+                            if(!noteToUpdate.isLater()) {
+                                view.setStatusToBeDone();
+                                view.setBtnLaterVisible();
+                            } else {
+                                view.setStatusLater();
+                                view.setBtnLaterInvisible();
+                            }
+
+                            view.setBtnDoneVisible();
+
+                        },
                         e -> handleThrowable(e)
                 );
     }
 
-    public void updateNoteLaterCanceled(Note noteToUpdate){
+    public void laterCanceled(Note noteToUpdate){
         noteToUpdate.setLater(false);
         interactor.updateNote(noteToUpdate)
                 .subscribe(
-                        () -> view.onLaterCanceled(),
+                        () -> {
+                            view.setStatusToBeDone();
+                            view.setBtnLaterVisible();
+                        },
                         e -> handleThrowable(e)
                 );
     }
@@ -173,9 +193,12 @@ public class OneNotePresenter {
 
         if (view.getNote() != null) {
             view.getNote().setDone(true);  // timer was finished so task is done
+
             interactor.updateNoteDone(view.getNote())
                     .subscribe(() -> view.showMessage("You have finished task"));  // update column `done` when timer will finished
-
+            view.setStatusDone();
+            view.setBtnDoneInvisible();
+            view.setBtnLaterInvisible();
         }
         else
             view.showErrorMessage("you have done task, but we can't save this results");

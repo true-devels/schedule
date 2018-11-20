@@ -113,15 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton imgbtn = findViewById(R.id.btnLeftToolbar);
         imgbtn.setOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
-        /* TODO HEAD
-        if (savedInstanceState == null) {
-            // open fragment transaction
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.fragmentContainer, new MainFragmentObsolete());  // add fragment to screen
-//        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
-            fragmentTransaction.commit();
-        }*/
-
         /* if (presenter == null)  // if presenter isn't created we create it
             presenter = new MainPresenter(this,  // init view in presenter
                     new MainInteractor(  // create interactor

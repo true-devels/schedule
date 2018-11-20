@@ -19,9 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
@@ -35,7 +32,6 @@ import com.company.schedule.ui.main.NodeAdapter;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -81,7 +77,7 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
 
         notes_rc= fragmentDaily.findViewById(R.id.my_recycler_view2);
 
-        mainLayout = fragmentDaily.findViewById(R.id.mainlayout);
+        mainLayout = fragmentDaily.findViewById(R.id.mainLayout);
         tv_numbers.add(fragmentDaily.findViewById(R.id.textViewMONnumber));
         tv_numbers.add(fragmentDaily.findViewById(R.id.textViewTUEnumber));
         tv_numbers.add(fragmentDaily.findViewById(R.id.textViewWEDnumber));

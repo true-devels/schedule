@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.company.schedule.ui.fragments.DailyFragment;
-import com.company.schedule.ui.fragments.MonthlyFragment;
+import com.company.schedule.ui.DailyFragment;
+import com.company.schedule.ui.MonthlyFragment;
 import com.company.schedule.ui.WeeklyFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
