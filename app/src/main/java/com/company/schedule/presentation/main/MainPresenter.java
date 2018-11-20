@@ -5,6 +5,7 @@ import android.content.Context;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.SharedPrefsRepository;
+import com.company.schedule.ui.DailyFragment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -24,16 +25,6 @@ public class MainPresenter {
         this.context = context;
     }
 
-    public void onCheckedDoneChanged(Note noteCheckedOn, boolean isChecked) {
-       /* if (noteCheckedOn.isDone() != isChecked) {  // we update DB only if we need change value
-            noteCheckedOn.setDone(isChecked);
-            interactor.updateNote(noteCheckedOn)
-                    .subscribe(
-                            () -> {},  // we do nothing when update finished
-                            e -> handleThrowable(e)
-                    );
-        }*/
-    }
 
 
     public void detachView() {
@@ -43,6 +34,7 @@ public class MainPresenter {
     public void swipedToLater(Note note, int tab){
         note.setLater(true);
         updateNote(note, tab);
+
     }
 
     public void restoreFromLater(Note item, int tab){
@@ -116,11 +108,11 @@ public class MainPresenter {
     }
 
 
-    private void loadData() {
+    public void loadData() {
         // we load data from DB in Model, and then set all notes in MainView
         interactor.loadData()
                 .subscribe(
-                        (notes) -> view.setAllNotes(notes),
+                        (notes) -> ((DailyFragment)view).checkDone(notes),
                         (Throwable e) -> handleThrowable(e)
                 );  // load data from DB
     }

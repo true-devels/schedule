@@ -44,7 +44,7 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
     NodeAdapter adapter;
     MainPresenter presenter;
     RelativeLayout mainLayout;
-    TextView tvDateToday;
+    TextView tvDateToday, tvCompletedTasks, tvAllTasks;
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
@@ -71,6 +71,8 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
         notes_rc= fragmentDaily.findViewById(R.id.my_recycler_view);
         mainLayout = fragmentDaily.findViewById(R.id.mainLayout);
         tvDateToday = fragmentDaily.findViewById(R.id.tvDateToday);
+        tvCompletedTasks = fragmentDaily.findViewById(R.id.textViewCompleted);
+        tvAllTasks = fragmentDaily.findViewById(R.id.textViewAll);
         return fragmentDaily;
     }
     @Override
@@ -88,6 +90,7 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
         notes_rc.setItemAnimator(new DefaultItemAnimator());
         notes_rc.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         presenter.refreshDailyData();
+        presenter.loadData();
         adapter = new NodeAdapter(getContext());
 
         notes_rc.setAdapter(adapter);
@@ -131,18 +134,37 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
             snackbar.setAction("UNDO", v -> {
                 adapter.restoreItem(item,deleteIndex);
                 presenter.restoreFromLater(item, 0);
+                presenter.loadData();
             });
             int id = ((NodeAdapter.MyViewHolder) viewHolder).id;
             presenter.swipedToLater(item,0);
             Log.d("id_check ",Integer.toString(id));
+            presenter.loadData();
         }else{
             Snackbar snackbar = Snackbar.make(mainLayout,"Done " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
             snackbar.show();
+            presenter.loadData();
             snackbar.setAction("UNDO", v -> {
                 adapter.restoreItem(item,deleteIndex);
                 presenter.restoreFromDone(item, 0);
+                presenter.loadData();
             });
             presenter.swipedToDone(item,0);
+            presenter.loadData();
         }
+    }
+
+    public void checkDone(List<Note> notes){
+        int done = 0, size=0;
+        for(Note note: notes){
+            if(note.getFrequency()==1){
+                size++;
+                if(note.isDone() && !note.isLater()){
+                    done++;
+                }
+            }
+        }
+        tvCompletedTasks.setText(Integer.toString(done)+"/");
+        tvAllTasks.setText(Integer.toString(size));
     }
 }
