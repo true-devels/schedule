@@ -5,29 +5,28 @@
     <!-- Light/Day Mode theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#2196F3</item>
-        <item name="colorPrimaryDark">#1976D2</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="backgroundcolor">#fcfcfc</item>
-        <item name="cardbackground">#ffffff</item>
-        <item name="textcolor">#0b0b0b</item>
-        <item name="tintcolor">@color/whiteModeTintColor</item>
-        <item name="buttoncolor">#2196F3</item>
+        <item name="colorPrimary">#7646ff</item>
+        <item name="colorBackground">#e4e4e4</item>
+        <item name="paleRed">#fc5565</item>
+        <item name="paleGreen">#72d169</item>
+        <item name="colorWhite">#fff</item>
+        <item name="blackText">#000</item>
+        <item name="colorGradient">#D81B60</item>
+
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
     </style>
 
     <!-- Night / dark  Mode theme. -->
     <style name="darktheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">#212121</item>
-        <item name="colorPrimaryDark">#000000</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="backgroundcolor">#303030</item>
-        <item name="cardbackground">#424242</item>
-        <item name="textcolor">#ffffff</item>
-        <item name="tintcolor">@color/darkModeTintColor</item>
-        <item name="buttoncolor">#2196F3</item>
+        <item name="colorBackground">#4d4d4d</item>
+        <item name="paleRed">#7b2f37</item>
+        <item name="paleGreen">#447c3f</item>
+        <item name="colorWhite">#fff</item>
+        <item name="blackText">#000</item>
+        <item name="colorGradient">#D81B60</item>
+
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
 
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
@@ -41,7 +40,7 @@
 
     <style name="MyActionBarTitleText"
         parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/colorText</item>
+        <!--<item name="android:textColor">@color/colorText</item>-->
     </style>
 
 

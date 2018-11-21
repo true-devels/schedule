@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
         SharedPrefsRepository sharedPrefs = new SharedPrefsRepository(this);
-       /* SharedPrefs sharedPrefs = new SharedPrefs(this);
+       // SharedPrefs sharedPrefs = new SharedPrefs(this);
 
         if(sharedPrefs.isNightMode()) setTheme(R.style.darktheme);  //dark
         else setTheme(R.style.AppTheme);  //white*/

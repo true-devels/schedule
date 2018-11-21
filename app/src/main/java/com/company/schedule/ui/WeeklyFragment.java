@@ -24,6 +24,7 @@ import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.MainRepository;
+import com.company.schedule.model.repository.SharedPrefsRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.presentation.main.MainView;
@@ -72,6 +73,9 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mainActivity = (MainActivity) getActivity();
+        SharedPrefsRepository sharedPrefs = new SharedPrefsRepository(getContext());
+        if(sharedPrefs.isNightMode()) getActivity().setTheme(R.style.darktheme);  //dark
+        else getActivity().setTheme(R.style.AppTheme);
         View fragmentDaily = inflater.inflate(R.layout.fragment_weekly, container, false);
      //   mCalendarView =  fragmentDaily.findViewById(R.id.calendarView);
 

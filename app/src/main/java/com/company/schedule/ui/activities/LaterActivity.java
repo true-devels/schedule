@@ -20,6 +20,7 @@ import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.LaterInteractor;
 import com.company.schedule.model.repository.MainRepository;
+import com.company.schedule.model.repository.SharedPrefsRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.later.LaterPresenter;
 import com.company.schedule.presentation.later.LaterView;
@@ -41,6 +42,10 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPrefsRepository sharedPrefs = new SharedPrefsRepository(this);
+        if(sharedPrefs.isNightMode()) setTheme(R.style.darktheme);  //dark
+        else setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_later);
 
         if (presenter == null)  // if presenter isn't created we create it

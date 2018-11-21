@@ -5,6 +5,7 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorBackground"
     tools:context=".ui.activities.LaterActivity">
 
     <include
@@ -21,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar_include"
         android:layout_centerHorizontal="true"
-        android:background="@color/colorToolbar"
+        android:background="?attr/colorPrimary"
         android:orientation="horizontal">
 
         <TextView
@@ -32,7 +33,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
             android:text="Later"
-            android:textColor="@color/colorWhite"
+            android:textColor="?attr/colorBackground"
             android:textSize="30sp"
             android:textStyle="normal" />
     </RelativeLayout>
@@ -56,7 +57,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_margin="10dp"
-                android:background="@color/specialGrey"
+                android:background="?attr/colorBackground"
                 android:orientation="horizontal">
 
                 <TextView
@@ -85,7 +86,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/specialGrey"
+                android:background="?attr/colorBackground"
                 android:orientation="horizontal">
 
                 <TextView
@@ -113,7 +114,7 @@
                 android:layout_below="@+id/week_later_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
-                android:background="@color/specialGrey"
+                android:background="?attr/colorBackground"
                 android:orientation="horizontal">
 
                 <TextView
