@@ -48,6 +48,9 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPrefsRepository sharedPrefs = new SharedPrefsRepository(this);
+        if(sharedPrefs.isNightMode()) setTheme(R.style.darktheme);  //dark
+        else setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_one_note);
 
         if (presenter == null)  // if presenter isn't created we create it
@@ -114,13 +117,13 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         if(noteToShow.isLater()){
-            tv_status.setTextColor(getResources().getColor(R.color.redText));
+            tv_status.setTextColor(getResources().getColor(R.color.paleRed));
             tv_status.setText("Status: Later");
             btn_later.setVisibility(View.GONE);
         } else {
             if(noteToShow.isDone()){
                 tv_status.setText("Status: Done");
-                tv_status.setTextColor(getResources().getColor(R.color.greenText));
+                tv_status.setTextColor(getResources().getColor(R.color.paleGreen));
                 btn_later.setVisibility(View.GONE);
                 btn_done.setVisibility(View.GONE);
             }else{
@@ -202,7 +205,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void setStatusDone() {
         tv_status.setText("Status: Done");
-        tv_status.setTextColor(getResources().getColor(R.color.greenText));
+        tv_status.setTextColor(getResources().getColor(R.color.paleGreen));
 
         Snackbar snackbar = Snackbar.make(mainLayout,"You have finished " + noteToShow.getName(),Snackbar.LENGTH_LONG);
         snackbar.show();
@@ -212,7 +215,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void setStatusLater() {
         tv_status.setText("Status: Later");
-        tv_status.setTextColor(getResources().getColor(R.color.redText));
+        tv_status.setTextColor(getResources().getColor(R.color.paleRed));
 
         Snackbar snackbar2 = Snackbar.make(mainLayout,"Postponed " + noteToShow.getName(),Snackbar.LENGTH_LONG);
         snackbar2.show();

@@ -16,7 +16,7 @@
             android:id="@+id/save_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/greenText">
+            android:background="?attr/paleGreen">
 
             <ImageView
                 android:id="@+id/imageView6"
@@ -35,7 +35,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/imageView6"
                 android:text="Done"
-                android:textColor="@color/colorWhite" />
+                android:textColor="?attr/colorWhite" />
 
         </RelativeLayout>
 
@@ -43,7 +43,7 @@
         android:id="@+id/delete_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/redText">
+        android:background="?attr/paleRed">
 
         <ImageView
             android:id="@+id/imageView5"
@@ -62,7 +62,7 @@
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@id/imageView5"
             android:text="Later"
-            android:textColor="@color/colorWhite" />
+            android:textColor="?attr/colorWhite" />
 
     </RelativeLayout>
 
@@ -87,7 +87,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:text="10:30"
-                android:textColor="@color/blackText"
+                android:textColor="?attr/blackText"
                 android:textSize="20sp" />
 
             <TextView
@@ -97,7 +97,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:text="28 feb"
-                android:textColor="@color/blackText" />
+                android:textColor="?attr/blackText" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/textes"
@@ -115,7 +115,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="7"
                 android:text="Meeting with client"
-                android:textColor="@color/blackText"
+                android:textColor="?attr/blackText"
                 android:textSize="20sp" />
 
             <TextView
@@ -125,7 +125,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_weight="2"
                 android:text="Official"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="12sp" />
         </LinearLayout>
 

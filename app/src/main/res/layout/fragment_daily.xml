@@ -22,7 +22,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:text="Good Morning!!"
-            android:textColor="@color/blackText"
+            android:textColor="?attr/blackText"
             android:textSize="15sp" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_marginBottom="10dp"
             android:fontFamily="monospace"
             android:text="TODAY"
-            android:textColor="@color/colorToolbar"
+            android:textColor="?attr/colorPrimary"
             android:textSize="20sp" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_below="@id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/blackText"
+            android:textColor="?attr/blackText"
             android:text="13 Mar, 2108"
             android:textSize="30sp"/>
         <RelativeLayout
@@ -61,7 +61,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/blackText"
+                android:textColor="?attr/blackText"
                 android:text="Completed" />
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/greenText"
+                    android:textColor="?attr/paleGreen"
                     android:text="4/" />
                 <TextView
                     android:id="@+id/textViewAll"
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/redText"
+                    android:textColor="?attr/paleRed"
                     android:text="10" />
             </RelativeLayout>
         </RelativeLayout>

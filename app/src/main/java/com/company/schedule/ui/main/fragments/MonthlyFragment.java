@@ -25,6 +25,7 @@ import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.MainRepository;
+import com.company.schedule.model.repository.SharedPrefsRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.presentation.main.MainView;
@@ -69,6 +70,11 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        SharedPrefsRepository sharedPrefs = new SharedPrefsRepository(getContext());
+        if(sharedPrefs.isNightMode()) getActivity().setTheme(R.style.darktheme);  //dark
+        else getActivity().setTheme(R.style.AppTheme);
+
         mainActivity = (MainActivity) getActivity();
         View fragmentDaily = inflater.inflate(R.layout.fragment_monthly, container, false);
         mCalendarView =  fragmentDaily.findViewById(R.id.calendarView);

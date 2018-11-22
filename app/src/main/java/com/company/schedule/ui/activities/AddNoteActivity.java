@@ -3,6 +3,7 @@ package com.company.schedule.ui.activities;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,6 +28,7 @@ import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.AddNoteInteractor;
 import com.company.schedule.model.repository.MainRepository;
+import com.company.schedule.model.repository.SharedPrefsRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.model.system.MyNotification;
 import com.company.schedule.presentation.addNote.AddNotePresenter;
@@ -38,6 +42,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 public class AddNoteActivity extends AppCompatActivity implements AddNoteView, View.OnClickListener,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -53,6 +58,9 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPrefsRepository sharedPrefs = new SharedPrefsRepository(this);
+        if(sharedPrefs.isNightMode()) setTheme(R.style.darktheme);  //dark
+        else setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_add_note);
 
         presenter = new AddNotePresenter(this,
@@ -89,10 +97,11 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         et_date.setKeyListener(null);
         et_date.setOnClickListener(this); // when we click, the calendar pops up to enter a date
 
-
         et_time = findViewById(R.id.time_et);  // to enter a time
         et_time.setKeyListener(null);
         et_time.setOnClickListener(this);  // when we click, the watch pops up to enter a time
+
+
 
         Button btnSubmitNote = findViewById(R.id.buttonAdd);  // when button click, sends result to MainActivity
         btnSubmitNote.setOnClickListener(this);  // set listener (MainView.OnClickListener, name @Override method is onClick)
@@ -107,6 +116,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         btnGreen.setOnClickListener(this);
         btnYellow.setOnClickListener(this);
         btnRed.setOnClickListener(this);
+
 
         String[] SPINNERLIST = {"Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday","Sunday"};
 
@@ -320,7 +330,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         switch (v.getId()) {
             case R.id.imageButtonBlue:
                 noteInfo.setPriority(1);
-                btnBlue.setBackgroundResource(R.color.specialGrey);
+                btnBlue.setBackgroundResource(R.color.colorBackground);
                 btnYellow.setBackgroundResource(R.color.colorWhite);
                 btnGreen.setBackgroundResource(R.color.colorWhite);
                 btnRed.setBackgroundResource(R.color.colorWhite);
@@ -329,7 +339,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                 noteInfo.setPriority(2);
                 btnBlue.setBackgroundResource(R.color.colorWhite);
                 btnYellow.setBackgroundResource(R.color.colorWhite);
-                btnGreen.setBackgroundResource(R.color.specialGrey);
+                btnGreen.setBackgroundResource(R.color.colorBackground);
                 btnRed.setBackgroundResource(R.color.colorWhite);
                 break;
             case R.id.imageButtonRed:
@@ -337,12 +347,12 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                 btnBlue.setBackgroundResource(R.color.colorWhite);
                 btnYellow.setBackgroundResource(R.color.colorWhite);
                 btnGreen.setBackgroundResource(R.color.colorWhite);
-                btnRed.setBackgroundResource(R.color.specialGrey);
+                btnRed.setBackgroundResource(R.color.colorBackground);
                 break;
             case R.id.imageButtonYellow:
                 noteInfo.setPriority(4);
                 btnBlue.setBackgroundResource(R.color.colorWhite);
-                btnYellow.setBackgroundResource(R.color.specialGrey);
+                btnYellow.setBackgroundResource(R.color.colorBackground);
                 btnGreen.setBackgroundResource(R.color.colorWhite);
                 btnRed.setBackgroundResource(R.color.colorWhite);
                 break;

@@ -4,7 +4,7 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorToolbar"
+        android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
         <LinearLayout
@@ -34,6 +34,7 @@
             android:layout_marginStart="30dp"
             android:textSize="20sp"
             android:layout_weight="32"
+            android:textColor="?attr/colorWhite"
             android:text="Scheduler" />
 
                 <ImageButton

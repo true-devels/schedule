@@ -7,13 +7,13 @@
     tools:context=".ui.settings.SettingsActivity"
     android:padding="24dp"
     android:orientation="vertical"
-    android:background="?attr/backgroundcolor">
+    android:background="?attr/colorBackground">
     <Switch
         android:id="@+id/myswitch"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Night Mode"
-        android:textColor="?attr/textcolor"/>
+        android:textColor="?attr/blackText"/>
 
 </LinearLayout>

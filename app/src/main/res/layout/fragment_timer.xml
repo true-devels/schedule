@@ -10,7 +10,7 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:layout_marginStart="16dp"
-    android:background="@color/colorWhite"
+    android:background="?attr/colorWhite"
     android:padding="16dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
@@ -24,7 +24,7 @@
         android:layout_margin="8dp"
         android:text="25:00"
         android:textAlignment="center"
-        android:textColor="?attr/textcolor"
+        android:textColor="?attr/blackText"
         android:textSize="36sp"
         tools:text="25:00" />
 
@@ -36,7 +36,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_margin="8dp"
-        android:background="?attr/tintcolor"
+        android:background="?attr/blackText"
         android:text="Start"
-        android:textColor="?attr/textcolor" />
+        android:textColor="?attr/blackText" />
 </RelativeLayout>
