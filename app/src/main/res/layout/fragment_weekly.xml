@@ -13,7 +13,7 @@
         android:layout_below="@+id/tabs"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
-        android:textColor="?attr/colorWhite"
+        android:textColor="?attr/colorTextChanging"
         android:text="November,2108" />
 
     <LinearLayout
@@ -32,6 +32,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewMON"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
                 android:text="MON" />
 
             <TextView
-
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewMONnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,6 +59,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewTUE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +69,7 @@
                 android:text="TUE" />
 
             <TextView
-
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewTUEnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,6 +86,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewWED"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,6 +97,7 @@
                 />
 
             <TextView
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewWEDnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,6 +116,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewTHU"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -121,7 +126,7 @@
                 android:text="THU" />
 
             <TextView
-
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewTHUnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,6 +144,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewFRI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -148,7 +154,7 @@
                 android:text="FRI" />
 
             <TextView
-
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewFRInumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -166,6 +172,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewSAT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,7 +182,7 @@
                 android:text="SAT" />
 
             <TextView
-
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewSATnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -193,6 +200,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewSUN"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -202,7 +210,7 @@
                 android:text="SUN" />
 
             <TextView
-
+                android:textColor="?attr/colorTextChanging"
                 android:id="@+id/textViewSUNnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

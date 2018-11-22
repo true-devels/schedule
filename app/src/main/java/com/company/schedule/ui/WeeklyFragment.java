@@ -48,10 +48,11 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
     RelativeLayout mainLayout;
     NodeAdapter mAdapter;
     RecyclerView notes_rc;
-    ArrayList<TextView> tv_numbers = new ArrayList<>();
+    ArrayList<TextView> tv_numbers = new ArrayList<>(), tv_days = new ArrayList<>();
     ArrayList<LinearLayout> ll_numbers = new ArrayList<>();
     private RecyclerView.LayoutManager mLayoutManager;
     TextView tv_monthyear;
+    SharedPrefsRepository sharedPrefs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mainActivity = (MainActivity) getActivity();
-        SharedPrefsRepository sharedPrefs = new SharedPrefsRepository(getContext());
+        sharedPrefs = new SharedPrefsRepository(getContext());
         if(sharedPrefs.isNightMode()) getActivity().setTheme(R.style.darktheme);  //dark
         else getActivity().setTheme(R.style.AppTheme);
         View fragmentDaily = inflater.inflate(R.layout.fragment_weekly, container, false);
@@ -89,6 +90,13 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
         tv_numbers.add(fragmentDaily.findViewById(R.id.textViewFRInumber));
         tv_numbers.add(fragmentDaily.findViewById(R.id.textViewSATnumber));
         tv_numbers.add(fragmentDaily.findViewById(R.id.textViewSUNnumber));
+        tv_days.add(fragmentDaily.findViewById(R.id.textViewMON));
+        tv_days.add(fragmentDaily.findViewById(R.id.textViewTUE));
+        tv_days.add(fragmentDaily.findViewById(R.id.textViewWED));
+        tv_days.add(fragmentDaily.findViewById(R.id.textViewTHU));
+        tv_days.add(fragmentDaily.findViewById(R.id.textViewFRI));
+        tv_days.add(fragmentDaily.findViewById(R.id.textViewSAT));
+        tv_days.add(fragmentDaily.findViewById(R.id.textViewSUN));
         ll_numbers.add(fragmentDaily.findViewById(R.id.ll_monday));
         ll_numbers.add(fragmentDaily.findViewById(R.id.ll_tuesday));
         ll_numbers.add(fragmentDaily.findViewById(R.id.ll_wednesday));
@@ -136,11 +144,19 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
             day--;
         }
         ll_numbers.get(--day).setBackgroundResource(R.drawable.now_week);
+        if(sharedPrefs.isNightMode()){
+            tv_numbers.get(day).setTextColor(R.attr.blackText);
+            tv_days.get(day).setTextColor(R.attr.blackText);
+        }
 
         for(int i=0; i<=6;i++){
             Calendar local = new GregorianCalendar();
             local.set(Calendar.DAY_OF_WEEK,i+2);
+
             tv_numbers.get(i).setText(Integer.toString(local.get(Calendar.DAY_OF_MONTH)));
+
+
+            //tv_numbers.get(i).setTextColor();
         }
         tv_monthyear.setText(getMonthForInt(new GregorianCalendar().get(Calendar.MONTH))+", "+ new GregorianCalendar().get(Calendar.YEAR));
 

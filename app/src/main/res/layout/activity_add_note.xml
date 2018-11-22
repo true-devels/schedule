@@ -137,7 +137,7 @@
             android:id="@+id/imageButtonBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/colorBackground"
+            android:background="?attr/colorWhite"
             android:padding="20dp"
             app:srcCompat="@drawable/button_bg_round" />
 
@@ -145,7 +145,7 @@
             android:id="@+id/imageButtonGreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/colorWhite"
+            android:background="?attr/colorBackground"
             android:padding="20dp"
             app:srcCompat="@drawable/button_bg_round_green" />
 

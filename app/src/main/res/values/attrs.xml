@@ -8,5 +8,6 @@
         <attr name="colorWhite" format="color"  />
         <attr name="blackText" format="color"/>
         <attr name="colorGradient" format="color"/>
+        <attr name="colorTextChanging" format="color"/>
     </declare-styleable>
 </resources>

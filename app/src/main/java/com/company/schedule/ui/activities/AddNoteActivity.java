@@ -80,6 +80,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         date_layout = findViewById(R.id.date_layout);
         backward = findViewById(R.id.backward_btn);
         backward.setVisibility(View.VISIBLE);
+        if(sharedPrefs.isNightMode()) backward.setImageResource(R.drawable.backward_white);
         btn_right = findViewById(R.id.btnToolbarRight);
         btn_right.setVisibility(View.GONE);
 
@@ -330,31 +331,31 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         switch (v.getId()) {
             case R.id.imageButtonBlue:
                 noteInfo.setPriority(1);
-                btnBlue.setBackgroundResource(R.color.colorBackground);
-                btnYellow.setBackgroundResource(R.color.colorWhite);
-                btnGreen.setBackgroundResource(R.color.colorWhite);
-                btnRed.setBackgroundResource(R.color.colorWhite);
+                btnBlue.setBackgroundColor(R.attr.colorBackground);
+                btnYellow.setBackgroundColor(R.attr.colorWhite);
+                btnGreen.setBackgroundColor(R.attr.colorWhite);
+                btnRed.setBackgroundColor(R.attr.colorWhite);
                 break;
             case R.id.imageButtonGreen:
                 noteInfo.setPriority(2);
-                btnBlue.setBackgroundResource(R.color.colorWhite);
-                btnYellow.setBackgroundResource(R.color.colorWhite);
-                btnGreen.setBackgroundResource(R.color.colorBackground);
-                btnRed.setBackgroundResource(R.color.colorWhite);
+                btnBlue.setBackgroundColor(R.attr.colorWhite);
+                btnYellow.setBackgroundColor(R.attr.colorWhite);
+                btnGreen.setBackgroundColor(R.attr.colorBackground);
+                btnRed.setBackgroundColor(R.attr.colorWhite);
                 break;
             case R.id.imageButtonRed:
                 noteInfo.setPriority(3);
-                btnBlue.setBackgroundResource(R.color.colorWhite);
-                btnYellow.setBackgroundResource(R.color.colorWhite);
-                btnGreen.setBackgroundResource(R.color.colorWhite);
-                btnRed.setBackgroundResource(R.color.colorBackground);
+                btnBlue.setBackgroundColor(R.attr.colorWhite);
+                btnYellow.setBackgroundColor(R.attr.colorWhite);
+                btnGreen.setBackgroundColor(R.attr.colorWhite);
+                btnRed.setBackgroundColor(R.attr.colorBackground);
                 break;
             case R.id.imageButtonYellow:
                 noteInfo.setPriority(4);
-                btnBlue.setBackgroundResource(R.color.colorWhite);
-                btnYellow.setBackgroundResource(R.color.colorBackground);
-                btnGreen.setBackgroundResource(R.color.colorWhite);
-                btnRed.setBackgroundResource(R.color.colorWhite);
+                btnBlue.setBackgroundColor(R.attr.colorWhite);
+                btnYellow.setBackgroundColor(R.attr.colorBackground);
+                btnGreen.setBackgroundColor(R.attr.colorWhite);
+                btnRed.setBackgroundColor(R.attr.colorWhite);
                 break;
             case R.id.date_et:  //if clicking on TextView with date
                 presenter.pressedToEditDate(isEdited, noteInfo.getDate());

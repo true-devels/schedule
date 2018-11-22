@@ -64,6 +64,7 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
         tv_title = findViewById(R.id.tv_title);
         backward = findViewById(R.id.backward_btn);
         backward.setVisibility(View.VISIBLE);
+        if(sharedPrefs.isNightMode()) backward.setImageResource(R.drawable.backward_white);
         btn_right = findViewById(R.id.btnToolbarRight);
         btn_right.setVisibility(View.GONE);
 

@@ -54,7 +54,6 @@ public class MyNotification {
         PendingIntent pendingIntentResult = PendingIntent.getActivity(context, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel();
-            Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             builder = new NotificationCompat.Builder(context,CHANEL_ID)
                     .setSmallIcon(R.mipmap.ic_launcher)  // default icon TODO change to good icon
                     .setContentTitle(title)
@@ -62,7 +61,7 @@ public class MyNotification {
                     //TODO check these three lines work
                     .setVibrate(new long[]{500, 1000})
                     .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
-                    .setSound(uri)
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .setContentText(content)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntentResult);
@@ -73,9 +72,9 @@ public class MyNotification {
                     .setContentTitle(title)
                     .setContentText(content)
                     //TODO check these three lines work
-                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    .setVibrate(new long[]{500, 1000})
                     .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
-                    .setSound(Uri.parse(Constants.SOUND_URI))
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .setContentText(content)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntentResult);

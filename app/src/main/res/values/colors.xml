@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#7646ff</color>
-    <color name="colorBackground">#e4e4e4</color>
-    <color name="paleRed">#fc5565</color>
-    <color name="paleGreen">#72d169</color>
-    <color name="colorWhite">#fff</color>
-    <color name="blackText">#000</color>
-    <color name="colorGradient">#D81B60</color>
+    <!--<color name="colorPrimary">#7646ff</color>-->
+    <!--<color name="colorBackground">#e4e4e4</color>-->
+    <!--<color name="paleRed">#fc5565</color>-->
+    <!--<color name="paleGreen">#72d169</color>-->
+    <!--<color name="colorWhite">#fff</color>-->
+    <!--<color name="blackText">#000</color>-->
+    <!--<color name="colorGradient">#D81B60</color>-->
 
     <!--<color name="colorPrimaryDark">#7646ff</color>-->
     <!--<color name="colorAccent">#D81B60</color>-->
