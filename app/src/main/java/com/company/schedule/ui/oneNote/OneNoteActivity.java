@@ -23,10 +23,8 @@ import com.company.schedule.model.repository.SharedPrefsRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.oneNote.OneNotePresenter;
 import com.company.schedule.presentation.oneNote.OneNoteView;
-import com.company.schedule.ui.activities.AddNoteActivity;
+import com.company.schedule.ui.addNote.AddNoteActivity;
 import com.company.schedule.ui.main.MainActivity;
-
-import java.util.Calendar;
 
 import static com.company.schedule.utils.Constants.START_TIMER;
 

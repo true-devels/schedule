@@ -35,19 +35,11 @@
             android:screenOrientation="portrait"
             />
 
-        <receiver android:name=".utils.NotificationPublisher"
-            android:screenOrientation="portrait"
-            />
+        <receiver android:name=".utils.NotificationPublisher" />
 
-        <activity android:name=".ui.activities.AddNoteActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.activities.LaterActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.oneNote.OneNoteActivity"
-            android:screenOrientation="portrait"
-            />
+        <activity android:name=".ui.addNote.AddNoteActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.later.LaterActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.oneNote.OneNoteActivity"  android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

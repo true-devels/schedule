@@ -1,4 +1,4 @@
-package com.company.schedule.ui.activities;
+package com.company.schedule.ui.addNote;
 
 import android.app.DatePickerDialog;
 import android.app.Notification;
@@ -31,8 +31,8 @@ import com.company.schedule.model.system.MyNotification;
 import com.company.schedule.presentation.addNote.AddNotePresenter;
 import com.company.schedule.presentation.addNote.AddNoteView;
 import com.company.schedule.ui.main.MainActivity;
-import com.company.schedule.ui.pickers.DatePickerFragment;
-import com.company.schedule.ui.pickers.TimePickerFragment;
+import com.company.schedule.ui.addNote.pickers.DatePickerFragment;
+import com.company.schedule.ui.addNote.pickers.TimePickerFragment;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.company.schedule.ui.pickers;
+package com.company.schedule.ui.addNote.pickers;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -8,12 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 
-import com.company.schedule.utils.Error;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import static com.company.schedule.utils.Error.ERROR_LISTENER_DO_NOT_INITIALIZED;
 
 @SuppressLint("ValidFragment")
 public class TimePickerFragment extends DialogFragment {

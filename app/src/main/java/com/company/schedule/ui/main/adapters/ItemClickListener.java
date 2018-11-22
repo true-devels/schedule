@@ -1,4 +1,4 @@
-package com.company.schedule.utils;
+package com.company.schedule.ui.main.adapters;
 
 import android.view.View;
 

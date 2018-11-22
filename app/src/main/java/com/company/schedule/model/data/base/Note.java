@@ -18,7 +18,7 @@ import io.reactivex.annotations.NonNull;
 
 //class of notifications
 @Entity(tableName = Constants.TABLE_NAME)
-public class Note implements Serializable {  // TODO make Parcelable instead Serializable. it is optimise time
+public class Note implements Serializable {  // TODO if we make Parcelable instead Serializable it will optimise time
     @NonNull
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
