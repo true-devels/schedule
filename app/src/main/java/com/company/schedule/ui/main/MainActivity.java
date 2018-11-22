@@ -18,8 +18,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.company.schedule.R;
-import com.company.schedule.ui.activities.AddNoteActivity;
-import com.company.schedule.ui.activities.LaterActivity;
+import com.company.schedule.ui.addNote.AddNoteActivity;
+import com.company.schedule.ui.later.LaterActivity;
 import com.company.schedule.ui.main.adapters.PagerAdapter;
 import com.company.schedule.ui.settings.SettingsActivity;
 import com.company.schedule.model.repository.SharedPrefsRepository;

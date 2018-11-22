@@ -14,11 +14,9 @@ import android.widget.TextView;
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.ui.oneNote.OneNoteActivity;
-import com.company.schedule.utils.ItemClickListener;
 import com.company.schedule.utils.LocalFormat;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import static com.company.schedule.utils.Constants.FREQUENCY_DAILY;

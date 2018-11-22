@@ -29,8 +29,8 @@
 
         <receiver android:name=".utils.NotificationPublisher" />
 
-        <activity android:name=".ui.activities.AddNoteActivity" />
-        <activity android:name=".ui.activities.LaterActivity" />
+        <activity android:name=".ui.addNote.AddNoteActivity" />
+        <activity android:name=".ui.later.LaterActivity" />
         <activity android:name=".ui.oneNote.OneNoteActivity"></activity>
     </application>
 

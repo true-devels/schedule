@@ -1,4 +1,4 @@
-package com.company.schedule.ui.activities;
+package com.company.schedule.ui.later;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;

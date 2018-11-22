@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorBackground"
-    tools:context=".ui.activities.LaterActivity">
+    tools:context=".ui.later.LaterActivity">
 
     <include
         android:id="@+id/toolbar_include"

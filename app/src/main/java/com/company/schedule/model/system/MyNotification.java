@@ -46,7 +46,6 @@ public class MyNotification {
 
     }
 
-    // TODO check if it can be static
     public android.app.Notification getNotification(String title, String content) {
         NotificationCompat.Builder builder;
         Intent resultIntent = new Intent(context, MainActivity.class);
