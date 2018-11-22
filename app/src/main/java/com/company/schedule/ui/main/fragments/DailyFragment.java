@@ -1,4 +1,4 @@
-package com.company.schedule.ui;
+package com.company.schedule.ui.main.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,11 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.AppDatabase;
 import com.company.schedule.model.data.base.Note;
@@ -30,27 +28,28 @@ import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.presentation.main.MainView;
 import com.company.schedule.ui.main.MainActivity;
-import com.company.schedule.ui.main.NodeAdapter;
+import com.company.schedule.ui.main.adapters.NodeAdapter;
+import com.company.schedule.utils.LocalFormat;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
-
 
 import timber.log.Timber;
 
-public class MonthlyFragment extends Fragment implements MainView, RecyclerViewItemTouchHelperListener {
+public class DailyFragment extends Fragment implements MainView, RecyclerViewItemTouchHelperListener {
     MainActivity mainActivity;
+    RecyclerView notes_rc;
+    NodeAdapter adapter;
     MainPresenter presenter;
     RelativeLayout mainLayout;
-    CalendarView mCalendarView;
-    NodeAdapter mAdapter;
-    RecyclerView notes_rc;
-
+    TextView tvDateToday, tvCompletedTasks, tvAllTasks;
     private RecyclerView.LayoutManager mLayoutManager;
 
+
+    //  ================_LIFECYCLE_START_================
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,24 +69,21 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         SharedPrefsRepository sharedPrefs = new SharedPrefsRepository(getContext());
         if(sharedPrefs.isNightMode()) getActivity().setTheme(R.style.darktheme);  //dark
         else getActivity().setTheme(R.style.AppTheme);
-
         mainActivity = (MainActivity) getActivity();
-        View fragmentDaily = inflater.inflate(R.layout.fragment_monthly, container, false);
-        mCalendarView =  fragmentDaily.findViewById(R.id.calendarView);
-
-        notes_rc= fragmentDaily.findViewById(R.id.my_recycler_view3);
-
+        View fragmentDaily = inflater.inflate(R.layout.fragment_daily, container, false);
+        notes_rc= fragmentDaily.findViewById(R.id.my_recycler_view);
         mainLayout = fragmentDaily.findViewById(R.id.mainLayout);
+        tvDateToday = fragmentDaily.findViewById(R.id.tvDateToday);
+        tvCompletedTasks = fragmentDaily.findViewById(R.id.textViewCompleted);
+        tvAllTasks = fragmentDaily.findViewById(R.id.textViewAll);
         return fragmentDaily;
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
 
         notes_rc.setHasFixedSize(true);
 
@@ -99,94 +95,83 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
 
         notes_rc.setItemAnimator(new DefaultItemAnimator());
         notes_rc.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-        presenter.refreshMonthlyData();
-        mAdapter = new NodeAdapter(getContext());
+        //presenter.refreshDailyTasks(); load data was moved to onStart
+        //presenter.getAllNotes();
+        adapter = new NodeAdapter(getContext());
 
-        notes_rc.setAdapter(mAdapter);
-
+        notes_rc.setAdapter(adapter);
         ItemTouchHelper.SimpleCallback callback_left = new RecyclerViewItemTouchHelper(0,ItemTouchHelper.LEFT,this);
         new ItemTouchHelper(callback_left).attachToRecyclerView(notes_rc);
 
         ItemTouchHelper.SimpleCallback callback_right = new RecyclerViewItemTouchHelper(0,ItemTouchHelper.RIGHT,this);
         new ItemTouchHelper(callback_right).attachToRecyclerView(notes_rc);
 
+        Calendar today = new GregorianCalendar();
+        tvDateToday.setText(LocalFormat.getDate(today));
 
     }
 
     @Override
-    public void setAllNotes(List<Note> newNotesList) {
+    public void onStart() {
+        presenter.refreshDailyData();
+//        presenter.checkDoneNote();  // check done Note call in onComplete of refreshDaily
+        super.onStart();
+    }
 
- //       onGetNotes(newNotesList);
-        mAdapter.setAllNotes(newNotesList);
+
+    //  ================_VIEW_IMPLEMENTATION_================
+    @Override
+    public void setAllNotes(List<Note> newNotes) {
+        adapter.setAllNotes(newNotes);
     }
 
     @Override
-    public void toast(String toast_message) {
+    public void showMessage(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void toastLong(String toast_message) {
+    public void showMessageLong(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         int deleteIndex = viewHolder.getAdapterPosition ();
-        Note item = mAdapter.removeItem(deleteIndex);
+        Note item = adapter.removeItem(deleteIndex);
         if(direction == ItemTouchHelper.LEFT){
             Snackbar snackbar = Snackbar.make(mainLayout,"Postponed " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
             snackbar.show();
-            snackbar.setAction("UNDO", new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    mAdapter.restoreItem(item,deleteIndex);
-                    presenter.restoreFromLater(item, 2);
-                }
+            snackbar.setAction("UNDO", v -> {
+                adapter.restoreItem(item,deleteIndex);
+                presenter.restoreFromLater(item, 0);
             });
-            presenter.swipedToLater(item,2);
-        }else{
+            int id = ((NodeAdapter.MyViewHolder) viewHolder).id;
+            presenter.swipedToLater(item,0);
+            Log.d("id_check ",Integer.toString(id));
+        } else {
             Snackbar snackbar = Snackbar.make(mainLayout,"Done " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
             snackbar.show();
             snackbar.setAction("UNDO", v -> {
-                mAdapter.restoreItem(item,deleteIndex);
-                presenter.restoreFromDone(item, 2);
+                adapter.restoreItem(item,deleteIndex);
+                presenter.restoreFromDone(item, 0);
             });
-            presenter.swipedToDone(item,2);
-        }
+            presenter.swipedToDone(item,0);
 
+        }
     }
 
-    public void onGetNotes(List<Note> local){
-//        setAllNotes(local);
-
-        List<EventDay> events = new ArrayList<>();
-        Calendar calendar2 = Calendar.getInstance();
-        try {
-            mCalendarView.setDate(calendar2);
-        } catch (OutOfDateRangeException e) {
-            e.printStackTrace();
-        }
-
-        for(int i = 0; i<local.size();i++){
-            switch(local.get(i).getPriority()){
-                case 2:
-                    events.add(new EventDay(local.get(i).getDate(), R.drawable.button_bg_round_green));
-                    break;
-                case 3:
-                    events.add(new EventDay(local.get(i).getDate(), R.drawable.button_bg_round_red));
-                    break;
-                case 4:
-                    events.add(new EventDay(local.get(i).getDate(), R.drawable.button_bg_round_yellow));
-                    break;
-                default:
-                    events.add(new EventDay(local.get(i).getDate(), R.drawable.button_bg_round));
-                    break;
-
+    public void checkDone(List<Note> notes){
+        int done = 0, size=0;
+        for(Note note: notes){
+            if(note.getFrequency()==1){  // only for daily notes
+                size++;
+                if(note.isDone() && !note.isLater()){
+                    done++;
+                }
             }
-
         }
-        mCalendarView.setEvents(events);
-        Log.d("check of events",events.size()+" ");
+        tvCompletedTasks.setText(Integer.toString(done)+"/");
+        tvAllTasks.setText(Integer.toString(size));
     }
 }

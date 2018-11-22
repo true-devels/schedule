@@ -9,6 +9,8 @@ import com.company.schedule.utils.DateConverter;
 import com.company.schedule.utils.Constants;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 import io.reactivex.annotations.NonNull;
@@ -30,10 +32,10 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
     @ColumnInfo(name = "content")
     private String content;
 
-    //date when it must appear
+    //calendarDate when it must appear
     @TypeConverters({DateConverter.class}) // converter, because of using our own custom class
-    @ColumnInfo(name = "date")
-    private GregorianCalendar date;
+    @ColumnInfo(name = "calendarDate")
+    private GregorianCalendar calendarDate;
 
 
     //frequency (if 0 - never(once), 1 - daily, 2 - weekly, 3 - monthly, 4 - yearly)
@@ -56,10 +58,10 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
     private String category;
 
     //Constructor
-    public Note(int id, String name, String content, GregorianCalendar date, byte frequency, boolean done, boolean later, int priority, String category) {
+    public Note(int id, String name, String content, GregorianCalendar calendarDate, byte frequency, boolean done, boolean later, int priority, String category) {
         this.id = id;
         this.name = name;
-        this.date = date;
+        this.calendarDate = calendarDate;
         this.frequency = frequency;
         this.content = content;
         this.done = done;
@@ -85,17 +87,17 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
         this.name = name;
     }
 
-    public GregorianCalendar getDate() {
-        return date;
+    public GregorianCalendar getCalendarDate() {
+        return calendarDate;
     }
 
-    public void setDate(GregorianCalendar date) {
-        this.date = date;
+    public void setCalendarDate(GregorianCalendar calendarDate) {
+        this.calendarDate = calendarDate;
     }
 
-    // use this instead note.getDate == null
+    // use this instead note.getCalendar == null
     public boolean isDateNull(){
-        return date == null;  // is date equals null
+        return calendarDate == null;  // is calendarDate equals null
     }
 
     public byte getFrequency() {
@@ -114,34 +116,36 @@ public class Note implements Serializable {  // TODO make Parcelable instead Ser
         this.content = content;
     }
 
-    // get good date/time format
+    // get good calendarDate/time format
     public String getDateTimeInFormat() {
-        if (date != null)
+        if (calendarDate != null)
             return java.text.DateFormat
-                    .getDateTimeInstance()  // date and time local format
+                    .getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT)  // calendarDate and time local format
                     .format(
-                            date.getTime()  // we need write .getTime to convert GregorianCalendar to Date
+                            calendarDate.getTime()  // we need write .getTime to convert GregorianCalendar to Date
                     );
         else return "";
     }
 
     public String getDateInFormat() {
-        if (date != null)
+        if (calendarDate != null)
             return java.text.DateFormat
-                    .getDateInstance()  // date local format
+                    .getDateInstance()  // calendarDate local format
                     .format(
-                            date.getTime()  // we need write .getTime to convert GregorianCalendar to Date
+                            calendarDate.getTime()  // we need write .getTime to convert GregorianCalendar to Date
                     );
         else return "";
     }
 
     public String getTimeInFormat() {
-        if (date != null)
+        if (calendarDate != null) {
+            //DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
             return java.text.DateFormat
-                    .getTimeInstance()  // time local format
+                    .getTimeInstance(DateFormat.SHORT)  //      * SHORT for "h:mm a" in the US locale. Example 1:00 pm
                     .format(
-                            date.getTime()  // we need write .getTime to convert GregorianCalendar to Date
+                            calendarDate.getTime()  // we need write .getTime to convert GregorianCalendar to Date
                     );
+        }
         else return "";
     }
 

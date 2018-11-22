@@ -1,4 +1,4 @@
-package com.company.schedule.ui.main;
+package com.company.schedule.ui.main.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,14 +15,17 @@ import com.company.schedule.R;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.ui.oneNote.OneNoteActivity;
 import com.company.schedule.utils.ItemClickListener;
+import com.company.schedule.utils.LocalFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.company.schedule.utils.Constants.FREQUENCY_DAILY;
+
 public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> {
-    public ArrayList<Note> mDataset = new ArrayList<>();
-    Context context;
+    private ArrayList<Note> mDataset = new ArrayList<>();
+    private Context context;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -103,19 +106,17 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
                 holder.img_priority.setImageResource(R.drawable.button_bg_round);
                 break;
         }
-        String time = mDataset.get(position).getDate().get(Calendar.HOUR_OF_DAY) + ":" + mDataset.get(position).getDate().get(Calendar.MINUTE);
+        String time = mDataset.get(position).getTimeInFormat();
         holder.tv_time.setText(time);
         Log.d("check dates", mDataset.get(position).getDateTimeInFormat());
-        if(mDataset.get(position).getFrequency()!=1){
-           String date = mDataset.get(position).getDate().get(Calendar.DAY_OF_MONTH) + ", " + getMonthForInt(mDataset.get(position).getDate().get(Calendar.MONTH));
+        if(mDataset.get(position).getFrequency() != FREQUENCY_DAILY) {
+           String date = LocalFormat.getDayMonth(mDataset.get(position).getCalendarDate());
             holder.tv_date.setText(date);
-        }else{
+        } else {
             //holder.tv_time.setGravity(View.TEXT_ALIGNMENT_CENTER);
             holder.tv_date.setText("");
         }
         holder.tv_category.setText(mDataset.get(position).getCategory());
-
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -140,15 +141,5 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         mDataset.clear();
         mDataset.addAll(dataset);
         notifyDataSetChanged();
-    }
-
-
-    private String getMonthForInt(int num) {
-        String month = "wrong";
-        String[] mon = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
-        if (num >= 0 && num <= 11 ) {
-            month = mon[num];
-        }
-        return month;
     }
 }

@@ -44,8 +44,8 @@ public  class NotificationPublisher extends BroadcastReceiver {
         MyNotification myNotification = new MyNotification(context);
         if(!noteToShow.isDone() & !noteToShow.isLater()){
 
-            noteToShow.getDate().set(Calendar.SECOND,0);
-            noteToShow.getDate().set(Calendar.MILLISECOND,0);
+            noteToShow.getCalendarDate().set(Calendar.SECOND,0);
+            noteToShow.getCalendarDate().set(Calendar.MILLISECOND,0);
             NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
             Notification local = myNotification.getNotification(noteToShow.getName(), noteToShow.getContent());
             notificationManager.notify(id, local);

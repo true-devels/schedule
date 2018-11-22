@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-import com.company.schedule.ui.main.NodeAdapter;
+import com.company.schedule.ui.main.adapters.NodeAdapter;
 
 public class RecyclerViewItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 

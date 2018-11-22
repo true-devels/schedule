@@ -23,7 +23,6 @@ import com.company.schedule.model.repository.SharedPrefsRepository;
 import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.oneNote.OneNotePresenter;
 import com.company.schedule.presentation.oneNote.OneNoteView;
-import com.company.schedule.obsolete.timerObsolete.TimerPresenterObsolete;
 import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.ui.main.MainActivity;
 
@@ -40,7 +39,6 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
     OneNotePresenter presenter;
 
     // timer
-    TimerPresenterObsolete timerPresenterObsolete;
     Button btnTimer;
     TextView tvTimer;
 
@@ -96,12 +94,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         tv_name.setText(noteToShow.getName());
         tv_content.setText(noteToShow.getContent());
         tv_category.setText("Category: " + noteToShow.getCategory());
-        String date = "";
-        date+=Integer.toString(noteToShow.getDate().get(Calendar.DAY_OF_MONTH));  // TODO use Note.getDateTimeInFormat
-        date+=" " +getMonthForInt(noteToShow.getDate().get(Calendar.MONTH));
-        date+=" " + noteToShow.getDate().get(Calendar.YEAR);
-        date+=" " + noteToShow.getTimeInFormat();
-        tv_datetime.setText(date);
+        tv_datetime.setText(noteToShow.getDateTimeInFormat());
 
         switch (noteToShow.getPriority()){
             case 1:
@@ -276,17 +269,6 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public Note getNote() {
         return noteToShow;
-    }
-
-    //  ================_PRIVATE_================
-
-    private String getMonthForInt(int num) {
-        String month = "wrong";
-        String[] mon = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
-        if (num >= 0 && num <= 11 ) {
-            month = mon[num];
-        }
-        return month;
     }
 
 //  ================_LIFECYCLE_FINISH_================

@@ -1,4 +1,4 @@
-package com.company.schedule.ui;
+package com.company.schedule.ui.main.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,7 +29,8 @@ import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.presentation.main.MainView;
 import com.company.schedule.ui.main.MainActivity;
-import com.company.schedule.ui.main.NodeAdapter;
+import com.company.schedule.ui.main.adapters.NodeAdapter;
+import com.company.schedule.utils.LocalFormat;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
@@ -122,7 +123,7 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
 
         notes_rc.setItemAnimator(new DefaultItemAnimator());
         notes_rc.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-        presenter.refreshWeeklyData();
+        //presenter.refreshWeeklyTasks();
         mAdapter = new NodeAdapter(getContext());
 
         notes_rc.setAdapter(mAdapter);
@@ -158,8 +159,14 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
 
             //tv_numbers.get(i).setTextColor();
         }
-        tv_monthyear.setText(getMonthForInt(new GregorianCalendar().get(Calendar.MONTH))+", "+ new GregorianCalendar().get(Calendar.YEAR));
 
+        tv_monthyear.setText(LocalFormat.getMonthYear(new Date())); // new Date() return current time
+    }
+
+    @Override
+    public void onStart() {
+        presenter.refreshWeeklyData();
+        super.onStart();
     }
 
     @Override
@@ -168,12 +175,12 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
     }
 
     @Override
-    public void toast(String toast_message) {
+    public void showMessage(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void toastLong(String toast_message) {
+    public void showMessageLong(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_LONG).show();
     }
 
@@ -204,14 +211,5 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
             presenter.swipedToDone(item,1);
         }
 
-    }
-
-    String getMonthForInt(int num) {
-        String month = "wrong";
-        String[] mon = {"January","February","March","April","May","June","July","August","September","October","November","December"};
-        if (num >= 0 && num <= 11 ) {
-            month = mon[num];
-        }
-        return month;
     }
 }
