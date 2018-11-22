@@ -140,7 +140,7 @@ public class OneNotePresenter {
                 seconds = seconds % 60;
 
                 if(view != null)
-                    view.setTimerText(String.format("%d:%02d.%03d", minutes, seconds, millis));
+                    view.setTimerText(String.format("%d:%02d", minutes, seconds));
 
                 timerHandler.postDelayed(this, 10);  // delay for update timer       }
             }
