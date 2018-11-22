@@ -29,7 +29,6 @@ import static com.company.schedule.utils.Constants.CHANEL_ID;
 import static com.company.schedule.utils.Constants.FREQUENCY_DAILY;
 import static com.company.schedule.utils.Constants.FREQUENCY_MONTHLY;
 import static com.company.schedule.utils.Constants.FREQUENCY_WEEKLY;
-import static com.company.schedule.utils.Constants.FREQUENCY_YEARLY;
 import static com.company.schedule.utils.Constants.MILLISECONDS_IN_DAY;
 
 public class MyNotification {
@@ -52,11 +51,11 @@ public class MyNotification {
         NotificationCompat.Builder builder;
         Intent resultIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntentResult = PendingIntent.getActivity(context, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {  // condition must be here to support all version of device
             createNotificationChannel();
             Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             builder = new NotificationCompat.Builder(context,CHANEL_ID)
-                    .setSmallIcon(R.mipmap.ic_launcher)  // default icon TODO change to good icon
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(title)
                     .setContentText(content)
                     //TODO check these three lines work
@@ -68,8 +67,8 @@ public class MyNotification {
                     .setContentIntent(pendingIntentResult);
         }
         else{
-            builder = new NotificationCompat.Builder(context)
-                    .setSmallIcon(R.mipmap.ic_launcher)  // default icon TODO change to good icon
+            builder = new NotificationCompat.Builder(context)  // NotificationCompat.Builder must be here to support old version
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(title)
                     .setContentText(content)
                     //TODO check these three lines work
@@ -86,10 +85,6 @@ public class MyNotification {
 
 
     public void scheduleNotification(Notification notification, int id, Note note) {
-
-
-        //TODO make correct intentfilter
-
       //  mainActivity.registerReceiver( new NotificationPublisher(), IntentFilter.create("com.company.schedule.model.system.MyNotification$NotificationPublisher","text/plain"));
 
         Intent notification_Intent = new Intent(context, NotificationPublisher.class);
@@ -98,10 +93,10 @@ public class MyNotification {
         notification_Intent.putExtra(Constants.NOTIFICATION, notification);
 
         GregorianCalendar next;
-        PendingIntent pendingIntent;  // TODO comment it
+        PendingIntent pendingIntent;  // TODO explain it
         pendingIntent = PendingIntent.getBroadcast(context, id, notification_Intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if(note.getDate().getTimeInMillis()<= new GregorianCalendar().getTimeInMillis()){
+        if(note.getCalendarDate().getTimeInMillis()<= new GregorianCalendar().getTimeInMillis()){
             next = new GregorianCalendar();
             switch (note.getFrequency()){
                 case FREQUENCY_DAILY:
@@ -123,12 +118,12 @@ public class MyNotification {
 
 
             }
-            note.setDate(next);
+            note.setCalendarDate(next);
             interactor.updateNote(note);
         }
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, note.getDate().getTimeInMillis(), pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, note.getCalendarDate().getTimeInMillis(), pendingIntent);
         Log.v("Final final check",""+id);
     }
 

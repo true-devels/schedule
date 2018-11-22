@@ -15,7 +15,7 @@ public interface NoteDAO {
     @Query("SELECT * FROM " + Constants.TABLE_NAME + " WHERE id=:id")
     Note getOneNote(int id);
 
-    @Query("SELECT * FROM " + Constants.TABLE_NAME + "")  // TODO make good sort by date
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + "")
     List<Note> getAllNotes();//            +
 //            "UNION ALL " +
 //            "SELECT * FROM " + Constants.TABLE_NAME + " WHERE date = NULL "
@@ -55,7 +55,7 @@ public interface NoteDAO {
     void deleteAllNotes();
     // for output notifies sorted by date
 
-    @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY date;")
+    @Query("SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY calendarDate;")
     List<Note> getNotesSortedByDate();
 
     @Query("UPDATE " + Constants.TABLE_NAME + " SET done = 0, later=0 WHERE frequency=1")

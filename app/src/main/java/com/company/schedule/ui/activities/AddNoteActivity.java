@@ -3,7 +3,6 @@ package com.company.schedule.ui.activities;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -42,7 +39,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Objects;
 
 public class AddNoteActivity extends AppCompatActivity implements AddNoteView, View.OnClickListener,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -140,29 +136,29 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                 isSelected = true;
                 switch (pos){
                     case 0:
-                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                        noteInfo.getCalendarDate().set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                         break;
                     case 1:
-                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+                        noteInfo.getCalendarDate().set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
                         break;
                     case 2:
-                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+                        noteInfo.getCalendarDate().set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
                         break;
                     case 3:
-                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                        noteInfo.getCalendarDate().set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
                         break;
                     case 4:
-                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                        noteInfo.getCalendarDate().set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
                         break;
                     case 5:
-                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                        noteInfo.getCalendarDate().set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
                         break;
                     case 6:
-                        noteInfo.getDate().set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                        noteInfo.getCalendarDate().set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
                         break;
                 }
-                if(noteInfo.getDate().getTimeInMillis()<new Date().getTime()){
-                    noteInfo.getDate().set(Calendar.WEEK_OF_YEAR,noteInfo.getDate().get(Calendar.WEEK_OF_YEAR)+1);
+                if(noteInfo.getCalendarDate().getTimeInMillis()<new Date().getTime()){
+                    noteInfo.getCalendarDate().set(Calendar.WEEK_OF_YEAR,noteInfo.getCalendarDate().get(Calendar.WEEK_OF_YEAR)+1);
                 }
             }
         });
@@ -183,7 +179,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                 et_category.setText(noteInfo.getCategory());
 
                 // output date in good format
-                et_date.setText(noteInfo.getDateInFormat());  // Note: we don't need write checking for noteInfo.getDate() == null
+                et_date.setText(noteInfo.getDateInFormat());  // Note: we don't need write checking for noteInfo.getCalendarDate() == null
                 et_time.setText(noteInfo.getTimeInFormat());
 
 
@@ -266,16 +262,16 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
         //month++; // because computer start count month from 0 to 11
-        noteInfo.getDate().set(GregorianCalendar.YEAR, year);
-        noteInfo.getDate().set(GregorianCalendar.MONTH, month);
-        noteInfo.getDate().set(GregorianCalendar.DAY_OF_MONTH, dayOfMonth);
+        noteInfo.getCalendarDate().set(GregorianCalendar.YEAR, year);
+        noteInfo.getCalendarDate().set(GregorianCalendar.MONTH, month);
+        noteInfo.getCalendarDate().set(GregorianCalendar.DAY_OF_MONTH, dayOfMonth);
 
         et_date.setText(noteInfo.getDateInFormat());  // when user chose a date we switch it in TV in good date format
     }
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-        noteInfo.getDate().set(GregorianCalendar.HOUR_OF_DAY, hourOfDay);
-        noteInfo.getDate().set(GregorianCalendar.MINUTE,minute);
+        noteInfo.getCalendarDate().set(GregorianCalendar.HOUR_OF_DAY, hourOfDay);
+        noteInfo.getCalendarDate().set(GregorianCalendar.MINUTE,minute);
 
         et_time.setText(noteInfo.getTimeInFormat());  // when user chose a date we switch it in TV in good time format
     }
@@ -283,8 +279,8 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     @Override
     public void createNotification(Note note, int id) {
         MyNotification myNotification = new MyNotification(this);
-        note.getDate().set(Calendar.SECOND,0);
-        note.getDate().set(Calendar.MILLISECOND,0);
+        note.getCalendarDate().set(Calendar.SECOND,0);
+        note.getCalendarDate().set(Calendar.MILLISECOND,0);
         Notification local = myNotification.getNotification(note.getName(), note.getContent());
 
         myNotification.scheduleNotification(local,
@@ -305,9 +301,8 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         Toast.makeText(this, toast_message, Toast.LENGTH_LONG).show();
     }
 
-    // TODO make fragment transition through fragment, but don't through activity
     @Override
-    public void goToMainFragment() {
+    public void goToMainActivity() {
       /*  Fragment fragment = new MainFragmentObsolete();
         FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
@@ -357,10 +352,10 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                 btnRed.setBackgroundResource(R.color.colorWhite);
                 break;
             case R.id.date_et:  //if clicking on TextView with date
-                presenter.pressedToEditDate(isEdited, noteInfo.getDate());
+                presenter.pressedToEditDate(isEdited, noteInfo.getCalendarDate());
                 break;
             case R.id.time_et:   //if clicking on TextView with time
-                presenter.pressedToEditTime(isEdited, noteInfo.getDate());
+                presenter.pressedToEditTime(isEdited, noteInfo.getCalendarDate());
                 break;
             case R.id.buttonAdd:  // if button send note to DB already pressed
                 noteInfo.setName(et_name.getText().toString());
@@ -373,18 +368,18 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                     week_spinner.setVerticalScrollbarPosition(3);
                    // week_spinner.setVisibility(View.GONE);
                     if(isSelected){
-                        if(noteInfo.getDate().getTimeInMillis()<new Date().getTime()){
+                        if(noteInfo.getCalendarDate().getTimeInMillis()<new Date().getTime()){
                             if(noteInfo.getFrequency()==1){
-                                noteInfo.getDate().set(Calendar.DAY_OF_YEAR, noteInfo.getDate().get(Calendar.DAY_OF_YEAR)+1);
+                                noteInfo.getCalendarDate().set(Calendar.DAY_OF_YEAR, noteInfo.getCalendarDate().get(Calendar.DAY_OF_YEAR)+1);
                             }
                             if(noteInfo.getFrequency()==3){
                                 GregorianCalendar local = new GregorianCalendar();
                                 local.set(Calendar.MONTH,local.get(Calendar.MONTH)+1);
-                                if(noteInfo.getDate().get(Calendar.DAY_OF_MONTH)>local.getActualMaximum(Calendar.DAY_OF_MONTH)){
-                                    noteInfo.getDate().set(Calendar.MONTH,local.get(Calendar.MONTH));
-                                    noteInfo.getDate().set(Calendar.DAY_OF_MONTH, local.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                if(noteInfo.getCalendarDate().get(Calendar.DAY_OF_MONTH)>local.getActualMaximum(Calendar.DAY_OF_MONTH)){
+                                    noteInfo.getCalendarDate().set(Calendar.MONTH,local.get(Calendar.MONTH));
+                                    noteInfo.getCalendarDate().set(Calendar.DAY_OF_MONTH, local.getActualMaximum(Calendar.DAY_OF_MONTH));
                                 }else{
-                                    noteInfo.getDate().set(Calendar.MONTH,Calendar.MONTH+1);
+                                    noteInfo.getCalendarDate().set(Calendar.MONTH,Calendar.MONTH+1);
                                 }
                             }
                         }

@@ -2,6 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
@@ -75,9 +76,9 @@
 
         <LinearLayout
             android:id="@+id/ll_datetime"
-            android:layout_width="55dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="8dp"
             android:orientation="vertical">
 
             <TextView
@@ -86,9 +87,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="10:30"
+                android:maxLines="1"
+                android:text="10:30 PM"
+
                 android:textColor="?attr/blackText"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewDate"
@@ -99,30 +102,30 @@
                 android:text="28 feb"
                 android:textColor="?attr/blackText" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/textes"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="64dp"
+            android:layout_marginStart="16dp"
             android:layout_toEndOf="@+id/ll_datetime"
-            android:layout_centerVertical="true">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
                 android:layout_weight="7"
-                android:text="Meeting with client"
                 android:textColor="?attr/blackText"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:text="Meeting with client" />
 
             <TextView
                 android:id="@+id/tv_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:layout_weight="2"
                 android:text="Official"
                 android:textColor="?attr/colorPrimary"

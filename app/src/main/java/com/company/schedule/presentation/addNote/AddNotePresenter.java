@@ -28,7 +28,7 @@ public class AddNotePresenter {
             toSent = note;
             if (isEdited) updateNote(note);
             else insertNewNote(note);
-            view.goToMainFragment();  // finish fragment
+            view.goToMainActivity();  // finish fragment
 
     }
 
@@ -44,7 +44,7 @@ public class AddNotePresenter {
 
     public void pressedToFabDelete(boolean isEdited, int id) {
         if(isEdited) deleteNote(id);
-        view.goToMainFragment();  // finish view in any case
+        view.goToMainActivity();  // finish view in any case
     }
 
     public void changedRemindMe(boolean isChecked) {

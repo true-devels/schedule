@@ -35,8 +35,9 @@
 
         <TextView
             android:id="@+id/textViewName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
             android:layout_marginTop="8dp"
             android:text="Meet with diller"
             android:textColor="?attr/blackText"
@@ -47,26 +48,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textViewName"
-            android:layout_marginTop="4dp"
-            android:text="26 Feb 2018 4:56"
+            android:layout_marginTop="8dp"
             android:textColor="?attr/colorPrimary"
-            android:textSize="12sp" />
+            android:textSize="14sp"
+            tools:text="November 23, 2018 6:03 PM" />
 
-        <TextView
-            android:id="@+id/textViewContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewDateTime"
-            android:layout_marginTop="16dp"
-            android:text="I need to show him something and buy a bit"
-            android:textColor="?attr/blackText" />
 
         <TextView
             android:id="@+id/textViewCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textViewContent"
-            android:layout_marginTop="24dp"
+            android:layout_below="@id/textViewDateTime"
+            android:layout_marginTop="16dp"
             android:text="Category: Friend"
             android:textColor="?attr/blackText"
             android:textStyle="italic" />
@@ -80,6 +73,15 @@
             android:text="Status: Done"
             android:textColor="?attr/blackText"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewStatus"
+            android:layout_marginTop="16dp"
+            android:text="I need to show him something and buy a bit"
+            android:textColor="?attr/blackText" />
 
         <ImageView
             android:id="@+id/imageViewPriority"

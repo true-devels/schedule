@@ -107,10 +107,6 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
         new ItemTouchHelper(callback_right).attachToRecyclerView(notes_rc);
 
         Calendar today = new GregorianCalendar();
-        /* TODO obsolete
-        String toshow = now.get(Calendar.DAY_OF_MONTH)+" ";
-        toshow+= getMonthForInt(now.get(Calendar.MONTH))+", ";
-        toshow+= now.get(Calendar.YEAR);*/
         tvDateToday.setText(LocalFormat.getDate(today));
 
     }
@@ -149,7 +145,6 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
             snackbar.setAction("UNDO", v -> {
                 adapter.restoreItem(item,deleteIndex);
                 presenter.restoreFromLater(item, 0);
-                //presenter.checkDoneNote();
             });
             int id = ((NodeAdapter.MyViewHolder) viewHolder).id;
             presenter.swipedToLater(item,0);
@@ -157,16 +152,13 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
         } else {
             Snackbar snackbar = Snackbar.make(mainLayout,"Done " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
             snackbar.show();
-            //presenter.checkDoneNote();
             snackbar.setAction("UNDO", v -> {
                 adapter.restoreItem(item,deleteIndex);
                 presenter.restoreFromDone(item, 0);
-                //presenter.checkDoneNote();
             });
             presenter.swipedToDone(item,0);
 
         }
-        //presenter.checkDoneNote();
     }
 
     public void checkDone(List<Note> notes){

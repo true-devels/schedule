@@ -101,7 +101,7 @@ public class OneNotePresenter {
             case START_TIMER:
                 startTimer();
                 break;
-
+            /* todo coming soon
             case PAUSE_TIMER:
                 pauseTimer();
                 break;
@@ -109,7 +109,7 @@ public class OneNotePresenter {
             case RESUME_TIMER:
                 resumeTimer();
                 break;
-
+*/
             case STOP_TIMER:
                 stopTimer();
                 break;
@@ -169,22 +169,22 @@ public class OneNotePresenter {
     }
 
     private void pauseTimer() {
-        //todo      pauseTime = System.currentTimeMillis();
+        //      pauseTime = System.currentTimeMillis();
         view.setBtnTimerText(RESUME_TIMER);
         timerHandler.removeCallbacks(timerRunnable);
     }
 
 
     private void resumeTimer() {
-//    todo    if (pauseTime != 0)          finishTime += System.currentTimeMillis() - pauseTime;  // update time when task will be finished
+//        if (pauseTime != 0)          finishTime += System.currentTimeMillis() - pauseTime;  // update time when task will be finished
         view.setBtnTimerText(STOP_TIMER); //  TODO PAUSE_TIMER
         timerHandler.postDelayed(timerRunnable, 0);
     }
 
 
     private void stopTimer() {
-//todo        pauseTime = 0;
-        view.setBtnTimerText(START_TIMER);  // TODO null pointer exception
+//        pauseTime = 0;
+        view.setBtnTimerText(START_TIMER);
         timerHandler.removeCallbacks(timerRunnable);
 
         isTaskFinished = true;
@@ -210,7 +210,7 @@ public class OneNotePresenter {
     }
     //  ================_DETACHING_================
     public void detachView() {
-        //    timerHandler.removeCallbacks(timerRunnable);
+        timerHandler.removeCallbacks(timerRunnable);
         this.view = null;
     }
 }

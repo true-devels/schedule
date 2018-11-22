@@ -18,5 +18,5 @@ public interface AddNoteView {
 
     void toast(String toast_message);
     void toastLong(String toast_message);
-    void goToMainFragment();
+    void goToMainActivity();
 }
