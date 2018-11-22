@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -14,15 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.support.v7.widget.Toolbar;
 
-import android.view.MenuItem;
 import android.view.View;
 
-import android.widget.Toast;
 import android.widget.ImageButton;
 
 import com.company.schedule.R;
 import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.ui.activities.LaterActivity;
+import com.company.schedule.ui.main.adapters.PagerAdapter;
 import com.company.schedule.ui.settings.SettingsActivity;
 import com.company.schedule.model.repository.SharedPrefsRepository;
 
@@ -132,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
         notes_rc.setItemAnimator(new DefaultItemAnimator());
         notes_rc.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        presenter.loadDailyData();
+        presenter.getAllDailyTasks();
         adapter = new NodeAdapter(this);
 
         notes_rc.setAdapter(adapter);
@@ -192,12 +190,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void toast(String toast_message) {
+    public void showMessage(String toast_message) {
         Toast.makeText(this, toast_message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void toastLong(String toast_message) {
+    public void showMessageLong(String toast_message) {
         Toast.makeText(this, toast_message, Toast.LENGTH_LONG).show();
     }
 

@@ -21,17 +21,17 @@ public class MainInteractor {
         return repository.updateNote(noteToUpdate);
     }
 
-    public Observable<List<Note>> loadData() {
+    public Observable<List<Note>> getAllNotes() {
         return repository.getAllNotes();
     }
-    public Observable<List<Note>> loadDailyData() {
-        return repository.loadDataDaily();
+    public Observable<List<Note>> getAllDailyNotes() {
+        return repository.getAllDailyNotes();
     }
-    public Observable<List<Note>> loadWeeklyData() {
-        return repository.loadWeeklyData();
+    public Observable<List<Note>> getAllWeeklyNotes() {
+        return repository.getAllWeeklyNotes();
     }
-    public Observable<List<Note>> loadMonthlyData() {
-        return repository.loadMonthlyData();
+    public Observable<List<Note>> getAllMonthlyNotes() {
+        return repository.getAllMonthlyNotes();
     }
 
 
@@ -40,16 +40,16 @@ public class MainInteractor {
         return repository.deleteNoteById(id);
     }
 
-    public Completable refreshDailyData(){
-        return repository.refreshDailyData();
+    public Completable refreshDailyNotes(){
+        return repository.refreshDailyNotes();
     }
 
-    public Completable refreshWeeklyData(){
-        return repository.refreshWeeklyData();
+    public Completable refreshWeeklyNotes(){
+        return repository.refreshWeeklyNotes();
     }
 
-    public Completable refreshMonthlyData(){
-        return repository.refreshMonthlyData();
+    public Completable refreshMonthlyNotes(){
+        return repository.refreshMonthlyNotes();
     }
 
 }

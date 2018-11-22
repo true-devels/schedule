@@ -1,4 +1,4 @@
-package com.company.schedule.ui;
+package com.company.schedule.ui.main.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,7 +29,7 @@ import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.presentation.main.MainView;
 import com.company.schedule.ui.main.MainActivity;
-import com.company.schedule.ui.main.NodeAdapter;
+import com.company.schedule.ui.main.adapters.NodeAdapter;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
@@ -82,7 +82,6 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
         notes_rc.setHasFixedSize(true);
 
         // use a linear layout manager
@@ -93,7 +92,7 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
 
         notes_rc.setItemAnimator(new DefaultItemAnimator());
         notes_rc.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-        presenter.refreshMonthlyData();
+        //presenter.refreshMonthlyTasks();
         mAdapter = new NodeAdapter(getContext());
 
         notes_rc.setAdapter(mAdapter);
@@ -103,8 +102,12 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
 
         ItemTouchHelper.SimpleCallback callback_right = new RecyclerViewItemTouchHelper(0,ItemTouchHelper.RIGHT,this);
         new ItemTouchHelper(callback_right).attachToRecyclerView(notes_rc);
+    }
 
-
+    @Override
+    public void onStart() {
+        presenter.refreshMonthlyData();
+        super.onStart();
     }
 
     @Override
@@ -115,12 +118,12 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
     }
 
     @Override
-    public void toast(String toast_message) {
+    public void showMessage(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void toastLong(String toast_message) {
+    public void showMessageLong(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_LONG).show();
     }
 

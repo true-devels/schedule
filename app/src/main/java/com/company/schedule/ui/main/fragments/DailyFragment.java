@@ -1,4 +1,4 @@
-package com.company.schedule.ui;
+package com.company.schedule.ui.main.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,7 +27,7 @@ import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.presentation.main.MainView;
 import com.company.schedule.ui.main.MainActivity;
-import com.company.schedule.ui.main.NodeAdapter;
+import com.company.schedule.ui.main.adapters.NodeAdapter;
 import com.company.schedule.utils.LocalFormat;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
@@ -47,6 +47,8 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
     TextView tvDateToday, tvCompletedTasks, tvAllTasks;
     private RecyclerView.LayoutManager mLayoutManager;
 
+
+    //  ================_LIFECYCLE_START_================
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,8 +91,8 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
 
         notes_rc.setItemAnimator(new DefaultItemAnimator());
         notes_rc.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-        presenter.refreshDailyData();
-        presenter.loadData();
+        //presenter.refreshDailyTasks(); load data was moved to onStart
+        //presenter.getAllNotes();
         adapter = new NodeAdapter(getContext());
 
         notes_rc.setAdapter(adapter);
@@ -110,17 +112,26 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
     }
 
     @Override
+    public void onStart() {
+        presenter.refreshDailyData();
+//        presenter.checkDoneNote();  // check done Note call in onComplete of refreshDaily
+        super.onStart();
+    }
+
+
+    //  ================_VIEW_IMPLEMENTATION_================
+    @Override
     public void setAllNotes(List<Note> newNotes) {
         adapter.setAllNotes(newNotes);
     }
 
     @Override
-    public void toast(String toast_message) {
+    public void showMessage(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void toastLong(String toast_message) {
+    public void showMessageLong(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_LONG).show();
     }
 
@@ -134,30 +145,30 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
             snackbar.setAction("UNDO", v -> {
                 adapter.restoreItem(item,deleteIndex);
                 presenter.restoreFromLater(item, 0);
-                presenter.loadData();
+                //presenter.checkDoneNote();
             });
             int id = ((NodeAdapter.MyViewHolder) viewHolder).id;
             presenter.swipedToLater(item,0);
             Log.d("id_check ",Integer.toString(id));
-            presenter.loadData();
-        }else{
+        } else {
             Snackbar snackbar = Snackbar.make(mainLayout,"Done " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
             snackbar.show();
-            presenter.loadData();
+            //presenter.checkDoneNote();
             snackbar.setAction("UNDO", v -> {
                 adapter.restoreItem(item,deleteIndex);
                 presenter.restoreFromDone(item, 0);
-                presenter.loadData();
+                //presenter.checkDoneNote();
             });
             presenter.swipedToDone(item,0);
-            presenter.loadData();
+
         }
+        //presenter.checkDoneNote();
     }
 
     public void checkDone(List<Note> notes){
         int done = 0, size=0;
         for(Note note: notes){
-            if(note.getFrequency()==1){
+            if(note.getFrequency()==1){  // only for daily notes
                 size++;
                 if(note.isDone() && !note.isLater()){
                     done++;

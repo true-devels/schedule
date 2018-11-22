@@ -54,7 +54,7 @@ public class MainFragmentObsolete extends Fragment {// implements MainView {
         notesList.setLayoutManager(new LinearLayoutManager(getContext()));
         notesList.setAdapter(adapter);
 
-        presenter.loadData();  // we load data to Recycler view
+        presenter.getAllNotes();  // we load data to Recycler view
 
         fab.setOnClickListener(v -> goToAddNoteFragment());  // setting handle
     }
@@ -70,7 +70,7 @@ public class MainFragmentObsolete extends Fragment {// implements MainView {
     }
 
     private void goToAddNoteFragment() {
-        Fragment fragment = new UpdateNoteFragment();
+        Fragment fragment = new UpdateNoteFragmentObsolete();
         FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -81,7 +81,7 @@ public class MainFragmentObsolete extends Fragment {// implements MainView {
     }
 
     private void goToUpdateNoteFragment(Note noteToSend) {
-        Fragment fragment = new UpdateNoteFragment();
+        Fragment fragment = new UpdateNoteFragmentObsolete();
         FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -98,12 +98,12 @@ public class MainFragmentObsolete extends Fragment {// implements MainView {
 
 
     @Override
-    public void toast(String toast_message) {
+    public void showMessage(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void toastLong(String toast_message) {
+    public void showMessageLong(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_LONG).show();
     }
 

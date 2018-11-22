@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 //import com.company.schedule.presentation.updateNote.UpdateNoteView;
 
 
-public class UpdateNoteFragment extends Fragment {// implements UpdateNoteView, View.OnClickListener, CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class UpdateNoteFragmentObsolete extends Fragment {// implements UpdateNoteView, View.OnClickListener, CompoundButton.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 /* TODO obsolete
 
     private MainActivity mainActivity;
@@ -156,14 +156,14 @@ public class UpdateNoteFragment extends Fragment {// implements UpdateNoteView, 
             noteInfo.setContent(etContentNote.getText().toString());
             noteInfo.setFrequency( (byte) spinnerFreq.getSelectedItemPosition());
             if(noteInfo.getName().trim().isEmpty()){
-                toastLong("Note must have name");
+                showMessageLong("Note must have name");
             }else{
                 GregorianCalendar check = new GregorianCalendar();
                 if (!isReminded || noteInfo.getDate().getTimeInMillis() > check.getTimeInMillis()) {
                     presenter.pressedToSubmitNote(noteInfo, isEdited, isReminded);
                 } else {
                     Timber.w("Date should be in future");
-                    toastLong("Date should be in future");
+                    showMessageLong("Date should be in future");
                 }
             }
             break;
@@ -283,12 +283,12 @@ public class UpdateNoteFragment extends Fragment {// implements UpdateNoteView, 
 
 
     @Override
-    public void toast(String toast_message) {
+    public void showMessage(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void toastLong(String toast_message) {
+    public void showMessageLong(String toast_message) {
         Toast.makeText(getContext(), toast_message, Toast.LENGTH_LONG).show();
     }
 

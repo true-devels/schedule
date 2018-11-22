@@ -84,7 +84,7 @@ public class MainRepository {
     }
 
 
-    public Observable<List<Note>> loadDataDaily() {
+    public Observable<List<Note>> getAllDailyNotes() {
         return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
             try {
                 List<Note> notes = noteDAO.getAllDailyNotes();  // get notes
@@ -98,7 +98,7 @@ public class MainRepository {
                 .observeOn(schedulers.ui());
     }
 
-    public Observable<List<Note>> loadWeeklyData() {
+    public Observable<List<Note>> getAllWeeklyNotes() {
         return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
             try {
                 List<Note> notes = noteDAO.getAllWeeklyNotes();  // get notes
@@ -112,7 +112,7 @@ public class MainRepository {
                 .observeOn(schedulers.ui());
     }
 
-    public Observable<List<Note>> loadMonthlyData() {
+    public Observable<List<Note>> getAllMonthlyNotes() {
         return Observable.create((ObservableOnSubscribe<List<Note>>) emitter -> {
             try {
                 List<Note> notes = noteDAO.getAllMonthlyNotes();  // get notes
@@ -167,7 +167,7 @@ public class MainRepository {
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.ui());
     }
-    public Completable refreshDailyData() {
+    public Completable refreshDailyNotes() {
         return Completable.create(emitter -> {
             noteDAO.refreshDailyNotes();
             emitter.onComplete();
@@ -176,7 +176,7 @@ public class MainRepository {
                 .observeOn(schedulers.ui());
     }
 
-    public Completable refreshWeeklyData() {
+    public Completable refreshWeeklyNotes() {
         return Completable.create(emitter -> {
             noteDAO.refreshWeeklyNotes();
             emitter.onComplete();
@@ -185,7 +185,7 @@ public class MainRepository {
                 .observeOn(schedulers.ui());
     }
 
-    public Completable refreshMonthlyData() {
+    public Completable refreshMonthlyNotes() {
         return Completable.create(emitter -> {
             noteDAO.refreshMonthlyNotes();
             emitter.onComplete();

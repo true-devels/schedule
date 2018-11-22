@@ -1,17 +1,17 @@
-package com.company.schedule.ui.main;
+package com.company.schedule.ui.main.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.company.schedule.ui.DailyFragment;
-import com.company.schedule.ui.MonthlyFragment;
-import com.company.schedule.ui.WeeklyFragment;
+import com.company.schedule.ui.main.fragments.DailyFragment;
+import com.company.schedule.ui.main.fragments.MonthlyFragment;
+import com.company.schedule.ui.main.fragments.WeeklyFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;
 
-    PagerAdapter(FragmentManager fm, int NumOfTabs) {
+    public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }

@@ -1,15 +1,20 @@
 package com.company.schedule.presentation.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.SharedPrefsRepository;
-import com.company.schedule.ui.DailyFragment;
+import com.company.schedule.ui.main.fragments.DailyFragment;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 import static com.company.schedule.utils.Error.handleThrowable;
 
@@ -57,16 +62,17 @@ public class MainPresenter {
         GregorianCalendar gc_last = new GregorianCalendar();
         gc_last.setTimeInMillis(new SharedPrefsRepository(context).getTimeLastUpdateDaily());
         if(gc_now.get(Calendar.DAY_OF_YEAR)!=gc_last.get(Calendar.DAY_OF_YEAR)){
-           interactor.refreshDailyData()
+           interactor.refreshDailyNotes()
                 .subscribe(
                         () -> {
-                            loadDailyData();
+                            loadAllDailyNotes();
                             new SharedPrefsRepository(context).setTimeLastUpdateDaily(new Date().getTime());
+                            checkDoneNote();
                         },
                         e -> handleThrowable(e)
                 );
         }else{
-            loadDailyData();
+            loadAllDailyNotes();
         }
     }
 
@@ -75,16 +81,17 @@ public class MainPresenter {
         GregorianCalendar gc_last = new GregorianCalendar();
         gc_last.setTimeInMillis(new SharedPrefsRepository(context).getTimeLastUpdateWeekly());
         if(gc_now.get(Calendar.WEEK_OF_YEAR)!=gc_last.get(Calendar.WEEK_OF_YEAR)){
-            interactor.refreshWeeklyData()
+            interactor.refreshWeeklyNotes()
                     .subscribe(
                             () -> {
-                                loadWeeklyData();
+                                loadAllWeeklyNotes();
                                 new SharedPrefsRepository(context).setTimeLastUpdateWeekly(new Date().getTime());
+                                checkDoneNote();
                             },
                             e -> handleThrowable(e)
                     );
         }else{
-            loadWeeklyData();
+            loadAllWeeklyNotes();
         }
     }
 
@@ -93,54 +100,59 @@ public class MainPresenter {
         GregorianCalendar gc_last = new GregorianCalendar();
         gc_last.setTimeInMillis(new SharedPrefsRepository(context).getTimeLastUpdateMonthly());
         if(gc_now.get(Calendar.MONTH)!=gc_last.get(Calendar.MONTH)){
-            interactor.refreshMonthlyData()
+            interactor.refreshMonthlyNotes()
                     .subscribe(
                             () -> {
-                                loadMonthlyData();
+                                loadAllMonthlyNotes();
                                 new SharedPrefsRepository(context).setTimeLastUpdateMonthly(new Date().getTime());
+                                checkDoneNote();
                             },
                             e -> handleThrowable(e)
                     );
 
         }else{
-            loadMonthlyData();
+            loadAllMonthlyNotes();
         }
     }
 
 
-    public void loadData() {
-        // we load data from DB in Model, and then set all notes in MainView
-        interactor.loadData()
+    public void checkDoneNote() {
+        // we load all notes and check their done
+        interactor.getAllNotes()
                 .subscribe(
                         (notes) -> ((DailyFragment)view).checkDone(notes),
                         (Throwable e) -> handleThrowable(e)
                 );  // load data from DB
     }
 
-    private void loadDailyData() {
+    @SuppressLint("CheckResult")
+    private void loadAllDailyNotes() {
         // we load data from DB in Model, and then set all notes in MainView
-        interactor.loadDailyData()
+        interactor.getAllDailyNotes()
                 .subscribe(
-                        (notes) -> view.setAllNotes(notes),
-                        (Throwable e) -> handleThrowable(e)
+                        (List<Note> notes) -> view.setAllNotes(notes),
+                        (Throwable e) -> handleThrowable(e),
+                        () -> checkDoneNote()
                 );  // load data from DB
     }
 
-    private void loadWeeklyData() {
+    private void loadAllWeeklyNotes() {
         // we load data from DB in Model, and then set all notes in MainView
-        interactor.loadWeeklyData()
+        interactor.getAllWeeklyNotes()
                 .subscribe(
-                        (notes) -> view.setAllNotes(notes),
-                        (Throwable e) -> handleThrowable(e)
+                        (List<Note> notes) -> view.setAllNotes(notes),
+                        (Throwable e) -> handleThrowable(e),
+                        () -> checkDoneNote()
                 );  // load data from DB
     }
 
-    private void loadMonthlyData() {
+    private void loadAllMonthlyNotes() {
         // we load data from DB in Model, and then set all notes in MainView
-        interactor.loadMonthlyData()
+        interactor.getAllMonthlyNotes()
                 .subscribe(
                         (notes) ->  view.setAllNotes(notes),
-                        (Throwable e) -> handleThrowable(e)
+                        (Throwable e) -> handleThrowable(e),
+                        () -> checkDoneNote()
                 );  // load data from DB
     }
 
@@ -149,28 +161,28 @@ public class MainPresenter {
             case 0:
                 interactor.deleteNoteById(id)
                         .subscribe(
-                                () -> loadDailyData(),
+                                () -> loadAllDailyNotes(),
                                 e -> handleThrowable(e)
                         );
                 break;
             case 1:
                 interactor.deleteNoteById(id)
                         .subscribe(
-                                () -> loadWeeklyData(),
+                                () -> loadAllWeeklyNotes(),
                                 e -> handleThrowable(e)
                         );
                 break;
             case 2:
                 interactor.deleteNoteById(id)
                         .subscribe(
-                                () -> loadMonthlyData(),
+                                () -> loadAllMonthlyNotes(),
                                 e -> handleThrowable(e)
                         );
                 break;
             default:
                 interactor.deleteNoteById(id)
                         .subscribe(
-                                () -> loadData(),
+                                () -> checkDoneNote(),
                                 e -> handleThrowable(e)
                         );
                 break;
@@ -181,28 +193,28 @@ public class MainPresenter {
             case 0:
                 interactor.updateNote(noteToUpdate)
                         .subscribe(
-                                () -> loadDailyData(),
+                                () -> loadAllDailyNotes(),
                                 e -> handleThrowable(e)
                         );
                 break;
             case 1:
                 interactor.updateNote(noteToUpdate)
                         .subscribe(
-                                () -> loadWeeklyData(),
+                                () -> loadAllWeeklyNotes(),
                                 e -> handleThrowable(e)
                         );
                 break;
             case 2:
                 interactor.updateNote(noteToUpdate)
                         .subscribe(
-                                () -> loadMonthlyData(),
+                                () -> loadAllMonthlyNotes(),
                                 e -> handleThrowable(e)
                         );
                 break;
             default:
                 interactor.updateNote(noteToUpdate)
                         .subscribe(
-                                () -> loadData(),
+                                () -> checkDoneNote(),
                                 e -> handleThrowable(e)
                         );
                 break;

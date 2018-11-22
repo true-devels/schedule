@@ -55,7 +55,7 @@ public class AddNotePresenter {
 
     private void loadData(int isReminded) {
         /*
-        interactor.loadData()
+        interactor.getAllNotes()
                 .subscribe(
 //                        (notes) -> view.setAllNotes(notes),
                         (notes) -> {

@@ -1,4 +1,4 @@
-package com.company.schedule.ui.main;
+package com.company.schedule.ui.main.adapters;
 
 import android.content.Context;
 import android.content.Intent;

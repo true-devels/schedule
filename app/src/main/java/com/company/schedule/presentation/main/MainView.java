@@ -7,6 +7,6 @@ import java.util.List;
 public interface MainView {
 
     void setAllNotes(List<Note> newNotes);
-    void toast(String toast_message);
-    void toastLong(String toast_message);
+    void showMessage(String toast_message);
+    void showMessageLong(String toast_message);
 }

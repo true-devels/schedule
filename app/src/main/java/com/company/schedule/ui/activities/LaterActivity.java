@@ -24,7 +24,7 @@ import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.later.LaterPresenter;
 import com.company.schedule.presentation.later.LaterView;
 import com.company.schedule.ui.main.MainActivity;
-import com.company.schedule.ui.main.NodeAdapter;
+import com.company.schedule.ui.main.adapters.NodeAdapter;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
