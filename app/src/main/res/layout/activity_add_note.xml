@@ -1,184 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Use DrawerLayout as root container for activity -->
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorBackground"
-    tools:context=".ui.addNote.AddNoteActivity">
-
-    <include
-        android:id="@+id/toolbar_include"
-        layout="@layout/toolbar"
+    tools:context=".ui.addNote.AddNoteActivity"
+    android:fitsSystemWindows="true">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_height="match_parent"
+        android:background="?attr/colorBackground"
+        >
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/text1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_include"
-        android:layout_alignParentStart="true"
-        android:textColorHint="?attr/colorPrimary">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/name_et"
+        <include
+            android:id="@+id/toolbar_include"
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_name_et"
-            android:maxLength="40"
-            android:maxLines="1"
-            android:textColor="?attr/colorPrimary" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/text1"
-        android:textColorHint="?attr/colorPrimary"
-        android:id="@+id/text2">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/description_et"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_description_et"
-            android:maxLength="255"
-            android:textColor="?attr/colorPrimary" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_below="@+id/toolbar_include"
+            android:layout_alignParentStart="true"
+            android:textColorHint="?attr/colorPrimary">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:textColorHint="?attr/colorPrimary"
-        android:layout_below="@+id/text2"
-        android:id="@+id/text3"
-        android:outlineAmbientShadowColor="?attr/colorPrimary"
-        android:outlineSpotShadowColor="?attr/colorPrimary">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/name_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_name_et"
+                android:maxLength="40"
+                android:maxLines="1"
+                android:textColor="?attr/colorPrimary" />
+        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/category_et"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_category_et"
-            android:maxLength="30"
-            android:textColor="?attr/colorPrimary" />
-    </android.support.design.widget.TextInputLayout>
-    <LinearLayout
-        android:baselineAligned="false"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/text3"
-        android:id="@+id/layout_datetime">
-        <EditText
-            android:id="@+id/date_et"
-            android:clickable="true"
-            android:focusable="false"
-            android:inputType="none"
-            android:editable="false"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/text1"
+            android:textColorHint="?attr/colorPrimary"
+            android:id="@+id/text2">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/description_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_description_et"
+                android:maxLength="255"
+                android:textColor="?attr/colorPrimary" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textColorHint="?attr/colorPrimary"
+            android:layout_below="@+id/text2"
+            android:id="@+id/text3"
+            android:outlineAmbientShadowColor="?attr/colorPrimary"
+            android:outlineSpotShadowColor="?attr/colorPrimary">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/category_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_category_et"
+                android:maxLength="30"
+                android:textColor="?attr/colorPrimary" />
+        </android.support.design.widget.TextInputLayout>
+        <LinearLayout
+            android:baselineAligned="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/text3"
+            android:id="@+id/layout_datetime">
+            <EditText
+                android:id="@+id/date_et"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="none"
+                android:editable="false"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColorHint="?attr/colorPrimary"
+                android:textColor="?attr/colorPrimary"
+                android:hint="@string/hint_date_et" />
+
+            <EditText
+            android:id="@+id/time_et"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="none"
+                android:editable="false"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColorHint="?attr/colorPrimary"
             android:textColor="?attr/colorPrimary"
-            android:hint="@string/hint_date_et" />
+            android:hint="@string/hint_time_et" />
+        </LinearLayout>
 
-        <EditText
-        android:id="@+id/time_et"
-            android:clickable="true"
-            android:focusable="false"
-            android:inputType="none"
-            android:editable="false"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColorHint="?attr/colorPrimary"
-        android:textColor="?attr/colorPrimary"
-        android:hint="@string/hint_time_et" />
-    </LinearLayout>
-
-    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-        android:id="@+id/week_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layout_datetime"
-        android:hint="@string/hint_dayOfWeek"
-        android:textColorHint="#05ab9a"
-        app:met_floatingLabel="normal" />
-
-
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/week_spinner"
-        android:layout_alignParentStart="true"
-        android:text="@string/hint_priority"
-        android:layout_margin="10dp"
-        android:textColor="?attr/colorPrimary"/>
-    <LinearLayout
-        android:layout_below="@id/textView7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/imageButtonBlue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorWhite"
-            android:padding="20dp"
-            app:srcCompat="@drawable/button_bg_round"
-            />
-
-        <ImageButton
-            android:id="@+id/imageButtonGreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorBackground"
-            android:padding="20dp"
-            app:srcCompat="@drawable/button_bg_round_green" />
-
-        <ImageButton
-            android:id="@+id/imageButtonRed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_transparent"
-            android:padding="20dp"
-            app:srcCompat="@drawable/button_bg_round_red" />
-
-        <ImageButton
-            android:id="@+id/imageButtonYellow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_transparent"
-            android:padding="20dp"
-            app:srcCompat="@drawable/button_bg_round_yellow" />
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:background="?attr/colorPrimary">
-
-        <Button
-            android:id="@+id/buttonAdd"
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/week_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:text="@string/text_addButton"
-            android:textColor="?attr/colorWhite" />
-    </LinearLayout>
+            android:layout_below="@id/layout_datetime"
+            android:hint="@string/hint_dayOfWeek"
+            android:textColorHint="#05ab9a"
+            app:met_floatingLabel="normal" />
 
-</RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/week_spinner"
+            android:layout_alignParentStart="true"
+            android:text="@string/hint_priority"
+            android:layout_margin="10dp"
+            android:textColor="?attr/colorPrimary"/>
+        <LinearLayout
+            android:layout_below="@id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageButtonBlue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorWhite"
+                android:padding="20dp"
+                app:srcCompat="@drawable/button_bg_round"
+                />
+
+            <ImageButton
+                android:id="@+id/imageButtonGreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorBackground"
+                android:padding="20dp"
+                app:srcCompat="@drawable/button_bg_round_green" />
+
+            <ImageButton
+                android:id="@+id/imageButtonRed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_transparent"
+                android:padding="20dp"
+                app:srcCompat="@drawable/button_bg_round_red" />
+
+            <ImageButton
+                android:id="@+id/imageButtonYellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_transparent"
+                android:padding="20dp"
+                app:srcCompat="@drawable/button_bg_round_yellow" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:background="?attr/colorPrimary">
+
+            <Button
+                android:id="@+id/buttonAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:text="@string/text_addButton"
+                android:textColor="?attr/colorWhite" />
+        </LinearLayout>
+
+    </RelativeLayout>
+    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_view"
+        app:headerLayout="@layout/nav_header"/>
+</android.support.v4.widget.DrawerLayout>

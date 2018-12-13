@@ -3,9 +3,13 @@ package com.company.schedule.ui.oneNote;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -24,18 +28,20 @@ import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.presentation.oneNote.OneNotePresenter;
 import com.company.schedule.presentation.oneNote.OneNoteView;
 import com.company.schedule.ui.addNote.AddNoteActivity;
+import com.company.schedule.ui.later.LaterActivity;
 import com.company.schedule.ui.main.MainActivity;
+import com.company.schedule.ui.settings.SettingsActivity;
 
 import static com.company.schedule.utils.Constants.START_TIMER;
 
 public class OneNoteActivity extends AppCompatActivity implements View.OnClickListener, OneNoteView {
     ImageButton btn_later, btn_done, btn_edit, btn_delete, btn_toolbar, btn_toolbarRight;
     TextView tv_name, tv_content, tv_datetime, tv_category, tv_status;
-    ImageView img_prior, backward;
+    ImageView img_prior;
     Note noteToShow;
     RelativeLayout mainLayout;
     OneNotePresenter presenter;
-
+    DrawerLayout mDrawerLayout;
     // timer
     Button btnTimer;
     TextView tvTimer;
@@ -60,14 +66,53 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
                     )
             );
 
+
+        // init view components
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                menuItem -> {
+                    // set item as selected to persist highlight
+                    menuItem.setChecked(true);
+                    switch (menuItem.getItemId()){
+                        case R.id.nav_later:
+                            Intent intent= new Intent(this,LaterActivity.class);
+                            intent.putExtra("role",1);
+                            startActivity(intent);
+
+                            break;
+                        case R.id.nav_done:
+                            Intent intent2 = new Intent(this,LaterActivity.class);
+                            intent2.putExtra("role",2);
+                            startActivity(intent2);
+                            break;
+                        case R.id.nav_settings:
+                            Intent intent3 = new Intent(this,SettingsActivity.class);
+                            startActivity(intent3);
+                            break;
+                        case R.id.nav_home:
+                            goToMainActivity();
+                            break;
+                    }
+                    // close drawer when item is tapped
+                    mDrawerLayout.closeDrawers();
+
+                    // Add code here to update the UI based on the item selected
+                    // For example, swap UI fragments here
+
+                    return true;
+                });
+
+        final Toolbar toolbar =  findViewById(R.id.my_toolbar);  // maybe toolbar will be useful
+        setSupportActionBar(toolbar);
+
         btn_toolbar = findViewById(R.id.btnLeftToolbar);
-        btn_toolbar.setVisibility(View.GONE);
+        btn_toolbar.setOnClickListener(this);
+
         btn_toolbarRight = findViewById(R.id.btnToolbarRight);
         btn_toolbarRight.setVisibility(View.GONE);
-        backward = findViewById(R.id.backward_btn);
-        backward.setOnClickListener(this);
-        backward.setVisibility(View.VISIBLE);
-        if(sharedPrefs.isNightMode()) backward.setImageResource(R.drawable.backward_white);  //dark
+
 
         btn_later = findViewById(R.id.imageButtonLater);
         btn_done = findViewById(R.id.imageButtonDone);
@@ -91,7 +136,8 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
 
         tv_name.setText(noteToShow.getName());
         tv_content.setText(noteToShow.getContent());
-        tv_category.setText(R.string.category + noteToShow.getCategory());
+        String category = getString(R.string.category);
+        tv_category.setText(category+ noteToShow.getCategory());
         tv_datetime.setText(noteToShow.getDateTimeInFormat());
 
         switch (noteToShow.getPriority()){
@@ -179,11 +225,8 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 break;
-
-            case R.id.backward_btn:
-                Intent intent2 = new Intent(this, MainActivity.class);
-                startActivity(intent2);
-                break;
+            case R.id.btnLeftToolbar:
+                mDrawerLayout.openDrawer(GravityCompat.START);
         }
     }
 

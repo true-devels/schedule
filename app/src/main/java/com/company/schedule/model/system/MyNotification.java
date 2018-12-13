@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -53,9 +54,11 @@ public class MyNotification {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {  // condition must be here to support all version of device
             createNotificationChannel();
             builder = new NotificationCompat.Builder(context,CHANEL_ID)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.mipmap.ic_app_round)
                     .setContentTitle(title)
                     .setContentText(content)
+                   // .setColor(Color.parseColor("#be150f"))
+                    //.setColorized(true)
                     //TODO check these three lines work
                     .setVibrate(new long[]{500, 1000})
                     .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
@@ -66,9 +69,11 @@ public class MyNotification {
         }
         else{
             builder = new NotificationCompat.Builder(context)  // NotificationCompat.Builder must be here to support old version
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.mipmap.ic_app_round)
                     .setContentTitle(title)
                     .setContentText(content)
+                   // .setColor(Color.parseColor("#be150f"))
+                    //.setColorized(true)
                     //TODO check these three lines work
                     .setVibrate(new long[]{500, 1000})
                     .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)

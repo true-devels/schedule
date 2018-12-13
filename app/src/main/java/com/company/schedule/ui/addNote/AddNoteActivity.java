@@ -4,10 +4,14 @@ import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,9 +35,11 @@ import com.company.schedule.model.system.AppSchedulers;
 import com.company.schedule.model.system.MyNotification;
 import com.company.schedule.presentation.addNote.AddNotePresenter;
 import com.company.schedule.presentation.addNote.AddNoteView;
+import com.company.schedule.ui.later.LaterActivity;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.ui.addNote.pickers.DatePickerFragment;
 import com.company.schedule.ui.addNote.pickers.TimePickerFragment;
+import com.company.schedule.ui.settings.SettingsActivity;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.Arrays;
@@ -50,7 +56,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     ImageButton btnBlue, btnGreen,btnRed,btnYellow, btn_right, btn_left;
     MaterialBetterSpinner week_spinner;
     boolean isSelected = true;
-    ImageView backward;
+    DrawerLayout mDrawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,21 +79,53 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         et_name =  findViewById(R.id.name_et);  // to enter a note name
         et_description =  findViewById(R.id.description_et);  // to enter a note content
         et_category = findViewById(R.id.category_et); // to enter category
-        backward = findViewById(R.id.backward_btn);
-        backward.setVisibility(View.VISIBLE);
-        if(sharedPrefs.isNightMode()) backward.setImageResource(R.drawable.backward_white);
+
         btn_right = findViewById(R.id.btnToolbarRight);
         btn_right.setVisibility(View.GONE);
 
-        backward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddNoteActivity.this,MainActivity.class);
-                startActivity(intent);
-            }
-        });
         btn_left = findViewById(R.id.btnLeftToolbar);
-        btn_left.setVisibility(View.GONE);
+        // init view components
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        ImageButton imgbtn = findViewById(R.id.btnLeftToolbar);
+        imgbtn.setOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                menuItem -> {
+                    // set item as selected to persist highlight
+                    menuItem.setChecked(true);
+                    switch (menuItem.getItemId()){
+                        case R.id.nav_later:
+                            Intent intent= new Intent(this,LaterActivity.class);
+                            intent.putExtra("role",1);
+                            startActivity(intent);
+
+                            break;
+                        case R.id.nav_done:
+                            Intent intent2 = new Intent(this,LaterActivity.class);
+                            intent2.putExtra("role",2);
+                            startActivity(intent2);
+                            break;
+                        case R.id.nav_settings:
+                            Intent intent3 = new Intent(this,SettingsActivity.class);
+                            startActivity(intent3);
+                            break;
+                        case R.id.nav_home:
+                            Intent intent4 = new Intent(this,MainActivity.class);
+                            startActivity(intent4);
+
+                    }
+                    // close drawer when item is tapped
+                    mDrawerLayout.closeDrawers();
+
+                    // Add code here to update the UI based on the item selected
+                    // For example, swap UI fragments here
+
+                    return true;
+                });
+
+        final Toolbar toolbar =  findViewById(R.id.my_toolbar);  // maybe toolbar will be useful
+        setSupportActionBar(toolbar);
 
         et_date = findViewById(R.id.date_et);// to enter a date
         et_date.setKeyListener(null);

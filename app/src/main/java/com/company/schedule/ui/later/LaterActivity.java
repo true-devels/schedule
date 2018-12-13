@@ -1,13 +1,17 @@
 package com.company.schedule.ui.later;
 
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.ImageButton;
@@ -26,6 +30,7 @@ import com.company.schedule.presentation.later.LaterPresenter;
 import com.company.schedule.presentation.later.LaterView;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.ui.main.adapters.NodeAdapter;
+import com.company.schedule.ui.settings.SettingsActivity;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
@@ -38,7 +43,7 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
     LaterPresenter presenter;
     NodeAdapter adapter_day, adapter_week, adapter_month;
     ImageButton btn_right, btn_left;
-    ImageView backward;
+    DrawerLayout mDrawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,19 +67,52 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
         layout_week = findViewById(R.id.week_later_layout);
         layout_month = findViewById(R.id.month_later_layout);
         tv_title = findViewById(R.id.tv_title);
-        backward = findViewById(R.id.backward_btn);
-        backward.setVisibility(View.VISIBLE);
-        if(sharedPrefs.isNightMode()) backward.setImageResource(R.drawable.backward_white);
+
         btn_right = findViewById(R.id.btnToolbarRight);
         btn_right.setVisibility(View.GONE);
 
-        backward.setOnClickListener(v -> {
-            Intent intent = new Intent(LaterActivity.this,MainActivity.class);
-            startActivity(intent);
-        });
+        // init view components
+        mDrawerLayout = findViewById(R.id.drawer_layout);
 
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                menuItem -> {
+                    // set item as selected to persist highlight
+                    menuItem.setChecked(true);
+                    switch (menuItem.getItemId()){
+                        case R.id.nav_home:
+                            Intent intent= new Intent(this,MainActivity.class);
+                            startActivity(intent);
+                            break;
+                        case R.id.nav_done:
+                            Intent intent2 = new Intent(this,LaterActivity.class);
+                            intent2.putExtra("role",2);
+                            startActivity(intent2);
+                            break;
+                        case R.id.nav_settings:
+                            Intent intent3 = new Intent(this,SettingsActivity.class);
+                            startActivity(intent3);
+                            break;
+                        case R.id.nav_later:
+                            Intent intent4 = new Intent(this,LaterActivity.class);
+                            intent4.putExtra("role",1);
+                            startActivity(intent4);
+
+                    }
+                    // close drawer when item is tapped
+                    mDrawerLayout.closeDrawers();
+
+                    // Add code here to update the UI based on the item selected
+                    // For example, swap UI fragments here
+
+                    return true;
+                });
+
+        final Toolbar toolbar =  findViewById(R.id.my_toolbar);  // maybe toolbar will be useful
+        setSupportActionBar(toolbar);
         btn_left = findViewById(R.id.btnLeftToolbar);
-        btn_left.setVisibility(View.GONE);
+        btn_left.setOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
+
 
         rc_day = findViewById(R.id.rc_today);
         rc_week = findViewById(R.id.rc_week);

@@ -62,14 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        /*Resources res = getResources();
-// Change locale settings in the app.
-        DisplayMetrics dm = res.getDisplayMetrics();
-        android.content.res.Configuration conf = res.getConfiguration();
-        conf.setLocale(new Locale("en")); // API 17+ only.
-// Use conf.locale = new Locale(...) if targeting lower versions
-        res.updateConfiguration(conf, dm);.*/
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -144,107 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton imgbtn = findViewById(R.id.btnLeftToolbar);
         imgbtn.setOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
-        /* if (presenter == null)  // if presenter isn't created we create it
-            presenter = new MainPresenter(this,  // init view in presenter
-                    new MainInteractor(  // create interactor
-                            new MainRepository(
-                                    AppDatabase.getDatabase(this).noteDAO(),
-                                    new AppSchedulers()  // for threads
-                            )  // create repository and get DAO
-                    )
-            );*/
-      /*  notes_rc.setHasFixedSize(true);
-        mainLayout = findViewById(R.id.content_frame);
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        notes_rc.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
-
-        notes_rc.setItemAnimator(new DefaultItemAnimator());
-        notes_rc.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        presenter.getAllDailyTasks();
-        adapter = new NodeAdapter(this);
-
-        notes_rc.setAdapter(adapter);
-        ItemTouchHelper.SimpleCallback callback_left = new RecyclerViewItemTouchHelper(0,ItemTouchHelper.LEFT,this);
-        new ItemTouchHelper(callback_left).attachToRecyclerView(notes_rc);
-
-        ItemTouchHelper.SimpleCallback callback_right = new RecyclerViewItemTouchHelper(0,ItemTouchHelper.RIGHT,this);
-        new ItemTouchHelper(callback_right).attachToRecyclerView(notes_rc);*/
-
-
-       /* adapter.setClickListener((noteClickedOn) -> goToUpdateNoteFragment(noteClickedOn));
-        adapter.setOnCheckedChangeListener((noteCheckedOn, isChecked) -> presenter.onCheckedDoneChanged(noteCheckedOn, isChecked));
-
-        notesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        notesList.setAdapter(adapter);*/
-
-          // we load data to Recycler view
-
-
-
-        // open fragment transaction
-        /*FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragmentContainer, new MainFragmentObsolete());  // add fragment to screen
-//        if (useBackStack) fragmentTransaction.addToBackStack(null); // feature
-        fragmentTransaction.commit();*/
     }
-
-
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-      //  getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
-
-
-   /* @Override
-    public void setAllNotes(List<Note> newNotes) {
-        adapter.setAllNotes(newNotes);
-    }
-
-    @Override
-    public void showMessage(String toast_message) {
-        Toast.makeText(this, toast_message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showMessageLong(String toast_message) {
-        Toast.makeText(this, toast_message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        int deleteIndex = viewHolder.getAdapterPosition ();
-        Note item = adapter.removeItem(deleteIndex);
-        if(direction == ItemTouchHelper.LEFT){
-            Snackbar snackbar = Snackbar.make(mainLayout,"Deleted " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
-            snackbar.show();
-            snackbar.setAction("UNDO", v -> adapter.restoreItem(item,deleteIndex));
-            int id = ((NodeAdapter.MyViewHolder) viewHolder).id;
-            presenter.swipedToDelete(id);
-            Log.d("id_check ",Integer.toString(id));
-        }
-
-    }*/
 }
 

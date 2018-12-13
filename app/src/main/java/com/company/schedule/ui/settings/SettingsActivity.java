@@ -3,14 +3,21 @@ package com.company.schedule.ui.settings;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.company.schedule.R;
+import com.company.schedule.ui.addNote.AddNoteActivity;
+import com.company.schedule.ui.later.LaterActivity;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.model.repository.SharedPrefsRepository;
 import com.company.schedule.ui.welcome.SpinnerAdapter;
@@ -23,6 +30,8 @@ public class SettingsActivity extends AppCompatActivity {
     SpinnerAdapter spinnerAdapter;
     Spinner localization;
     boolean isUserInteracting;
+    private DrawerLayout mDrawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //get data from sharedPrefs to set theme mode
@@ -34,6 +43,40 @@ public class SettingsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                menuItem -> {
+                    // set item as selected to persist highlight
+                    menuItem.setChecked(true);
+                    switch (menuItem.getItemId()){
+                        case R.id.nav_later:
+                            Intent intent= new Intent(this,LaterActivity.class);
+                            intent.putExtra("role",1);
+                            startActivity(intent);
+
+                            break;
+                        case R.id.nav_done:
+                            Intent intent2 = new Intent(this,LaterActivity.class);
+                            intent2.putExtra("role",2);
+                            startActivity(intent2);
+                            break;
+                        case R.id.nav_home:
+                            Intent intent3 = new Intent(this,MainActivity.class);
+                            startActivity(intent3);
+                    }
+                    // close drawer when item is tapped
+                    mDrawerLayout.closeDrawers();
+
+                    // Add code here to update the UI based on the item selected
+                    // For example, swap UI fragments here
+
+                    return true;
+                });
+
+        final Toolbar toolbar =  findViewById(R.id.my_toolbar);  // maybe toolbar will be useful
+        setSupportActionBar(toolbar);
 
         //init
         Switch mSwitch = findViewById(R.id.myswitch);
@@ -103,6 +146,12 @@ public class SettingsActivity extends AppCompatActivity {
             else sharedPrefs.setNightModeState(false);
             restartSettings();
         });
+
+        ImageButton imgbtn2 = findViewById(R.id.btnToolbarRight);
+        imgbtn2.setVisibility(View.GONE);
+
+        ImageButton imgbtn = findViewById(R.id.btnLeftToolbar);
+        imgbtn.setOnClickListener(v -> mDrawerLayout.openDrawer(GravityCompat.START));
     }
 
     //restarts methods
