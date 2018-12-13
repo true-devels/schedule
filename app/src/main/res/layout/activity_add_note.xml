@@ -27,7 +27,7 @@
             android:id="@+id/name_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:hint="@string/hint_name_et"
             android:maxLength="40"
             android:maxLines="1"
             android:textColor="?attr/colorPrimary" />
@@ -45,7 +45,7 @@
             android:id="@+id/description_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description"
+            android:hint="@string/hint_description_et"
             android:maxLength="255"
             android:textColor="?attr/colorPrimary" />
     </android.support.design.widget.TextInputLayout>
@@ -64,11 +64,12 @@
             android:id="@+id/category_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Category"
+            android:hint="@string/hint_category_et"
             android:maxLength="30"
             android:textColor="?attr/colorPrimary" />
     </android.support.design.widget.TextInputLayout>
     <LinearLayout
+        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -85,7 +86,7 @@
                 android:id="@+id/date_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date"
+                android:hint="@string/hint_date_et"
                 android:textColor="?attr/colorPrimary" />
         </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
@@ -99,7 +100,7 @@
                 android:id="@+id/time_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Time"
+                android:hint="@string/hint_time_et"
 
                 android:textColor="?attr/colorPrimary" />
 
@@ -112,7 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/layout_datetime"
-        android:hint="Day of week"
+        android:hint="@string/hint_dayOfWeek"
         android:textColorHint="#05ab9a"
         app:met_floatingLabel="normal" />
 
@@ -124,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/week_spinner"
         android:layout_alignParentStart="true"
-        android:text="Priority"
+        android:text="@string/hint_priority"
         android:layout_margin="10dp"
         android:textColor="?attr/colorPrimary"/>
     <LinearLayout
@@ -139,7 +140,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorWhite"
             android:padding="20dp"
-            app:srcCompat="@drawable/button_bg_round" />
+            app:srcCompat="@drawable/button_bg_round"
+            />
 
         <ImageButton
             android:id="@+id/imageButtonGreen"
@@ -181,7 +183,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            android:text="ADD"
+            android:text="@string/text_addButton"
             android:textColor="?attr/colorWhite" />
     </LinearLayout>
 

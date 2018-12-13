@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Налаштування</string>
+    <string-array name="types_of_frequency">
+        <item>Один раз</item>
+        <item>Щоденно</item>
+        <item>Щотижня</item>
+        <item>Щомісяця</item>
+    </string-array>
+
+    <!--WELCOME SLIDE-->
+    <string name="title_activity_welcome">Домашня сторінка</string>
+    <string name="next">Далі</string>
+    <string name="skip">Пропустити</string>
+    <string name="start">Зрозуміло</string>
+
+    <string name="slide_1_title">Ласкаво просимо до Scheduler!</string>
+    <string name="slide_1_desc">Ідеальний додаток для створення та керування завданнями!</string>
+
+    <string name="slide_2_title">Функціонал</string>
+    <string name="slide_2_desc">У Scheduler присутній весь необхідний функціонал, який є необхідним у додатку такого плану, а саме - керування завданнями. Ви можете додати нові задачі, відкласти, видалити та змінити їх </string>
+
+    <string name="slide_3_title">Таймер</string>
+    <string name="slide_3_desc">Також у додатку є таймер, який допоможе вам поділити завдання на підходи. Науковці довели, що оптимальний час одного підходу (для усіх видів праці) це 25 хвилин.</string>
+
+    <string name="slide_4_title">Коротка інструкція</string>
+    <string name="slide_4_desc"> Якщо провести пальцем зліва направо, то завдання буде позначено як зроблене, якщо зправа наліво - завдання буде відкладено. \n Якщо ви натиснете на завдання, то побачите детальну інформацію про нього. На цій сторінці ви також можете позначити завдання як зроблене або відкладене. На додачу, ви можете редагувати або повністю видалити завдання. Таймер присутній саме на цій сторінці. </string>
+
+    <string name="checkbox">Зроблено</string>
+
+    <!-- ADD NOTE -->
+    <string name="hint_name_et">Назва</string>
+    <string name="hint_description_et">Опис</string>
+    <string name="hint_category_et">Категорія</string>
+    <string name="hint_date_et">Дата</string>
+    <string name="hint_time_et">Час</string>
+    <string name="hint_dayOfWeek">День тижня</string>
+    <string name="hint_priority">Пріорітет</string>
+    <string name="text_addButton">ДОДАТИ</string>
+    <string name="text_saveButton">ЗБЕРЕГТИ</string>
+    <string name="text_addDailyButton">ДОДАТИ ЩОДЕННЕ ЗАВДАННЯ</string>
+    <string name="text_addWeeklyButton">ДОДАТИ ЩОТИЖНЕВЕ ЗАВДАННЯ</string>
+    <string name="text_addMonthlyButton">ДОДАТИ ЩОМІСЯЧНЕ ЗАВДАННЯ</string>
+
+    <!--LATER-->
+    <string name="titleLater">Відкладено</string>
+    <string name="titleDone">Зроблено</string>
+    <string name="today">Сьогодні</string>
+    <string name="week">Цього тижня</string>
+    <string name="month">Цього місяця</string>
+
+    <!-- MAIN -->
+    <string name="dailyTab">Щодня</string>
+    <string name="weeklyTab">Щотижня</string>
+    <string name="monthlyTab">Щомісяця</string>
+    <string name="greetings">Добрий ранок!!</string>
+    <string name="todayBIG">СЬОГОДНІ</string>
+    <string name="completedTitle">Зроблено</string>
+    <string name="mondayShort">ПОН</string>
+    <string name="tuesdayShort">ВІВ</string>
+    <string name="wednesdayShort">СЕР</string>
+    <string name="thursdayShort">ЧЕТ</string>
+    <string name="fridayShort">ПЯТ</string>
+    <string name="saturdayShort">СУБ</string>
+    <string name="sundayShort">НЕД</string>
+
+    <!-- ONE NODE-->
+    <string name="doneSwipe">Зроблено</string>
+    <string name="laterSwipe">Пізніше</string>
+    <string name="startText">Старт</string>
+    <string name="category">Категорія: </string>
+    <string name="laterStatus">Статус: Відкладено</string>
+    <string name="doneStatus">Статус: Зроблено</string>
+    <string name="toBeDoneStatus">Статус: Треба Зробити</string>
+
+    <!-- SETTINGS -->
+    <string name="nightMode">Нічний Режим</string>
+
+    <!--MENU-->
+    <string name="home_manu">Дім</string>
+    <string name="done_menu">Зроблені</string>
+    <string name="later_menu">Відкладені</string>
+    <string name="settings_menu">Налаштування</string>
+</resources>

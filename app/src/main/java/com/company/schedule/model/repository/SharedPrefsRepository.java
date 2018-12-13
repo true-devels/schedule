@@ -11,6 +11,7 @@ import static com.company.schedule.utils.Constants.FIRST_TIME_LAUNCH_KEY;
 import static com.company.schedule.utils.Constants.LAST_TIME_DAILY;
 import static com.company.schedule.utils.Constants.LAST_TIME_MONTHLY;
 import static com.company.schedule.utils.Constants.LAST_TIME_WEEKLY;
+import static com.company.schedule.utils.Constants.LOCALIZATION;
 import static com.company.schedule.utils.Constants.NIGHT_MODE;
 import static com.company.schedule.utils.Constants.PAUSE_TIME;
 import static com.company.schedule.utils.Constants.PREF_NAME;
@@ -83,4 +84,13 @@ public class SharedPrefsRepository {
         return pref.getLong(LAST_TIME_MONTHLY,0);
     }
 
+
+    public void setLocalization(String localization){
+        editor.putString(LOCALIZATION,localization);
+        editor.apply();
+    }
+
+    public String getLocalization(){
+        return pref.getString(LOCALIZATION,"en");
+    }
 }

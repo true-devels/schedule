@@ -2,22 +2,33 @@ package com.company.schedule.ui.welcome;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.company.schedule.R;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.model.repository.SharedPrefsRepository;
+import com.company.schedule.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -26,6 +37,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private int[] layouts;
     private Button btnSkip, btnNext;
     private SharedPrefsRepository prefManager;
+    private Spinner localiztion;
+    private SpinnerAdapter spinnerAdapter;
+    private boolean isUserInteracting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +52,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             finish();
         }
 
+
+
+
         setContentView(R.layout.activity_welcome);
 
         //init xml elements
@@ -45,6 +62,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         dotsLayout = findViewById(R.id.layoutDots);
         btnSkip = findViewById(R.id.btn_skip);
         btnNext = findViewById(R.id.btn_next);
+        localiztion = findViewById(R.id.spinnerLang);
 
         // layouts of all welcome sliders
         // add few more layouts if you want
@@ -56,6 +74,53 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         // adding bottom dots
         addBottomDots(0);
+
+
+
+        int[] icons = { R.drawable.ua, R.drawable.ru, R.drawable.en };
+        String[] names = { "UA", "RU", "EN"};
+        spinnerAdapter = new SpinnerAdapter(this, names, icons);
+        localiztion.setAdapter(spinnerAdapter);
+
+
+
+        localiztion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView adapterView, View view, int i, long l) {
+                if (isUserInteracting) {
+                    Resources res = getResources();
+                    DisplayMetrics dm = res.getDisplayMetrics();
+                    android.content.res.Configuration conf = res.getConfiguration();
+                    switch (i){
+                        case 0:
+
+                            conf.setLocale(new Locale("uk"));
+                            res.updateConfiguration(conf, dm);
+                            prefManager.setLocalization(Constants.LOCALIZATION_UA);
+                            recreate();
+                            break;
+                        case 1:
+                            conf.setLocale(new Locale("ru"));
+                            res.updateConfiguration(conf, dm);
+                            prefManager.setLocalization(Constants.LOCALIZATION_RU);
+                            recreate();
+                            break;
+                        case 2:
+                            conf.setLocale(new Locale("en"));
+                            prefManager.setLocalization(Constants.LOCALIZATION_EN);
+                            res.updateConfiguration(conf, dm);
+                            recreate();
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView adapterView) {
+
+            }
+
+        });
 
         //init VP adapter
         MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
@@ -112,6 +177,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+
+
+
     //circles in the bottom
     private void addBottomDots(int currentPage) {
         TextView[] dots = new TextView[layouts.length];
@@ -141,6 +209,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         prefManager.setFirstTimeLaunchFalse();
         startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        isUserInteracting = true;
     }
 
     //View pager adapter
@@ -175,4 +249,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             container.removeView(view);
         }
     }
+
+
+
+
 }

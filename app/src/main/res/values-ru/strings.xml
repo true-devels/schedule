@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Настройки</string>
+    <string-array name="types_of_frequency">
+        <item>Один раз</item>
+        <item>Каждый день</item>
+        <item>Каждую неделю</item>
+        <item>Каждый месяц</item>
+    </string-array>
+
+    <!--WELCOME SLIDE-->
+    <string name="title_activity_welcome">Домашняя страница</string>
+    <string name="next">Дальше</string>
+    <string name="skip">Пропустить</string>
+    <string name="start">Понятно</string>
+
+    <string name="slide_1_title">Добро пожаловать в Scheduler!</string>
+    <string name="slide_1_desc">Идеальное приложение для создания и управления заданиями!</string>
+
+    <string name="slide_2_title">Функционал</string>
+    <string name="slide_2_desc">У Scheduler присутствует весь функционал, необходимый в приложении такого плана, а именно - управление заданиями. Вы можете добавлять новые задачи, отлаживать, удалять и изменять их.</string>
+
+    <string name="slide_3_title">Таймер</string>
+    <string name="slide_3_desc">Также в приожении есть таймер, который поможет вам поделить задание на подходы. Ученые доказали, что оптимальное время одного подхода (для всех видов роботы) это 25 минут.</string>
+
+    <string name="slide_4_title">Краткая инструкция</string>
+    <string name="slide_4_desc"> Если провести пальцем слева направо, то задание будет помечено как сделаное, если справа налево - задание будет отложено. \n Если вы нажмете на задание, то увидите детальную информацию про него. На этой странице вы также можете пометить задание как сделаное или отложеное. В придачу, вы можете редактировать или полностью удалить задание. Таймер присутствует именно на этой странице. </string>
+
+    <string name="checkbox">Сделано</string>
+
+    <!-- ADD NOTE -->
+    <string name="hint_name_et">Название</string>
+    <string name="hint_description_et">Описание</string>
+    <string name="hint_category_et">Категория</string>
+    <string name="hint_date_et">Дата</string>
+    <string name="hint_time_et">Время</string>
+    <string name="hint_dayOfWeek">День недели</string>
+    <string name="hint_priority">Приоритет</string>
+    <string name="text_addButton">ДОБАВИТЬ</string>
+    <string name="text_saveButton">СОХРАНИТЬ</string>
+    <string name="text_addDailyButton">ДОБАВИТЬ ДНЕВНОЕ ЗАДАНИЕ</string>
+    <string name="text_addWeeklyButton">ДОБАВИТЬ НЕДЕЛЬНОЕ ЗАДАНИЕ</string>
+    <string name="text_addMonthlyButton">ДОБАВИТЬ МЕСЯЧНОЕ ЗАДАНИЕ</string>
+
+    <!--LATER-->
+    <string name="titleLater">Отложено</string>
+    <string name="titleDone">Сделано</string>
+    <string name="today">Сегодня</string>
+    <string name="week">На этой неделя</string>
+    <string name="month">В этом месяце</string>
+
+    <!-- MAIN -->
+    <string name="dailyTab">Сегодня</string>
+    <string name="weeklyTab">Неделя</string>
+    <string name="monthlyTab">Месяц</string>
+    <string name="greetings">Доброе утро!!</string>
+    <string name="todayBIG">СЕГОДНЯ</string>
+    <string name="completedTitle">Сделано</string>
+    <string name="mondayShort">ПОН</string>
+    <string name="tuesdayShort">ВТО</string>
+    <string name="wednesdayShort">СРЕ</string>
+    <string name="thursdayShort">ЧЕТ</string>
+    <string name="fridayShort">ПЯТ</string>
+    <string name="saturdayShort">СУБ</string>
+    <string name="sundayShort">ВОС</string>
+
+    <!-- ONE NODE-->
+    <string name="doneSwipe">Сделано</string>
+    <string name="laterSwipe">Позжу</string>
+    <string name="startText">Старт</string>
+    <string name="category">Категория: </string>
+    <string name="laterStatus">Статус: Отложено</string>
+    <string name="doneStatus">Статус: Сделано</string>
+    <string name="toBeDoneStatus">Статус: Надо Сделать</string>
+
+    <!-- SETTINGS -->
+    <string name="nightMode">Ночной Режим</string>
+
+    <!--MENU-->
+    <string name="home_manu">Дом</string>
+    <string name="done_menu">Сделано</string>
+    <string name="later_menu">Отложено</string>
+    <string name="settings_menu">Настройки</string>
+</resources>

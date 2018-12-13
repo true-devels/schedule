@@ -39,7 +39,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="MON" />
+                android:text="@string/mondayShort" />
 
             <TextView
                 android:textColor="?attr/colorTextChanging"
@@ -66,7 +66,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="TUE" />
+                android:text="@string/tuesdayShort" />
 
             <TextView
                 android:textColor="?attr/colorTextChanging"
@@ -93,7 +93,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="WED"
+                android:text="@string/wednesdayShort"
                 />
 
             <TextView
@@ -123,7 +123,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="THU" />
+                android:text="@string/thursdayShort" />
 
             <TextView
                 android:textColor="?attr/colorTextChanging"
@@ -151,7 +151,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="FRI" />
+                android:text="@string/fridayShort" />
 
             <TextView
                 android:textColor="?attr/colorTextChanging"
@@ -179,7 +179,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="SAT" />
+                android:text="@string/saturdayShort" />
 
             <TextView
                 android:textColor="?attr/colorTextChanging"
@@ -207,7 +207,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:layout_marginTop="10dp"
-                android:text="SUN" />
+                android:text="@string/sundayShort" />
 
             <TextView
                 android:textColor="?attr/colorTextChanging"

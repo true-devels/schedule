@@ -40,6 +40,10 @@ public final class Constants {
     //preferences keys
     public static final String FIRST_TIME_LAUNCH_KEY = "FirstTimeLaunch";
     public static final String NIGHT_MODE = "NightMode";
+    public static final String LOCALIZATION = "localization";
+    public static final String LOCALIZATION_UA = "uk";
+    public static final String LOCALIZATION_EN = "en";
+    public static final String LOCALIZATION_RU = "ru";
 
     // timer
     public static final String FINISH_TIME = "finishTime";

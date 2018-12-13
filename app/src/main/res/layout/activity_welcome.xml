@@ -6,11 +6,19 @@
     android:layout_height="match_parent"
     tools:showIn="@layout/activity_welcome">
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <Spinner
+        android:id="@+id/spinnerLang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/background_transparent"
+        android:popupBackground="@drawable/background_transparent" />
 
     <LinearLayout
         android:id="@+id/layoutDots"

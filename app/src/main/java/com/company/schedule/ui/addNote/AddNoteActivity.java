@@ -184,7 +184,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                 et_time.setText(noteInfo.getTimeInFormat());
 
 
-                btnSubmitNote.setText("SAVE");
+                btnSubmitNote.setText(R.string.text_saveButton);
 
         } else {  // if we want create new note
             GregorianCalendar currentDate = new GregorianCalendar();// get settings for current time
@@ -206,17 +206,17 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
             );
             switch (tab){
                 case 1:
-                    btnSubmitNote.setText("ADD DAILY NOTE");
+                    btnSubmitNote.setText(R.string.text_addDailyButton);
                     date_layout.setVisibility(View.GONE);
                     week_spinner.setVisibility(View.GONE);
                     break;
                 case 2:
-                    btnSubmitNote.setText("ADD WEEKLY NOTE");
+                    btnSubmitNote.setText(R.string.text_addWeeklyButton);
                     date_layout.setVisibility(View.GONE);
                     isSelected = false;
                     break;
                 case 3:
-                    btnSubmitNote.setText("ADD MONTHLY NOTE");
+                    btnSubmitNote.setText(R.string.text_addMonthlyButton);
                     week_spinner.setVisibility(View.GONE);
                     break;
             }

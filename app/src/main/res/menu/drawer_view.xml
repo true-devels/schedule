@@ -4,18 +4,18 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@android:drawable/star_big_off"
-            android:title="Home" />
+            android:title="@string/home_manu" />
         <item
             android:id="@+id/nav_done"
             android:icon="@android:drawable/checkbox_on_background"
-            android:title="Done" />
+            android:title="@string/done_menu" />
         <item
             android:id="@+id/nav_later"
             android:icon="@android:drawable/ic_menu_recent_history"
-            android:title="Later" />
+            android:title="@string/later_menu" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@android:drawable/ic_menu_manage"
-            android:title="Settings" />
+            android:title="@string/settings_menu" />
     </group>
 </menu>

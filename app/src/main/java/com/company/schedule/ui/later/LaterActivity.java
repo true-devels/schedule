@@ -115,7 +115,7 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
             new ItemTouchHelper(callback_right2).attachToRecyclerView(rc_month);
         }else{
             presenter.loadDataDone();
-            tv_title.setText("Done");
+            tv_title.setText(R.string.titleDone);
         }
 
 

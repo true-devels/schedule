@@ -53,17 +53,17 @@
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Daily" />
+                    android:text="@string/dailyTab" />
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Weekly" />
+                    android:text="@string/weeklyTab" />
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Monthly" />
+                    android:text="@string/monthlyTab" />
             </android.support.design.widget.TabLayout>
 
             <!--<RelativeLayout-->

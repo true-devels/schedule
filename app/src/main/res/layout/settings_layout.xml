@@ -13,7 +13,14 @@
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Night Mode"
+        android:text="@string/nightMode"
         android:textColor="?attr/blackText"/>
+    <Spinner
+        android:id="@+id/spinnerLang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_transparent"
+        android:popupBackground="@drawable/background_transparent" />
 
 </LinearLayout>

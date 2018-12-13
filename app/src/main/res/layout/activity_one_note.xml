@@ -132,7 +132,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="8dp"
             android:background="@android:drawable/screen_background_light_transparent"
-            android:text="Start"
+            android:text="@string/startText"
             android:textColor="?attr/blackText" />
     </RelativeLayout>
 

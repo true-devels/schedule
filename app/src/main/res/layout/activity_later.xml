@@ -32,7 +32,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
-            android:text="Later"
+            android:text="@string/titleLater"
             android:textColor="?attr/colorBackground"
             android:textSize="30sp"
             android:textStyle="normal" />
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
-                    android:text="Today"
+                    android:text="@string/today"
                     android:textSize="17sp"
                     android:textStyle="normal" />
 
@@ -82,8 +82,6 @@
                 android:id="@+id/week_later_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/today_later_layout"
-                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="?attr/colorBackground"
@@ -95,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
-                    android:text="This week"
+                    android:text="@string/week"
                     android:textSize="17sp"
                     android:textStyle="normal" />
 
@@ -111,8 +109,6 @@
                 android:id="@+id/month_later_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/week_later_layout"
-                android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
                 android:background="?attr/colorBackground"
                 android:orientation="horizontal">
@@ -123,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
-                    android:text="This month"
+                    android:text="@string/month"
                     android:textSize="17sp"
                     android:textStyle="normal" />
 

@@ -91,7 +91,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
 
         tv_name.setText(noteToShow.getName());
         tv_content.setText(noteToShow.getContent());
-        tv_category.setText("Category: " + noteToShow.getCategory());
+        tv_category.setText(R.string.category + noteToShow.getCategory());
         tv_datetime.setText(noteToShow.getDateTimeInFormat());
 
         switch (noteToShow.getPriority()){
@@ -111,16 +111,16 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
 
         if(noteToShow.isLater()){
             tv_status.setTextColor(R.attr.paleRed);
-            tv_status.setText("Status: Later");
+            tv_status.setText(R.string.laterStatus);
             btn_later.setVisibility(View.GONE);
         } else {
             if(noteToShow.isDone()){
-                tv_status.setText("Status: Done");
+                tv_status.setText(R.string.doneStatus);
                 tv_status.setTextColor(R.attr.paleGreen);
                 btn_later.setVisibility(View.GONE);
                 btn_done.setVisibility(View.GONE);
             }else{
-                tv_status.setText("Status: To Be Done");
+                tv_status.setText(R.string.toBeDoneStatus);
             }
         }
 
@@ -197,7 +197,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void setStatusDone() {
-        tv_status.setText("Status: Done");
+        tv_status.setText(R.string.doneStatus);
         tv_status.setTextColor(R.attr.paleGreen);
 
         Snackbar snackbar = Snackbar.make(mainLayout,"You have finished " + noteToShow.getName(),Snackbar.LENGTH_LONG);
@@ -207,7 +207,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void setStatusLater() {
-        tv_status.setText("Status: Later");
+        tv_status.setText(R.string.laterStatus);
         tv_status.setTextColor(R.attr.paleRed);
 
         Snackbar snackbar2 = Snackbar.make(mainLayout,"Postponed " + noteToShow.getName(),Snackbar.LENGTH_LONG);
@@ -217,7 +217,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void setStatusToBeDone() {
-        tv_status.setText("Status: To Be Done");
+        tv_status.setText(R.string.toBeDoneStatus);
         tv_status.setTextColor(R.attr.blackText);
     }
 
