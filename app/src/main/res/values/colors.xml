@@ -1,44 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#7646ff</color>-->
-    <!--<color name="colorBackground">#e4e4e4</color>-->
-    <!--<color name="paleRed">#fc5565</color>-->
-    <!--<color name="paleGreen">#72d169</color>-->
-    <!--<color name="colorWhite">#fff</color>-->
-    <!--<color name="blackText">#000</color>-->
-    <!--<color name="colorGradient">#D81B60</color>-->
 
-    <!--<color name="colorPrimaryDark">#7646ff</color>-->
-    <!--<color name="colorAccent">#D81B60</color>-->
-
-
-    <!--<color name="colorText">#ffffff</color>-->
-    <!--<color name="brownText">#ffffff</color>-->
-    <!--<color name="colorTextItemDate">#339ea0</color>-->
-
-    <!--<color name="colorButtonText">@color/colorAccent</color>-->
-    <!--<color name="colorButtonBackground">#d6ffffff</color>-->
-
-    <!--<color name="whiteModeTintColor">#f7717b</color>-->
-    <!--<color name="darkModeTintColor">#db3272f4</color>-->
-
-    <!--&lt;!&ndash;<color name="colorBackground">#c3caf2fe</color>&ndash;&gt;-->
-    <!--<color name="colorBackground2">#c39beeff</color>-->
-
-
-    <!--<color name="specialGrey">#efefef</color>-->
-
-    <!--<color name="brownPrimary">#b5723f</color>-->
-    <!--<color name="brownPrimaryDark">#9e5f2f</color>-->
-    <!--<color name="brownAccent">#ff9340</color>-->
-
-    <!--<color name="brownText">#000000</color>-->
-    <!--<color name="brownTextItemDate">#1d6ba7</color>-->
-
-    <!--<color name="brownButtonText">#ef7416</color>-->
-    <!--<color name="brownButtonBackground">#64fee9da</color>-->
-
-
+    <color name="colorWhiteStatic">#fff</color>
     <!--WELCOME SLIDE-->
 
     <!-- Screens background color-->

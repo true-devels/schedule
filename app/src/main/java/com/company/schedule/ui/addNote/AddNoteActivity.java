@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -47,7 +48,6 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
     private boolean isEdited = false;
     EditText et_name, et_description, et_category, et_date, et_time;
     ImageButton btnBlue, btnGreen,btnRed,btnYellow, btn_right, btn_left;
-    TextInputLayout date_layout;
     MaterialBetterSpinner week_spinner;
     boolean isSelected = true;
     ImageView backward;
@@ -73,7 +73,6 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         et_name =  findViewById(R.id.name_et);  // to enter a note name
         et_description =  findViewById(R.id.description_et);  // to enter a note content
         et_category = findViewById(R.id.category_et); // to enter category
-        date_layout = findViewById(R.id.date_layout);
         backward = findViewById(R.id.backward_btn);
         backward.setVisibility(View.VISIBLE);
         if(sharedPrefs.isNightMode()) backward.setImageResource(R.drawable.backward_white);
@@ -207,12 +206,12 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
             switch (tab){
                 case 1:
                     btnSubmitNote.setText(R.string.text_addDailyButton);
-                    date_layout.setVisibility(View.GONE);
+                    et_date.setVisibility(View.GONE);
                     week_spinner.setVisibility(View.GONE);
                     break;
                 case 2:
                     btnSubmitNote.setText(R.string.text_addWeeklyButton);
-                    date_layout.setVisibility(View.GONE);
+                    et_date.setVisibility(View.GONE);
                     isSelected = false;
                     break;
                 case 3:
@@ -326,31 +325,31 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         switch (v.getId()) {
             case R.id.imageButtonBlue:
                 noteInfo.setPriority(1);
-                btnBlue.setBackgroundColor(R.attr.colorBackground);
-                btnYellow.setBackgroundColor(R.attr.colorWhite);
-                btnGreen.setBackgroundColor(R.attr.colorWhite);
-                btnRed.setBackgroundColor(R.attr.colorWhite);
+                btnBlue.setBackgroundResource(R.color.colorWhiteStatic);
+                btnYellow.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
+                btnGreen.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
+                btnRed.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
                 break;
             case R.id.imageButtonGreen:
                 noteInfo.setPriority(2);
-                btnBlue.setBackgroundColor(R.attr.colorWhite);
-                btnYellow.setBackgroundColor(R.attr.colorWhite);
-                btnGreen.setBackgroundColor(R.attr.colorBackground);
-                btnRed.setBackgroundColor(R.attr.colorWhite);
+                btnBlue.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
+                btnYellow.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
+                btnGreen.setBackgroundResource(R.color.colorWhiteStatic);
+                btnRed.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
                 break;
             case R.id.imageButtonRed:
                 noteInfo.setPriority(3);
-                btnBlue.setBackgroundColor(R.attr.colorWhite);
-                btnYellow.setBackgroundColor(R.attr.colorWhite);
-                btnGreen.setBackgroundColor(R.attr.colorWhite);
-                btnRed.setBackgroundColor(R.attr.colorBackground);
+                btnBlue.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
+                btnYellow.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
+                btnGreen.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
+                btnRed.setBackgroundResource(R.color.colorWhiteStatic);
                 break;
             case R.id.imageButtonYellow:
                 noteInfo.setPriority(4);
-                btnBlue.setBackgroundColor(R.attr.colorWhite);
-                btnYellow.setBackgroundColor(R.attr.colorBackground);
-                btnGreen.setBackgroundColor(R.attr.colorWhite);
-                btnRed.setBackgroundColor(R.attr.colorWhite);
+                btnBlue.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
+                btnYellow.setBackgroundResource(R.color.colorWhiteStatic);
+                btnGreen.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
+                btnRed.setBackground(ContextCompat.getDrawable(this, R.drawable.background_transparent));
                 break;
             case R.id.date_et:  //if clicking on TextView with date
                 presenter.pressedToEditDate(isEdited, noteInfo.getCalendarDate());
