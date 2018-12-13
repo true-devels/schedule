@@ -208,20 +208,20 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.imageButtonDelet:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             presenter.deleteClicked(noteToShow.getId());
                             Intent intent = new Intent(OneNoteActivity.this, MainActivity.class);
                             startActivity(intent);
                         }
                     });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
                         }
                     });
-                builder.setMessage("Are you sure do you want to delete this note?");
-                builder.setTitle("Confirm");
+                builder.setMessage(R.string.question);
+                builder.setTitle(R.string.confirm);
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 break;
@@ -243,9 +243,9 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         tv_status.setText(R.string.doneStatus);
         tv_status.setTextColor(R.attr.paleGreen);
 
-        Snackbar snackbar = Snackbar.make(mainLayout,"You have finished " + noteToShow.getName(),Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(mainLayout,getString(R.string.done_action) + noteToShow.getName(),Snackbar.LENGTH_LONG);
         snackbar.show();
-        snackbar.setAction("UNDO", v -> presenter.doneCanceled(noteToShow));
+        snackbar.setAction(getString(R.string.undo_action), v -> presenter.doneCanceled(noteToShow));
     }
 
     @Override
@@ -253,9 +253,9 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         tv_status.setText(R.string.laterStatus);
         tv_status.setTextColor(R.attr.paleRed);
 
-        Snackbar snackbar2 = Snackbar.make(mainLayout,"Postponed " + noteToShow.getName(),Snackbar.LENGTH_LONG);
+        Snackbar snackbar2 = Snackbar.make(mainLayout, getString(R.string.postponed_action) + noteToShow.getName(),Snackbar.LENGTH_LONG);
         snackbar2.show();
-        snackbar2.setAction("UNDO", v -> presenter.laterCanceled(noteToShow));
+        snackbar2.setAction(getString(R.string.undo_action), v -> presenter.laterCanceled(noteToShow));
     }
 
     @Override

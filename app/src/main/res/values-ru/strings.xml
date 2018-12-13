@@ -64,6 +64,10 @@
     <string name="saturdayShort">СУБ</string>
     <string name="sundayShort">ВОС</string>
 
+    <string name="undo_action">ОТМЕНИТЬ</string>
+    <string name="done_action">Сделано: </string>
+    <string name="postponed_action">Отложено: </string>
+
     <!-- ONE NODE-->
     <string name="doneSwipe">Сделано</string>
     <string name="laterSwipe">Позже</string>
@@ -72,6 +76,9 @@
     <string name="laterStatus">Статус: Отложено</string>
     <string name="doneStatus">Статус: Сделано</string>
     <string name="toBeDoneStatus">Статус: Надо Сделать</string>
+    <string name="cancel">Отменить</string>
+    <string name="question">Вы уверены, что хотите удалить это задание?</string>
+    <string name="confirm">Подтвердить</string>
 
     <!-- SETTINGS -->
     <string name="nightMode">Ночной Режим</string>

@@ -63,6 +63,9 @@
     <string name="fridayShort">ПЯТ</string>
     <string name="saturdayShort">СУБ</string>
     <string name="sundayShort">НЕД</string>
+    <string name="undo_action">ВІДМІНИТИ</string>
+    <string name="done_action">Зроблено: </string>
+    <string name="postponed_action">Відкладено: </string>
 
     <!-- ONE NODE-->
     <string name="doneSwipe">Зроблено</string>
@@ -72,6 +75,9 @@
     <string name="laterStatus">Статус: Відкладено</string>
     <string name="doneStatus">Статус: Зроблено</string>
     <string name="toBeDoneStatus">Статус: Треба Зробити</string>
+    <string name="cancel">Скасувати</string>
+    <string name="question">Ви впевнені, що бажаєте видалити це завдання?</string>
+    <string name="confirm">Підтвердити</string>
 
     <!-- SETTINGS -->
     <string name="nightMode">Нічний Режим</string>

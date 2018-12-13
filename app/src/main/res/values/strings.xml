@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Scheduler</string>
+    <string name="app_name" translatable="false">Scheduler</string>
     <string name="action_settings">Settings</string>
     <string-array name="types_of_frequency">
         <item>Once</item>
@@ -64,6 +64,10 @@
     <string name="saturdayShort">SAT</string>
     <string name="sundayShort">SUN</string>
 
+    <string name="undo_action">UNDO </string>
+    <string name="done_action">Done: </string>
+    <string name="postponed_action">Postponed: </string>
+
     <!-- ONE NODE-->
     <string name="doneSwipe">Done</string>
     <string name="laterSwipe">Later</string>
@@ -72,6 +76,10 @@
     <string name="laterStatus">Status: Later</string>
     <string name="doneStatus">Status: Done</string>
     <string name="toBeDoneStatus">Status: To be Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="question">Are you sure do you want to delete this note?</string>
+    <string name="confirm">Confirm</string>
+
 
     <!-- SETTINGS -->
     <string name="nightMode">Night Mode</string>

@@ -140,9 +140,9 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
         int deleteIndex = viewHolder.getAdapterPosition ();
         Note item = adapter.removeItem(deleteIndex);
         if(direction == ItemTouchHelper.LEFT){
-            Snackbar snackbar = Snackbar.make(mainLayout,"Postponed " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(mainLayout,getString(R.string.postponed_action) + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
             snackbar.show();
-            snackbar.setAction("UNDO", v -> {
+            snackbar.setAction(getString(R.string.undo_action), v -> {
                 adapter.restoreItem(item,deleteIndex);
                 presenter.restoreFromLater(item, 0);
             });
@@ -150,9 +150,9 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
             presenter.swipedToLater(item,0);
             Log.d("id_check ",Integer.toString(id));
         } else {
-            Snackbar snackbar = Snackbar.make(mainLayout,"Done " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(mainLayout,getString(R.string.done_action)  + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
             snackbar.show();
-            snackbar.setAction("UNDO", v -> {
+            snackbar.setAction(getString(R.string.undo_action), v -> {
                 adapter.restoreItem(item,deleteIndex);
                 presenter.restoreFromDone(item, 0);
             });
