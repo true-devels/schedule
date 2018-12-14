@@ -1,6 +1,8 @@
 package com.company.schedule.ui.main.fragments;
 
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.strictmode.ResourceMismatchViolation;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -33,9 +35,16 @@ import com.company.schedule.utils.LocalFormat;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -106,8 +115,15 @@ public class DailyFragment extends Fragment implements MainView, RecyclerViewIte
         ItemTouchHelper.SimpleCallback callback_right = new RecyclerViewItemTouchHelper(0,ItemTouchHelper.RIGHT,this);
         new ItemTouchHelper(callback_right).attachToRecyclerView(notes_rc);
 
+
+
         Calendar today = new GregorianCalendar();
-        tvDateToday.setText(LocalFormat.getDate(today));
+
+        Resources res = getResources();
+        String[] monthes = res.getStringArray(R.array.monthes_short);
+
+
+        tvDateToday.setText( today.get(Calendar.DAY_OF_MONTH)+ " " +monthes[(today.get(Calendar.MONTH))]+" "+today.get(Calendar.YEAR));
 
     }
 

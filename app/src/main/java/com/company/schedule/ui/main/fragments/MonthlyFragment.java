@@ -89,6 +89,7 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
         super.onActivityCreated(savedInstanceState);
 
         notes_rc.setHasFixedSize(true);
+        //mCalendarView.
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());

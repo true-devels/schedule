@@ -1,5 +1,6 @@
 package com.company.schedule.ui.main.fragments;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -159,8 +160,8 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
 
             //tv_numbers.get(i).setTextColor();
         }
-
-        tv_monthyear.setText(LocalFormat.getMonthYear(new Date())); // new Date() return current time
+        Calendar now = new GregorianCalendar();
+        tv_monthyear.setText(getResources().getStringArray(R.array.monthes_short)[now.get(Calendar.MONTH)]+", " + now.get(Calendar.YEAR)); // new Date() return current time
     }
 
     @Override
