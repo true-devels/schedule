@@ -203,7 +203,7 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
         }
 
 
-        Snackbar snackbar = Snackbar.make(mainlayout,"Done " + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(mainlayout,"Done " + ((NodeAdapter.MyViewHolder) viewHolder).getText(),Snackbar.LENGTH_LONG);
         snackbar.show();
         snackbar.setAction("UNDO", v -> {
             switch (((NodeAdapter.MyViewHolder)viewHolder).freq){

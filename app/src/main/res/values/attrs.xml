@@ -9,5 +9,6 @@
         <attr name="blackText" format="color"/>
         <attr name="colorGradient" format="color"/>
         <attr name="colorTextChanging" format="color"/>
+        <attr name="headerMenu" format="reference"/>
     </declare-styleable>
 </resources>

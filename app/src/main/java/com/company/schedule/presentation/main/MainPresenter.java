@@ -7,6 +7,7 @@ import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
 import com.company.schedule.model.repository.SharedPrefsRepository;
 import com.company.schedule.ui.main.fragments.DailyFragment;
+import com.company.schedule.ui.main.fragments.MonthlyFragment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -118,14 +119,15 @@ public class MainPresenter {
 
     public void checkDoneNote() {
         // we load all notes and check their done
-        interactor.getAllNotes()
-                .subscribe(
-                        (notes) -> ((DailyFragment)view).checkDone(notes),
-                        (Throwable e) -> handleThrowable(e)
-                );  // load data from DB
+
+            interactor.getAllNotes()
+                    .subscribe(
+                            (notes) -> ((DailyFragment)view).checkDone(notes),
+                            (Throwable e) -> handleThrowable(e)
+                    );  // load data from DB
+
     }
 
-    @SuppressLint("CheckResult")
     private void loadAllDailyNotes() {
         // we load data from DB in Model, and then set all notes in MainView
         interactor.getAllDailyNotes()
@@ -141,8 +143,7 @@ public class MainPresenter {
         interactor.getAllWeeklyNotes()
                 .subscribe(
                         (List<Note> notes) -> view.setAllNotes(notes),
-                        (Throwable e) -> handleThrowable(e),
-                        () -> checkDoneNote()
+                        (Throwable e) -> handleThrowable(e)
                 );  // load data from DB
     }
 
@@ -151,8 +152,7 @@ public class MainPresenter {
         interactor.getAllMonthlyNotes()
                 .subscribe(
                         (notes) ->  view.setAllNotes(notes),
-                        (Throwable e) -> handleThrowable(e),
-                        () -> checkDoneNote()
+                        (Throwable e) -> handleThrowable(e)
                 );  // load data from DB
     }
 

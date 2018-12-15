@@ -90,8 +90,8 @@
     <string name="sundayShort">ВОС</string>
 
     <string name="undo_action">ОТМЕНИТЬ</string>
-    <string name="done_action">Сделано: </string>
-    <string name="postponed_action">Отложено: </string>
+    <string name="done_action">Сделано</string>
+    <string name="postponed_action">Отложено</string>
 
     <!-- ONE NODE-->
     <string name="doneSwipe">Сделано</string>

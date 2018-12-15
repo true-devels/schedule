@@ -28,7 +28,7 @@
         <item>Вівторок</item>
         <item>Середа</item>
         <item>Четверг</item>
-        <item>П'ятниця</item>
+        <item>П\'ятниця</item>
         <item>Субота</item>
         <item>Неділя</item>
     </string-array>
@@ -89,8 +89,8 @@
     <string name="saturdayShort">СУБ</string>
     <string name="sundayShort">НЕД</string>
     <string name="undo_action">ВІДМІНИТИ</string>
-    <string name="done_action">Зроблено: </string>
-    <string name="postponed_action">Відкладено: </string>
+    <string name="done_action">Зроблено</string>
+    <string name="postponed_action">Відкладено</string>
 
     <!-- ONE NODE-->
     <string name="doneSwipe">Зроблено</string>

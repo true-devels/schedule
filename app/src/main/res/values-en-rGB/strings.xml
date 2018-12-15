@@ -89,8 +89,8 @@
     <string name="sundayShort">SUN</string>
 
     <string name="undo_action">UNDO</string>
-    <string name="done_action">Done: </string>
-    <string name="postponed_action">Postponed: </string>
+    <string name="done_action">Done</string>
+    <string name="postponed_action">Postponed</string>
 
     <!-- ONE NODE-->
     <string name="doneSwipe">Done</string>

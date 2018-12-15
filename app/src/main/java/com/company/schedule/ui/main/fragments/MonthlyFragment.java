@@ -36,6 +36,7 @@ import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -101,7 +102,8 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
         notes_rc.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         //presenter.refreshMonthlyTasks();
         mAdapter = new NodeAdapter(getContext());
-
+        //mAdapter.onAttachedToRecyclerView(notes_rc);
+        //mAdapter.on
         notes_rc.setAdapter(mAdapter);
 
         ItemTouchHelper.SimpleCallback callback_left = new RecyclerViewItemTouchHelper(0,ItemTouchHelper.LEFT,this);
@@ -120,8 +122,10 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
     @Override
     public void setAllNotes(List<Note> newNotesList) {
 
- //       onGetNotes(newNotesList);
+
         mAdapter.setAllNotes(newNotesList);
+
+        onGetNotes(newNotesList);
     }
 
     @Override
@@ -139,7 +143,7 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
         int deleteIndex = viewHolder.getAdapterPosition ();
         Note item = mAdapter.removeItem(deleteIndex);
         if(direction == ItemTouchHelper.LEFT){
-            Snackbar snackbar = Snackbar.make(mainLayout,getString(R.string.postponed_action) + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(mainLayout,getString(R.string.postponed_action),Snackbar.LENGTH_LONG);
             snackbar.show();
             snackbar.setAction(getString(R.string.undo_action), new View.OnClickListener(){
                 @Override
@@ -150,7 +154,7 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
             });
             presenter.swipedToLater(item,2);
         }else{
-            Snackbar snackbar = Snackbar.make(mainLayout, getString(R.string.done_action) + ((NodeAdapter.MyViewHolder) viewHolder).mTextView.getText(),Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(mainLayout, getString(R.string.done_action),Snackbar.LENGTH_LONG);
             snackbar.show();
             snackbar.setAction(getString(R.string.undo_action), v -> {
                 mAdapter.restoreItem(item,deleteIndex);
@@ -161,7 +165,7 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
 
     }
 
-    public void onGetNotes(List<Note> local){
+    public void onGetNotes(final List<Note> local){
 //        setAllNotes(local);
 
         List<EventDay> events = new ArrayList<>();
@@ -173,23 +177,38 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
         }
 
         for(int i = 0; i<local.size();i++){
+            GregorianCalendar cal = new GregorianCalendar();
+            cal.setTimeInMillis(local.get(i).getCalendarDate().getTimeInMillis());
             switch(local.get(i).getPriority()){
                 case 2:
-                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.button_bg_round_green));
+                    events.add(
+                            new EventDay(
+                                    //local.get(i).getCalendarDate(),
+                                    cal,
+                                    R.drawable.button_bg_round_green));
                     break;
                 case 3:
-                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.button_bg_round_red));
+                    events.add(new EventDay(
+                            //local.get(i).getCalendarDate(),
+                            cal,
+                            R.drawable.button_bg_round_red));
                     break;
                 case 4:
-                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.button_bg_round_yellow));
+                    events.add(new EventDay(
+                            //local.get(i).getCalendarDate(),
+                            cal,
+                            R.drawable.button_bg_round_yellow));
                     break;
                 default:
-                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.button_bg_round));
+                    events.add(new EventDay(
+                            //local.get(i).getCalendarDate(),
+                            cal,
+                            R.drawable.button_bg_round));
                     break;
 
             }
-
         }
+        //EventDay eventDay = new EventDay().
         mCalendarView.setEvents(events);
         Log.d("check of events",events.size()+" ");
     }

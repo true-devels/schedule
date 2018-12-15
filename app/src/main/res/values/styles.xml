@@ -13,7 +13,7 @@
         <item name="blackText">#000</item>
         <item name="colorGradient">#D81B60</item>
         <item name="colorTextChanging">#000</item>
-
+        <item name="headerMenu">@drawable/scheduler_header</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
     </style>
@@ -28,7 +28,7 @@
         <item name="blackText">#000</item>
         <item name="colorGradient">#D81B60</item>
         <item name="colorTextChanging">#fff</item>
-
+        <item name="headerMenu">@drawable/scheduler_black</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
 
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
@@ -45,7 +45,7 @@
         <item name="blackText">#181D27</item>
         <item name="colorGradient">#D81B60</item>
         <item name="colorTextChanging">#FFF</item>
-e
+        <item name="headerMenu">@drawable/scheduler_header</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
     </style>

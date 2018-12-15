@@ -17,6 +17,7 @@ import com.company.schedule.ui.oneNote.OneNoteActivity;
 import com.company.schedule.utils.LocalFormat;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.company.schedule.utils.Constants.FREQUENCY_DAILY;
@@ -30,12 +31,12 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder  implements  View.OnClickListener{
         // each data item is just a string in this case
-        public TextView mTextView, tv_time, tv_date, tv_category;
+        private TextView mTextView, tv_time, tv_date, tv_category;
         public RelativeLayout foreground, delete_layout, save_layout;
         private ItemClickListener itemClickListener;
         ImageButton img_priority;
         public int id, freq;
-        public MyViewHolder(View v) {
+        MyViewHolder(View v) {
             super(v);
             foreground = v.findViewById(R.id.foreground);
             delete_layout = v.findViewById(R.id.delete_layout);
@@ -43,7 +44,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
             mTextView = v.findViewById(R.id.textView2);
             img_priority = v.findViewById(R.id.imageButton4);
             tv_time =  v.findViewById(R.id.textViewTime);
-            tv_date = v.findViewById(R.id.textViewDate);
+            tv_date = v.findViewById(R.id.textViewDateOneNode);
             tv_category = v.findViewById(R.id.tv_category);
            // mTextView = v;
             v.setOnClickListener(this);
@@ -55,6 +56,9 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         }
         private void setItemClickListener(ItemClickListener itemClickListener){
             this.itemClickListener = itemClickListener;
+        }
+        public String getText(){
+            return mTextView.getText().toString();
         }
     }
 
@@ -108,8 +112,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         holder.tv_time.setText(time);
         Log.d("check dates", mDataset.get(position).getDateTimeInFormat());
         if(mDataset.get(position).getFrequency() != FREQUENCY_DAILY) {
-           String date = LocalFormat.getDayMonth(mDataset.get(position).getCalendarDate());
-            holder.tv_date.setText(date);
+            holder.tv_date.setText(mDataset.get(position).getCalendarDate().get(Calendar.DAY_OF_MONTH) + ", "+ context.getResources().getStringArray(R.array.monthes_short)[mDataset.get(position).getCalendarDate().get(Calendar.MONTH)]);
         } else {
             //holder.tv_time.setGravity(View.TEXT_ALIGNMENT_CENTER);
             holder.tv_date.setText("");
