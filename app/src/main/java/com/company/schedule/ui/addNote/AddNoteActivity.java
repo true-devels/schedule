@@ -152,7 +152,8 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         btnRed.setOnClickListener(this);
 
 
-        String[] SPINNERLIST = {"Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday","Sunday"};
+        String[] SPINNERLIST =getResources().getStringArray(R.array.weekdays);
+
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
         week_spinner = findViewById(R.id.week_spinner);

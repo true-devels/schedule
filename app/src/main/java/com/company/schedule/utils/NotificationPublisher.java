@@ -5,6 +5,9 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 
 import com.company.schedule.model.data.base.AppDatabase;
@@ -48,9 +51,15 @@ public  class NotificationPublisher extends BroadcastReceiver {
             noteToShow.getCalendarDate().set(Calendar.MILLISECOND,0);
             NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
             Notification local = myNotification.getNotification(noteToShow.getName(), noteToShow.getContent());
+            Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(500,5));
+            }else{
+                v.vibrate(500);
+
+            }
+
             notificationManager.notify(id, local);
-
-
 
             myNotification.scheduleNotification(local,
                     id,

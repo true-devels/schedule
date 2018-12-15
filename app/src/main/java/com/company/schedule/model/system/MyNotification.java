@@ -11,6 +11,9 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -50,6 +53,8 @@ public class MyNotification {
     public android.app.Notification getNotification(String title, String content) {
         NotificationCompat.Builder builder;
         Intent resultIntent = new Intent(context, MainActivity.class);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
         PendingIntent pendingIntentResult = PendingIntent.getActivity(context, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {  // condition must be here to support all version of device
             createNotificationChannel();
@@ -57,32 +62,25 @@ public class MyNotification {
                     .setSmallIcon(R.mipmap.ic_app_round)
                     .setContentTitle(title)
                     .setContentText(content)
-                   // .setColor(Color.parseColor("#be150f"))
-                    //.setColorized(true)
-                    //TODO check these three lines work
-                    .setVibrate(new long[]{500, 1000})
+                    .setSound(alarmSound)
                     .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
-                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .setContentText(content)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntentResult);
+
         }
         else{
             builder = new NotificationCompat.Builder(context)  // NotificationCompat.Builder must be here to support old version
                     .setSmallIcon(R.mipmap.ic_app_round)
                     .setContentTitle(title)
                     .setContentText(content)
-                   // .setColor(Color.parseColor("#be150f"))
-                    //.setColorized(true)
-                    //TODO check these three lines work
-                    .setVibrate(new long[]{500, 1000})
                     .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
-                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                    .setSound(alarmSound)
                     .setContentText(content)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntentResult);
-
         }
+
         return builder.build();
     }
 

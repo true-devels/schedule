@@ -23,6 +23,16 @@
         <item>Дек</item>
     </string-array>
 
+    <string-array name="weekdays">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Субота</item>
+        <item>Воскресенье</item>
+    </string-array>
+
     <!--WELCOME SLIDE-->
     <string name="title_activity_welcome">Домашняя страница</string>
     <string name="next">Дальше</string>
