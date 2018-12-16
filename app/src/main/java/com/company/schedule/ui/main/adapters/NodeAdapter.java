@@ -18,7 +18,6 @@ import com.company.schedule.utils.ItemClickListener;
 import com.company.schedule.utils.LocalFormat;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import static com.company.schedule.utils.Constants.FREQUENCY_DAILY;
@@ -94,16 +93,16 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         });
         switch (mDataset.get(position).getPriority()){
             case 2:
-                holder.img_priority.setImageResource(R.drawable.button_bg_round_green);
+                holder.img_priority.setImageResource(R.drawable.prior_green_round);
                 break;
             case 3:
-                holder.img_priority.setImageResource(R.drawable.button_bg_round_red);
+                holder.img_priority.setImageResource(R.drawable.prior_red_round);
                 break;
             case 4:
-                holder.img_priority.setImageResource(R.drawable.button_bg_round_yellow);
+                holder.img_priority.setImageResource(R.drawable.prior_yellow_round);
                 break;
             default:
-                holder.img_priority.setImageResource(R.drawable.button_bg_round);
+                holder.img_priority.setImageResource(R.drawable.prior_blue_round);
                 break;
         }
         String time = mDataset.get(position).getTimeInFormat();

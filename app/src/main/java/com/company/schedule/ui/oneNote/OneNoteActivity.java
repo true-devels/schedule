@@ -26,8 +26,6 @@ import com.company.schedule.presentation.oneNote.OneNoteView;
 import com.company.schedule.ui.activities.AddNoteActivity;
 import com.company.schedule.ui.main.MainActivity;
 
-import java.util.Calendar;
-
 import static com.company.schedule.utils.Constants.START_TIMER;
 
 public class OneNoteActivity extends AppCompatActivity implements View.OnClickListener, OneNoteView {
@@ -96,16 +94,16 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
 
         switch (noteToShow.getPriority()){
             case 1:
-                img_prior.setImageResource(R.drawable.blue_prior);
+                img_prior.setImageResource(R.drawable.prior_blue);
                 break;
             case 2:
-                img_prior.setImageResource(R.drawable.green_prior);
+                img_prior.setImageResource(R.drawable.prior_green);
                 break;
             case 3:
-                img_prior.setImageResource(R.drawable.red_prior);
+                img_prior.setImageResource(R.drawable.prior_red);
                 break;
             case 4:
-                img_prior.setImageResource(R.drawable.yellow_prior);
+                img_prior.setImageResource(R.drawable.prior_yellow);
                 break;
         }
 

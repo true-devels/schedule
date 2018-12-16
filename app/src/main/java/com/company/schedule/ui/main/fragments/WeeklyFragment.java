@@ -136,7 +136,7 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
             day=cal.get(Calendar.DAY_OF_WEEK);
             day--;
         }
-        ll_numbers.get(--day).setBackgroundResource(R.drawable.now_week);
+        ll_numbers.get(--day).setBackgroundResource(R.drawable.prior__now_week);
 
         for(int i=0; i<=6;i++){
             Calendar local = new GregorianCalendar();

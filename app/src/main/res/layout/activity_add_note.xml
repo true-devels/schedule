@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorBackground"
             android:padding="20dp"
-            app:srcCompat="@drawable/button_bg_round" />
+            app:srcCompat="@drawable/prior_blue_round" />
 
         <ImageButton
             android:id="@+id/imageButtonGreen"
@@ -147,7 +147,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorWhite"
             android:padding="20dp"
-            app:srcCompat="@drawable/button_bg_round_green" />
+            app:srcCompat="@drawable/prior_green_round" />
 
         <ImageButton
             android:id="@+id/imageButtonRed"
@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/background_transparent"
             android:padding="20dp"
-            app:srcCompat="@drawable/button_bg_round_red" />
+            app:srcCompat="@drawable/prior_red_round" />
 
         <ImageButton
             android:id="@+id/imageButtonYellow"
@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/background_transparent"
             android:padding="20dp"
-            app:srcCompat="@drawable/button_bg_round_yellow" />
+            app:srcCompat="@drawable/prior_yellow_round" />
 
 
     </LinearLayout>

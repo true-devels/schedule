@@ -90,7 +90,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:padding="-10dp"
-            app:srcCompat="@drawable/blue_prior" />
+            app:srcCompat="@drawable/prior_blue" />
 
 
     </RelativeLayout>

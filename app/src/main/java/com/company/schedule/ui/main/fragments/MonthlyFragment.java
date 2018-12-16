@@ -174,16 +174,16 @@ public class MonthlyFragment extends Fragment implements MainView, RecyclerViewI
         for(int i = 0; i<local.size();i++){
             switch(local.get(i).getPriority()){
                 case 2:
-                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.button_bg_round_green));
+                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.prior_green_round));
                     break;
                 case 3:
-                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.button_bg_round_red));
+                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.prior_red_round));
                     break;
                 case 4:
-                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.button_bg_round_yellow));
+                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.prior_yellow_round));
                     break;
                 default:
-                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.button_bg_round));
+                    events.add(new EventDay(local.get(i).getCalendarDate(), R.drawable.prior_blue_round));
                     break;
 
             }
