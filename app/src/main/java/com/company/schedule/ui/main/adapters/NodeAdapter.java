@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.company.schedule.R;
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.ui.oneNote.OneNoteActivity;
-import com.company.schedule.utils.LocalFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -96,16 +95,16 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         });
         switch (mDataset.get(position).getPriority()){
             case 2:
-                holder.img_priority.setImageResource(R.drawable.button_bg_round_green);
+                holder.img_priority.setImageResource(R.drawable.prior2_round);
                 break;
             case 3:
-                holder.img_priority.setImageResource(R.drawable.button_bg_round_red);
+                holder.img_priority.setImageResource(R.drawable.prior3_round);
                 break;
             case 4:
-                holder.img_priority.setImageResource(R.drawable.button_bg_round_yellow);
+                holder.img_priority.setImageResource(R.drawable.prior4_round);
                 break;
             default:
-                holder.img_priority.setImageResource(R.drawable.button_bg_round);
+                holder.img_priority.setImageResource(R.drawable.prior1_round);
                 break;
         }
         String time = mDataset.get(position).getTimeInFormat();

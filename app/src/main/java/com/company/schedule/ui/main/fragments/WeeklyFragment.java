@@ -1,6 +1,5 @@
 package com.company.schedule.ui.main.fragments;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,7 +30,6 @@ import com.company.schedule.presentation.main.MainPresenter;
 import com.company.schedule.presentation.main.MainView;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.ui.main.adapters.NodeAdapter;
-import com.company.schedule.utils.LocalFormat;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
@@ -145,7 +143,7 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
             day=cal.get(Calendar.DAY_OF_WEEK);
             day--;
         }
-        ll_numbers.get(--day).setBackgroundResource(R.drawable.now_week);
+        ll_numbers.get(--day).setBackgroundResource(R.drawable.prior_white_now_week);
         if(sharedPrefs.isNightMode()){
             tv_numbers.get(day).setTextColor(R.attr.blackText);
             tv_days.get(day).setTextColor(R.attr.blackText);

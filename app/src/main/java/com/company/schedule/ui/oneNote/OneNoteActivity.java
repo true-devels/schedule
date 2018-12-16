@@ -142,16 +142,16 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
 
         switch (noteToShow.getPriority()){
             case 1:
-                img_prior.setImageResource(R.drawable.blue_prior);
+                img_prior.setImageResource(R.drawable.prior1);
                 break;
             case 2:
-                img_prior.setImageResource(R.drawable.green_prior);
+                img_prior.setImageResource(R.drawable.prior2);
                 break;
             case 3:
-                img_prior.setImageResource(R.drawable.red_prior);
+                img_prior.setImageResource(R.drawable.prior3);
                 break;
             case 4:
-                img_prior.setImageResource(R.drawable.yellow_prior);
+                img_prior.setImageResource(R.drawable.prior4);
                 break;
         }
 
