@@ -9,6 +9,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.addNote.AddNoteActivity"
     android:fitsSystemWindows="true">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true" />
-
+        <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
         <android.support.design.widget.TextInputLayout
             android:id="@+id/text1"
             android:layout_width="match_parent"
@@ -130,48 +133,77 @@
             android:text="@string/hint_priority"
             android:layout_margin="10dp"
             android:textColor="?attr/colorPrimary"/>
-        <LinearLayout
+        <TableLayout
             android:layout_below="@id/textView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="8dp"
+            >
 
-            <ImageButton
-                android:id="@+id/imageButtonBlue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorWhite"
-                android:padding="20dp"
-                app:srcCompat="@drawable/prior1_round"
-                />
+            <TableRow>
+                <ImageButton
+                    android:id="@+id/imageButtonBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorWhite"
+                    android:padding="20dp"
+                    app:srcCompat="@drawable/prior1_round"
+                    />
 
-            <ImageButton
-                android:id="@+id/imageButtonGreen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorBackground"
-                android:padding="20dp"
-                app:srcCompat="@drawable/prior2_round" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="normal"
+                    android:textColor="?attr/colorPrimary"/>
+            </TableRow>
 
-            <ImageButton
-                android:id="@+id/imageButtonRed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_transparent"
-                android:padding="20dp"
-                app:srcCompat="@drawable/prior3_round" />
+            <TableRow>
+                <ImageButton
+                    android:id="@+id/imageButtonGreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorBackground"
+                    android:padding="20dp"
+                    app:srcCompat="@drawable/prior2_round" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="important"
+                    android:textColor="?attr/colorPrimary"/>
+            </TableRow>
 
-            <ImageButton
-                android:id="@+id/imageButtonYellow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_transparent"
-                android:padding="20dp"
-                app:srcCompat="@drawable/prior4_round" />
+            <TableRow>
+                <ImageButton
+                    android:id="@+id/imageButtonRed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_transparent"
+                    android:padding="20dp"
+                    app:srcCompat="@drawable/prior3_round" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="very important"
+                    android:textColor="?attr/colorPrimary"/>
+            </TableRow>
 
+            <TableRow>
+                <ImageButton
+                    android:id="@+id/imageButtonYellow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_transparent"
+                    android:padding="20dp"
+                    app:srcCompat="@drawable/prior4_round" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="extremely important"
+                    android:textColor="?attr/colorPrimary"/>
+            </TableRow>
+        </TableLayout>
 
-        </LinearLayout>
-
+        <!--</ScrollView>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -190,6 +222,7 @@
         </LinearLayout>
 
     </RelativeLayout>
+
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
