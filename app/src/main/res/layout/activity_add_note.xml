@@ -23,203 +23,209 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true" />
-        <!--<ScrollView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/text1"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/toolbar_include"
-            android:layout_alignParentStart="true"
-            android:textColorHint="?attr/colorPrimary">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/name_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_name_et"
-                android:maxLength="40"
-                android:maxLines="1"
-                android:textColor="?attr/colorPrimary" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/text1"
-            android:textColorHint="?attr/colorPrimary"
-            android:id="@+id/text2">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/description_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_description_et"
-                android:maxLength="255"
-                android:textColor="?attr/colorPrimary" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:textColorHint="?attr/colorPrimary"
-            android:layout_below="@+id/text2"
-            android:id="@+id/text3"
-            android:outlineAmbientShadowColor="?attr/colorPrimary"
-            android:outlineSpotShadowColor="?attr/colorPrimary">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/category_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_category_et"
-                android:maxLength="30"
-                android:textColor="?attr/colorPrimary" />
-        </android.support.design.widget.TextInputLayout>
-        <LinearLayout
-            android:baselineAligned="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/text3"
-            android:id="@+id/layout_datetime">
-            <EditText
-                android:id="@+id/date_et"
-                android:clickable="true"
-                android:focusable="false"
-                android:inputType="none"
-                android:editable="false"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColorHint="?attr/colorPrimary"
-                android:textColor="?attr/colorPrimary"
-                android:hint="@string/hint_date_et" />
-
-            <EditText
-            android:id="@+id/time_et"
-                android:clickable="true"
-                android:focusable="false"
-                android:inputType="none"
-                android:editable="false"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColorHint="?attr/colorPrimary"
-            android:textColor="?attr/colorPrimary"
-            android:hint="@string/hint_time_et" />
-        </LinearLayout>
-
-        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:id="@+id/week_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layout_datetime"
-            android:hint="@string/hint_dayOfWeek"
-            android:textColorHint="#05ab9a"
-            app:met_floatingLabel="normal" />
-
-
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/week_spinner"
-            android:layout_alignParentStart="true"
-            android:text="@string/hint_priority"
-            android:layout_margin="10dp"
-            android:textColor="?attr/colorPrimary"/>
-        <TableLayout
-            android:layout_below="@id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_above="@+id/buttonAdd"
             >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TableRow>
-                <ImageButton
-                    android:id="@+id/imageButtonBlue"
-                    android:layout_width="wrap_content"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/colorWhite"
-                    android:padding="20dp"
-                    app:srcCompat="@drawable/prior1_round"
-                    />
+                    android:textColorHint="?attr/colorPrimary">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/name_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_name_et"
+                        android:maxLength="40"
+                        android:maxLines="1"
+                        android:textColor="?attr/colorPrimary" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/text1"
+                    android:textColorHint="?attr/colorPrimary"
+                    android:id="@+id/text2">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/description_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_description_et"
+                        android:maxLength="255"
+                        android:textColor="?attr/colorPrimary" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:textColorHint="?attr/colorPrimary"
+                    android:layout_below="@+id/text2"
+                    android:id="@+id/text3"
+                    android:outlineAmbientShadowColor="?attr/colorPrimary"
+                    android:outlineSpotShadowColor="?attr/colorPrimary">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/category_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_category_et"
+                        android:maxLength="30"
+                        android:textColor="?attr/colorPrimary" />
+                </android.support.design.widget.TextInputLayout>
+                <LinearLayout
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/text3"
+                    android:id="@+id/layout_datetime">
+                    <EditText
+                        android:id="@+id/date_et"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:editable="false"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColorHint="?attr/colorPrimary"
+                        android:textColor="?attr/colorPrimary"
+                        android:hint="@string/hint_date_et" />
+
+                    <EditText
+                    android:id="@+id/time_et"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:editable="false"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="?attr/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
+                    android:hint="@string/hint_time_et" />
+                </LinearLayout>
+
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/week_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_datetime"
+                    android:hint="@string/hint_dayOfWeek"
+                    android:textColorHint="#05ab9a"
+                    app:met_floatingLabel="normal" />
 
                 <TextView
+                    android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="normal"
+                    android:layout_below="@+id/week_spinner"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/hint_priority"
+                    android:layout_margin="10dp"
                     android:textColor="?attr/colorPrimary"/>
-            </TableRow>
+                <TableLayout
+                    android:layout_below="@id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    >
 
-            <TableRow>
-                <ImageButton
-                    android:id="@+id/imageButtonGreen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorBackground"
-                    android:padding="20dp"
-                    app:srcCompat="@drawable/prior2_round" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="important"
-                    android:textColor="?attr/colorPrimary"/>
-            </TableRow>
+                    <TableRow>
+                        <ImageButton
+                            android:id="@+id/imageButtonBlue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/colorWhite"
+                            android:padding="20dp"
+                            app:srcCompat="@drawable/prior1_round"
+                            />
 
-            <TableRow>
-                <ImageButton
-                    android:id="@+id/imageButtonRed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_transparent"
-                    android:padding="20dp"
-                    app:srcCompat="@drawable/prior3_round" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="very important"
-                    android:textColor="?attr/colorPrimary"/>
-            </TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="normal"
+                            android:textColor="?attr/colorPrimary"/>
+                    </TableRow>
 
-            <TableRow>
-                <ImageButton
-                    android:id="@+id/imageButtonYellow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_transparent"
-                    android:padding="20dp"
-                    app:srcCompat="@drawable/prior4_round" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="extremely important"
-                    android:textColor="?attr/colorPrimary"/>
-            </TableRow>
-        </TableLayout>
+                    <TableRow>
+                        <ImageButton
+                            android:id="@+id/imageButtonGreen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/colorBackground"
+                            android:padding="20dp"
+                            app:srcCompat="@drawable/prior2_round" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="important"
+                            android:textColor="?attr/colorPrimary"/>
+                    </TableRow>
 
-        <!--</ScrollView>-->
+                    <TableRow>
+                        <ImageButton
+                            android:id="@+id/imageButtonRed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/background_transparent"
+                            android:padding="20dp"
+                            app:srcCompat="@drawable/prior3_round" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="very important"
+                            android:textColor="?attr/colorPrimary"/>
+                    </TableRow>
 
-        <LinearLayout
+                    <TableRow>
+                        <ImageButton
+                            android:id="@+id/imageButtonYellow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/background_transparent"
+                            android:padding="20dp"
+                            app:srcCompat="@drawable/prior4_round" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="extremely important"
+                            android:textColor="?attr/colorPrimary"/>
+                    </TableRow>
+                </TableLayout>
+            </RelativeLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/buttonAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:text="@string/text_addButton"
+            android:textColor="?attr/colorWhite"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:background="?attr/colorPrimary">
+            />
 
-            <Button
-                android:id="@+id/buttonAdd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                android:text="@string/text_addButton"
-                android:textColor="?attr/colorWhite" />
-        </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="?attr/colorPrimary">-->
+
+             <!--</LinearLayout>-->
 
     </RelativeLayout>
 
