@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="8dp"
-        >
+        app:cardElevation="8dp">
 
         <RelativeLayout
             android:id="@+id/save_layout"
@@ -40,110 +37,116 @@
 
         </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/delete_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/paleRed">
+        <RelativeLayout
+            android:id="@+id/delete_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/paleRed">
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            app:srcCompat="@android:drawable/ic_menu_recent_history" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/imageView5"
-            android:text="@string/laterSwipe"
-            android:textColor="?attr/colorWhite" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/foreground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/ll_datetime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                app:srcCompat="@android:drawable/ic_menu_recent_history" />
 
             <TextView
-                android:id="@+id/textViewTime"
+                android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:maxLines="1"
-                android:text="10:30 PM"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/imageView5"
+                android:text="@string/laterSwipe"
+                android:textColor="?attr/colorWhite" />
 
-                android:textColor="?attr/blackText"
-                android:textSize="18sp" />
+        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/textViewDateOneNode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:text="28 feb"
-                android:textColor="?attr/blackText" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/textes"
+        <RelativeLayout
+            android:id="@+id/foreground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="64dp"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/ll_datetime"
-            android:orientation="vertical">
+            android:background="?attr/colorBlock"
+            android:minHeight="59dp"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
 
-            <TextView
-                android:id="@+id/textView2"
+            <LinearLayout
+                android:id="@+id/ll_datetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:textColor="?attr/blackText"
-                android:textSize="20sp"
-                tools:text="Meeting with client" />
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                android:visibility="visible">
 
-            <TextView
-                android:id="@+id/tv_category"
+                <TextView
+                    android:id="@+id/textViewTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:maxLines="1"
+                    android:text="10:30 PM"
+
+                    android:textColor="?attr/colorText"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textViewDateOneNode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="28 feb"
+                    android:textColor="?attr/colorText"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/textes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="64dp"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/ll_datetime"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:maxLines="1"
+                    android:textColor="?attr/colorText"
+                    android:textSize="20sp"
+                    tools:text="Meeting with client" />
+
+                <TextView
+                    android:id="@+id/tv_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Official"
+                    android:textColor="?attr/colorTextSecondary"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/imageButton4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Official"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="12sp" />
-        </LinearLayout>
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginEnd="30dp"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/prior1_round" />
 
-        <ImageButton
-        android:id="@+id/imageButton4"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="30dp"
-        android:background="@android:color/transparent"
-        app:srcCompat="@drawable/prior1_round" />
-
-    </RelativeLayout>
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 </FrameLayout>
