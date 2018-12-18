@@ -320,7 +320,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         MyNotification myNotification = new MyNotification(this);
         note.getCalendarDate().set(Calendar.SECOND,0);
         note.getCalendarDate().set(Calendar.MILLISECOND,0);
-        Notification local = myNotification.getNotification(note.getName(), note.getContent());
+        Notification local = myNotification.getNotification(note);
 
         myNotification.scheduleNotification(local,
                 id,
