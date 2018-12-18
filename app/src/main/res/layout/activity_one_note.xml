@@ -35,7 +35,7 @@
             android:layout_centerHorizontal="true"
 
             android:layout_margin="16dp"
-            android:background="?attr/colorWhite"
+            android:background="?attr/colorBlock"
             android:paddingBottom="8dp"
             android:paddingEnd="8dp"
             android:paddingLeft="8dp"
@@ -49,7 +49,7 @@
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="8dp"
                 android:text="Meet with diller"
-                android:textColor="?attr/blackText"
+                android:textColor="?attr/colorText"
                 android:textSize="20sp" />
 
             <TextView
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textViewName"
                 android:layout_marginTop="8dp"
-                android:textColor="?attr/colorPrimary"
+                android:textColor="?attr/colorTextSecondary"
                 android:textSize="14sp"
                 tools:text="November 23, 2018 6:03 PM" />
 
@@ -70,7 +70,7 @@
                 android:layout_below="@id/textViewDateTime"
                 android:layout_marginTop="16dp"
                 android:text="Category: Friend"
-                android:textColor="?attr/blackText"
+                android:textColor="?attr/colorText"
                 android:textStyle="italic" />
 
             <TextView
@@ -80,7 +80,7 @@
                 android:layout_below="@+id/textViewCategory"
                 android:layout_marginTop="16dp"
                 android:text="Status: Done"
-                android:textColor="?attr/blackText"
+                android:textColor="?attr/colorText"
                 android:textStyle="bold" />
 
             <TextView
@@ -90,7 +90,7 @@
                 android:layout_below="@id/textViewStatus"
                 android:layout_marginTop="16dp"
                 android:text="I need to show him something and buy a bit"
-                android:textColor="?attr/blackText" />
+                android:textColor="?attr/colorText" />
 
             <ImageView
                 android:id="@+id/imageViewPriority"
@@ -104,7 +104,9 @@
 
         </RelativeLayout>
 
-        <RelativeLayout android:id="@+id/timerLayout"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/timerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/noteCard"
@@ -114,10 +116,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            android:background="?attr/colorWhite"
-            android:padding="16dp"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools">
+            android:background="?attr/colorBlock"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/tvTimer"
@@ -128,7 +128,7 @@
                 android:layout_margin="8dp"
                 android:text="25:00"
                 android:textAlignment="center"
-                android:textColor="?attr/blackText"
+                android:textColor="?attr/colorText"
                 android:textSize="36sp"
                 tools:text="25:00" />
 
@@ -140,9 +140,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
-                android:background="@android:drawable/screen_background_light_transparent"
-                android:text="@string/startText"
-                android:textColor="?attr/blackText" />
+                android:background="?attr/colorButton"
+                android:text="?attr/colorTextInverse"
+                android:textColor="?attr/colorTextInverse" />
         </RelativeLayout>
 
         <LinearLayout

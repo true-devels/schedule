@@ -1,10 +1,14 @@
 package com.company.schedule.ui.main.fragments;
 
+import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -145,8 +149,8 @@ public class WeeklyFragment extends Fragment implements MainView, RecyclerViewIt
         }
         ll_numbers.get(--day).setBackgroundResource(R.drawable.prior_white_now_week);
         if(sharedPrefs.isNightMode()){
-            tv_numbers.get(day).setTextColor(R.attr.blackText);
-            tv_days.get(day).setTextColor(R.attr.blackText);
+            tv_days.get(day).setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextChangingChoosed));
+            tv_numbers.get(day).setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextChangingChoosed));
         }
 
         for(int i=0; i<=6;i++){

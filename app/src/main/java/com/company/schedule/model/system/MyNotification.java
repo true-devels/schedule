@@ -50,7 +50,7 @@ public class MyNotification {
 
     }
 
-    public android.app.Notification getNotification(String title, String content) {
+    public android.app.Notification getNotification(Note noteToNotif) {  // String title, String content) {
         NotificationCompat.Builder builder;
         Intent resultIntent = new Intent(context, MainActivity.class);
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -59,24 +59,26 @@ public class MyNotification {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {  // condition must be here to support all version of device
             createNotificationChannel();
             builder = new NotificationCompat.Builder(context,CHANEL_ID)
+                    .setContentTitle(noteToNotif.getName())
+                    .setContentText(noteToNotif.getContent())
                     .setSmallIcon(R.mipmap.ic_app_round)
-                    .setContentTitle(title)
-                    .setContentText(content)
+                    .setColor(Color.GREEN)
                     .setSound(alarmSound)
-                    .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
-                    .setContentText(content)
+                    .setLights(0xff00ff00, 3000, 100)
+                    //.setLights(0xff0000ff, 5000, 3000)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntentResult);
 
         }
         else{
             builder = new NotificationCompat.Builder(context)  // NotificationCompat.Builder must be here to support old version
+                    .setContentTitle(noteToNotif.getName())
+                    .setContentText(noteToNotif.getContent())
                     .setSmallIcon(R.mipmap.ic_app_round)
-                    .setContentTitle(title)
-                    .setContentText(content)
-                    .setLights(Constants.COLOR_ARGB_BACKLIGHTING, 3000, 3000)
+                    .setColor(Color.GREEN)
+                    .setLights(0xff00ff00, 3000, 3000)
+                    //.setLights(Constants.COLOR_ARGB_BACKLIGHTING, 5000, 2000)
                     .setSound(alarmSound)
-                    .setContentText(content)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntentResult);
         }

@@ -6,9 +6,15 @@
         <attr name="paleRed" format="color"  />
         <attr name="paleGreen" format="color"  />
         <attr name="colorWhite" format="color"  />
-        <attr name="blackText" format="color"/>
+        <attr name="colorText" format="color"/>
         <attr name="colorGradient" format="color"/>
         <attr name="colorTextChanging" format="color"/>
+        <attr name="colorBlock" format="color"/>
+        <attr name="colorTextSecondary" format="color"/>
+
+        <attr name="colorButton" format="color" />
+        <attr name="colorTextInverse" format="color" />
+
         <attr name="headerMenu" format="reference"/>
     </declare-styleable>
 </resources>

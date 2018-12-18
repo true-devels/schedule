@@ -89,11 +89,11 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         holder.mTextView.setText(mDataset.get(position).getName());
         holder.id = mDataset.get(position).getId();
         holder.setItemClickListener((view, position1, isLongClick) -> {
-            Intent intent = new Intent(context,OneNoteActivity.class);
-            intent.putExtra("note",mDataset.get(position1));
+            Intent intent = new Intent(context, OneNoteActivity.class);
+            intent.putExtra("note", mDataset.get(position1));
             context.startActivity(intent);
         });
-        switch (mDataset.get(position).getPriority()){
+        switch (mDataset.get(position).getPriority()) {
             case 2:
                 holder.img_priority.setImageResource(R.drawable.prior2_round);
                 break;
@@ -110,13 +110,17 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.MyViewHolder> 
         String time = mDataset.get(position).getTimeInFormat();
         holder.tv_time.setText(time);
         Log.d("check dates", mDataset.get(position).getDateTimeInFormat());
-        if(mDataset.get(position).getFrequency() != FREQUENCY_DAILY) {
-            holder.tv_date.setText(mDataset.get(position).getCalendarDate().get(Calendar.DAY_OF_MONTH) + ", "+ context.getResources().getStringArray(R.array.monthes_short)[mDataset.get(position).getCalendarDate().get(Calendar.MONTH)]);
+        if (mDataset.get(position).getFrequency() != FREQUENCY_DAILY) {
+            holder.tv_date.setText(mDataset.get(position).getCalendarDate().get(Calendar.DAY_OF_MONTH) + ", " + context.getResources().getStringArray(R.array.monthes_short)[mDataset.get(position).getCalendarDate().get(Calendar.MONTH)]);
         } else {
             //holder.tv_time.setGravity(View.TEXT_ALIGNMENT_CENTER);
             holder.tv_date.setText("");
+            holder.tv_date.setVisibility(View.GONE);
         }
-        holder.tv_category.setText(mDataset.get(position).getCategory());
+        if (mDataset.get(position).getCategory().isEmpty()) {
+            holder.tv_category.setText("");
+            holder.tv_category.setVisibility(View.GONE);
+        } else holder.tv_category.setText(mDataset.get(position).getCategory());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

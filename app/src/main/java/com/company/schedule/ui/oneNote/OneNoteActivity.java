@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -161,13 +162,13 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         if(noteToShow.isLater()){
-            tv_status.setTextColor(R.attr.paleRed);
+            //tv_status.setTextColor(ContextCompat.getColor(this, R.color.colorTextStatus));
             tv_status.setText(R.string.laterStatus);
             btn_later.setVisibility(View.GONE);
         } else {
             if(noteToShow.isDone()){
                 tv_status.setText(R.string.doneStatus);
-                tv_status.setTextColor(R.attr.paleGreen);
+                //tv_status.setTextColor(ContextCompat.getColor(this, R.color.colorTextStatus));
                 btn_later.setVisibility(View.GONE);
                 btn_done.setVisibility(View.GONE);
             }else{
@@ -246,7 +247,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void setStatusDone() {
         tv_status.setText(R.string.doneStatus);
-        tv_status.setTextColor(R.attr.paleGreen);
+        //tv_status.setTextColor(R.attr.paleGreen);
 
         Snackbar snackbar = Snackbar.make(mainLayout,getString(R.string.done_action) + noteToShow.getName(),Snackbar.LENGTH_LONG);
         snackbar.show();
@@ -256,7 +257,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void setStatusLater() {
         tv_status.setText(R.string.laterStatus);
-        tv_status.setTextColor(R.attr.paleRed);
+        //tv_status.setTextColor(R.attr.paleRed);
 
         Snackbar snackbar2 = Snackbar.make(mainLayout, getString(R.string.postponed_action) + noteToShow.getName(),Snackbar.LENGTH_LONG);
         snackbar2.show();
@@ -266,7 +267,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void setStatusToBeDone() {
         tv_status.setText(R.string.toBeDoneStatus);
-        tv_status.setTextColor(R.attr.blackText);
+        //tv_status.setTextColor(R.attr.colorText);
     }
 
     @Override

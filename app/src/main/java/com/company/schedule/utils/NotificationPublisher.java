@@ -50,7 +50,7 @@ public  class NotificationPublisher extends BroadcastReceiver {
             noteToShow.getCalendarDate().set(Calendar.SECOND,0);
             noteToShow.getCalendarDate().set(Calendar.MILLISECOND,0);
             NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification local = myNotification.getNotification(noteToShow.getName(), noteToShow.getContent());
+            Notification local = myNotification.getNotification(noteToShow);
             Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(500,5));
