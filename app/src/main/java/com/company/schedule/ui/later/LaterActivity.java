@@ -31,6 +31,7 @@ import com.company.schedule.presentation.later.LaterView;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.ui.main.adapters.NodeAdapter;
 import com.company.schedule.ui.settings.SettingsActivity;
+import com.company.schedule.ui.statistics.StatisticActivity;
 import com.company.schedule.utils.RecyclerViewItemTouchHelper;
 import com.company.schedule.utils.RecyclerViewItemTouchHelperListener;
 
@@ -60,7 +61,7 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
                                     AppDatabase.getDatabase(this).noteDAO(),
                                     new AppSchedulers()  // for threads
                             )  // create repository and get DAO
-                    )
+                    ), this
             );
         mainlayout = findViewById(R.id.mainLayout);
         layout_day = findViewById(R.id.today_later_layout);
@@ -97,6 +98,10 @@ public class LaterActivity extends AppCompatActivity implements LaterView, Recyc
                             Intent intent4 = new Intent(this,LaterActivity.class);
                             intent4.putExtra("role",1);
                             startActivity(intent4);
+                            break;
+                        case R.id.nav_statistic:
+                            Intent intent5 = new Intent(this,StatisticActivity.class);
+                            startActivity(intent5);
 
                     }
                     // close drawer when item is tapped

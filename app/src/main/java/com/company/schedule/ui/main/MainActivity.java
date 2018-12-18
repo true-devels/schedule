@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.ImageButton;
@@ -25,8 +26,11 @@ import com.company.schedule.ui.later.LaterActivity;
 import com.company.schedule.ui.main.adapters.PagerAdapter;
 import com.company.schedule.ui.settings.SettingsActivity;
 import com.company.schedule.model.repository.SharedPrefsRepository;
+import com.company.schedule.ui.statistics.StatisticActivity;
 import com.company.schedule.utils.Constants;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 
@@ -42,6 +46,18 @@ public class MainActivity extends AppCompatActivity {
 
         if(sharedPrefs.isNightMode()) setTheme(R.style.darktheme);  //dark
         else setTheme(R.style.AppTheme);  //white*/
+
+        GregorianCalendar gc_now = new GregorianCalendar();
+        GregorianCalendar gc_last = new GregorianCalendar();
+        gc_last.setTimeInMillis(sharedPrefs.getTimeLastUpdateStat());
+        if(gc_now.get(Calendar.DAY_OF_YEAR)!=gc_last.get(Calendar.DAY_OF_YEAR)){
+            sharedPrefs.setTimeLastUpdateStat(gc_now.getTimeInMillis());
+            try{
+            sharedPrefs.resetStatistics(gc_now.get(Calendar.DAY_OF_WEEK));
+            }catch (IndexOutOfBoundsException ie){
+                Log.e("test",sharedPrefs.getStatistics().toString());
+            }
+        }
 
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -88,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_settings:
                             Intent intent3 = new Intent(this,SettingsActivity.class);
                             startActivity(intent3);
+                            break;
+                        case R.id.nav_statistic:
+                            Intent intent4 = new Intent(this,StatisticActivity.class);
+                            startActivity(intent4);
                     }
                     // close drawer when item is tapped
                     mDrawerLayout.closeDrawers();

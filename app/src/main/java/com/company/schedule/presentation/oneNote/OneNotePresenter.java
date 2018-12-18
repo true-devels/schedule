@@ -1,9 +1,15 @@
 package com.company.schedule.presentation.oneNote;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.OneNoteInteractor;
+import com.company.schedule.model.repository.SharedPrefsRepository;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static com.company.schedule.utils.Constants.PAUSE_TIMER;
 import static com.company.schedule.utils.Constants.RESUME_TIMER;
@@ -16,7 +22,7 @@ import static com.company.schedule.utils.Error.handleThrowable;
 public class OneNotePresenter {
     private OneNoteView view;
     private OneNoteInteractor interactor;
-
+    private SharedPrefsRepository sharedPrefsRepository;
     //  timer
     private Handler timerHandler = new Handler();
     private Runnable timerRunnable;
@@ -24,9 +30,10 @@ public class OneNotePresenter {
     //    private long pauseTime = 0;
     private boolean isTaskFinished = false;
 
-    public OneNotePresenter(OneNoteView view, OneNoteInteractor interactor) {
+    public OneNotePresenter(OneNoteView view, OneNoteInteractor interactor, Context context) {
         this.view = view;
         this.interactor = interactor;  // init interactor
+        this.sharedPrefsRepository = new SharedPrefsRepository(context);
     }
 
     public void deleteClicked(int id) {
@@ -50,6 +57,12 @@ public class OneNotePresenter {
     }
 
     public void doneClicked(Note noteToUpdate) {
+
+        ArrayList<String> list = sharedPrefsRepository.getStatistics();
+        int done_task = Integer.valueOf(list.get(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)-2));
+        done_task++;
+        sharedPrefsRepository.updateStatistics(new GregorianCalendar().get(Calendar.DAY_OF_WEEK),done_task);
+
         noteToUpdate.setDone(true);
         interactor.updateNote(noteToUpdate)
                 .subscribe(
@@ -63,6 +76,10 @@ public class OneNotePresenter {
     }
 
     public void doneCanceled(Note noteToUpdate){
+        ArrayList<String> list = sharedPrefsRepository.getStatistics();
+        int done_task = Integer.valueOf(list.get(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)-2));
+        done_task--;
+        sharedPrefsRepository.updateStatistics(new GregorianCalendar().get(Calendar.DAY_OF_WEEK),done_task);
         noteToUpdate.setDone(false);
         interactor.updateNote(noteToUpdate)
                 .subscribe(
@@ -199,6 +216,11 @@ public class OneNotePresenter {
             view.setStatusDone();
             view.setBtnDoneInvisible();
             view.setBtnLaterInvisible();
+
+            ArrayList<String> list = sharedPrefsRepository.getStatistics();
+            int done_task = Integer.valueOf(list.get(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)-2));
+            done_task++;
+            sharedPrefsRepository.updateStatistics(new GregorianCalendar().get(Calendar.DAY_OF_WEEK),done_task);
         }
         else
             view.showErrorMessage("you have done task, but we can't save this results");

@@ -20,6 +20,7 @@ import com.company.schedule.ui.addNote.AddNoteActivity;
 import com.company.schedule.ui.later.LaterActivity;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.model.repository.SharedPrefsRepository;
+import com.company.schedule.ui.statistics.StatisticActivity;
 import com.company.schedule.ui.welcome.SpinnerAdapter;
 import com.company.schedule.utils.Constants;
 
@@ -65,6 +66,10 @@ public class SettingsActivity extends AppCompatActivity {
                         case R.id.nav_home:
                             Intent intent3 = new Intent(this,MainActivity.class);
                             startActivity(intent3);
+                            break;
+                        case R.id.nav_statistic:
+                            Intent intent4 = new Intent(this,StatisticActivity.class);
+                            startActivity(intent4);
                     }
                     // close drawer when item is tapped
                     mDrawerLayout.closeDrawers();
