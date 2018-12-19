@@ -8,8 +8,10 @@
         <item name="colorPrimary">#7646ff</item>
         <!--<item name="colorPrimary">#46ffe9</item>-->
         <item name="colorBackground">#e4e4e4</item>
-        <item name="paleRed">#fc5565</item>
-        <item name="paleGreen">#72d169</item>
+        <!--<item name="paleRed">#fc5565</item>-->
+        <!--<item name="paleGreen">#72d169</item>-->
+        <item name="paleRed">#6c101a</item>
+        <item name="paleGreen">#186911</item>
         <item name="colorWhite">#fff</item>
 
         <item name="colorText">#000</item>
@@ -30,15 +32,19 @@
     <style name="darktheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#212121</item>
         <item name="colorBackground">#4d4d4d</item>
-        <item name="paleRed">#7b2f37</item>
-        <item name="paleGreen">#447c3f</item>
+        <!--<item name="paleRed">#7b2f37</item>-->
+        <!--<item name="paleGreen">#447c3f</item>-->
+        <item name="paleRed">#fc5565</item>
+        <item name="paleGreen">#7eff72</item>
         <item name="colorWhite">#fff</item>
-        <item name="colorText">#fff</item>
 
+        <item name="colorText">#fff</item>
         <item name="colorGradient">#D81B60</item>
         <item name="colorTextChanging">#fff</item> <!--color text changing 2 is in colors-->
         <item name="colorBlock">#161616</item>
         <item name="colorTextSecondary">#fffc7c</item>
+        <item name="colorTextTransperent">#fff</item>
+
 
         <item name="colorButton">#c0c0c0</item>
         <item name="colorTextInverse">#000000</item>

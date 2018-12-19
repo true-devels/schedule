@@ -13,21 +13,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:background="?attr/colorBackground">
+
         <include
             android:id="@+id/toolbar_include"
             layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
+            android:layout_height="wrap_content" />
 
 
         <com.jjoe64.graphview.GraphView
-            android:layout_below="@id/toolbar_include"
+            android:id="@+id/graph"
             android:layout_width="match_parent"
             android:layout_height="200dip"
-            android:id="@+id/graph" />
+            android:layout_below="@id/toolbar_include" />
     </RelativeLayout>
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
     <android.support.design.widget.NavigationView
