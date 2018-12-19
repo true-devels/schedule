@@ -38,7 +38,7 @@
                     android:id="@+id/text1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="?attr/colorPrimary">
+                    android:textColorHint="?attr/colorText">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/name_et"
@@ -47,7 +47,9 @@
                         android:hint="@string/hint_name_et"
                         android:maxLength="40"
                         android:maxLines="1"
-                        android:textColor="?attr/colorPrimary" />
+                        android:textColor="?attr/colorText"
+                        android:textSize="@dimen/normal_text_size"
+                        />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -55,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/text1"
-                    android:textColorHint="?attr/colorPrimary"
+                    android:textColorHint="?attr/colorText"
                     android:id="@+id/text2">
 
                     <android.support.design.widget.TextInputEditText
@@ -64,14 +66,16 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_description_et"
                         android:maxLength="255"
-                        android:textColor="?attr/colorPrimary" />
+                        android:textColor="?attr/colorText"
+                        android:textSize="@dimen/normal_text_size"
+                        />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:textColorHint="?attr/colorPrimary"
+                    android:textColorHint="?attr/colorText"
                     android:layout_below="@+id/text2"
                     android:id="@+id/text3"
                     android:outlineAmbientShadowColor="?attr/colorPrimary"
@@ -83,7 +87,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_category_et"
                         android:maxLength="30"
-                        android:textColor="?attr/colorPrimary" />
+                        android:textColor="?attr/colorText"
+                        android:textSize="@dimen/normal_text_size" />
                 </android.support.design.widget.TextInputLayout>
                 <LinearLayout
                     android:baselineAligned="false"
@@ -101,22 +106,26 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColorHint="?attr/colorPrimary"
-                        android:textColor="?attr/colorPrimary"
-                        android:hint="@string/hint_date_et" />
+                        android:textColorHint="?attr/colorText"
+                        android:textColor="?attr/colorText"
+                        android:hint="@string/hint_date_et"
+                        android:textSize="@dimen/normal_text_size"
+                        />
 
                     <EditText
-                    android:id="@+id/time_et"
+                        android:id="@+id/time_et"
                         android:clickable="true"
                         android:focusable="false"
                         android:inputType="none"
                         android:editable="false"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColorHint="?attr/colorPrimary"
-                    android:textColor="?attr/colorPrimary"
-                    android:hint="@string/hint_time_et" />
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColorHint="?attr/colorText"
+                        android:textColor="?attr/colorText"
+                        android:hint="@string/hint_time_et"
+                        android:textSize="@dimen/normal_text_size"
+                        />
                 </LinearLayout>
 
                 <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
@@ -135,33 +144,44 @@
                     android:layout_below="@+id/week_spinner"
                     android:layout_alignParentStart="true"
                     android:text="@string/hint_priority"
-                    android:layout_margin="10dp"
-                    android:textColor="?attr/colorPrimary"/>
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:textColor="?attr/colorText"
+                    android:textSize="@dimen/header_text_size"
+                    />
+
                 <TableLayout
-                    android:layout_below="@id/textView7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    >
+                    android:layout_below="@id/textView7"
+
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp">
 
                     <TableRow>
+
                         <ImageButton
                             android:id="@+id/imageButtonBlue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="?attr/colorWhite"
                             android:padding="20dp"
-                            app:srcCompat="@drawable/prior1_round"
-                            />
+                            app:srcCompat="@drawable/prior1_round" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="normal"
-                            android:textColor="?attr/colorPrimary"/>
+                            android:layout_gravity="center_vertical"
+                            android:paddingStart="8dp"
+                            android:text="@string/prior_normal"
+                            android:textColor="?attr/colorText"
+                            android:textSize="@dimen/normal_text_size" />
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow android:layout_width="match_parent">
+
                         <ImageButton
                             android:id="@+id/imageButtonGreen"
                             android:layout_width="wrap_content"
@@ -169,14 +189,19 @@
                             android:background="?attr/colorBackground"
                             android:padding="20dp"
                             app:srcCompat="@drawable/prior2_round" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="important"
-                            android:textColor="?attr/colorPrimary"/>
+                            android:layout_gravity="center_vertical"
+                            android:paddingStart="8dp"
+                            android:text="@string/prior_important"
+                            android:textColor="?attr/colorText"
+                            android:textSize="@dimen/normal_text_size" />
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow android:layout_width="match_parent">
+
                         <ImageButton
                             android:id="@+id/imageButtonRed"
                             android:layout_width="wrap_content"
@@ -184,14 +209,19 @@
                             android:background="@drawable/background_transparent"
                             android:padding="20dp"
                             app:srcCompat="@drawable/prior3_round" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="very important"
-                            android:textColor="?attr/colorPrimary"/>
+                            android:layout_gravity="center_vertical"
+                            android:paddingStart="8dp"
+                            android:text="@string/prior_very_important"
+                            android:textColor="?attr/colorText"
+                            android:textSize="@dimen/normal_text_size" />
                     </TableRow>
 
                     <TableRow>
+
                         <ImageButton
                             android:id="@+id/imageButtonYellow"
                             android:layout_width="wrap_content"
@@ -199,11 +229,15 @@
                             android:background="@drawable/background_transparent"
                             android:padding="20dp"
                             app:srcCompat="@drawable/prior4_round" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="extremely important"
-                            android:textColor="?attr/colorPrimary"/>
+                            android:layout_gravity="center_vertical"
+                            android:paddingStart="8dp"
+                            android:text="@string/prior_extremely_important"
+                            android:textColor="?attr/colorText"
+                            android:textSize="@dimen/normal_text_size" />
                     </TableRow>
                 </TableLayout>
             </RelativeLayout>
@@ -219,13 +253,6 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             />
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="?attr/colorPrimary">-->
-
-             <!--</LinearLayout>-->
 
     </RelativeLayout>
 

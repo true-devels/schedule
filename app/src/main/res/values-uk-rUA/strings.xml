@@ -80,7 +80,7 @@
     <string name="monthlyTab">Щомісяця</string>
     <string name="greetings">Добрий ранок!!</string>
     <string name="todayBIG">СЬОГОДНІ</string>
-    <string name="completedTitle">Зроблено</string>
+    <string name="completedTitle">Зроблено: </string>
     <string name="mondayShort">ПОН</string>
     <string name="tuesdayShort">ВІВ</string>
     <string name="wednesdayShort">СЕР</string>
@@ -112,5 +112,11 @@
     <string name="done_menu">Зроблені</string>
     <string name="later_menu">Відкладені</string>
     <string name="settings_menu">Налаштування</string>
+
+    <!--PRIORITY-->
+    <string name="prior_normal">звичайний</string>
+    <string name="prior_important">важливий</string>
+    <string name="prior_very_important">дуже важливий</string>
+    <string name="prior_extremely_important">надзвичайно важливий</string>
     <string name="statistics_menu">Статистика</string>
 </resources>

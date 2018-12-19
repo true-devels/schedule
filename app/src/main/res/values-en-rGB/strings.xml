@@ -79,7 +79,7 @@
     <string name="monthlyTab">Monthly</string>
     <string name="greetings">Good Morning!!</string>
     <string name="todayBIG">TODAY</string>
-    <string name="completedTitle">Completed</string>
+    <string name="completedTitle">Completed: </string>
     <string name="mondayShort">MON</string>
     <string name="tuesdayShort">TUE</string>
     <string name="wednesdayShort">WED</string>
@@ -112,5 +112,11 @@
     <string name="done_menu">Done</string>
     <string name="later_menu">Later</string>
     <string name="settings_menu">Settings</string>
+
+    <!--PRIORITY-->
+    <string name="prior_normal">normal</string>
+    <string name="prior_important">important</string>
+    <string name="prior_very_important">very important</string>
+    <string name="prior_extremely_important">extremely important</string>
     <string name="statistics_menu">Statistic</string>
 </resources>

@@ -8,83 +8,68 @@
 
     <RelativeLayout
         android:id="@+id/block"
-        android:layout_below="@id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="?attr/colorBlock">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/greetings"
-            android:textColor="?attr/colorText"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="monospace"
-            android:text="@string/todayBIG"
-            android:textColor="?attr/colorTextSecondary"
-            android:textSize="20sp" />
+        android:layout_below="@id/tabs"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="?attr/colorBlock"
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/tvDateToday"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="22 Dec, 2018"
             android:textColor="?attr/colorText"
-            android:text="13 Mar, 2108"
-            android:textSize="30sp"/>
+            android:textSize="@dimen/header_text_size" />
+
         <RelativeLayout
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@id/textView2"
             android:layout_width="wrap_content"
-            android:layout_marginEnd="30dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+
+            >
+
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_toStartOf="@id/textViewCompleted"
+                android:text="@string/completedTitle"
                 android:textColor="?attr/colorText"
-                android:text="@string/completedTitle" />
-            <RelativeLayout
+
+                android:textSize="@dimen/header_text_size" />
+
+            <!--<RelativeLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/textView4"-->
+            <!--&gt;-->
+
+            <TextView
+                android:id="@+id/textViewCompleted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView4"
-                android:layout_centerInParent="true">
-                <TextView
-                    android:id="@+id/textViewCompleted"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="?attr/paleGreen"
-                    android:text="4/" />
-                <TextView
-                    android:id="@+id/textViewAll"
-                    android:layout_toEndOf="@id/textViewCompleted"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="?attr/paleRed"
-                    android:text="10" />
-            </RelativeLayout>
+                android:layout_toStartOf="@id/textViewAll"
+                android:text="4/"
+                android:textColor="?attr/paleGreen"
+
+                android:textSize="@dimen/header_text_size" />
+
+            <TextView
+                android:id="@+id/textViewAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="10"
+                android:textColor="?attr/paleRed"
+                android:textSize="@dimen/header_text_size" />
+            <!--</RelativeLayout>-->
         </RelativeLayout>
     </RelativeLayout>
 
