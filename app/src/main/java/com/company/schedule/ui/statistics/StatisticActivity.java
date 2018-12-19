@@ -29,9 +29,16 @@ public class StatisticActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //get data from sharedPrefs to set theme mode
+        SharedPrefsRepository sharedPrefsRepository = new SharedPrefsRepository(this);
+
+        //set theme
+        if(sharedPrefsRepository.isNightMode()) setTheme(R.style.darktheme);
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
-        SharedPrefsRepository sharedPrefsRepository = new SharedPrefsRepository(this);
+
 
         GraphView graph =  findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(getPoints(sharedPrefsRepository.getStatistics()));

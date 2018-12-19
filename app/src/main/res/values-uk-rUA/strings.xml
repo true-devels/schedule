@@ -89,8 +89,8 @@
     <string name="saturdayShort">СУБ</string>
     <string name="sundayShort">НЕД</string>
     <string name="undo_action">ВІДМІНИТИ</string>
-    <string name="done_action">Зроблено</string>
-    <string name="postponed_action">Відкладено</string>
+    <string name="done_action">Зроблено: </string>
+    <string name="postponed_action">Відкладено: </string>
 
     <!-- ONE NODE-->
     <string name="doneSwipe">Зроблено</string>
@@ -112,4 +112,5 @@
     <string name="done_menu">Зроблені</string>
     <string name="later_menu">Відкладені</string>
     <string name="settings_menu">Налаштування</string>
+    <string name="statistics_menu">Статистика</string>
 </resources>
