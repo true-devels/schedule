@@ -175,7 +175,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:paddingStart="8dp"
-                            android:text="normal"
+                            android:text="@string/prior_normal"
                             android:textColor="?attr/colorText"
                             android:textSize="@dimen/normal_text_size" />
                     </TableRow>
@@ -195,7 +195,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:paddingStart="8dp"
-                            android:text="important"
+                            android:text="@string/prior_important"
                             android:textColor="?attr/colorText"
                             android:textSize="@dimen/normal_text_size" />
                     </TableRow>
@@ -215,7 +215,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:paddingStart="8dp"
-                            android:text="very important"
+                            android:text="@string/prior_very_important"
                             android:textColor="?attr/colorText"
                             android:textSize="@dimen/normal_text_size" />
                     </TableRow>
@@ -235,7 +235,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:paddingStart="8dp"
-                            android:text="extremely important"
+                            android:text="@string/prior_extremely_important"
                             android:textColor="?attr/colorText"
                             android:textSize="@dimen/normal_text_size" />
                     </TableRow>

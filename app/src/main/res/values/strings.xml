@@ -114,4 +114,10 @@
     <string name="done_menu">Done</string>
     <string name="later_menu">Later</string>
     <string name="settings_menu">Settings</string>
+
+    <!--PRIORITY-->
+    <string name="prior_normal">normal</string>
+    <string name="prior_important">important</string>
+    <string name="prior_very_important">very important</string>
+    <string name="prior_extremely_important">extremely important</string>
 </resources>

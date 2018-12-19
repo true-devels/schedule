@@ -113,4 +113,10 @@
     <string name="done_menu">Сделано</string>
     <string name="later_menu">Отложено</string>
     <string name="settings_menu">Настройки</string>
+
+    <!--PRIORITY-->
+    <string name="prior_normal">обычный</string>
+    <string name="prior_important">важный</string>
+    <string name="prior_very_important">очень важный</string>
+    <string name="prior_extremely_important">чрезвычайно важный</string>
 </resources>
