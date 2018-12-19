@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.company.schedule.utils.DateConverter;
 import com.company.schedule.utils.Constants;
@@ -11,6 +13,7 @@ import com.company.schedule.utils.Constants;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import io.reactivex.annotations.NonNull;
@@ -18,7 +21,7 @@ import io.reactivex.annotations.NonNull;
 
 //class of notifications
 @Entity(tableName = Constants.TABLE_NAME)
-public class Note implements Serializable {  // TODO if we make Parcelable instead Serializable it will optimise time
+public class Note implements Parcelable {  // TODO if we make Parcelable instead Serializable it will optimise time
     @NonNull
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -179,5 +182,50 @@ public class Note implements Serializable {  // TODO if we make Parcelable inste
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(content);
+        dest.writeLong(calendarDate.getTimeInMillis());
+        dest.writeByte(frequency);
+        dest.writeString(Boolean.toString(done));
+        dest.writeString(Boolean.toString(later));
+        dest.writeInt(priority);
+        dest.writeString(category);
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Note createFromParcel(Parcel in) {
+            return new Note(in);
+        }
+
+        public Note[] newArray(int size) {
+            return new Note[size];
+        }
+    };
+
+    // Parcelling part
+    public Note(Parcel in){
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.content = in.readString();
+        this.calendarDate = new GregorianCalendar();
+        this.calendarDate.setTimeInMillis(in.readLong());
+        this.frequency = in.readByte();
+
+        //TODO check these two lines work
+        this.done = Boolean.parseBoolean(in.readString());
+        this.later = Boolean.parseBoolean(in.readString());
+
+        this.priority =  in.readInt();
+        this.category = in.readString();
     }
 }

@@ -24,6 +24,7 @@ import com.company.schedule.R;
 import com.company.schedule.ui.addNote.AddNoteActivity;
 import com.company.schedule.ui.later.LaterActivity;
 import com.company.schedule.ui.main.adapters.PagerAdapter;
+import com.company.schedule.ui.main.fragments.DailyFragment;
 import com.company.schedule.ui.settings.SettingsActivity;
 import com.company.schedule.model.repository.SharedPrefsRepository;
 import com.company.schedule.ui.statistics.StatisticActivity;
@@ -62,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         android.content.res.Configuration conf = res.getConfiguration();
+        /*
+        Bundle bundle = new Bundle();
+        bundle.putPa("edttext", "From Activity");
+        DailyFragment fragobj = new DailyFragment();
+        fragobj.setArguments(bundle);*/
+
         switch (sharedPrefs.getLocalization()){
 
             case Constants.LOCALIZATION_EN:

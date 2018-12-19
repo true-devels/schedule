@@ -210,7 +210,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
         Bundle transmission = getIntent().getExtras();
 
         try{
-            noteInfo = (Note) transmission.getSerializable("note");
+            noteInfo =  transmission.getParcelable("note");
         }catch (NullPointerException ne){
             ne.printStackTrace();
         }
@@ -226,6 +226,22 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                 et_date.setText(noteInfo.getDateInFormat());  // Note: we don't need write checking for noteInfo.getCalendarDate() == null
                 et_time.setText(noteInfo.getTimeInFormat());
 
+            switch (noteInfo.getFrequency()){
+                case 1:
+                    btnSubmitNote.setText(R.string.text_addDailyButton);
+                    et_date.setVisibility(View.GONE);
+                    week_spinner.setVisibility(View.GONE);
+                    break;
+                case 2:
+                    btnSubmitNote.setText(R.string.text_addWeeklyButton);
+                    et_date.setVisibility(View.GONE);
+                    isSelected = false;
+                    break;
+                case 3:
+                    btnSubmitNote.setText(R.string.text_addMonthlyButton);
+                    week_spinner.setVisibility(View.GONE);
+                    break;
+            }
 
                 btnSubmitNote.setText(R.string.text_saveButton);
 

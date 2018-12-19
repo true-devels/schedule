@@ -138,7 +138,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
         btn_delete.setOnClickListener(this);
         btn_toolbar.setOnClickListener(this);
 
-        noteToShow =(Note) getIntent().getSerializableExtra("note");
+        noteToShow = getIntent().getParcelableExtra("note");
 
         tv_name.setText(noteToShow.getName());
         tv_content.setText(noteToShow.getContent());
