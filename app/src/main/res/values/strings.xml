@@ -80,7 +80,7 @@
     <string name="monthlyTab">Monthly</string>
     <string name="greetings">Good Morning!!</string>
     <string name="todayBIG">TODAY</string>
-    <string name="completedTitle">Completed</string>
+    <string name="completedTitle">Completed: </string>
     <string name="mondayShort">MON</string>
     <string name="tuesdayShort">TUE</string>
     <string name="wednesdayShort">WED</string>

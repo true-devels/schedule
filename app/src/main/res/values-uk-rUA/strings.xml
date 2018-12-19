@@ -80,7 +80,7 @@
     <string name="monthlyTab">Щомісяця</string>
     <string name="greetings">Добрий ранок!!</string>
     <string name="todayBIG">СЬОГОДНІ</string>
-    <string name="completedTitle">Зроблено</string>
+    <string name="completedTitle">Зроблено: </string>
     <string name="mondayShort">ПОН</string>
     <string name="tuesdayShort">ВІВ</string>
     <string name="wednesdayShort">СЕР</string>
