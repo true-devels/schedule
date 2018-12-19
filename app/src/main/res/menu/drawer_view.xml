@@ -3,19 +3,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@android:drawable/star_big_off"
+            android:icon="@drawable/home"
             android:title="@string/home_manu" />
         <item
             android:id="@+id/nav_done"
-            android:icon="@android:drawable/checkbox_on_background"
+            android:icon="@drawable/done"
             android:title="@string/done_menu" />
         <item
             android:id="@+id/nav_later"
-            android:icon="@android:drawable/ic_menu_recent_history"
+            android:icon="@drawable/later"
             android:title="@string/later_menu" />
         <item
             android:id="@+id/nav_settings"
-            android:icon="@android:drawable/ic_menu_manage"
+            android:icon="@drawable/settings"
             android:title="@string/settings_menu" />
         <item
             android:id="@+id/nav_statistic"
