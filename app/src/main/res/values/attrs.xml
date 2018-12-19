@@ -11,6 +11,8 @@
         <attr name="colorTextChanging" format="color"/>
         <attr name="colorBlock" format="color"/>
         <attr name="colorTextSecondary" format="color"/>
+        <attr name="colorTextTransperent" format="color"/>
+
 
         <attr name="colorButton" format="color" />
         <attr name="colorTextInverse" format="color" />

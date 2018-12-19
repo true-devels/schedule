@@ -42,7 +42,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
                 android:text="@string/titleLater"
-                android:textColor="?attr/colorBackground"
+                android:textColor="?attr/colorTextTransperent"
                 android:textSize="30sp"
                 android:textStyle="normal" />
         </RelativeLayout>

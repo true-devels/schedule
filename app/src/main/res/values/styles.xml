@@ -19,6 +19,7 @@
         <item name="colorTextChanging">#000</item>
         <item name="colorBlock">#fff</item>
         <item name="colorTextSecondary">#747200</item>
+        <item name="colorTextTransperent">#fff</item>
 
         <item name="colorButton">#404040</item>
         <item name="colorTextInverse">#ffffff</item>
