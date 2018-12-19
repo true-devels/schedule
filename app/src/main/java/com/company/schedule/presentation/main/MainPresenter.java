@@ -2,6 +2,7 @@ package com.company.schedule.presentation.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import com.company.schedule.model.data.base.Note;
 import com.company.schedule.model.interactor.MainInteractor;
@@ -9,6 +10,7 @@ import com.company.schedule.model.repository.SharedPrefsRepository;
 import com.company.schedule.ui.main.fragments.DailyFragment;
 import com.company.schedule.ui.main.fragments.MonthlyFragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -24,11 +26,13 @@ public class MainPresenter {
     private MainView view;
     private MainInteractor interactor;
     private Context context;
+    private SharedPrefsRepository sharedPrefsRepository;
 
     public MainPresenter(MainView view, MainInteractor interactor, Context context) {
         this.view = view;
         this.interactor = interactor;  // init interactor
         this.context = context;
+        this.sharedPrefsRepository = new SharedPrefsRepository(context);
     }
 
 
@@ -49,11 +53,21 @@ public class MainPresenter {
     }
 
     public void swipedToDone(Note note, int tab){
+        ArrayList<String> list = sharedPrefsRepository.getStatistics();
+        int done_task = Integer.valueOf(list.get(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)-2));
+        done_task++;
+        sharedPrefsRepository.updateStatistics(new GregorianCalendar().get(Calendar.DAY_OF_WEEK),done_task);
+        Log.d("check_date",Integer.toString(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)));
+        Log.d("check_amount",Integer.toString(done_task));
         note.setDone(true);
         updateNote(note, tab);
     }
 
     public void restoreFromDone(Note item, int tab){
+        ArrayList<String> list = sharedPrefsRepository.getStatistics();
+        int done_task = Integer.valueOf(list.get(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)-2));
+        done_task--;
+        sharedPrefsRepository.updateStatistics(new GregorianCalendar().get(Calendar.DAY_OF_WEEK),done_task);
         item.setDone(false);
         updateNote(item, tab);
     }

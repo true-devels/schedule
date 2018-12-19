@@ -44,14 +44,17 @@ public final class Constants {
     public static final String LOCALIZATION_UA = "uk";
     public static final String LOCALIZATION_EN = "en";
     public static final String LOCALIZATION_RU = "ru";
+    public static final String LAST_TIME_DAILY = "LastTimeDaily";
+    public static final String LAST_TIME_WEEKLY = "LastTimeWeekly";
+    public static final String LAST_TIME_MONTHLY = "LastTimeMonthly";
+    public static final String STATISTIC_SET = "set";
+    public static final String LAST_TIME_STAT = "LastTimeStat";
 
     // timer
     public static final String FINISH_TIME = "finishTime";
     public static final String PAUSE_TIME = "pauseTime";
 
-    public static final String LAST_TIME_DAILY = "LastTimeDaily";
-    public static final String LAST_TIME_WEEKLY = "LastTimeWeekly";
-    public static final String LAST_TIME_MONTHLY = "LastTimeMonthly";
+
 
     // TIMER
     public static final long TASK_TIME_SECONDS = 25*60;

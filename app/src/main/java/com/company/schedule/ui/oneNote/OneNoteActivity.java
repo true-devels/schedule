@@ -32,6 +32,7 @@ import com.company.schedule.ui.addNote.AddNoteActivity;
 import com.company.schedule.ui.later.LaterActivity;
 import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.ui.settings.SettingsActivity;
+import com.company.schedule.ui.statistics.StatisticActivity;
 
 import static com.company.schedule.utils.Constants.START_TIMER;
 
@@ -64,7 +65,7 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
                                     new AppSchedulers()  // for threads
                             ),  // create repository and get DAO
                             new SharedPrefsRepository(this)
-                    )
+                    ), this
             );
 
 
@@ -95,6 +96,10 @@ public class OneNoteActivity extends AppCompatActivity implements View.OnClickLi
                         case R.id.nav_home:
                             goToMainActivity();
                             break;
+
+                        case R.id.nav_statistic:
+                            Intent intent4 = new Intent(this,StatisticActivity.class);
+                            startActivity(intent4);
                     }
                     // close drawer when item is tapped
                     mDrawerLayout.closeDrawers();

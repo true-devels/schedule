@@ -40,6 +40,7 @@ import com.company.schedule.ui.main.MainActivity;
 import com.company.schedule.ui.addNote.pickers.DatePickerFragment;
 import com.company.schedule.ui.addNote.pickers.TimePickerFragment;
 import com.company.schedule.ui.settings.SettingsActivity;
+import com.company.schedule.ui.statistics.StatisticActivity;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.Arrays;
@@ -113,6 +114,10 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView, V
                         case R.id.nav_home:
                             Intent intent4 = new Intent(this,MainActivity.class);
                             startActivity(intent4);
+                            break;
+                        case R.id.nav_statistic:
+                            Intent intent5 = new Intent(this,StatisticActivity.class);
+                            startActivity(intent5);
 
                     }
                     // close drawer when item is tapped
